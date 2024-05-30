@@ -50,7 +50,7 @@ function whx3_register_options_page() {
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
-						'width' => '25',
+						'width' => '30',
 						'class' => '',
 						'id' => '',
 					),
@@ -81,7 +81,7 @@ function whx3_register_options_page() {
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
-						'width' => '25',
+						'width' => '15',
 						'class' => '',
 						'id' => '',
 					),
