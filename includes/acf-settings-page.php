@@ -76,7 +76,7 @@ function whx3_register_options_page() {
 					'key'           => 'field_whx3_use_custom_caps',
 					'label'         => 'Use custom capabilities?',
 					'name'          => 'whx3_use_custom_caps',
-					'type'          => 'checkbox',
+					'type'          => 'true_false',
 					'instructions' => '',
 					'required' => 0,
 					'conditional_logic' => 0,
