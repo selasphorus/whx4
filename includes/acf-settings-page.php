@@ -65,7 +65,7 @@ function whx3_register_options_page() {
 					),
 					'return_format' => 'value',
 					'allow_custom' => 0,
-					'layout' => 'horizontal',
+					'layout' => 'vertical',
 					'toggle' => 0,
 					'save_custom' => 0,
 					'custom_choice_button_text' => 'Add new choice',
