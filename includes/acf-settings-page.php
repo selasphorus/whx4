@@ -50,7 +50,7 @@ function whx3_register_options_page() {
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
-						'width' => '30',
+						'width' => '33',
 						'class' => '',
 						'id' => '',
 					),
