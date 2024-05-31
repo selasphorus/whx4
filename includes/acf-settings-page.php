@@ -47,7 +47,7 @@ function whx3_register_options_page() {
 					'label'         => 'Active Modules',
 					'name'          => 'whx3_active_modules',
 					'type'          => 'checkbox',
-					'instructions' => 'Select the modules to activate. If using Events Manager, leave Locations and Events deactivated.',
+					'instructions' => 'Select the modules to activate.',
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
