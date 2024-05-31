@@ -110,7 +110,7 @@ function whx3_block_no_fields_msg( $message, $block_name ) {
 		$message = sprintf(
 			/* translators: %s: an admin URL to the field group edit screen */
 			__( 'Edit the block contentin the <a href="%s" target="_blank">Site Settings</a>.', 'whx3' ),
-			admin_url( 'admin.php?page=whx3-settings' )
+			admin_url( 'admin.php?page=whx3_settings' )
 		);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * ACF demo Options Page: "Site Settings"
+ * WHX3 Options Page: "Site Settings"
  *
  * @link https://www.advancedcustomfields.com/resources/options-page/
  */
@@ -13,11 +13,12 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 }
 
 function whx3_register_options_page() {
+
 	// Add the top-level page
 	acf_add_options_page(
 		array(
 			'page_title' => 'WHX3 Settings',
-			'menu_slug'  => 'whx3-settings',
+			'menu_slug'  => 'whx3_settings',
 			'redirect'   => false,
 		)
 	);
@@ -44,7 +45,7 @@ function whx3_register_options_page() {
 					'key'           => 'field_whx3_modules',
 					//'key'           => 'field_6511a57fcbe7e',
 					'label'         => 'Active Modules',
-					'name'          => 'whx3_modules',
+					'name'          => 'whx3_active_modules',
 					'type'          => 'checkbox',
 					'instructions' => 'Select the modules to activate. If using Events Manager, leave Locations and Events deactivated.',
 					'required' => 0,
@@ -56,9 +57,10 @@ function whx3_register_options_page() {
 					),
 					'choices' => array(
 						'people' => 'People',
-						'groups' => 'Groups',
-						'locations' => 'Locations',
-						'buildings' => 'Buildings',
+						//'groups' => 'Groups',
+						'places' => 'Places',
+						//'locations' => 'Locations',
+						//'buildings' => 'Buildings',
 						'events' => 'Events',
 					),
 					'default_value' => array(
@@ -85,9 +87,6 @@ function whx3_register_options_page() {
 						'class' => '',
 						'id' => '',
 					),
-					/*'choices' => array(
-						'xxx' => 'XXX',
-					),*/
 					'default_value' => array(
 					),
 					'return_format' => 'value',
@@ -101,21 +100,21 @@ function whx3_register_options_page() {
 					array(
 						'param'    => 'options_page',
 						'operator' => '==',
-						'value'    => 'whx3-settings',
-						//'value'    => 'contact-information',
+						'value'    => 'whx3_settings',
 					),
 				),
 			),
 		)
 	);
 
+	/* Group from ACF demo plugin -- left here temporarily as model...
 	acf_add_local_field_group(
 		array(
-			'key'      => 'group_6511a5e8c1c15',
+			'key'      => 'group_whx3_notification_bar',
 			'title'    => 'Notification Bar',
 			'fields'   => array(
 				array(
-					'key'        => 'field_6511a5e897814',
+					'key'        => 'field_whx3_notification_bar_group',
 					'label'      => 'Notification Bar',
 					'name'       => 'whx3_notification_bar_group',
 					'aria-label' => '',
@@ -123,7 +122,7 @@ function whx3_register_options_page() {
 					'layout'     => 'row',
 					'sub_fields' => array(
 						array(
-							'key'           => 'field_6511a5f597815',
+							'key'           => 'field_whx3_notification_onoff',
 							'label'         => 'Notification On/Off',
 							'name'          => 'whx3_notification_onoff',
 							'type'          => 'true_false',
@@ -134,7 +133,7 @@ function whx3_register_options_page() {
 							'ui'            => 1,
 						),
 						array(
-							'key'               => 'field_6511a5f597816',
+							'key'               => 'field_whx3_notification_message',
 							'label'             => 'Notification Message',
 							'name'              => 'whx3_notification_message',
 							'type'              => 'textarea',
@@ -162,4 +161,6 @@ function whx3_register_options_page() {
 			),
 		)
 	);
+	*/
+	
 }
