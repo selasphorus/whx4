@@ -23,7 +23,7 @@ define( 'WHX3_PLUGIN_BLOCKS', WHX3_PLUGIN_DIR . '/blocks/' );
 require 'includes/posttypes.php'; // wip
 
 // Load custom taxonomies
-//require 'includes/taxonomies.php'; // wip
+require 'includes/taxonomies.php'; // wip
 
 /* +~+~+ ACF +~+~+ */
 
