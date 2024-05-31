@@ -20,10 +20,10 @@ define( 'WHX3_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHX3_PLUGIN_BLOCKS', WHX3_PLUGIN_DIR . '/blocks/' );
 
 // Load custom post types
-require 'includes/posttypes.php'; // wip
+//require 'includes/posttypes.php'; // wip
 
 // Load custom taxonomies
-require 'includes/taxonomies.php'; // wip
+//require 'includes/taxonomies.php'; // wip
 
 /* +~+~+ ACF +~+~+ */
 
@@ -31,7 +31,7 @@ require 'includes/taxonomies.php'; // wip
 require 'includes/acf-json.php';
 
 // Load ACF field groups hard-coded as PHP
-//require 'includes/acf-field-groups.php'; // wip
+require 'includes/acf-field-groups.php'; // wip
 
 // Register blocks and other handy ACF Block helpers
 require 'includes/acf-blocks.php';
