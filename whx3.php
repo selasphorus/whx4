@@ -20,10 +20,10 @@ define( 'WHX3_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHX3_PLUGIN_BLOCKS', WHX3_PLUGIN_DIR . '/blocks/' );
 
 // Load custom post types
-require 'includes/posttypes.php';
+//require 'includes/posttypes.php'; // wip
 
 // Load custom taxonomies
-require 'includes/taxonomies.php';
+//require 'includes/taxonomies.php'; // wip
 
 /* +~+~+ ACF +~+~+ */
 
@@ -31,7 +31,7 @@ require 'includes/taxonomies.php';
 require 'includes/acf-json.php';
 
 // Load ACF field groups hard-coded as PHP
-require 'includes/acf-field-groups.php';
+//require 'includes/acf-field-groups.php'; // wip
 
 // Register blocks and other handy ACF Block helpers
 require 'includes/acf-blocks.php';
@@ -50,7 +50,7 @@ require 'includes/template-tags.php';
 // Get plugin options -- WIP
 $options = get_option( 'whx3_settings' );
 if ( isset($options['active_modules']) ) { $modules = $options['active_modules']; } else { $modules = array(); }
-
+/*
 foreach ( $modules as $module ) {
 
 	// Load associated functions file, if any
@@ -95,3 +95,4 @@ foreach ( $modules as $module ) {
 	}
 
 }
+*/
