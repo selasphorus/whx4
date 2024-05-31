@@ -11,7 +11,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 // Get plugin options to determine which modules are active
 $options = get_option( 'whx3_settings' );
-if ( isset($options['whx3_active_modules']) ) { $active_modules = $options['active_modules']; } else { $active_modules = array(); }
+if ( isset($options['whx3_active_modules']) ) { $active_modules = $options['whx3_active_modules']; } else { $active_modules = array(); }
 
 if ( !function_exists( 'custom_caps' ) ) {
 	function custom_caps() {

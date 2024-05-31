@@ -49,7 +49,7 @@ require 'includes/template-tags.php';
 
 // Get plugin options -- WIP
 $options = get_option( 'whx3_settings' );
-if ( isset($options['active_modules']) ) { $modules = $options['active_modules']; } else { $modules = array(); }
+if ( isset($options['whx3_active_modules']) ) { $active_modules = $options['whx3_active_modules']; } else { $active_modules = array(); }
 /*
 foreach ( $modules as $module ) {
 

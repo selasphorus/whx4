@@ -10,9 +10,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 // Get plugin options to determine which modules are active
 $options = get_option( 'whx3_settings' );
-if ( isset($options['whx3_active_modules']) ) { $active_modules = $options['active_modules']; } else { $active_modules = array(); }
-
-
+if ( isset($options['whx3_active_modules']) ) { $active_modules = $options['whx3_active_modules']; } else { $active_modules = array(); }
 
 /*** Taxonomies for PEOPLE ***/
 
@@ -57,7 +55,7 @@ if ( in_array('people', $active_modules ) ) {
 		register_taxonomy( 'person_category', [ 'person' ], $args );
 		//register_taxonomy( 'test_tax', array( 0 => 'person' ), $args ),
 	}
-	add_action( 'init', 'register_taxonomy_person_category' );
+	//add_action( 'init', 'register_taxonomy_person_category' );
 	
 	// Custom Taxonomy: Person Title
 	function register_taxonomy_person_title() {
@@ -96,7 +94,7 @@ if ( in_array('people', $active_modules ) ) {
 		}*/	
 		register_taxonomy( 'person_title', [ 'person' ], $args );
 	}
-	add_action( 'init', 'register_taxonomy_person_title' );
+	//add_action( 'init', 'register_taxonomy_person_title' );
 }
 
 /*** Taxonomies for GROUPS (Organizations/Ensembles/Institutions) ***/
@@ -139,7 +137,7 @@ if ( in_array('people', $active_modules ) || in_array('groups', $active_modules 
 		}*/	
 		register_taxonomy( 'group_category', [ 'group', 'organization', 'ensemble' ], $args );
 	}
-	add_action( 'init', 'register_taxonomy_group_category' );
+	//add_action( 'init', 'register_taxonomy_group_category' );
 }
 
 /*** Taxonomies for VENUES ***/
@@ -182,7 +180,7 @@ if ( in_array('places', $active_modules ) ) {
 		}
 		register_taxonomy( 'venue_category', [ 'venue' ], $args );
 	}
-	add_action( 'init', 'register_taxonomy_venue_category' );
+	//add_action( 'init', 'register_taxonomy_venue_category' );
 }
 
 
@@ -228,7 +226,7 @@ if ( in_array('events', $active_modules ) ) {
 		}
 		register_taxonomy( 'person_role', [ 'event', 'event_program' ], $args );
 	}
-	add_action( 'init', 'register_taxonomy_person_role' );
+	//add_action( 'init', 'register_taxonomy_person_role' );
 
 	// Custom Taxonomy: Program Label
 	function register_taxonomy_program_label() {
@@ -268,7 +266,7 @@ if ( in_array('events', $active_modules ) ) {
 		}
 		register_taxonomy( 'program_label', [ 'event', 'event_program' ], $args );
 	}
-	add_action( 'init', 'register_taxonomy_program_label' );
+	//add_action( 'init', 'register_taxonomy_program_label' );
 
 }
 
