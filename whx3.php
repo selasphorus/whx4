@@ -31,7 +31,7 @@ require 'includes/taxonomies.php'; // wip
 require 'includes/acf-json.php';
 
 // Load ACF field groups hard-coded as PHP
-//require 'includes/acf-field-groups.php'; // wip
+require 'includes/acf-field-groups.php'; // wip
 
 // Register blocks and other handy ACF Block helpers
 require 'includes/acf-blocks.php';
