@@ -67,7 +67,7 @@ if ( in_array('people', $active_modules ) ) {
 		register_post_type( 'person', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_person' );
+	//add_action( 'init', 'register_post_type_person' );
 	
 }
 
@@ -114,7 +114,7 @@ if ( in_array('people', $active_modules ) ) {
 		register_post_type( 'group', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_group' );
+	//add_action( 'init', 'register_post_type_group' );
 }
 
 
@@ -165,7 +165,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'venue', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_venue' );
+	//add_action( 'init', 'register_post_type_venue' );
 
 }
 
@@ -216,7 +216,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'address', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_address' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
+	//add_action( 'init', 'register_post_type_address' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
 	
 }
 
@@ -267,7 +267,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'building', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_building' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
+	//add_action( 'init', 'register_post_type_building' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
 	// Fields to add via ACF to EM location: cross_street, neighborhood, location_status, notes... related_entities....
 	
 	
@@ -318,7 +318,7 @@ if ( in_array('events', $active_modules ) ) {
 		register_post_type( 'event_series', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_event_series' );
+	//add_action( 'init', 'register_post_type_event_series' );
 
 }
 
