@@ -32,16 +32,16 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 		if ( custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'People', 'sdg' ),
-			'singular_name' => __( 'Person', 'sdg' ),
-			'add_new' => __( 'New Person', 'sdg' ),
-			'add_new_item' => __( 'Add New Person', 'sdg' ),
-			'edit_item' => __( 'Edit Person', 'sdg' ),
-			'new_item' => __( 'New Person', 'sdg' ),
-			'view_item' => __( 'View Person', 'sdg' ),
-			'search_items' => __( 'Search People', 'sdg' ),
-			'not_found' =>  __( 'No People Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No People found in Trash', 'sdg' ),
+			'name' => __( 'People', 'whx4' ),
+			'singular_name' => __( 'Person', 'whx4' ),
+			'add_new' => __( 'New Person', 'whx4' ),
+			'add_new_item' => __( 'Add New Person', 'whx4' ),
+			'edit_item' => __( 'Edit Person', 'whx4' ),
+			'new_item' => __( 'New Person', 'whx4' ),
+			'view_item' => __( 'View Person', 'whx4' ),
+			'search_items' => __( 'Search People', 'whx4' ),
+			'not_found' =>  __( 'No People Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No People found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
@@ -80,16 +80,16 @@ if ( in_array('people', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = "group"; } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Groups', 'sdg' ),
-			'singular_name' => __( 'Group', 'sdg' ),
-			'add_new' => __( 'New Group', 'sdg' ),
-			'add_new_item' => __( 'Add New Group', 'sdg' ),
-			'edit_item' => __( 'Edit Group', 'sdg' ),
-			'new_item' => __( 'New Group', 'sdg' ),
-			'view_item' => __( 'View Group', 'sdg' ),
-			'search_items' => __( 'Search Groups', 'sdg' ),
-			'not_found' =>  __( 'No Groups Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No Group found in Trash', 'sdg' ),
+			'name' => __( 'Groups', 'whx4' ),
+			'singular_name' => __( 'Group', 'whx4' ),
+			'add_new' => __( 'New Group', 'whx4' ),
+			'add_new_item' => __( 'Add New Group', 'whx4' ),
+			'edit_item' => __( 'Edit Group', 'whx4' ),
+			'new_item' => __( 'New Group', 'whx4' ),
+			'view_item' => __( 'View Group', 'whx4' ),
+			'search_items' => __( 'Search Groups', 'whx4' ),
+			'not_found' =>  __( 'No Groups Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Group found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
@@ -114,7 +114,7 @@ if ( in_array('people', $active_modules ) ) {
 		register_post_type( 'group', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_group' );
+	add_action( 'init', 'register_post_type_group' );
 }
 
 
@@ -131,16 +131,16 @@ if ( in_array('places', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = array('venue', 'venues'); } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Venues', 'sdg' ),
-			'singular_name' => __( 'Venue', 'sdg' ),
-			'add_new' => __( 'New Venue', 'sdg' ),
-			'add_new_item' => __( 'Add New Venue', 'sdg' ),
-			'edit_item' => __( 'Edit Venue', 'sdg' ),
-			'new_item' => __( 'New Venue', 'sdg' ),
-			'view_item' => __( 'View Venue', 'sdg' ),
-			'search_items' => __( 'Search Venues', 'sdg' ),
-			'not_found' =>  __( 'No Venues Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No Venues found in Trash', 'sdg' ),
+			'name' => __( 'Venues', 'whx4' ),
+			'singular_name' => __( 'Venue', 'whx4' ),
+			'add_new' => __( 'New Venue', 'whx4' ),
+			'add_new_item' => __( 'Add New Venue', 'whx4' ),
+			'edit_item' => __( 'Edit Venue', 'whx4' ),
+			'new_item' => __( 'New Venue', 'whx4' ),
+			'view_item' => __( 'View Venue', 'whx4' ),
+			'search_items' => __( 'Search Venues', 'whx4' ),
+			'not_found' =>  __( 'No Venues Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Venues found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
@@ -182,16 +182,16 @@ if ( in_array('places', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Addresses', 'sdg' ),
-			'singular_name' => __( 'Address', 'sdg' ),
-			'add_new' => __( 'New Address', 'sdg' ),
-			'add_new_item' => __( 'Add New Address', 'sdg' ),
-			'edit_item' => __( 'Edit Address', 'sdg' ),
-			'new_item' => __( 'New Address', 'sdg' ),
-			'view_item' => __( 'View Address', 'sdg' ),
-			'search_items' => __( 'Search Addresses', 'sdg' ),
-			'not_found' =>  __( 'No Addresses Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No Addresses found in Trash', 'sdg' ),
+			'name' => __( 'Addresses', 'whx4' ),
+			'singular_name' => __( 'Address', 'whx4' ),
+			'add_new' => __( 'New Address', 'whx4' ),
+			'add_new_item' => __( 'Add New Address', 'whx4' ),
+			'edit_item' => __( 'Edit Address', 'whx4' ),
+			'new_item' => __( 'New Address', 'whx4' ),
+			'view_item' => __( 'View Address', 'whx4' ),
+			'search_items' => __( 'Search Addresses', 'whx4' ),
+			'not_found' =>  __( 'No Addresses Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Addresses found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
@@ -233,16 +233,16 @@ if ( in_array('places', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Buildings', 'sdg' ),
-			'singular_name' => __( 'Building', 'sdg' ),
-			'add_new' => __( 'New Building', 'sdg' ),
-			'add_new_item' => __( 'Add New Building', 'sdg' ),
-			'edit_item' => __( 'Edit Building', 'sdg' ),
-			'new_item' => __( 'New Building', 'sdg' ),
-			'view_item' => __( 'View Building', 'sdg' ),
-			'search_items' => __( 'Search Buildings', 'sdg' ),
-			'not_found' =>  __( 'No Buildings Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No Buildings found in Trash', 'sdg' ),
+			'name' => __( 'Buildings', 'whx4' ),
+			'singular_name' => __( 'Building', 'whx4' ),
+			'add_new' => __( 'New Building', 'whx4' ),
+			'add_new_item' => __( 'Add New Building', 'whx4' ),
+			'edit_item' => __( 'Edit Building', 'whx4' ),
+			'new_item' => __( 'New Building', 'whx4' ),
+			'view_item' => __( 'View Building', 'whx4' ),
+			'search_items' => __( 'Search Buildings', 'whx4' ),
+			'not_found' =>  __( 'No Buildings Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Buildings found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
@@ -284,16 +284,16 @@ if ( in_array('events', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = array('event', 'events'); } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Event Series', 'sdg' ),
-			'singular_name' => __( 'Event Series', 'sdg' ),
-			'add_new' => __( 'New Event Series', 'sdg' ),
-			'add_new_item' => __( 'Add New Event Series', 'sdg' ),
-			'edit_item' => __( 'Edit Event Series', 'sdg' ),
-			'new_item' => __( 'New Event Series', 'sdg' ),
-			'view_item' => __( 'View Event Series', 'sdg' ),
-			'search_items' => __( 'Search Event Series', 'sdg' ),
-			'not_found' =>  __( 'No Event Series Found', 'sdg' ),
-			'not_found_in_trash' => __( 'No Event Series found in Trash', 'sdg' ),
+			'name' => __( 'Event Series', 'whx4' ),
+			'singular_name' => __( 'Event Series', 'whx4' ),
+			'add_new' => __( 'New Event Series', 'whx4' ),
+			'add_new_item' => __( 'Add New Event Series', 'whx4' ),
+			'edit_item' => __( 'Edit Event Series', 'whx4' ),
+			'new_item' => __( 'New Event Series', 'whx4' ),
+			'view_item' => __( 'View Event Series', 'whx4' ),
+			'search_items' => __( 'Search Event Series', 'whx4' ),
+			'not_found' =>  __( 'No Event Series Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Event Series found in Trash', 'whx4' ),
 		);
 	
 		$args = array(
