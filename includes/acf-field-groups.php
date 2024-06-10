@@ -25,7 +25,7 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Person: Additional Fields',
 		'fields' => array(
 			array(
-				'key'	=> 'field_whx4_person_basics_tab'
+				'key'	=> 'field_whx4_person_basics_tab',
 				//'key' => 'field_64b065b9a96c5',
 				'label' => 'Person Basics',
 				'name' => '',
@@ -45,7 +45,7 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_first_name'
+				'key'	=> 'field_whx4_first_name',
 				//'key' => 'field_624775c6b621b',
 				'label' => 'First Name',
 				'name' => 'first_name',
@@ -66,7 +66,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_middle_name'
+				'key'	=> 'field_whx4_middle_name',
 				//'key' => 'field_624775d1b621c',
 				'label' => 'Middle Name',
 				'name' => 'middle_name',
@@ -88,7 +88,7 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_last_name'
+				'key'	=> 'field_whx4_last_name',
 				//'key' => 'field_624775dbb621d',
 				'label' => 'Last Name',
 				'name' => 'last_name',
@@ -109,7 +109,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_initials'
+				'key'	=> 'field_whx4_initials',
 				//'key' => 'field_624775e3b621e',
 				'label' => 'Initials',
 				'name' => 'initials',
@@ -152,7 +152,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_suffix'
+				'key'	=> 'field_whx4_suffix',
 				//'key' => 'field_624775eeb6220',
 				'label' => 'Suffix',
 				'name' => 'suffix',
@@ -173,7 +173,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_job_title'
+				'key'	=> 'field_whx4_job_title',
 				//'key' => 'field_624775f4b6221',
 				'label' => 'Job Title',
 				'name' => 'job_title',
@@ -194,7 +194,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_website'
+				'key'	=> 'field_whx4_website',
 				//'key' => 'field_624775f9b6222',
 				'label' => 'Website',
 				'name' => 'website',
@@ -212,7 +212,7 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_email_address'
+				'key'	=> 'field_whx4_email_address',
 				//'key' => 'field_62477603b6223',
 				'label' => 'Email Address',
 				'name' => 'email_address',
@@ -232,7 +232,7 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_phone_number'
+				'key'	=> 'field_whx4_phone_number',
 				//'key' => 'field_6247760db6224',
 				'label' => 'Phone Number',
 				'name' => 'phone_number',
@@ -274,7 +274,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_death_year'
+				'key'	=> 'field_whx4_death_year',
 				//'key' => 'field_62477625b6226',
 				'label' => 'Death Year',
 				'name' => 'death_year',
@@ -295,7 +295,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_dates'
+				'key'	=> 'field_whx4_dates',
 				//'key' => 'field_62477629b6227',
 				'label' => 'Dates',
 				'name' => 'dates',
@@ -316,7 +316,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_user_account'
+				'key'	=> 'field_whx4_user_account',
 				//'key' => 'field_6247762db6228',
 				'label' => 'User Account',
 				'name' => 'user_account',
@@ -338,7 +338,7 @@ function whx4_register_field_groups() {
 				),
 			),
 			array(
-				'key'	=> 'field_whx4_special_name'
+				'key'	=> 'field_whx4_special_name',
 				//'key' => 'field_64876136e25a3',
 				'label' => 'Special Name',
 				'name' => 'special_name',
@@ -360,7 +360,7 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_media'
+				'key'	=> 'field_whx4_media',
 				//'key' => 'field_64b065e9a96c7',
 				'label' => 'Media',
 				'name' => '',
@@ -380,7 +380,7 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_image_gallery'
+				'key'	=> 'field_whx4_image_gallery',
 				//'key' => 'field_64b06589b33da',
 				'label' => 'Image Gallery',
 				'name' => 'image_gallery',
@@ -430,7 +430,7 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_notes'
+				'key'	=> 'field_whx4_notes',
 				//'key' => 'field_6247763bb6229',
 				'label' => 'Notes',
 				'name' => 'notes',
@@ -451,7 +451,7 @@ function whx4_register_field_groups() {
 				'new_lines' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_affiliations_tab'
+				'key'	=> 'field_whx4_affiliations_tab',
 				//'key' => 'field_664c8a5fcb582',
 				'label' => 'Affiliations',
 				'name' => '',
@@ -471,7 +471,7 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_affiliations'
+				'key'	=> 'field_whx4_affiliations',
 				//'key' => 'field_664c8a72cb583',
 				'label' => 'Affiliations',
 				'name' => 'affiliations',
@@ -495,7 +495,7 @@ function whx4_register_field_groups() {
 				'rows_per_page' => 20,
 				'sub_fields' => array(
 					array(
-						'key'	=> 'field_whx4_affiliations_role'
+						'key'	=> 'field_whx4_affiliations_role',
 						//'key' => 'field_664c8aa2cb585',
 						'label' => 'Role',
 						'name' => 'role',
@@ -524,7 +524,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
-						'key'	=> 'field_whx4_affiliations_group'
+						'key'	=> 'field_whx4_affiliations_group',
 						//'key' => 'field_664c8a86cb584',
 						'label' => 'Group',
 						'name' => 'group',
@@ -554,7 +554,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
-						'key'	=> 'field_whx4_affiliations_dates'
+						'key'	=> 'field_whx4_affiliations_dates',
 						//'key' => 'field_664c8bd2f2841',
 						'label' => 'Dates',
 						'name' => 'dates',
