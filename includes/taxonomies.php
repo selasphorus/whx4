@@ -99,7 +99,7 @@ if ( in_array('people', $active_modules ) ) {
 
 /*** Taxonomies for GROUPS (Organizations/Ensembles/Institutions) ***/
 
-if ( in_array('people', $active_modules ) || in_array('groups', $active_modules ) ) ) {
+if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_modules ) ) {
 	// Custom Taxonomy: Group Category
 	function register_taxonomy_group_category() {
 		$labels = array(
