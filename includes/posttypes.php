@@ -32,7 +32,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 		if ( custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'People', 'whx4' ),
+			'name' => __( 'People [whx4]', 'whx4' ),
 			'singular_name' => __( 'Person', 'whx4' ),
 			'add_new' => __( 'New Person', 'whx4' ),
 			'add_new_item' => __( 'Add New Person', 'whx4' ),
