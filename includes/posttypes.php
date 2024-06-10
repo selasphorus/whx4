@@ -24,7 +24,7 @@ if ( !function_exists( 'custom_caps' ) ) {
 }
 
 // TODO: change "person" to "individual", to better include plants and animals? w/ ACF field groups based on category/species
-if ( in_array('people', $active_modules ) ) {
+if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 	// Person
 	function register_post_type_person() {
 
@@ -61,13 +61,13 @@ if ( in_array('people', $active_modules ) ) {
 			'supports' 			=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
 			'taxonomies'		=> array( 'person_category', 'person_title', 'admin_tag' ), //, 'person_tag', 'people_category'
 			'show_in_rest'		=> false, // false = use classic, not block editor
-			'delete_with_user' => false,
+			'delete_with_user' 	=> false,
 		);
 
 		register_post_type( 'person', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_person' );
+	add_action( 'init', 'register_post_type_person' );
 	
 }
 

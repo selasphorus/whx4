@@ -96,3 +96,5 @@ foreach ( $modules as $module ) {
 
 }
 */
+
+?>
