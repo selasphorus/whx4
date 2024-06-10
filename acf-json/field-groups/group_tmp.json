@@ -1,0 +1,16 @@
+{
+    "key": "group_tmp",
+    "title": "TMP Starter Field Group",
+    "fields": [],
+    "location": [],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1718031847
+}
