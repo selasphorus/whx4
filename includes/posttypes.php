@@ -81,7 +81,7 @@ if ( in_array('people', $active_modules ) ) {
 		if ( custom_caps() ) { $caps = "group"; } else { $caps = "post"; }
 		
 		$labels = array(
-			'name' => __( 'Groups [whx4]', 'whx4' ),
+			'name' => __( 'Groups', 'whx4' ),
 			'singular_name' => __( 'Group', 'whx4' ),
 			'add_new' => __( 'New Group', 'whx4' ),
 			'add_new_item' => __( 'Add New Group', 'whx4' ),
