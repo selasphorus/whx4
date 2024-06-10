@@ -131,7 +131,7 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_prefix'
+				'key'	=> 'field_whx4_prefix',
 				//'key' => 'field_624775eab621f',
 				'label' => 'Prefix',
 				'name' => 'prefix',
@@ -253,7 +253,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_birth_year'
+				'key'	=> 'field_whx4_birth_year',
 				//'key' => 'field_6247761bb6225',
 				'label' => 'Birth Year',
 				'name' => 'birth_year',
@@ -410,7 +410,7 @@ function whx4_register_field_groups() {
 				'preview_size' => 'medium',
 			),
 			array(
-				'key'	=> 'field_whx4_notes_tab'
+				'key'	=> 'field_whx4_notes_tab',
 				//'key' => 'field_64b065d2a96c6',
 				'label' => 'Notes',
 				'name' => '',
