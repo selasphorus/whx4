@@ -17,7 +17,7 @@ if ( ! empty( $block['anchor'] ) ) {
 	$block_id = esc_attr( $block['anchor'] );
 }
 
-$phone_number = get_field( 'whx3_phone_number', 'options' );
+$phone_number = get_field( 'whx4_phone_number', 'options' );
 ?>
 
 <?php if ( ! $is_preview ) : ?>

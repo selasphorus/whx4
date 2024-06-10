@@ -7,13 +7,13 @@
 /**
  * @link https://www.advancedcustomfields.com/resources/how-to-hide-acf-menu-from-clients/
  */
-add_filter( 'acf/settings/show_admin', 'whx3_show_acf_admin' );
+add_filter( 'acf/settings/show_admin', 'whx4_show_acf_admin' );
 /**
  * Filters the settings to pass to the block editor for all editor type.
  *
  * @link https://developer.wordpress.org/reference/hooks/block_editor_settings_all/
  */
-add_filter( 'block_editor_settings_all', 'whx3_restrict_locking_ui', 10, 2 );
+add_filter( 'block_editor_settings_all', 'whx4_restrict_locking_ui', 10, 2 );
 
 /**
  * Allow access to ACF screens by WP user role
@@ -25,7 +25,7 @@ add_filter( 'block_editor_settings_all', 'whx3_restrict_locking_ui', 10, 2 );
  *
  * @since 0.1.2
  */
-function whx3_show_acf_admin() {
+function whx4_show_acf_admin() {
 	// If our user can manage site options.
 	if ( current_user_can( 'manage_options' ) ) {
 	
@@ -50,8 +50,8 @@ function whx3_show_acf_admin() {
  *
  * @since 0.1.3
  */
-function whx3_restrict_locking_ui( $settings ) {
-	$settings['canLockBlocks'] = whx3_show_acf_admin();
+function whx4_restrict_locking_ui( $settings ) {
+	$settings['canLockBlocks'] = whx4_show_acf_admin();
 
 	return $settings;
 }

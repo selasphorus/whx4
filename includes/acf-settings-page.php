@@ -1,6 +1,6 @@
 <?php
 /**
- * WHX3 Options Page: "Site Settings"
+ * whx4 Options Page: "Site Settings"
  *
  * @link https://www.advancedcustomfields.com/resources/options-page/
  */
@@ -9,16 +9,16 @@
  * Check if ACF PRO is active and function exists
  */
 if ( function_exists( 'acf_add_options_page' ) ) {
-	add_action( 'acf/init', 'whx3_register_options_page' );
+	add_action( 'acf/init', 'whx4_register_options_page' );
 }
 
-function whx3_register_options_page() {
+function whx4_register_options_page() {
 
 	// Add the top-level page
 	acf_add_options_page(
 		array(
-			'page_title' => 'WHX3 Settings',
-			'menu_slug'  => 'whx3_settings',
+			'page_title' => 'whx4 Settings',
+			'menu_slug'  => 'whx4_settings',
 			'redirect'   => false,
 		)
 	);
@@ -37,15 +37,15 @@ function whx3_register_options_page() {
 	// Add 'Modules & Settings' field group
 	acf_add_local_field_group(
 		array(
-			'key'      => 'whx3_group_modules',
+			'key'      => 'whx4_group_modules',
 			//'key'      => 'group_6511a57f5680c',
 			'title'    => 'Modules &amp; Settings',
 			'fields'   => array(
 				array(
-					'key'           => 'field_whx3_modules',
+					'key'           => 'field_whx4_modules',
 					//'key'           => 'field_6511a57fcbe7e',
 					'label'         => 'Active Modules',
-					'name'          => 'whx3_active_modules',
+					'name'          => 'whx4_active_modules',
 					'type'          => 'checkbox',
 					'instructions' => 'Select the modules to activate.',
 					'required' => 0,
@@ -75,9 +75,9 @@ function whx3_register_options_page() {
 					'relevanssi_exclude' => 0,
 				),
 				array(
-					'key'           => 'field_whx3_use_custom_caps',
+					'key'           => 'field_whx4_use_custom_caps',
 					'label'         => 'Use custom capabilities?',
-					'name'          => 'whx3_use_custom_caps',
+					'name'          => 'whx4_use_custom_caps',
 					'type'          => 'true_false',
 					'instructions' => '',
 					'required' => 0,
@@ -100,7 +100,7 @@ function whx3_register_options_page() {
 					array(
 						'param'    => 'options_page',
 						'operator' => '==',
-						'value'    => 'whx3_settings',
+						'value'    => 'whx4_settings',
 					),
 				),
 			),
@@ -110,21 +110,21 @@ function whx3_register_options_page() {
 	/* Group from ACF demo plugin -- left here temporarily as model...
 	acf_add_local_field_group(
 		array(
-			'key'      => 'group_whx3_notification_bar',
+			'key'      => 'group_whx4_notification_bar',
 			'title'    => 'Notification Bar',
 			'fields'   => array(
 				array(
-					'key'        => 'field_whx3_notification_bar_group',
+					'key'        => 'field_whx4_notification_bar_group',
 					'label'      => 'Notification Bar',
-					'name'       => 'whx3_notification_bar_group',
+					'name'       => 'whx4_notification_bar_group',
 					'aria-label' => '',
 					'type'       => 'group',
 					'layout'     => 'row',
 					'sub_fields' => array(
 						array(
-							'key'           => 'field_whx3_notification_onoff',
+							'key'           => 'field_whx4_notification_onoff',
 							'label'         => 'Notification On/Off',
-							'name'          => 'whx3_notification_onoff',
+							'name'          => 'whx4_notification_onoff',
 							'type'          => 'true_false',
 							'message'       => 'Should the site-wide Notification Bar be showing?',
 							'default_value' => 1,
@@ -133,14 +133,14 @@ function whx3_register_options_page() {
 							'ui'            => 1,
 						),
 						array(
-							'key'               => 'field_whx3_notification_message',
+							'key'               => 'field_whx4_notification_message',
 							'label'             => 'Notification Message',
-							'name'              => 'whx3_notification_message',
+							'name'              => 'whx4_notification_message',
 							'type'              => 'textarea',
 							'conditional_logic' => array(
 								array(
 									array(
-										'field'    => 'whx3_notification_onoff',
+										'field'    => 'whx4_notification_onoff',
 										'operator' => '==',
 										'value'    => '1',
 									),

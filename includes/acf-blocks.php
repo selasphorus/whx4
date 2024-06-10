@@ -5,9 +5,9 @@
  * @link https://www.advancedcustomfields.com/resources/blocks/
  */
 
-add_action( 'init', 'whx3_blocks_register', 5 );
-add_filter( 'block_categories_all', 'whx3_block_category' );
-add_filter( 'acf/blocks/no_fields_assigned_message', 'whx3_block_no_fields_msg', 10, 2 );
+add_action( 'init', 'whx4_blocks_register', 5 );
+add_filter( 'block_categories_all', 'whx4_block_category' );
+add_filter( 'acf/blocks/no_fields_assigned_message', 'whx4_block_no_fields_msg', 10, 2 );
 
 /**
  * Register our ACF Blocks.
@@ -18,8 +18,8 @@ add_filter( 'acf/blocks/no_fields_assigned_message', 'whx3_block_no_fields_msg',
  *
  * @since 0.1.1
  */
-function whx3_blocks_register() {
-	$blocks = whx3_get_blocks();
+function whx4_blocks_register() {
+	$blocks = whx4_get_blocks();
 
 	/**
 	 * Loop through /block directory,
@@ -28,14 +28,14 @@ function whx3_blocks_register() {
 	 *   /block-two/block.json
 	 */
 	foreach ( $blocks as $block ) {
-		if ( file_exists( WHX3_PLUGIN_BLOCKS . $block . '/block.json' ) ) {
+		if ( file_exists( whx4_PLUGIN_BLOCKS . $block . '/block.json' ) ) {
 			/**
 			 * We register our block's with WordPress's handy
 			 * register_block_type();
 			 *
 			 * @link https://developer.wordpress.org/reference/functions/register_block_type/
 			 */
-			register_block_type( WHX3_PLUGIN_BLOCKS . $block . '/block.json' );
+			register_block_type( whx4_PLUGIN_BLOCKS . $block . '/block.json' );
 		}
 	}
 }
@@ -49,18 +49,18 @@ function whx3_blocks_register() {
  *
  * @since 0.1.1
  */
-function whx3_get_blocks() {
+function whx4_get_blocks() {
 	// Check for options.
-	$blocks  = get_option( 'whx3_blocks' );
-	$version = get_option( 'whx3_blocks_version' );
+	$blocks  = get_option( 'whx4_blocks' );
+	$version = get_option( 'whx4_blocks_version' );
 
-	if ( empty( $blocks ) || version_compare( WHX3_VERSION, $version ) || ( function_exists( 'wp_get_environment_type' ) && 'production' !== wp_get_environment_type() ) ) {
-		$blocks = scandir( WHX3_PLUGIN_BLOCKS );
+	if ( empty( $blocks ) || version_compare( whx4_VERSION, $version ) || ( function_exists( 'wp_get_environment_type' ) && 'production' !== wp_get_environment_type() ) ) {
+		$blocks = scandir( whx4_PLUGIN_BLOCKS );
 		$blocks = array_values( array_diff( $blocks, array( '..', '.', '.DS_Store' ) ) );
 
 		// Update our options.
-		update_option( 'whx3_blocks', $blocks );
-		update_option( 'whx3_blocks_version', WHX3_VERSION );
+		update_option( 'whx4_blocks', $blocks );
+		update_option( 'whx4_blocks_version', whx4_VERSION );
 	}
 
 	return $blocks;
@@ -77,13 +77,13 @@ function whx3_get_blocks() {
  *
  * @since 0.1.1
  */
-function whx3_block_category( $block_categories ) {
+function whx4_block_category( $block_categories ) {
 
 	$block_categories = array_merge(
 		array(
 			array(
-				'slug'  => 'whx3-blocks',
-				'title' => __( 'ACF Blocks', 'whx3-blocks' ),
+				'slug'  => 'whx4-blocks',
+				'title' => __( 'ACF Blocks', 'whx4-blocks' ),
 			),
 		),
 		$block_categories,
@@ -105,12 +105,12 @@ function whx3_block_category( $block_categories ) {
  *
  * @since 0.1.1
  */
-function whx3_block_no_fields_msg( $message, $block_name ) {
+function whx4_block_no_fields_msg( $message, $block_name ) {
 	if ( 'acf/phone-number' === $block_name ) {
 		$message = sprintf(
 			/* translators: %s: an admin URL to the field group edit screen */
-			__( 'Edit the block contentin the <a href="%s" target="_blank">Site Settings</a>.', 'whx3' ),
-			admin_url( 'admin.php?page=whx3_settings' )
+			__( 'Edit the block contentin the <a href="%s" target="_blank">Site Settings</a>.', 'whx4' ),
+			admin_url( 'admin.php?page=whx4_settings' )
 		);
 	}
 
