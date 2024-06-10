@@ -49,7 +49,9 @@ require 'includes/template-tags.php';
 
 // Get plugin options -- WIP
 $options = get_option( 'whx4_settings' );
-if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
+if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+//if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
+//get_field('whx4_active_modules', 'option');
 /*
 foreach ( $modules as $module ) {
 
