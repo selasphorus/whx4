@@ -37,7 +37,7 @@ function whx4_register_options_page() {
 	// Add 'Modules & Settings' field group
 	acf_add_local_field_group(
 		array(
-			'key'      => 'whx4_group_modules',
+			'key'      => 'group_whx4_modules',
 			//'key'      => 'group_6511a57f5680c',
 			'title'    => 'Modules &amp; Settings',
 			'fields'   => array(
