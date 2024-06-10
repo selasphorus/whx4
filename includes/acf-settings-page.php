@@ -17,7 +17,7 @@ function whx4_register_options_page() {
 	// Add the top-level page
 	acf_add_options_page(
 		array(
-			'page_title' => 'WHX4 Settings',
+			'page_title' => 'WHx4 Settings',
 			'menu_slug'  => 'whx4_settings',
 			'redirect'   => false,
 		)
