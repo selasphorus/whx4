@@ -334,8 +334,7 @@ function whx4_register_field_groups() {
 				'allow_null' => 0,
 				'multiple' => 0,
 				'return_format' => 'array',
-				'bidirectional_target' => array(
-				),
+				'bidirectional_target' => array(),
 			),
 			array(
 				'key'	=> 'field_whx4_special_name',
@@ -519,8 +518,7 @@ function whx4_register_field_groups() {
 						'allow_null' => 1,
 						'bidirectional' => 0,
 						'multiple' => 0,
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
@@ -544,13 +542,12 @@ function whx4_register_field_groups() {
 						),
 						'post_status' => '',
 						'taxonomy' => '',
-						'return_format' => 'object',
+						'return_format' => 'id',
 						'multiple' => 0,
 						'allow_null' => 0,
 						'bidirectional' => 0,
 						'ui' => 1,
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
@@ -977,8 +974,7 @@ function whx4_register_field_groups() {
 						'field_type' => 'select',
 						'allow_null' => 1,
 						'multiple' => 0,
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
@@ -1071,8 +1067,7 @@ function whx4_register_field_groups() {
 						'min' => '',
 						'max' => '',
 						'elements' => '',
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
@@ -1130,8 +1125,7 @@ function whx4_register_field_groups() {
 						'min' => '',
 						'max' => '',
 						'elements' => '',
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
@@ -1462,8 +1456,7 @@ function whx4_register_field_groups() {
 						'field_type' => 'select',
 						'allow_null' => 1,
 						'multiple' => 0,
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
@@ -1569,8 +1562,7 @@ function whx4_register_field_groups() {
 						'min' => '',
 						'max' => '',
 						'elements' => '',
-						'bidirectional_target' => array(
-						),
+						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
@@ -2155,8 +2147,7 @@ function whx4_register_field_groups() {
 				'max' => '',
 				'elements' => '',
 				'bidirectional' => 0,
-				'bidirectional_target' => array(
-				),
+				'bidirectional_target' => array(),
 			),
 			array(
 				'key' => 'field_whx4_event_series',
@@ -2187,8 +2178,7 @@ function whx4_register_field_groups() {
 				'max' => '',
 				'elements' => '',
 				'bidirectional' => 0,
-				'bidirectional_target' => array(
-				),
+				'bidirectional_target' => array(),
 			),
 		),
 		'location' => array(
@@ -2251,9 +2241,8 @@ function whx4_register_field_groups() {
 				'elements' => '',
 				'min' => '',
 				'max' => '',
-				'return_format' => 'object',
-				'bidirectional_target' => array(
-				),
+				'return_format' => 'id',
+				'bidirectional_target' => array(),
 			),
 			array(
 				'key' => 'field_whx4_related_events',
@@ -2281,9 +2270,8 @@ function whx4_register_field_groups() {
 				'elements' => '',
 				'min' => '',
 				'max' => '',
-				'return_format' => 'object',
-				'bidirectional_target' => array(
-				),
+				'return_format' => 'id',
+				'bidirectional_target' => array(),
 			),
 			array(
 				'key' => 'field_whx4_hide_day_titles',
