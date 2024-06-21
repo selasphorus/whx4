@@ -12,7 +12,7 @@
 if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 	return;
 }
-	
+
 add_action( 'acf/include_fields', 'whx4_register_field_groups' );
 
 
@@ -2209,7 +2209,6 @@ function whx4_register_field_groups() {
 	) );
 	
 	// group_whx4_event_series
-	// WIP
 	acf_add_local_field_group( array(
 		'key' => 'group_whx4_event_series',
 		//'key' => 'group_627c0014d01c2',
