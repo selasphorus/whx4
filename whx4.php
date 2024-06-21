@@ -19,12 +19,6 @@ define( 'whx4_PLUGIN_DIR', __DIR__ );
 define( 'whx4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'whx4_PLUGIN_BLOCKS', whx4_PLUGIN_DIR . '/blocks/' );
 
-// Load custom post types
-require 'includes/posttypes.php'; // wip
-
-// Load custom taxonomies
-require 'includes/taxonomies.php'; // wip
-
 /* +~+~+ ACF +~+~+ */
 
 // Set custom load & save JSON points for ACF sync
@@ -44,6 +38,14 @@ require 'includes/acf-restrict-access.php';
 
 // Display and template helpers
 require 'includes/template-tags.php';
+
+/* +~+~+ ACF +~+~+ */
+
+// Load custom post types
+require 'includes/posttypes.php'; // wip
+
+// Load custom taxonomies
+require 'includes/taxonomies.php'; // wip
 
 /* +~+~+ Optional Modules +~+~+ */
 
