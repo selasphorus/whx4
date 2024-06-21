@@ -599,6 +599,52 @@ function whx4_register_field_groups() {
 		'show_in_rest' => 0,
 	) );
 	
+	// group_whx4_group
+	acf_add_local_field_group( array(
+		'key' => 'group_whx4_group',
+		//'key' => 'group_62745b70d177e',
+		'title' => 'WHx4 Group: Additional Fields',
+		'fields' => array(
+			array(
+				'key'	=> 'field_whx4_group_website',
+				//'key' => 'field_665a0045f05e9',
+				'label' => 'Primary Website',
+				'name' => 'website',
+				'aria-label' => '',
+				'type' => 'url',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'relevanssi_exclude' => 0,
+				'default_value' => '',
+				'placeholder' => '',
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'group',
+				),
+			),
+		),
+		'menu_order' => 0,
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => true,
+		'description' => 'This post type is for managing groups of persons, including: organizations, educational and religious institutions, ensembles, companies, etc.',
+		'show_in_rest' => 0,
+	) );
+	
 	// group_whx4_event
 	acf_add_local_field_group( array(
 		'key' => 'group_whx4_event',
@@ -2171,6 +2217,9 @@ function whx4_register_field_groups() {
 		'description' => '',
 		'show_in_rest' => 0,
 	) );
+	
+	// group_whx4_
+	// WIP
 
 }
 ?>
