@@ -328,7 +328,7 @@ if ( in_array('events', $active_modules ) ) {
 // https://www.advancedcustomfields.com/resources/bidirectional-relationships/
 if ( !function_exists( 'bidirectional_acf_update_value' ) ) {
 	function bidirectional_acf_update_value( $value, $post_id, $field  ) {	
-	
+
 		// vars
 		$field_name = $field['name'];
 		$field_key = $field['key'];
