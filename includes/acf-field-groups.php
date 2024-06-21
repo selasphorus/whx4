@@ -2119,7 +2119,7 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key' => 'field_whx4_events_series',
+				'key' => 'field_whx4_e_events_series',
 				//'key' => 'field_632a27ff8450f',
 				'label' => 'Event Series (v2 bidirectional)',
 				'name' => 'events_series',
@@ -2215,7 +2215,7 @@ function whx4_register_field_groups() {
 		'title' => 'WHX4 Event Series: Additional Fields',
 		'fields' => array(
 			array(
-				'key' => 'field_whx4_events_series',
+				'key' => 'field_whx4_es_events_series',
 				//'key' => 'field_62a36344e2998',
 				'label' => 'Related Events (v2 bidirectional)',
 				'name' => 'events_series',
