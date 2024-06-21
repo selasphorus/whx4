@@ -2223,7 +2223,7 @@ function whx4_register_field_groups() {
 	acf_add_local_field_group( array(
 		'key' => 'group_whx4_event_series',
 		//'key' => 'group_627c0014d01c2',
-		'title' => '* Event Series: Additional Fields',
+		'title' => 'WHX4 Event Series: Additional Fields',
 		'fields' => array(
 			array(
 				'key' => 'field_whx4_events_series',
