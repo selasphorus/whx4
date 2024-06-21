@@ -327,7 +327,6 @@ if ( in_array('events', $active_modules ) ) {
 // WIP!
 // https://www.advancedcustomfields.com/resources/bidirectional-relationships/
 if ( !function_exists( 'bidirectional_acf_update_value' ) ) {
-	add_action( 'acf/init', 'bidirectional_acf_update_value' );
 	function bidirectional_acf_update_value( $value, $post_id, $field  ) {	
 	
 		// vars
@@ -411,7 +410,6 @@ if ( !function_exists( 'bidirectional_acf_update_value' ) ) {
 
 // WIP!
 if ( !function_exists( 'acf_update_related_field_on_save' ) ) {
-	add_action( 'acf/init', 'acf_update_related_field_on_save' );
 	function acf_update_related_field_on_save ( $post_id ) {	
 	
 		// TODO: figure out how to handle repeater field sub_fields -- e.g. repertoire_events << event program_items
