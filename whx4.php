@@ -24,9 +24,6 @@ define( 'whx4_PLUGIN_BLOCKS', whx4_PLUGIN_DIR . '/blocks/' );
 // Set custom load & save JSON points for ACF sync
 require 'includes/acf-json.php';
 
-// Load ACF field groups hard-coded as PHP
-require 'includes/acf-field-groups.php'; // wip
-
 // Register blocks and other handy ACF Block helpers
 require 'includes/acf-blocks.php';
 
@@ -39,13 +36,16 @@ require 'includes/acf-restrict-access.php';
 // Display and template helpers
 require 'includes/template-tags.php';
 
-/* +~+~+ ACF +~+~+ */
+/* +~+~+ Post Types, Taxonomies, Field Groups +~+~+ */
 
 // Load custom post types
 require 'includes/posttypes.php'; // wip
 
 // Load custom taxonomies
 require 'includes/taxonomies.php'; // wip
+
+// Load ACF field groups hard-coded as PHP
+require 'includes/acf-field-groups.php'; // wip
 
 /* +~+~+ Optional Modules +~+~+ */
 
