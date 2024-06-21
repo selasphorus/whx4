@@ -649,7 +649,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_program_order',
 				//'key' => 'field_62d58d97c3e70',
-				'label' => 'Program Order'
+				'label' => 'Program Order',
 				'name' => 'program_order',
 				'aria-label' => '',
 				'type' => 'radio',
