@@ -675,7 +675,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_program_type',
 				//'key' => 'field_62d58ddac3e71',
-				'label' => 'Program Type'
+				'label' => 'Program Type',
 				'name' => 'program_type',
 				'aria-label' => '',
 				'type' => 'select',
@@ -702,7 +702,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_program_layout',
 				//'key' => 'field_62d58e1fc3e72',
-				'label' => 'Program Layout'
+				'label' => 'Program Layout',
 				'name' => 'program_layout',
 				'aria-label' => '',
 				'type' => 'select',
@@ -748,7 +748,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_personnel_header',
 				//'key' => 'field_62ebf3e9db2bf',
-				'label' => 'Personnel Header'
+				'label' => 'Personnel Header',
 				'name' => 'personnel_header',
 				'aria-label' => '',
 				'type' => 'text',
@@ -769,7 +769,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_personnel',
 				//'key' => 'field_5ca37c2294f61',
-				'label' => 'Event Personnel'
+				'label' => 'Event Personnel',
 				'name' => 'personnel',
 				'aria-label' => '',
 				'type' => 'repeater',
@@ -793,7 +793,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_personnel_row_type',
 						//'key' => 'field_64821af3cf797',
-						'label' => 'Row Type'
+						'label' => 'Row Type',
 						'name' => 'row_type',
 						'aria-label' => '',
 						'type' => 'select',
@@ -859,7 +859,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_header_txt',
 						//'key' => 'field_648882d91c62f',
-						'label' => 'Header Text'
+						'label' => 'Header Text',
 						'name' => 'header_txt',
 						'aria-label' => '',
 						'type' => 'text',
@@ -897,7 +897,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_role',
 						//'key' => 'field_5f07163e0289f',
-						'label' => 'Role'
+						'label' => 'Role',
 						'name' => 'role',
 						'aria-label' => '',
 						'type' => 'taxonomy',
@@ -1138,7 +1138,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_personnel_url',
 						//'key' => 'field_62ea94927dcc0',
-						'label' => 'Personnel URL'
+						'label' => 'Personnel URL',
 						'name' => 'personnel_url',
 						'aria-label' => '',
 						'type' => 'url',
@@ -1178,7 +1178,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_program_items_header',
 				//'key' => 'field_62ebf3fbdb2c0',
-				'label' => 'Program Items Header'
+				'label' => 'Program Items Header',
 				'name' => 'program_items_header',
 				'aria-label' => '',
 				'type' => 'text',
@@ -1199,7 +1199,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_program_items',
 				//'key' => 'field_5ca37044a92cc',
-				'label' => 'Program Items'
+				'label' => 'Program Items',
 				'name' => 'program_items',
 				'aria-label' => '',
 				'type' => 'repeater',
@@ -1222,7 +1222,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_program_row_type',
 						//'key' => 'field_62eacaf65f6b6',
-						'label' => 'Row Type'
+						'label' => 'Row Type',
 						'name' => 'row_type',
 						'aria-label' => '',
 						'type' => 'select',
@@ -1375,7 +1375,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_item_label',
 						//'key' => 'field_5f072115a9b59',
-						'label' => 'Item Label'
+						'label' => 'Item Label',
 						'name' => 'item_label',
 						'aria-label' => '',
 						'type' => 'taxonomy',
@@ -1473,7 +1473,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_program_item',
 						//'key' => 'field_5ca37044aafbb',
-						'label' => 'Program Item'
+						'label' => 'Program Item',
 						'name' => 'program_item',
 						'aria-label' => '',
 						'type' => 'relationship',
@@ -1633,7 +1633,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_program_item_note',
 						//'key' => 'field_637662633faf3',
-						'label' => 'Program Item Note'
+						'label' => 'Program Item Note',
 						'name' => 'program_item_note',
 						'aria-label' => '',
 						'type' => 'text',
@@ -1698,7 +1698,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_ticket_info_header',
 				//'key' => 'field_63125380297ab',
-				'label' => 'Ticket Info Header'
+				'label' => 'Ticket Info Header',
 				'name' => 'ticket_info_header',
 				'aria-label' => '',
 				'type' => 'text',
@@ -1719,7 +1719,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_ticket_info',
 				//'key' => 'field_63125393297ac',
-				'label' => 'Ticket Info'
+				'label' => 'Ticket Info',
 				'name' => 'ticket_info',
 				'aria-label' => '',
 				'type' => 'wysiwyg',
@@ -1761,7 +1761,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_ticket_urls',
 				//'key' => 'field_62eaf8a23a21f',
-				'label' => 'Ticket URLs'
+				'label' => 'Ticket URLs',
 				'name' => 'ticket_urls',
 				'aria-label' => '',
 				'type' => 'repeater',
@@ -1783,7 +1783,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_ticket_url_link_text',
 						//'key' => 'field_62eaf8e03a221',
-						'label' => 'Ticket URL Link Text'
+						'label' => 'Ticket URL Link Text',
 						'name' => 'ticket_url_link_text',
 						'aria-label' => '',
 						'type' => 'text',
@@ -1805,7 +1805,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_ovationtix_id',
 						//'key' => 'field_63123f8f5da4a',
-						'label' => 'OvationTix Event ID'
+						'label' => 'OvationTix Event ID',
 						'name' => 'ovationtix_id',
 						'aria-label' => '',
 						'type' => 'text',
@@ -1827,7 +1827,7 @@ function whx4_register_field_groups() {
 					array(
 						'key' => 'field_whx4_ticket_url',
 						//'key' => 'field_62eaf8c83a220',
-						'label' => 'Ticket URL'
+						'label' => 'Ticket URL',
 						'name' => 'ticket_url',
 						'aria-label' => '',
 						'type' => 'url',
@@ -1848,7 +1848,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_ticket_url',
 				//'key' => 'field_5efa5605dda35',
-				'label' => 'Primary Ticket URL'
+				'label' => 'Primary Ticket URL',
 				'name' => 'ticket_url',
 				'aria-label' => '',
 				'type' => 'url',
@@ -1866,7 +1866,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_ticket_url_link_text',
 				//'key' => 'field_5efa5613dda36',
-				'label' => 'Primary Ticket URL Link Text'
+				'label' => 'Primary Ticket URL Link Text',
 				'name' => 'ticket_url_link_text',
 				'aria-label' => '',
 				'type' => 'text',
@@ -1914,7 +1914,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_booking_form_display',
 				//'key' => 'field_63e6936eec2a0',
-				'label' => 'Booking Form Display'
+				'label' => 'Booking Form Display',
 				'name' => 'booking_form_display',
 				'aria-label' => '',
 				'type' => 'select',
@@ -1942,7 +1942,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_booking_type',
 				//'key' => 'field_63e69397ec2a1',
-				'label' => 'Booking Type'
+				'label' => 'Booking Type',
 				'name' => 'booking_type',
 				'aria-label' => '',
 				'type' => 'select',
@@ -1970,7 +1970,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_booking_button_text',
 				//'key' => 'field_63e6da26b1b40',
-				'label' => 'Booking Button Text'
+				'label' => 'Booking Button Text',
 				'name' => 'booking_button_text',
 				'aria-label' => '',
 				'type' => 'text',
@@ -1992,7 +1992,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_booking_form_button_text',
 				//'key' => 'field_63e6da8ecab77',
-				'label' => 'Booking Form Button Text'
+				'label' => 'Booking Form Button Text',
 				'name' => 'booking_form_button_text',
 				'aria-label' => '',
 				'type' => 'text',
@@ -2062,7 +2062,7 @@ function whx4_register_field_groups() {
 			array(
 				'key' => 'field_whx4_title_uid',
 				//'key' => 'field_5efa56750f99b',
-				'label' => 'Title UID'
+				'label' => 'Title UID',
 				'name' => 'title_uid',
 				'aria-label' => '',
 				'type' => 'text',
