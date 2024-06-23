@@ -14,8 +14,6 @@ $options = get_option( 'whx4_settings' );
 if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 //if ( isset($options['options_whx4_active_modules']) ) { $active_modules = unserialize($options['options_whx4_active_modules']); } else { $active_modules = array(); }
 
-print_r($active_modules);
-
 if ( !function_exists( 'custom_caps' ) ) {
 	function custom_caps() {
 		$use_custom_caps = false;
