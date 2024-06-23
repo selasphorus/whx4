@@ -12,7 +12,7 @@ if ( !function_exists( 'add_action' ) ) {
 // Get plugin options to determine which modules are active
 $options = get_option( 'whx4_settings' );
 //if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
-if ( isset($options['options_whx4_active_modules']) ) { $active_modules = json_decode($options['options_whx4_active_modules']); } else { $active_modules = array(); }
+if ( isset($options['options_whx4_active_modules']) ) { $active_modules = unserialize($options['options_whx4_active_modules']); } else { $active_modules = array(); }
 
 if ( !function_exists( 'custom_caps' ) ) {
 	function custom_caps() {
