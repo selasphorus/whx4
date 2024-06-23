@@ -38,6 +38,8 @@ require 'includes/template-tags.php';
 
 /* +~+~+ Post Types, Taxonomies, Field Groups +~+~+ */
 
+// WIP: do this only after ACF init
+
 // Load custom post types
 require 'includes/posttypes.php';
 
