@@ -40,14 +40,18 @@ require 'includes/template-tags.php';
 
 // WIP: do this only after ACF init
 
-// Load custom post types
-require 'includes/posttypes.php';
+add_action( 'acf/init', 'whx4_cpts' );
+function whx4_cpts () {
 
-// Load custom taxonomies
-require 'includes/taxonomies.php';
+	// Load custom post types
+	require 'includes/posttypes.php';
 
-// Load ACF field groups hard-coded as PHP
-require 'includes/acf-field-groups.php'; // wip
+	// Load custom taxonomies
+	require 'includes/taxonomies.php';
+
+	// Load ACF field groups hard-coded as PHP
+	require 'includes/acf-field-groups.php';
+}
 
 /* +~+~+ Optional Modules +~+~+ */
 
