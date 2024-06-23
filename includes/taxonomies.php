@@ -56,7 +56,7 @@ if ( in_array('people', $active_modules ) ) {
 		register_taxonomy( 'person_category', [ 'person' ], $args );
 		//register_taxonomy( 'test_tax', array( 0 => 'person' ), $args ),
 	}
-	//add_action( 'init', 'register_taxonomy_person_category' );
+	add_action( 'init', 'register_taxonomy_person_category' );
 	
 	// Custom Taxonomy: Person Title
 	function register_taxonomy_person_title() {
@@ -95,7 +95,7 @@ if ( in_array('people', $active_modules ) ) {
 		}*/	
 		register_taxonomy( 'person_title', [ 'person' ], $args );
 	}
-	//add_action( 'init', 'register_taxonomy_person_title' );
+	add_action( 'init', 'register_taxonomy_person_title' );
 }
 
 /*** Taxonomies for GROUPS (Organizations/Ensembles/Institutions) ***/
@@ -138,7 +138,7 @@ if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_module
 		}*/	
 		register_taxonomy( 'group_category', [ 'group', 'organization', 'ensemble' ], $args );
 	}
-	//add_action( 'init', 'register_taxonomy_group_category' );
+	add_action( 'init', 'register_taxonomy_group_category' );
 }
 
 /*** Taxonomies for VENUES ***/
