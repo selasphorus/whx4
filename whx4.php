@@ -39,10 +39,10 @@ require 'includes/template-tags.php';
 /* +~+~+ Post Types, Taxonomies, Field Groups +~+~+ */
 
 // Load custom post types
-require 'includes/posttypes.php'; // wip
+require 'includes/posttypes.php';
 
 // Load custom taxonomies
-require 'includes/taxonomies.php'; // wip
+require 'includes/taxonomies.php';
 
 // Load ACF field groups hard-coded as PHP
 require 'includes/acf-field-groups.php'; // wip
