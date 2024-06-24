@@ -35,6 +35,9 @@ require 'includes/acf-restrict-access.php';
 
 // Display and template helpers
 require 'includes/template-tags.php';
+	
+	// Load ACF field groups hard-coded as PHP
+	require 'acf-field-groups.php';
 
 // Post types, taxonomies, field groups
 require 'includes/cpts.php';
