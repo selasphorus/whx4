@@ -37,16 +37,16 @@ require 'includes/acf-restrict-access.php';
 require 'includes/template-tags.php';
 	
 	// Load ACF field groups hard-coded as PHP
-	require 'acf-field-groups.php';
+	require 'includes/acf-field-groups.php';
 
 // Post types, taxonomies, field groups
-//require 'includes/cpts.php';
+require 'includes/cpts.php';
 
 // Load custom post types
-	require 'posttypes.php';
+//require 'posttypes.php';
 
-	// Load custom taxonomies
-	require 'taxonomies.php';
+// Load custom taxonomies
+//require 'taxonomies.php';
 
 /* +~+~+ Optional Modules +~+~+ */
 
