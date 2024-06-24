@@ -13,7 +13,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 
 /* +~+~+  +~+~+ */
 
-function whx4_cpts_and_field_groups {
+function whx4_cpts_and_field_groups() {
 
 	// Load custom post types
 	require 'includes/posttypes.php';
