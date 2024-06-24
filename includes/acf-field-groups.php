@@ -865,7 +865,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_show_row',
+						'key' => 'field_whx4_personnel_show_row',
 						//'key' => 'field_5fc697d3bdf47',
 						'label' => 'Show row on front end?',
 						'name' => 'show_row',
@@ -900,7 +900,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_header_txt',
+						'key' => 'field_whx4_personnel_header_txt',
 						//'key' => 'field_648882d91c62f',
 						'label' => 'Header Text',
 						'name' => 'header_txt',
@@ -938,7 +938,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_role',
+						'key' => 'field_whx4_personnel_role',
 						//'key' => 'field_5f07163e0289f',
 						'label' => 'Role',
 						'name' => 'role',
@@ -978,7 +978,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_role_txt',
+						'key' => 'field_whx4_personnel_role_txt',
 						//'key' => 'field_5dd74c99a74b3',
 						'label' => 'Role (placeholder)',
 						'name' => 'role_txt',
@@ -1021,7 +1021,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_role_old',
+						'key' => 'field_whx4_personnel_role_old',
 						//'key' => 'field_5f074db904caa',
 						'label' => 'Role (old)',
 						'name' => 'role_old',
@@ -1032,11 +1032,11 @@ function whx4_register_field_groups() {
 						'conditional_logic' => array(
 							array(
 								array(
-									'field' => 'field_whx4_role_txt',
+									'field' => 'field_whx4_personnel_role_txt',
 									'operator' => '==empty',
 								),
 								array(
-									'field' => 'field_whx4_role',
+									'field' => 'field_whx4_personnel_role',
 									'operator' => '==empty',
 								),
 								array(
@@ -1071,7 +1071,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_person',
+						'key' => 'field_whx4_personnel_person',
 						//'key' => 'field_5ca37c2297392',
 						'label' => 'Person or Group/Ensemble',
 						'name' => 'person',
@@ -1082,7 +1082,7 @@ function whx4_register_field_groups() {
 						'conditional_logic' => array(
 							array(
 								array(
-									'field' => 'field_whx4_person_txt',
+									'field' => 'field_whx4_personnel_person_txt',
 									'operator' => '==empty',
 								),
 								array(
@@ -1129,7 +1129,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_person_txt',
+						'key' => 'field_whx4_personnel_person_txt',
 						//'key' => 'field_5db4a1cffec0d',
 						'label' => 'Person (placeholder)',
 						'name' => 'person_txt',
@@ -1140,7 +1140,7 @@ function whx4_register_field_groups() {
 						'conditional_logic' => array(
 							array(
 								array(
-									'field' => 'field_whx4_person',
+									'field' => 'field_whx4_personnel_person',
 									'operator' => '==empty',
 								),
 								array(
