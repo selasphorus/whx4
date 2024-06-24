@@ -36,22 +36,9 @@ require 'includes/acf-restrict-access.php';
 // Display and template helpers
 require 'includes/template-tags.php';
 
-/* +~+~+ Post Types, Taxonomies, Field Groups +~+~+ */
+// Post types, taxonomies, field groups
+require 'includes/cpts.php';
 
-// Load ACF field groups hard-coded as PHP
-require 'includes/acf-field-groups.php';
-
-// WIP: do this only after ACF init
-
-add_action( 'acf/init', 'whx4_cpts' );
-function whx4_cpts () {
-
-	// Load custom post types
-	require 'includes/posttypes.php';
-
-	// Load custom taxonomies
-	require 'includes/taxonomies.php';
-}
 
 /* +~+~+ Optional Modules +~+~+ */
 

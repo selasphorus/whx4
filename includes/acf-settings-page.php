@@ -1,6 +1,6 @@
 <?php
 /**
- * whx4 Options Page: "Site Settings"
+ * WHx4 Options Page: "Site Settings"
  *
  * @link https://www.advancedcustomfields.com/resources/options-page/
  */
