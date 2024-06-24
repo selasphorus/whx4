@@ -8,7 +8,6 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-
 // Get plugin options to determine which modules are active
 $options = get_option( 'whx4_settings' );
 if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
@@ -318,7 +317,7 @@ if ( in_array('events', $active_modules ) ) {
 		register_post_type( 'event_series', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_event_series' );
+	add_action( 'init', 'register_post_type_event_series' );
 
 }
 
