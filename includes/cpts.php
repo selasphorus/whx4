@@ -22,7 +22,7 @@ function whx4_cpts_and_field_groups() {
 	require 'taxonomies.php';
 	
 	// Load ACF field groups hard-coded as PHP
-	require 'acf-field-groups.php';
+	//require 'acf-field-groups.php';
 
 }
 

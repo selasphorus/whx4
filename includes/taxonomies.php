@@ -227,7 +227,7 @@ if ( in_array('events', $active_modules ) ) {
 		}
 		register_taxonomy( 'person_role', [ 'event', 'event_program' ], $args );
 	}
-	//add_action( 'init', 'register_taxonomy_person_role' );
+	add_action( 'init', 'register_taxonomy_person_role' );
 
 	// Custom Taxonomy: Program Label
 	function register_taxonomy_program_label() {
@@ -267,7 +267,7 @@ if ( in_array('events', $active_modules ) ) {
 		}
 		register_taxonomy( 'program_label', [ 'event', 'event_program' ], $args );
 	}
-	//add_action( 'init', 'register_taxonomy_program_label' );
+	add_action( 'init', 'register_taxonomy_program_label' );
 
 }
 
