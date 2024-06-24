@@ -38,6 +38,9 @@ require 'includes/template-tags.php';
 
 /* +~+~+ Post Types, Taxonomies, Field Groups +~+~+ */
 
+// Load ACF field groups hard-coded as PHP
+require 'includes/acf-field-groups.php';
+
 // WIP: do this only after ACF init
 
 add_action( 'acf/init', 'whx4_cpts' );
@@ -48,9 +51,6 @@ function whx4_cpts () {
 
 	// Load custom taxonomies
 	require 'includes/taxonomies.php';
-
-	// Load ACF field groups hard-coded as PHP
-	require 'includes/acf-field-groups.php';
 }
 
 /* +~+~+ Optional Modules +~+~+ */
