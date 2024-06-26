@@ -162,7 +162,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'venue', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_venue' );
+	add_action( 'init', 'register_post_type_venue' );
 
 }
 
