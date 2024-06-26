@@ -44,7 +44,7 @@ if ( in_array('people', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'person_category' ],
 		);
-		/*if ( custom_caps() ) {
+		/*if ( whx4_custom_caps() ) {
 			$cap = 'person';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -84,7 +84,7 @@ if ( in_array('people', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'person_title' ],
 		);
-		/*if ( custom_caps() ) {
+		/*if ( whx4_custom_caps() ) {
 			$cap = 'person';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -127,7 +127,7 @@ if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_module
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'group_category' ],
 		);
-		/*if ( custom_caps() ) {
+		/*if ( whx4_custom_caps() ) {
 			$cap = 'group';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -170,7 +170,7 @@ if ( in_array('places', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'venue_category' ],
 		);
-		if ( custom_caps() ) {
+		if ( whx4_custom_caps() ) {
 			$cap = 'venue';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -216,7 +216,7 @@ if ( in_array('events', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'person_role' ],
 		);
-		if ( custom_caps() ) {
+		if ( whx4_custom_caps() ) {
 			$cap = 'event_program';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -256,7 +256,7 @@ if ( in_array('events', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'program_label' ],
 		);
-		if ( custom_caps() ) {
+		if ( whx4_custom_caps() ) {
 			$cap = 'event_program';
 			$args['capabilities'] = array(
 				'manage_terms'  =>   'manage_'.$cap.'_terms',

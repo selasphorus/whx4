@@ -13,14 +13,12 @@ $options = get_option( 'whx4_settings' );
 if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 //if ( isset($options['options_whx4_active_modules']) ) { $active_modules = unserialize($options['options_whx4_active_modules']); } else { $active_modules = array(); }
 
-if ( !function_exists( 'custom_caps' ) ) {
-	function custom_caps() {
-		$use_custom_caps = false;
-		if ( isset($options['use_custom_caps']) && !empty($options['use_custom_caps']) ) {
-			$use_custom_caps = true;
-		}
-		return $use_custom_caps;
+function whx4_custom_caps() {
+	$use_custom_caps = false;
+	if ( isset($options['use_custom_caps']) && !empty($options['use_custom_caps']) ) {
+		$use_custom_caps = true;
 	}
+	return $use_custom_caps;
 }
 
 // TODO: change "person" to "individual", to better include plants and animals? w/ ACF field groups based on category/species
@@ -28,8 +26,8 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 	// Person
 	function register_post_type_person() {
 
-		//if ( custom_caps() ) { $caps = array('person', 'people'); } else { $caps = "post"; }
-		if ( custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
+		//if ( whx4_custom_caps() ) { $caps = array('person', 'people'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'People', 'whx4' ),
@@ -77,7 +75,7 @@ if ( in_array('people', $active_modules ) ) {
 	// Group
 	function register_post_type_group() {
 
-		if ( custom_caps() ) { $caps = "group"; } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = "group"; } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Groups', 'whx4' ),
@@ -127,7 +125,7 @@ if ( in_array('places', $active_modules ) ) {
 	// Venue
 	function register_post_type_venue() {
 
-		if ( custom_caps() ) { $caps = array('venue', 'venues'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('venue', 'venues'); } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Venues', 'whx4' ),
@@ -178,7 +176,7 @@ if ( in_array('places', $active_modules ) ) {
 	// Address
 	function register_post_type_address() {
 
-		if ( custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Addresses', 'whx4' ),
@@ -229,7 +227,7 @@ if ( in_array('places', $active_modules ) ) {
 	// Building -- change to "Structure"? TBD
 	function register_post_type_building() {
 
-		if ( custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Buildings', 'whx4' ),
@@ -280,7 +278,7 @@ if ( in_array('events', $active_modules ) ) {
 	// Event Series
 	function register_post_type_event_series() {
 
-		if ( custom_caps() ) { $caps = array('event', 'events'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('event', 'events'); } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Event Series', 'whx4' ),
