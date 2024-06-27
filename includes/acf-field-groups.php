@@ -642,11 +642,11 @@ function whx4_register_field_groups() {
 		'show_in_rest' => 0,
 	) );
 	
-	// group_whx4_event
+	// group_whx4_pp
 	acf_add_local_field_group( array(
-		'key' => 'group_whx4_event',
+		'key' => 'group_whx4_p',
 		//'key' => 'group_5efa556eba291',
-		'title' => 'WHx4 Event: Additional Fields',
+		'title' => 'WHx4: Personnel & Program',
 		'fields' => array(
 			array(
 				'key' => 'field_whx4_show_all_fields',
@@ -1692,6 +1692,69 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 				),
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'event',
+				),
+			),
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'event-recurring',
+				),
+			),
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'project',
+				),
+			),
+		),
+		'menu_order' => 0,
+		'position' => 'acf_after_title',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => true,
+		'description' => '',
+		'show_in_rest' => 0,
+	) );
+	
+	// group_whx4_event
+	acf_add_local_field_group( array(
+		'key' => 'group_whx4_event',
+		//'key' => 'group_5efa556eba291',
+		'title' => 'WHx4 Event: Additional Fields',
+		'fields' => array(
+			array(
+				'key' => 'field_whx4_show_all_fields',
+				//'key' => 'field_606b4d8173944',
+				'label' => 'Show all fields',
+				'name' => 'show_all_fields',
+				'aria-label' => '',
+				'type' => 'true_false',
+				'instructions' => 'For CMS use *only*. Checking this box will disable the conditional showing/hiding of fields for this record, which is useful if you need to clear out obsolete values from hidden fields.',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'relevanssi_exclude' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 0,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
 			),
 			array(
 				'key' => 'field_whx4_ticketing_tab',
