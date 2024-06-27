@@ -23,6 +23,7 @@ function whx4_custom_caps() {
 
 // TODO: change "person" to "individual", to better include plants and animals? w/ ACF field groups based on category/species
 if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
+	
 	// Person
 	function register_post_type_person() {
 
@@ -66,13 +67,9 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 	
 	}
 	add_action( 'init', 'register_post_type_person' );
-	
-}
 
-// TODO: Figure out how to allow for individual sites to customize labels -- e.g. "Ensembles" for STC(?)
-//if ( in_array('groups', $active_modules ) ) {
-if ( in_array('people', $active_modules ) ) {
 	// Group
+	// TODO: Figure out how to allow for individual sites to customize labels -- e.g. "Ensembles" for STC(?)
 	function register_post_type_group() {
 
 		if ( whx4_custom_caps() ) { $caps = "group"; } else { $caps = "post"; }
@@ -113,6 +110,50 @@ if ( in_array('people', $active_modules ) ) {
 	
 	}
 	add_action( 'init', 'register_post_type_group' );
+	
+	if ( whx4_queenbee() ) {
+		// Roster -- WIP
+		function register_post_type_roster() {
+
+			if ( whx4_custom_caps() ) { $caps = "roster"; } else { $caps = "post"; }
+			
+			$labels = array(
+				'name' => __( 'Rosters', 'whx4' ),
+				'singular_name' => __( 'Roster', 'whx4' ),
+				'add_new' => __( 'New Roster', 'whx4' ),
+				'add_new_item' => __( 'Add New Roster', 'whx4' ),
+				'edit_item' => __( 'Edit Roster', 'whx4' ),
+				'new_item' => __( 'New Roster', 'whx4' ),
+				'view_item' => __( 'View Roster', 'whx4' ),
+				'search_items' => __( 'Search Rosters', 'whx4' ),
+				'not_found' =>  __( 'No Rosters Found', 'whx4' ),
+				'not_found_in_trash' => __( 'No Rosters found in Trash', 'whx4' ),
+			);
+		
+			$args = array(
+				'labels' => $labels,
+				'public' => true,
+				'publicly_queryable'=> true,
+				'show_ui' 			=> true,
+				'show_in_menu'     	=> true,
+				'query_var'        	=> true,
+				'rewrite'			=> array( 'slug' => 'rosters' ), // permalink structure slug
+				'capability_type'	=> $caps,
+				'map_meta_cap' 		=> true,
+				'has_archive'  		=> true,
+				'hierarchical' 		=> true,
+				//'menu_icon'			=> 'dashicons-groups',
+				'menu_position'		=> null,
+				'supports' 			=> array( 'title', 'author', 'thumbnail', 'editor', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ), // 
+				'taxonomies'		=> array( 'admin_tag' ), //, 'group_category'
+				'show_in_rest'		=> false,    
+			);
+	
+			register_post_type( 'roster', $args );
+		
+		}
+		add_action( 'init', 'register_post_type_roster' );
+	}
 }
 
 

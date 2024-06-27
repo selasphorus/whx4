@@ -19,6 +19,21 @@ define( 'whx4_PLUGIN_DIR', __DIR__ );
 define( 'whx4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'whx4_PLUGIN_BLOCKS', whx4_PLUGIN_DIR . '/blocks/' );
 
+/* +~+~+ *** +~+~+ */
+
+// Function to check for dev/admin user
+function whx4_queenbee() {
+	$current_user = wp_get_current_user();
+	$username = $current_user->user_login;
+	$useremail = $current_user->user_email;
+	//
+    if ( $username == 'stcdev' || $useremail == "birdhive@gmail.com" ) {
+    	return true;
+    } else {
+    	return false;
+    }
+}
+
 /* +~+~+ ACF +~+~+ */
 
 // Set custom load & save JSON points for ACF sync
@@ -36,8 +51,8 @@ require 'includes/acf-restrict-access.php';
 // Display and template helpers
 require 'includes/template-tags.php';
 	
-	// Load ACF field groups hard-coded as PHP
-	require 'includes/acf-field-groups.php';
+// Load ACF field groups hard-coded as PHP
+require 'includes/acf-field-groups.php';
 
 // Post types, taxonomies, field groups
 require 'includes/cpts.php';

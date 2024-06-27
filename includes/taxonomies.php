@@ -181,7 +181,7 @@ if ( in_array('places', $active_modules ) ) {
 		}
 		register_taxonomy( 'venue_category', [ 'venue' ], $args );
 	}
-	//add_action( 'init', 'register_taxonomy_venue_category' );
+	add_action( 'init', 'register_taxonomy_venue_category' );
 }
 
 
