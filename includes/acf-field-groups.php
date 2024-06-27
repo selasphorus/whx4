@@ -1734,7 +1734,7 @@ function whx4_register_field_groups() {
 		//'key' => 'group_5efa556eba291',
 		'title' => 'WHx4 Event: Additional Fields',
 		'fields' => array(
-			array(
+			/*array(
 				'key' => 'field_whx4_show_all_fields',
 				//'key' => 'field_606b4d8173944',
 				'label' => 'Show all fields',
@@ -1755,7 +1755,7 @@ function whx4_register_field_groups() {
 				'ui' => 0,
 				'ui_on_text' => '',
 				'ui_off_text' => '',
-			),
+			),*/
 			array(
 				'key' => 'field_whx4_series_tab',
 				'label' => 'Event Series',
