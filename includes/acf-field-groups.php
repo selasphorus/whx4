@@ -1814,7 +1814,6 @@ function whx4_register_field_groups() {
 				'bidirectional' => 0,
 				'bidirectional_target' => array(),
 			),
-		),
 			array(
 				'key' => 'field_whx4_show_all_fields',
 				//'key' => 'field_606b4d8173944',
