@@ -1292,7 +1292,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_items_show_row',
+						'key' => 'field_whx4_program_show_row',
 						//'key' => 'field_5fc691294bd5d',
 						'label' => 'Show row on front end?',
 						'name' => 'show_row',
@@ -1357,7 +1357,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					/*array(
-						'key' => 'field_whx4_show_item_label',
+						'key' => 'field_whx4_program_show_item_label',
 						//'key' => 'field_61e7118ce01da',
 						'label' => 'Show the item label?',
 						'name' => 'show_item_label',
@@ -1385,7 +1385,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					/*array(
-						'key' => 'field_whx4_show_item_title',
+						'key' => 'field_whx4_program_show_item_title',
 						//'key' => 'field_606b69d4ee6e5',
 						'label' => 'Show the item title?',
 						'name' => 'show_item_title',
@@ -1413,7 +1413,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					array(
-						'key' => 'field_whx4_item_label',
+						'key' => 'field_whx4_program_item_label',
 						//'key' => 'field_5f072115a9b59',
 						'label' => 'Item Label',
 						'name' => 'item_label',
@@ -1460,7 +1460,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_item_label_txt',
+						'key' => 'field_whx4_program_item_label_txt',
 						//'key' => 'field_5e35f1cbd325b',
 						'label' => 'Item Label (placeholder)',
 						'name' => 'item_label_txt',
