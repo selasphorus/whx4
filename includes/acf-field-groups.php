@@ -25,7 +25,8 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Person: Additional Fields',
 		'fields' => array(
 			array(
-				'key'	=> 'field_whx4_person_basics_tab',
+				'key'	=>	'field_whx4_64b065b9a96c5',
+				//'key'	=>	'field_whx4_person_basics_tab',
 				//'key' => 'field_64b065b9a96c5',
 				'label' => 'Person Basics',
 				'name' => 'person_basics_tab',
@@ -45,7 +46,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_first_name',
+				'key'	=>	'field_whx4_624775c6b621b',
+				//'key'	=>	'field_whx4_first_name',
 				//'key' => 'field_624775c6b621b',
 				'label' => 'First Name',
 				'name' => 'first_name',
@@ -66,7 +68,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_middle_name',
+				'key'	=>	'field_whx4_624775d1b621c',
+				//'key'	=>	'field_whx4_middle_name',
 				//'key' => 'field_624775d1b621c',
 				'label' => 'Middle Name',
 				'name' => 'middle_name',
@@ -88,7 +91,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_last_name',
+				'key'	=>	'field_whx4_624775dbb621d',
+				//'key'	=>	'field_whx4_last_name',
 				//'key' => 'field_624775dbb621d',
 				'label' => 'Last Name',
 				'name' => 'last_name',
@@ -109,7 +113,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_initials',
+				'key'	=>	'field_whx4_624775e3b621e',
+				//'key'	=>	'field_whx4_initials',
 				//'key' => 'field_624775e3b621e',
 				'label' => 'Initials',
 				'name' => 'initials',
@@ -131,7 +136,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_prefix',
+				'key'	=>	'field_whx4_624775eab621f',
+				//'key'	=>	'field_whx4_prefix',
 				//'key' => 'field_624775eab621f',
 				'label' => 'Prefix',
 				'name' => 'prefix',
@@ -152,7 +158,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_suffix',
+				'key'	=>	'field_whx4_624775eeb6220',
+				//'key'	=>	'field_whx4_suffix',
 				//'key' => 'field_624775eeb6220',
 				'label' => 'Suffix',
 				'name' => 'suffix',
@@ -173,7 +180,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_job_title',
+				'key'	=>	'field_whx4_624775f4b6221',
+				//'key'	=>	'field_whx4_job_title',
 				//'key' => 'field_624775f4b6221',
 				'label' => 'Job Title',
 				'name' => 'job_title',
@@ -194,7 +202,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_website',
+				'key'	=>	'field_whx4_624775f9b6222',
+				//'key'	=>	'field_whx4_website',
 				//'key' => 'field_624775f9b6222',
 				'label' => 'Website',
 				'name' => 'website',
@@ -212,7 +221,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_email_address',
+				'key'	=>	'field_whx4_62477603b6223',
+				//'key'	=>	'field_whx4_email_address',
 				//'key' => 'field_62477603b6223',
 				'label' => 'Email Address',
 				'name' => 'email_address',
@@ -232,7 +242,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_phone_number',
+				'key'	=>	'field_whx4_6247760db6224',
+				//'key'	=>	'field_whx4_phone_number',
 				//'key' => 'field_6247760db6224',
 				'label' => 'Phone Number',
 				'name' => 'phone_number',
@@ -253,7 +264,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_birth_year',
+				'key'	=>	'field_whx4_6247761bb6225',
+				//'key'	=>	'field_whx4_birth_year',
 				//'key' => 'field_6247761bb6225',
 				'label' => 'Birth Year',
 				'name' => 'birth_year',
@@ -274,7 +286,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_death_year',
+				'key'	=>	'field_whx4_62477625b6226',
+				//'key'	=>	'field_whx4_death_year',
 				//'key' => 'field_62477625b6226',
 				'label' => 'Death Year',
 				'name' => 'death_year',
@@ -295,7 +308,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_dates',
+				'key'	=>	'field_whx4_62477629b6227',
+				//'key'	=>	'field_whx4_dates',
 				//'key' => 'field_62477629b6227',
 				'label' => 'Dates',
 				'name' => 'dates',
@@ -316,7 +330,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_user_account',
+				'key'	=>	'field_whx4_6247762db6228',
+				//'key'	=>	'field_whx4_user_account',
 				//'key' => 'field_6247762db6228',
 				'label' => 'User Account',
 				'name' => 'user_account',
@@ -337,7 +352,8 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key'	=> 'field_whx4_special_name',
+				'key'	=>	'field_whx4_64876136e25a3',
+				//'key'	=>	'field_whx4_special_name',
 				//'key' => 'field_64876136e25a3',
 				'label' => 'Special Name',
 				'name' => 'special_name',
@@ -359,7 +375,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_media_tab',
+				'key'	=>	'field_whx4_64b065e9a96c7',
+				//'key'	=>	'field_whx4_media_tab',
 				//'key' => 'field_64b065e9a96c7',
 				'label' => 'Media',
 				'name' => 'media_tab',
@@ -379,7 +396,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_image_gallery',
+				'key'	=>	'field_whx4_64b06589b33da',
+				//'key'	=>	'field_whx4_image_gallery',
 				//'key' => 'field_64b06589b33da',
 				'label' => 'Image Gallery',
 				'name' => 'image_gallery',
@@ -409,7 +427,8 @@ function whx4_register_field_groups() {
 				'preview_size' => 'medium',
 			),
 			array(
-				'key'	=> 'field_whx4_notes_tab',
+				'key'	=>	'field_whx4_64b065d2a96c6',
+				//'key'	=>	'field_whx4_notes_tab',
 				//'key' => 'field_64b065d2a96c6',
 				'label' => 'Notes',
 				'name' => 'notes_tab',
@@ -429,7 +448,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_notes',
+				'key'	=>	'field_whx4_6247763bb6229',
+				//'key'	=>	'field_whx4_notes',
 				//'key' => 'field_6247763bb6229',
 				'label' => 'Notes',
 				'name' => 'notes',
@@ -450,7 +470,8 @@ function whx4_register_field_groups() {
 				'new_lines' => '',
 			),
 			array(
-				'key'	=> 'field_whx4_affiliations_tab',
+				'key'	=>	'field_whx4_664c8a5fcb582',
+				//'key'	=>	'field_whx4_affiliations_tab',
 				//'key' => 'field_664c8a5fcb582',
 				'label' => 'Affiliations',
 				'name' => 'affiliations_tab',
@@ -470,7 +491,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key'	=> 'field_whx4_affiliations',
+				'key'	=>	'field_whx4_664c8a72cb583',
+				//'key'	=>	'field_whx4_affiliations',
 				//'key' => 'field_664c8a72cb583',
 				'label' => 'Affiliations',
 				'name' => 'affiliations',
@@ -494,7 +516,8 @@ function whx4_register_field_groups() {
 				'rows_per_page' => 20,
 				'sub_fields' => array(
 					array(
-						'key'	=> 'field_whx4_affiliations_role',
+						'key'	=>	'field_whx4_664c8aa2cb585',
+						//'key'	=>	'field_whx4_affiliations_role',
 						//'key' => 'field_664c8aa2cb585',
 						'label' => 'Role',
 						'name' => 'role',
@@ -522,7 +545,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
-						'key'	=> 'field_whx4_affiliations_group',
+						'key'	=>	'field_whx4_664c8a86cb584',
+						//'key'	=>	'field_whx4_affiliations_group',
 						//'key' => 'field_664c8a86cb584',
 						'label' => 'Group',
 						'name' => 'group',
@@ -551,7 +575,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
-						'key'	=> 'field_whx4_affiliations_dates',
+						'key'	=>	'field_whx4_664c8bd2f2841',
+						//'key'	=>	'field_whx4_affiliations_dates',
 						//'key' => 'field_664c8bd2f2841',
 						'label' => 'Dates',
 						'name' => 'dates',
@@ -603,7 +628,8 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Group: Additional Fields',
 		'fields' => array(
 			array(
-				'key'	=> 'field_whx4_group_website',
+				'key'	=>	'field_whx4_665a0045f05e9',
+				//'key'	=>	'field_whx4_group_website',
 				//'key' => 'field_665a0045f05e9',
 				'label' => 'Primary Website',
 				'name' => 'website',
@@ -649,7 +675,8 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4: Personnel & Program',
 		'fields' => array(
 			array(
-				'key' => 'field_whx4_show_all_fields',
+				'key'	=>	'field_whx4_606b4d8173944',
+				//'key'	=>	'field_whx4_show_all_fields',
 				//'key' => 'field_606b4d8173944',
 				'label' => 'Show all fields',
 				'name' => 'show_all_fields',
@@ -671,7 +698,8 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_program_options_tab',
+				'key'	=>	'field_whx4_62d58e52c3e73',
+				//'key'	=>	'field_whx4_program_options_tab',
 				//'key' => 'field_62d58e52c3e73',
 				'label' => 'Program Options',
 				'name' => 'program_options_tab',
@@ -690,7 +718,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_program_order',
+				'key'	=>	'field_whx4_62d58d97c3e70',
+				//'key'	=>	'field_whx4_program_order',
 				//'key' => 'field_62d58d97c3e70',
 				'label' => 'Program Order',
 				'name' => 'program_order',
@@ -716,7 +745,8 @@ function whx4_register_field_groups() {
 				'save_other_choice' => 0,
 			),
 			array(
-				'key' => 'field_whx4_program_type',
+				'key'	=>	'field_whx4_62d58ddac3e71',
+				//'key'	=>	'field_whx4_program_type',
 				//'key' => 'field_62d58ddac3e71',
 				'label' => 'Program Type',
 				'name' => 'program_type',
@@ -743,7 +773,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_program_layout',
+				'key'	=>	'field_whx4_62d58e1fc3e72',
+				//'key'	=>	'field_whx4_program_layout',
 				//'key' => 'field_62d58e1fc3e72',
 				'label' => 'Program Layout',
 				'name' => 'program_layout',
@@ -770,7 +801,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_personnel_tab',
+				'key'	=>	'field_whx4_61cb8e891b351',
+				//'key'	=>	'field_whx4_personnel_tab',
 				//'key' => 'field_61cb8e891b351',
 				'label' => 'Personnel',
 				'name' => 'personnel_tab',
@@ -789,7 +821,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_personnel_header',
+				'key'	=>	'field_whx4_62ebf3e9db2bf',
+				//'key'	=>	'field_whx4_personnel_header',
 				//'key' => 'field_62ebf3e9db2bf',
 				'label' => 'Personnel Header',
 				'name' => 'personnel_header',
@@ -810,7 +843,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key' => 'field_whx4_personnel',
+				'key'	=>	'field_whx4_5ca37c2294f61',
+				//'key'	=>	'field_whx4_personnel',
 				//'key' => 'field_5ca37c2294f61',
 				'label' => 'Event Personnel',
 				'name' => 'personnel',
@@ -834,7 +868,8 @@ function whx4_register_field_groups() {
 				'rows_per_page' => 20,
 				'sub_fields' => array(
 					array(
-						'key' => 'field_whx4_personnel_row_type',
+						'key'	=>	'field_whx4_64821af3cf797',
+						//'key'	=>	'field_whx4_personnel_row_type',
 						//'key' => 'field_64821af3cf797',
 						'label' => 'Row Type',
 						'name' => 'row_type',
@@ -865,7 +900,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_show_row',
+						'key'	=>	'field_whx4_5fc697d3bdf47',
+						//'key'	=>	'field_whx4_personnel_show_row',
 						//'key' => 'field_5fc697d3bdf47',
 						'label' => 'Show row on front end?',
 						'name' => 'show_row',
@@ -900,7 +936,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_header_txt',
+						'key'	=>	'field_whx4_648882d91c62f',
+						//'key'	=>	'field_whx4_personnel_header_txt',
 						//'key' => 'field_648882d91c62f',
 						'label' => 'Header Text',
 						'name' => 'header_txt',
@@ -938,7 +975,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_role',
+						'key'	=>	'field_whx4_5f07163e0289f',
+						//'key'	=>	'field_whx4_personnel_role',
 						//'key' => 'field_5f07163e0289f',
 						'label' => 'Role',
 						'name' => 'role',
@@ -978,7 +1016,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_role_txt',
+						'key'	=>	'field_whx4_5dd74c99a74b3',
+						//'key'	=>	'field_whx4_personnel_role_txt',
 						//'key' => 'field_5dd74c99a74b3',
 						'label' => 'Role (placeholder)',
 						'name' => 'role_txt',
@@ -1021,7 +1060,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_role_old',
+						'key'	=>	'field_whx4_5f074db904caa',
+						//'key'	=>	'field_whx4_personnel_role_old',
 						//'key' => 'field_5f074db904caa',
 						'label' => 'Role (old)',
 						'name' => 'role_old',
@@ -1071,7 +1111,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_person',
+						'key'	=>	'field_whx4_5ca37c2297392',
+						//'key'	=>	'field_whx4_personnel_person',
 						//'key' => 'field_5ca37c2297392',
 						'label' => 'Person or Group/Ensemble',
 						'name' => 'person',
@@ -1129,7 +1170,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_person_txt',
+						'key'	=>	'field_whx4_5db4a1cffec0d',
+						//'key'	=>	'field_whx4_personnel_person_txt',
 						//'key' => 'field_5db4a1cffec0d',
 						'label' => 'Person (placeholder)',
 						'name' => 'person_txt',
@@ -1176,7 +1218,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_personnel',
 					),
 					array(
-						'key' => 'field_whx4_personnel_url',
+						'key'	=>	'field_whx4_62ea94927dcc0',
+						//'key'	=>	'field_whx4_personnel_url',
 						//'key' => 'field_62ea94927dcc0',
 						'label' => 'Personnel URL',
 						'name' => 'personnel_url',
@@ -1197,7 +1240,8 @@ function whx4_register_field_groups() {
 				),
 			),
 			array(
-				'key' => 'field_whx4_program_tab',
+				'key'	=>	'field_whx4_61cb8ede32983',
+				//'key'	=>	'field_whx4_program_tab',
 				//'key' => 'field_61cb8ede32983',
 				'label' => 'Program/Service Order',
 				'name' => 'program_tab',
@@ -1216,7 +1260,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_program_items_header',
+				'key'	=>	'field_whx4_62ebf3fbdb2c0',
+				//'key'	=>	'field_whx4_program_items_header',
 				//'key' => 'field_62ebf3fbdb2c0',
 				'label' => 'Program Items Header',
 				'name' => 'program_items_header',
@@ -1237,7 +1282,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key' => 'field_whx4_program_items',
+				'key'	=>	'field_whx4_5ca37044a92cc',
+				//'key'	=>	'field_whx4_program_items',
 				//'key' => 'field_5ca37044a92cc',
 				'label' => 'Program Items',
 				'name' => 'program_items',
@@ -1260,7 +1306,8 @@ function whx4_register_field_groups() {
 				'rows_per_page' => 20,
 				'sub_fields' => array(
 					array(
-						'key' => 'field_whx4_program_row_type',
+						'key'	=>	'field_whx4_62eacaf65f6b6',
+						//'key'	=>	'field_whx4_program_row_type',
 						//'key' => 'field_62eacaf65f6b6',
 						'label' => 'Row Type',
 						'name' => 'row_type',
@@ -1292,7 +1339,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_show_row',
+						'key'	=>	'field_whx4_5fc691294bd5d',
+						//'key'	=>	'field_whx4_program_show_row',
 						//'key' => 'field_5fc691294bd5d',
 						'label' => 'Show row on front end?',
 						'name' => 'show_row',
@@ -1334,7 +1382,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					/*array(
-						'key' => 'field_whx4_program_is_header',
+						'key'	=>	'field_whx4_5dabb3bf460cb',
+						//'key'	=>	'field_whx4_program_is_header',
 						//'key' => 'field_5dabb3bf460cb',
 						'label' => 'Header?',
 						'name' => 'is_header',
@@ -1357,7 +1406,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					/*array(
-						'key' => 'field_whx4_program_show_item_label',
+						'key'	=>	'field_whx4_61e7118ce01da',
+						//'key'	=>	'field_whx4_program_show_item_label',
 						//'key' => 'field_61e7118ce01da',
 						'label' => 'Show the item label?',
 						'name' => 'show_item_label',
@@ -1385,7 +1435,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					/*array(
-						'key' => 'field_whx4_program_show_item_title',
+						'key'	=>	'field_whx4_606b69d4ee6e5',
+						//'key'	=>	'field_whx4_program_show_item_title',
 						//'key' => 'field_606b69d4ee6e5',
 						'label' => 'Show the item title?',
 						'name' => 'show_item_title',
@@ -1413,7 +1464,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),*/
 					array(
-						'key' => 'field_whx4_program_item_label',
+						'key'	=>	'field_whx4_5f072115a9b59',
+						//'key'	=>	'field_whx4_program_item_label',
 						//'key' => 'field_5f072115a9b59',
 						'label' => 'Item Label',
 						'name' => 'item_label',
@@ -1460,7 +1512,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_item_label_txt',
+						'key'	=>	'field_whx4_5e35f1cbd325b',
+						//'key'	=>	'field_whx4_program_item_label_txt',
 						//'key' => 'field_5e35f1cbd325b',
 						'label' => 'Item Label (placeholder)',
 						'name' => 'item_label_txt',
@@ -1510,7 +1563,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_item',
+						'key'	=>	'field_whx4_5ca37044aafbb',
+						//'key'	=>	'field_whx4_program_item',
 						//'key' => 'field_5ca37044aafbb',
 						'label' => 'Program Item',
 						'name' => 'program_item',
@@ -1566,7 +1620,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_item_txt',
+						'key'	=>	'field_whx4_5db1bbf21b703',
+						//'key'	=>	'field_whx4_program_item_txt',
 						//'key' => 'field_5db1bbf21b703',
 						'label' => 'Program Item (placeholder)',
 						'name' => 'program_item_txt',
@@ -1623,7 +1678,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_item_title_for_matching',
+						'key'	=>	'field_whx4_5e63ef849c7aa',
+						//'key'	=>	'field_whx4_program_item_title_for_matching',
 						//'key' => 'field_5e63ef849c7aa',
 						'label' => 'Program Item Title for Matching (TXT)',
 						'name' => 'program_item_title_for_matching',
@@ -1669,7 +1725,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_program_item_note',
+						'key'	=>	'field_whx4_637662633faf3',
+						//'key'	=>	'field_whx4_program_item_note',
 						//'key' => 'field_637662633faf3',
 						'label' => 'Program Item Note',
 						'name' => 'program_item_note',
@@ -1735,7 +1792,8 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Event: Additional Fields',
 		'fields' => array(
 			/*array(
-				'key' => 'field_whx4_show_all_fields',
+				'key'	=>	'field_whx4_606b4d8173944',
+				//'key'	=>	'field_whx4_show_all_fields',
 				//'key' => 'field_606b4d8173944',
 				'label' => 'Show all fields',
 				'name' => 'show_all_fields',
@@ -1775,7 +1833,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_event_series_events',
+				'key'	=>	'field_whx4_632a27ff8450f',
+				//'key'	=>	'field_whx4_event_series_events',
 				//'key' => 'field_632a27ff8450f',
 				'label' => 'Event Series (v2 bidirectional)',
 				'name' => 'series_events',
@@ -1806,7 +1865,8 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_event_series',
+				'key'	=>	'field_whx4_627bf1670a5a7',
+				//'key'	=>	'field_whx4_event_series',
 				//'key' => 'field_627bf1670a5a7',
 				'label' => 'Event Series (v1)',
 				'name' => 'event_series',
@@ -1837,7 +1897,8 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_event_ticketing_tab',
+				'key'	=>	'field_whx4_61cb8ef332984',
+				//'key'	=>	'field_whx4_event_ticketing_tab',
 				//'key' => 'field_61cb8ef332984',
 				'label' => 'Ticketing',
 				'name' => 'ticketing_tab',
@@ -1856,7 +1917,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_show_ticketing_info',
+				'key'	=>	'field_whx4_6313b5b1a968b',
+				//'key'	=>	'field_whx4_show_ticketing_info',
 				//'key' => 'field_6313b5b1a968b',
 				'label' => 'Show Ticketing Info?',
 				'name' => 'show_ticketing_info',
@@ -1877,7 +1939,8 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_ticket_info_header',
+				'key'	=>	'field_whx4_63125380297ab',
+				//'key'	=>	'field_whx4_ticket_info_header',
 				//'key' => 'field_63125380297ab',
 				'label' => 'Ticket Info Header',
 				'name' => 'ticket_info_header',
@@ -1898,7 +1961,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key' => 'field_whx4_ticket_info',
+				'key'	=>	'field_whx4_63125393297ac',
+				//'key'	=>	'field_whx4_ticket_info',
 				//'key' => 'field_63125393297ac',
 				'label' => 'Ticket Info',
 				'name' => 'ticket_info',
@@ -1919,7 +1983,8 @@ function whx4_register_field_groups() {
 				'delay' => 0,
 			),
 			array(
-				'key' => 'field_whx4_show_ticketing_urls',
+				'key'	=>	'field_whx4_631253b7297ad',
+				//'key'	=>	'field_whx4_show_ticketing_urls',
 				//'key' => 'field_631253b7297ad',
 				'label' => 'Show Ticketing URLs?',
 				'name' => 'show_ticketing_urls',
@@ -1940,7 +2005,8 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_ticket_urls',
+				'key'	=>	'field_whx4_62eaf8a23a21f',
+				//'key'	=>	'field_whx4_ticket_urls',
 				//'key' => 'field_62eaf8a23a21f',
 				'label' => 'Ticket URLs',
 				'name' => 'ticket_urls',
@@ -1962,7 +2028,8 @@ function whx4_register_field_groups() {
 				'rows_per_page' => 20,
 				'sub_fields' => array(
 					array(
-						'key' => 'field_whx4_ticket_url_link_text',
+						'key'	=>	'field_whx4_62eaf8e03a221',
+						//'key'	=>	'field_whx4_ticket_url_link_text',
 						//'key' => 'field_62eaf8e03a221',
 						'label' => 'Ticket URL Link Text',
 						'name' => 'ticket_url_link_text',
@@ -1984,7 +2051,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_ticket_urls',
 					),
 					array(
-						'key' => 'field_whx4_ovationtix_id',
+						'key'	=>	'field_whx4_63123f8f5da4a',
+						//'key'	=>	'field_whx4_ovationtix_id',
 						//'key' => 'field_63123f8f5da4a',
 						'label' => 'OvationTix Event ID',
 						'name' => 'ovationtix_id',
@@ -2006,7 +2074,8 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_ticket_urls',
 					),
 					array(
-						'key' => 'field_whx4_ticket_url',
+						'key'	=>	'field_whx4_62eaf8c83a220',
+						//'key'	=>	'field_whx4_ticket_url',
 						//'key' => 'field_62eaf8c83a220',
 						'label' => 'Ticket URL',
 						'name' => 'ticket_url',
@@ -2027,7 +2096,8 @@ function whx4_register_field_groups() {
 				),
 			),
 			array(
-				'key' => 'field_whx4_primary_ticket_url',
+				'key'	=>	'field_whx4_5efa5605dda35',
+				//'key'	=>	'field_whx4_primary_ticket_url',
 				//'key' => 'field_5efa5605dda35',
 				'label' => 'Primary Ticket URL',
 				'name' => 'ticket_url',
@@ -2045,7 +2115,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_primary_ticket_url_link_text',
+				'key'	=>	'field_whx4_5efa5613dda36',
+				//'key'	=>	'field_whx4_primary_ticket_url_link_text',
 				//'key' => 'field_5efa5613dda36',
 				'label' => 'Primary Ticket URL Link Text',
 				'name' => 'ticket_url_link_text',
@@ -2073,7 +2144,8 @@ function whx4_register_field_groups() {
 				'maxlength' => '',
 			),
 			array(
-				'key' => 'field_whx4_bookings_tab',
+				'key'	=>	'field_whx4_63e69359ec29f',
+				//'key'	=>	'field_whx4_bookings_tab',
 				//'key' => 'field_63e69359ec29f',
 				'label' => 'EM Booking Customizations',
 				'name' => 'bookings_tab',
@@ -2093,7 +2165,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_booking_form_display',
+				'key'	=>	'field_whx4_63e6936eec2a0',
+				//'key'	=>	'field_whx4_booking_form_display',
 				//'key' => 'field_63e6936eec2a0',
 				'label' => 'Booking Form Display',
 				'name' => 'booking_form_display',
@@ -2121,7 +2194,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_booking_type',
+				'key'	=>	'field_whx4_63e69397ec2a1',
+				//'key'	=>	'field_whx4_booking_type',
 				//'key' => 'field_63e69397ec2a1',
 				'label' => 'Booking Type',
 				'name' => 'booking_type',
@@ -2149,7 +2223,8 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_booking_button_text',
+				'key'	=>	'field_whx4_63e6da26b1b40',
+				//'key'	=>	'field_whx4_booking_button_text',
 				//'key' => 'field_63e6da26b1b40',
 				'label' => 'Booking Button Text',
 				'name' => 'booking_button_text',
@@ -2171,7 +2246,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key' => 'field_whx4_booking_form_button_text',
+				'key'	=>	'field_whx4_63e6da8ecab77',
+				//'key'	=>	'field_whx4_booking_form_button_text',
 				//'key' => 'field_63e6da8ecab77',
 				'label' => 'Booking Form Button Text',
 				'name' => 'booking_form_button_text',
@@ -2201,7 +2277,8 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key' => 'field_whx4_event_other_tab',
+				'key'	=>	'field_whx4_61cb8f0132985',
+				//'key'	=>	'field_whx4_event_other_tab',
 				//'key' => 'field_61cb8f0132985',
 				'label' => 'Other',
 				'name' => 'other_tab',
@@ -2220,7 +2297,8 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_event_hide_day_titles',
+				'key'	=>	'field_whx4_5efa5626dda37',
+				//'key'	=>	'field_whx4_event_hide_day_titles',
 				//'key' => 'field_5efa5626dda37',
 				'label' => 'Hide Day Titles?',
 				'name' => 'hide_day_titles',
@@ -2241,7 +2319,8 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_event_title_uid',
+				'key'	=>	'field_whx4_5efa56750f99b',
+				//'key'	=>	'field_whx4_event_title_uid',
 				//'key' => 'field_5efa56750f99b',
 				'label' => 'Title UID',
 				'name' => 'title_uid',
@@ -2296,7 +2375,8 @@ function whx4_register_field_groups() {
 		'title' => 'WHX4 Event Series: Additional Fields',
 		'fields' => array(
 			array(
-				'key' => 'field_whx4_event_series_series_events',
+				'key'	=>	'field_whx4_62a36344e2998',
+				//'key'	=>	'field_whx4_event_series_series_events',
 				//'key' => 'field_62a36344e2998',
 				'label' => 'Related Events (v2 bidirectional)',
 				'name' => 'series_events',
@@ -2325,7 +2405,8 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_related_events',
+				'key'	=>	'field_whx4_627c002205d63',
+				//'key'	=>	'field_whx4_related_events',
 				//'key' => 'field_627c002205d63',
 				'label' => 'Related Events (v1)',
 				'name' => 'related_events',
@@ -2354,7 +2435,8 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_series_hide_day_titles',
+				'key'	=>	'field_whx4_627c005e05d64',
+				//'key'	=>	'field_whx4_series_hide_day_titles',
 				//'key' => 'field_627c005e05d64',
 				'label' => 'Hide Day Titles?',
 				'name' => 'hide_day_titles',
@@ -2375,7 +2457,8 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_prepend_series_title',
+				'key'	=>	'field_whx4_627c008405d65',
+				//'key'	=>	'field_whx4_prepend_series_title',
 				//'key' => 'field_627c008405d65',
 				'label' => 'Prepend Series Title for Individual Events?',
 				'name' => 'prepend_series_title',
