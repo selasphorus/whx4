@@ -644,7 +644,7 @@ function whx4_register_field_groups() {
 	
 	// group_whx4_pp
 	acf_add_local_field_group( array(
-		'key' => 'group_whx4_p',
+		'key' => 'group_whx4_pnp',
 		//'key' => 'group_5efa556eba291',
 		'title' => 'WHx4: Personnel & Program',
 		'fields' => array(
@@ -1292,7 +1292,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					array(
-						'key' => 'field_whx4_show_row',
+						'key' => 'field_whx4_program_items_show_row',
 						//'key' => 'field_5fc691294bd5d',
 						'label' => 'Show row on front end?',
 						'name' => 'show_row',
@@ -1334,7 +1334,7 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_program_items',
 					),
 					/*array(
-						'key' => 'field_whx4_is_header',
+						'key' => 'field_whx4_program_is_header',
 						//'key' => 'field_5dabb3bf460cb',
 						'label' => 'Header?',
 						'name' => 'is_header',
@@ -2201,7 +2201,7 @@ function whx4_register_field_groups() {
 				'append' => '',
 			),
 			array(
-				'key' => 'field_whx4_other_tab',
+				'key' => 'field_whx4_event_other_tab',
 				//'key' => 'field_61cb8f0132985',
 				'label' => 'Other',
 				'name' => 'other_tab',
@@ -2241,7 +2241,7 @@ function whx4_register_field_groups() {
 				'ui_off_text' => '',
 			),
 			array(
-				'key' => 'field_whx4_title_uid',
+				'key' => 'field_whx4_event_title_uid',
 				//'key' => 'field_5efa56750f99b',
 				'label' => 'Title UID',
 				'name' => 'title_uid',
