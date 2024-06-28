@@ -1837,7 +1837,7 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_ticketing_tab',
+				'key' => 'field_whx4_event_ticketing_tab',
 				//'key' => 'field_61cb8ef332984',
 				'label' => 'Ticketing',
 				'name' => 'ticketing_tab',
@@ -2027,7 +2027,7 @@ function whx4_register_field_groups() {
 				),
 			),
 			array(
-				'key' => 'field_whx4_ticket_url',
+				'key' => 'field_whx4_primary_ticket_url',
 				//'key' => 'field_5efa5605dda35',
 				'label' => 'Primary Ticket URL',
 				'name' => 'ticket_url',
@@ -2045,7 +2045,7 @@ function whx4_register_field_groups() {
 				'placeholder' => '',
 			),
 			array(
-				'key' => 'field_whx4_ticket_url_link_text',
+				'key' => 'field_whx4_primary_ticket_url_link_text',
 				//'key' => 'field_5efa5613dda36',
 				'label' => 'Primary Ticket URL Link Text',
 				'name' => 'ticket_url_link_text',
@@ -2220,7 +2220,7 @@ function whx4_register_field_groups() {
 				'selected' => 0,
 			),
 			array(
-				'key' => 'field_whx4_hide_day_titles',
+				'key' => 'field_whx4_event_hide_day_titles',
 				//'key' => 'field_5efa5626dda37',
 				'label' => 'Hide Day Titles?',
 				'name' => 'hide_day_titles',
@@ -2354,7 +2354,7 @@ function whx4_register_field_groups() {
 				'bidirectional_target' => array(),
 			),
 			array(
-				'key' => 'field_whx4_hide_day_titles',
+				'key' => 'field_whx4_series_hide_day_titles',
 				//'key' => 'field_627c005e05d64',
 				'label' => 'Hide Day Titles?',
 				'name' => 'hide_day_titles',
