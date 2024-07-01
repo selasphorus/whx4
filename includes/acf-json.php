@@ -24,10 +24,10 @@ add_filter( 'acf/json/save_file_name', 'whx4_json_filename', 10, 3 );
  * @since 0.1.1
  */
 function whx4_json_load_paths( $paths ) {
-	$paths[] = whx4_PLUGIN_DIR . '/acf-json/field-groups';
-	$paths[] = whx4_PLUGIN_DIR . '/acf-json/options-pages';
-	$paths[] = whx4_PLUGIN_DIR . '/acf-json/post-types';
-	$paths[] = whx4_PLUGIN_DIR . '/acf-json/taxonomies';
+	$paths[] = WHX4_PLUGIN_DIR . '/acf-json/field-groups';
+	$paths[] = WHX4_PLUGIN_DIR . '/acf-json/options-pages';
+	$paths[] = WHX4_PLUGIN_DIR . '/acf-json/post-types';
+	$paths[] = WHX4_PLUGIN_DIR . '/acf-json/taxonomies';
 
 	return $paths;
 }
@@ -43,7 +43,7 @@ function whx4_json_load_paths( $paths ) {
  * @since 0.1.1
  */
 function whx4_json_save_path_for_post_types() {
-	return whx4_PLUGIN_DIR . '/acf-json/post-types';
+	return WHX4_PLUGIN_DIR . '/acf-json/post-types';
 }
 
 /**
@@ -57,7 +57,7 @@ function whx4_json_save_path_for_post_types() {
  * @since 0.1.1
  */
 function whx4_json_save_path_for_field_groups() {
-	return whx4_PLUGIN_DIR . '/acf-json/field-groups';
+	return WHX4_PLUGIN_DIR . '/acf-json/field-groups';
 }
 
 /**
@@ -71,7 +71,7 @@ function whx4_json_save_path_for_field_groups() {
  * @since 0.1.1
  */
 function whx4_json_save_path_for_taxonomies() {
-	return whx4_PLUGIN_DIR . '/acf-json/taxonomies';
+	return WHX4_PLUGIN_DIR . '/acf-json/taxonomies';
 }
 
 /**
@@ -85,7 +85,7 @@ function whx4_json_save_path_for_taxonomies() {
  * @since 0.1.1
  */
 function whx4_json_save_path_for_option_pages() {
-	return whx4_PLUGIN_DIR . '/acf-json/options-pages';
+	return WHX4_PLUGIN_DIR . '/acf-json/options-pages';
 }
 
 /**

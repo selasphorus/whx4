@@ -28,14 +28,14 @@ function whx4_blocks_register() {
 	 *   /block-two/block.json
 	 */
 	foreach ( $blocks as $block ) {
-		if ( file_exists( whx4_PLUGIN_BLOCKS . $block . '/block.json' ) ) {
+		if ( file_exists( WHX4_PLUGIN_BLOCKS . $block . '/block.json' ) ) {
 			/**
 			 * We register our block's with WordPress's handy
 			 * register_block_type();
 			 *
 			 * @link https://developer.wordpress.org/reference/functions/register_block_type/
 			 */
-			register_block_type( whx4_PLUGIN_BLOCKS . $block . '/block.json' );
+			register_block_type( WHX4_PLUGIN_BLOCKS . $block . '/block.json' );
 		}
 	}
 }
@@ -54,13 +54,13 @@ function whx4_get_blocks() {
 	$blocks  = get_option( 'whx4_blocks' );
 	$version = get_option( 'whx4_blocks_version' );
 
-	if ( empty( $blocks ) || version_compare( whx4_VERSION, $version ) || ( function_exists( 'wp_get_environment_type' ) && 'production' !== wp_get_environment_type() ) ) {
-		$blocks = scandir( whx4_PLUGIN_BLOCKS );
+	if ( empty( $blocks ) || version_compare( WHX4_VERSION, $version ) || ( function_exists( 'wp_get_environment_type' ) && 'production' !== wp_get_environment_type() ) ) {
+		$blocks = scandir( WHX4_PLUGIN_BLOCKS );
 		$blocks = array_values( array_diff( $blocks, array( '..', '.', '.DS_Store' ) ) );
 
 		// Update our options.
 		update_option( 'whx4_blocks', $blocks );
-		update_option( 'whx4_blocks_version', whx4_VERSION );
+		update_option( 'whx4_blocks_version', WHX4_VERSION );
 	}
 
 	return $blocks;

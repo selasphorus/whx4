@@ -14,10 +14,10 @@
  */
 
 // Define our handy constants.
-define( 'whx4_VERSION', '0.1.5' );
-define( 'whx4_PLUGIN_DIR', __DIR__ );
-define( 'whx4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'whx4_PLUGIN_BLOCKS', whx4_PLUGIN_DIR . '/blocks/' );
+define( 'WHX4_VERSION', '0.1.5' );
+define( 'WHX4_PLUGIN_DIR', __DIR__ );
+define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
 
 /* +~+~+ *** +~+~+ */
 
