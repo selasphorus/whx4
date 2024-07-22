@@ -77,38 +77,47 @@ require 'includes/cpts.php';
 $options = get_option( 'whx4_settings' );
 if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 //if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
-foreach ( $modules as $module ) {
-
-	// Load associated functions file, if any
-    $filepath = $plugin_path . 'modules/'.$module.'.php';
-    $arr_exclusions = array ( 'organizations', 'ensembles' );
-    if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
-    	if ( file_exists($filepath) ) { include_once( $filepath ); } //else { echo "module file $filepath not found"; }
-    }
+foreach ( $active_modules as $module ) {
     
+    $sub_modules = array();
     // Add module options page for adding featured image, page-top content, &c.
     $cpt_names = array(); // array because some modules include multiple post types
-    
-    // Which post types are associated with this module? Build array
+	
+	// Which post types are associated with this module? Build array
 	// Deal w/ modules whose names don't perfectly match their CPT names
 	if ( $module == "people" ) {
+		$sub_modules[] = "people";
+		$sub_modules[] = "groups";
 		$primary_cpt = "person";
 		$cpt_names[] = "person";
+		//$cpt_names[] = "group";
 	} else if ( $module == "places" ) {
+		$sub_modules[] = "venues";
 		$primary_cpt = "location";
 		$cpt_names[] = "location";
 		//$cpt_names[] = "building"; // address
 	} else if ( $module == "events" ) {
+		//$sub_modules[] = "events";
 		$primary_cpt = "event";
 		$cpt_names[] = "event";
 		$cpt_names[] = "event_series";
 	} else {
+		$sub_modules[] = $module;
 		$cpt_name = $module;
 		// Make it singular -- remove trailing "s"
 		if ( substr($cpt_name, -1) == "s" && $cpt_name != "press" ) { $cpt_name = substr($cpt_name, 0, -1); }
 		$primary_cpt = $cpt_name;
 		$cpt_names[] = $cpt_name;
 	}
+	
+	// Load associated functions file, if any
+	foreach ( $sub_modules as $sub_module ) {
+		$filepath = $plugin_path . 'modules/'.$sub_module.'.php';
+		$arr_exclusions = array ( 'organizations', 'ensembles' );
+		if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
+			if ( file_exists($filepath) ) { include_once( $filepath ); } //else { echo "module file $filepath not found"; }
+		}
+    }
     
 	if ( function_exists('acf_add_options_page') ) {
 		// Add module options page
