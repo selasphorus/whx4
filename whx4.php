@@ -83,7 +83,7 @@ foreach ( $modules as $module ) {
     $filepath = $plugin_path . 'modules/'.$module.'.php';
     $arr_exclusions = array ( 'organizations', 'ensembles' );
     if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
-    	if ( file_exists($filepath) ) { include_once( $filepath ); } else { echo "module file $filepath not found"; }
+    	if ( file_exists($filepath) ) { include_once( $filepath ); } //else { echo "module file $filepath not found"; }
     }
     
     // Add module options page for adding featured image, page-top content, &c.
