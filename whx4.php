@@ -112,10 +112,10 @@ foreach ( $active_modules as $module ) {
 	
 	// Load associated functions file, if any
 	foreach ( $sub_modules as $sub_module ) {
-		$filepath = $plugin_path . 'modules/'.$sub_module.'.php';
+		$filepath = WHX4_PLUGIN_DIR.'modules/'.$sub_module.'.php';
 		$arr_exclusions = array ( 'organizations', 'ensembles' );
 		if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
-			if ( file_exists($filepath) ) { require( $filepath ); } //else { echo "module file $filepath not found"; }
+			if ( file_exists($filepath) ) { require( $filepath ); } else { echo "WHx4 module file $filepath not found"; }
 		}
     }
     
