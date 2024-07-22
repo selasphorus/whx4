@@ -172,8 +172,8 @@ function display_group_personnel ( $args = array() ) {
 } // END function display_group_personnel ( $args = array() ) 
 
 
-add_shortcode('group_personnel', 'sdg_group_personnel');
-function sdg_group_personnel ( $atts = array() ) {
+add_shortcode('group_personnel', 'whx4_group_personnel');
+function whx4_group_personnel ( $atts = array() ) {
 
 	$info = "";
 	$ts_info = "";
