@@ -13,6 +13,14 @@
  * @package           whx4
  */
 
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+
+// Make sure we don't expose any info if called directly
+if ( !function_exists( 'add_action' ) ) {
+	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
+	exit;
+}
+
 // Define our handy constants.
 define( 'WHX4_VERSION', '0.1.5' );
 define( 'WHX4_PLUGIN_DIR', __DIR__ );
@@ -66,16 +74,14 @@ require 'includes/cpts.php';
 /* +~+~+ Optional Modules +~+~+ */
 
 // Get plugin options -- WIP
-//$options = get_option( 'whx4_settings' );
-//if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+$options = get_option( 'whx4_settings' );
+if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 //if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
-//get_field('whx4_active_modules', 'option');
-/*
 foreach ( $modules as $module ) {
 
 	// Load associated functions file, if any
     $filepath = $plugin_path . 'modules/'.$module.'.php';
-    $arr_exclusions = array ( 'admin_notes', 'data_tables', 'links', 'organizations', 'ensembles', 'organs', 'press', 'projects', 'sources' ); // , 'groups', 'newsletters', 'snippets', 'logbook', 'venues', 
+    $arr_exclusions = array ( 'organizations', 'ensembles' );
     if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
     	if ( file_exists($filepath) ) { include_once( $filepath ); } else { echo "module file $filepath not found"; }
     }
@@ -115,6 +121,5 @@ foreach ( $modules as $module ) {
 	}
 
 }
-*/
 
 ?>
