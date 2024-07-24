@@ -2754,7 +2754,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
