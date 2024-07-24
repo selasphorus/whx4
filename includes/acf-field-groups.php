@@ -2093,7 +2093,6 @@ function whx4_register_field_groups() {
 			),
 			array(
 				'key'	=>	'field_whx4_632a27ff8450f',
-				//'key'	=>	'field_whx4_event_series_events',
 				//'key' => 'field_632a27ff8450f',
 				'label' => 'Event Series (v2 bidirectional)',
 				'name' => 'event_series',
@@ -2970,7 +2969,6 @@ function whx4_register_field_groups() {
 		'fields' => array(
 			array(
 				'key'	=>	'field_whx4_62a36344e2998',
-				//'key'	=>	'field_whx4_event_series_series_events',
 				//'key' => 'field_62a36344e2998',
 				'label' => 'Related Events (v2 bidirectional)',
 				'name' => 'series_events',
