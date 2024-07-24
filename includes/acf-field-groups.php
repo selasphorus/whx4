@@ -2633,6 +2633,33 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Event: Legacy & Admin Fields',
 		'fields' => array(
 			array(
+				'key' => 'field_5de55b211b728',
+				'label' => 'Legacy Sidebar',
+				'name' => 'legacy_sidebar',
+				'aria-label' => '',
+				'type' => 'textarea',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5de5536875710',
+							'operator' => '!=empty',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'placeholder' => '',
+				'maxlength' => '',
+				'rows' => '',
+				'new_lines' => '',
+			),
+			array(
 				'key' => 'field_5de5536875710',
 				'label' => 'Legacy Event ID',
 				'name' => 'legacy_event_id',
@@ -2642,7 +2669,7 @@ function whx4_register_field_groups() {
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2671,7 +2698,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2682,33 +2709,6 @@ function whx4_register_field_groups() {
 				'min' => '',
 				'max' => '',
 				'step' => '',
-			),
-			array(
-				'key' => 'field_5de55b211b728',
-				'label' => 'Legacy Sidebar',
-				'name' => 'legacy_sidebar',
-				'aria-label' => '',
-				'type' => 'textarea',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => array(
-					array(
-						array(
-							'field' => 'field_5de5536875710',
-							'operator' => '!=empty',
-						),
-					),
-				),
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'default_value' => '',
-				'placeholder' => '',
-				'maxlength' => '',
-				'rows' => '',
-				'new_lines' => '',
 			),
 			array(
 				'key' => 'field_5de55bccea408',
@@ -2727,7 +2727,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2754,7 +2754,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2808,7 +2808,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2835,7 +2835,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2862,7 +2862,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2887,7 +2887,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
@@ -2914,7 +2914,7 @@ function whx4_register_field_groups() {
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '20',
 					'class' => '',
 					'id' => '',
 				),
