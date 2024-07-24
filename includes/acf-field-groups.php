@@ -2633,33 +2633,6 @@ function whx4_register_field_groups() {
 		'title' => 'WHx4 Event: Legacy & Admin Fields',
 		'fields' => array(
 			array(
-				'key' => 'field_5de55b211b728',
-				'label' => 'Legacy Sidebar',
-				'name' => 'legacy_sidebar',
-				'aria-label' => '',
-				'type' => 'textarea',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => array(
-					array(
-						array(
-							'field' => 'field_5de5536875710',
-							'operator' => '!=empty',
-						),
-					),
-				),
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'default_value' => '',
-				'placeholder' => '',
-				'maxlength' => '',
-				'rows' => '',
-				'new_lines' => '',
-			),
-			array(
 				'key' => 'field_5de5536875710',
 				'label' => 'Legacy Event ID',
 				'name' => 'legacy_event_id',
@@ -2923,6 +2896,33 @@ function whx4_register_field_groups() {
 				'ui' => 0,
 				'ui_on_text' => '',
 				'ui_off_text' => '',
+			),
+			array(
+				'key' => 'field_5de55b211b728',
+				'label' => 'Legacy Sidebar',
+				'name' => 'legacy_sidebar',
+				'aria-label' => '',
+				'type' => 'textarea',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5de5536875710',
+							'operator' => '!=empty',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'placeholder' => '',
+				'maxlength' => '',
+				'rows' => '',
+				'new_lines' => '',
 			),
 		),
 		'location' => array(
