@@ -17,7 +17,7 @@ if ( !function_exists( 'add_action' ) ) {
 function display_group_personnel ( $args = array() ) {
 
 	// TS/logging setup
-    $do_ts = true; 
+    $do_ts = devmode_active();
     $do_log = false;
     sdg_log( "divline2", $do_log );
 
@@ -164,7 +164,7 @@ function display_group_personnel ( $args = array() ) {
 		
 	}
 	
-	if ( $do_ts && !empty($ts_info) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	// Return info for display
 	return $info;
@@ -175,6 +175,9 @@ function display_group_personnel ( $args = array() ) {
 add_shortcode('group_personnel', 'whx4_group_personnel');
 function whx4_group_personnel ( $atts = array() ) {
 
+	// TS/logging setup
+	$do_ts = devmode_active();
+	
 	$info = "";
 	$ts_info = "";
 	
@@ -193,7 +196,7 @@ function whx4_group_personnel ( $atts = array() ) {
     
     $info .= display_group_personnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
     
-    $info .= '<div class="troubleshooting">'.$ts_info.'</div>';
+    if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
     
     return $info;
     
