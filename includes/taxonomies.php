@@ -220,6 +220,8 @@ if ( in_array('places', $active_modules ) ) {
 if ( in_array('events', $active_modules ) ) {
 
 	// Custom Taxonomy: Person Role
+	// This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis group affiliations
+	// TODO: consider linking this instead with the People module
 	function register_taxonomy_person_role() {
 		$labels = array(
 			'name'              => _x( 'Personnel Roles', 'taxonomy general name' ),
@@ -236,8 +238,8 @@ if ( in_array('events', $active_modules ) ) {
 		);
 		$args = array(
 			'labels'            => $labels,
-			'description'          => '',
-			'public'               => true,
+			'description'       => 'This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis group affiliations.',
+			'public'            => true,
 			'hierarchical'      => true,
 			'show_ui'           => true,
 			'show_in_menu'      => true,
