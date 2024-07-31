@@ -96,6 +96,36 @@ if ( in_array('people', $active_modules ) ) {
 		register_taxonomy( 'person_title', [ 'person' ], $args );
 	}
 	add_action( 'init', 'register_taxonomy_person_title' );
+	
+	// Custom Taxonomy: Person Tag
+	function register_taxonomy_person_tag() {
+		$labels = array(
+			'name'              => _x( 'Person Tags', 'taxonomy general name' ),
+			'singular_name'     => _x( 'Person Tag', 'taxonomy singular name' ),
+			'search_items'      => __( 'Search Person Tags' ),
+			'all_items'         => __( 'All Person Tags' ),
+			'parent_item'       => __( 'Parent Person Tag' ),
+			'parent_item_colon' => __( 'Parent Person Tag:' ),
+			'edit_item'         => __( 'Edit Person Tag' ),
+			'update_item'       => __( 'Update Person Tag' ),
+			'add_new_item'      => __( 'Add New Person Tag' ),
+			'new_item_name'     => __( 'New Person Tag Name' ),
+			'menu_name'         => __( 'Person Tags' ),
+		);
+		$args = array(
+			'labels'            => $labels,
+			'description'       => '',
+			'public'            => true,
+			'hierarchical'      => false,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_rest'      => true,
+			'query_var'         => true,
+			'rewrite'           => [ 'slug' => 'person_tag' ],
+		);
+		register_taxonomy( 'person_tag', [ 'person' ], $args );
+	}
+	add_action( 'init', 'register_taxonomy_person_tag' );
 }
 
 /*** Taxonomies for GROUPS (Organizations/Ensembles/Institutions) ***/
