@@ -59,6 +59,7 @@ if ( in_array('people', $active_modules ) ) {
 	add_action( 'init', 'register_taxonomy_person_category' );
 	
 	// Custom Taxonomy: Person Title
+	// TODO: phase out this taxonomy -- currently in use only for nycago -- replace with affiliations via person_role
 	function register_taxonomy_person_title() {
 		$labels = array(
 			'name'              => _x( 'Person Titles', 'taxonomy general name' ),
@@ -84,15 +85,6 @@ if ( in_array('people', $active_modules ) ) {
 			'query_var'         => true,
 			'rewrite'           => [ 'slug' => 'person_title' ],
 		);
-		/*if ( whx4_custom_caps() ) {
-			$cap = 'person';
-			$args['capabilities'] = array(
-				'manage_terms'  =>   'manage_'.$cap.'_terms',
-				'edit_terms'    =>   'edit_'.$cap.'_terms',
-				'delete_terms'  =>   'delete_'.$cap.'_terms',
-				'assign_terms'  =>   'assign_'.$cap.'_terms',
-			);
-		}*/	
 		register_taxonomy( 'person_title', [ 'person' ], $args );
 	}
 	add_action( 'init', 'register_taxonomy_person_title' );
