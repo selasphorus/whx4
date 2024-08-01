@@ -3905,6 +3905,7 @@ function exclude_unlisted_events ( $args ) {
 
 // Function to check for scope and category in query vars if not already set otherwise
 add_filter( 'em_object_build_sql_conditions_args', 'check_query_vars',10,1);
+add_filter( 'em_content_events_args', 'check_query_vars' );
 function check_query_vars ( $args ) {
     // scope
     if ( !isset($args['scope']) && isset($_REQUEST['scope']) ) { 
