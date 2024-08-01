@@ -3632,11 +3632,11 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
         $show_image = true;
         
         $featured_image_display = get_field('featured_image_display', $post_id);
-        $ts_info .= "[sdgp] featured_image_display: ".$featured_image_display."<br />";
+        //$ts_info .= "[sdgp] featured_image_display: ".$featured_image_display."<br />";
         
         if ( !is_archive() && !is_page() ) {
         
-        	$ts_info .= "[sdgp] !is_archive() && !is_page()<br />";
+        	//$ts_info .= "[sdgp] !is_archive() && !is_page()<br />";
         	
         	if ( $featured_image_display == "thumbnail" ) {
         	
@@ -3645,7 +3645,7 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
         		
         	} else if ( is_singular('event') ) { //&& function_exists('post_is_webcast_eligible') && post_is_webcast_eligible( $post_id )
 				
-				$ts_info .= "[sdgp] is_singular('event')<br />";
+				//$ts_info .= "[sdgp] is_singular('event')<br />";
 				
 				$player_status = get_media_player( $post_id, true, 'above', 'video' ); // get_media_player ( $post_id = null, $position = 'above', $media_type = 'video', $status_only = false, $url = null )
 				$ts_info .= "player_status: ".$player_status."<br />";
@@ -3663,13 +3663,13 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
         
         if ( $show_image == true ) {
             
-            $ts_info .= "[sdgp] show_image is TRUE<br />";
+            //$ts_info .= "[sdgp] show_image is TRUE<br />";
             
             // Is there in fact an image? If not, try to find one some other way
             // TODO: generalize from STC to something more widely applicable
             if ( function_exists('sdg_post_thumbnail') ) { // empty($replace) && 
             	
-            	$ts_info .= "[sdgp] get image using sdg_post_thumbnail<br />";
+            	//$ts_info .= "[sdgp] get image using sdg_post_thumbnail<br />";
             	
             	if ( is_singular('event') ) {
             		$img_size = "full";
@@ -3683,7 +3683,7 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
             	$img_tag = sdg_post_thumbnail ( $img_args );
             	
             	//if ( empty($img_tag) ) { $ts_info .= "img_tag is EMPTY! for post_id: $post_id: format: $format; img_size: $img_size; sources: all; echo: false<br />"; }
-            	if ( empty($img_tag) ) { $ts_info .= "[sdgp] img_tag is EMPTY! for img_args: ".print_r($img_args, true)."<br />"; } else { $ts_info .= "[sdgp] img_tag found<br />"; }
+            	///if ( empty($img_tag) ) { $ts_info .= "[sdgp] img_tag is EMPTY! for img_args: ".print_r($img_args, true)."<br />"; } else { $ts_info .= "[sdgp] img_tag found<br />"; }
             	
             	//if ( !empty($img_tag) && $result == '#_EVENTIMAGE{250,250}' ) { $classes .= " float-left"; }
             	
@@ -4212,10 +4212,11 @@ function get_special_date_content( $the_date = null ) {
 		$the_date = date_i18n('Y-m-d', strtotime($the_date) ); // format the date, as needed
 	}
 	
-	//
+	/*
 	$ts_info = "get_special_date_content<br />";
     $ts_info .= "the_date: '$the_date'<br />";
     $ts_info .= "print_r the_date: '".print_r($the_date, true)."'<br />"; // tft
+    */
     
     // NB: set event record to "All day" and assign 'special-notice' event category
     
