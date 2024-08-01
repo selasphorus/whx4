@@ -97,7 +97,7 @@ foreach ( $active_modules as $module ) {
 		$cpt_names[] = "location";
 		//$cpt_names[] = "building"; // address
 	} else if ( $module == "events" ) {
-		//$sub_modules[] = "events";
+		$sub_modules[] = "events";
 		$primary_cpt = "event";
 		$cpt_names[] = "event";
 		$cpt_names[] = "event_series";
