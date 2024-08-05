@@ -4066,7 +4066,7 @@ function whx4_em_custom_scopes( $scope = null ) {
     
     	// WIP
     	// See if this is a non-custom, standard EM scope
-    	/*$ranges = get_range_dates();
+    	/*$ranges = get_range_dates(); // nope -- DN work in this context
     	if ( $ranges ) {
     		if ( isset($ranges[$scope]) ) {
     			$start = $ranges[$scope][0];
