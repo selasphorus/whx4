@@ -4144,7 +4144,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
     
     //if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
     
-	if( is_admin() ) {
+	//if( is_admin() ) {
 		
         if ( !empty($args['scope']) ) { $scope = $args['scope']; } else { $scope = null; }
 		
@@ -4167,7 +4167,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
         //https://dev.saintthomaschurch.org/wp-admin/edit.php?s&post_status=all&post_type=event
         
 		// TODO: figure out how to eliminate redundancy of array declaration w/ sdg_em_scopes
-		$my_scopes = array( 'this-season', 'next-season', 'this-year', 'next-year');
+		$my_scopes = array( 'today-onward', 'upcoming', 'this-week', 'this-season', 'next-season', 'this-year', 'next-year');
 		
 		if ( in_array($scope, $my_scopes) ) {		
 			
@@ -4183,11 +4183,9 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 				}
 			}
 			
-		} else {
-			
 		}
 		
-	}
+	//}
     
     if ( isset($conditions['scope']) ) { sdg_log( "final conditions['scope']: ".$conditions['scope'], $do_log ); }
     
@@ -4198,8 +4196,8 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 
 // Register custom scopes
 // TODO: figure out why this isn't working. New scopes show up in EM dropdown in CMS, but don't have any effect
-add_filter( 'em_get_scopes', 'sdg_em_scopes', 10, 1);
-function sdg_em_scopes($scopes){
+add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
+function whx4_em_scopes($scopes){
     $my_scopes = array(
 		'upcoming' => 'Upcoming',
 		'this-week' => 'This Week',
