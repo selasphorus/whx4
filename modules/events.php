@@ -4182,6 +4182,10 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
+    // Init
+    $start_date = null;
+    $end_date = null;
+    
     //sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
     
     // Scope
@@ -4225,7 +4229,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 			$end_date 	= $arr_dates['end'];
 		}
 		
-	} else {
+	} else if ( $scope ) {
 	
 		sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 		
