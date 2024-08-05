@@ -4198,7 +4198,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 		
 		if ( in_array($scope, $my_scopes) ) {		
 			
-			sdg_log($scope." is a CUSTOM scope.", $do_log);
+			sdg_log("[secsc] ".$scope." is a CUSTOM scope.", $do_log);
 			$arr_dates = whx4_em_custom_scopes($scope);
 		
 			if ( $arr_dates) {
@@ -4208,7 +4208,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 			
 		} else {
 		
-			sdg_log($scope." is a STANDARD scope.", $do_log);
+			sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 			
 			$ranges = whx4_em_get_range_dates();
 			
@@ -4218,12 +4218,15 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 				if ( $ranges[$scope][1] ) {
 					$end = $ranges[$scope][1];
 					$end_date = date_i18n('Y-m-d',$end);
+				} else {
+					$end_date = $start_date;
 				}
 			}
 			
 		}
 		
 		if ( !empty($start_date) && !empty($end_date) ) {
+			sdg_log("[secsc] Resetting conditions scope.", $do_log);
 			$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
 		}
 
