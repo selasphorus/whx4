@@ -3972,7 +3972,7 @@ function em_args_mod($args){
 
 
 // Create custom scopes: "Upcoming", "This Week", "This Season", "Next Season", "This Year", "Next Year"
-function sdg_em_custom_scopes( $scope = null ) {
+function whx4_em_custom_scopes( $scope = null ) {
     
     // TS/logging setup
     $do_ts = devmode_active(); 
@@ -4062,6 +4062,22 @@ function sdg_em_custom_scopes( $scope = null ) {
 		$start_date = date_i18n('Y-m-d',$start);
 		$end_date = date_i18n('Y-m-d',$end);
     
+    } else {
+    
+    	// WIP
+    	// See if this is a non-custom, standard EM scope
+    	$ranges = get_range_dates();
+    	if ( $ranges ) {
+    		if ( isset($ranges[$scope]) ) {
+    			$start = $ranges[$scope][0];
+    			$start_date = date_i18n('Y-m-d',$start);
+    			if ( $ranges[$scope][1] ) {
+    				$end = $ranges[$scope][1];
+    				$end_date = date_i18n('Y-m-d',$end);
+    			}
+    		}
+    	}
+    	
     }
 	
 	$dates['start'] = $start_date;
@@ -4140,7 +4156,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 		if ( in_array($scope, $my_scopes) ) {		
 			
 			sdg_log($scope." is a custom scope.", $do_log);
-			$arr_dates = sdg_em_custom_scopes($scope);
+			$arr_dates = whx4_em_custom_scopes($scope);
 		
 			if ( $arr_dates) {
 				$start_date = $arr_dates['start'];
@@ -4318,7 +4334,7 @@ function sdg_custom_event_search_build_sql_conditions($conditions, $args){
         sdg_log( "[sdg_custom_event_search...] scope: ".print_r( $args['scope'],true ), $do_log );
         
 		$scope = $args['scope'];
-		$arr_dates = sdg_em_custom_scopes($scope);
+		$arr_dates = whx4_em_custom_scopes($scope);
 		
 		if ( $arr_dates) {
 			$start_date = $arr_dates['start'];
