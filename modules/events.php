@@ -3887,9 +3887,24 @@ function match_widget_to_event_content ( $instance ) {
 }
 
 // Function to exclude unlisted events according to tag
-add_filter( 'em_object_build_sql_conditions_args', 'exclude_unlisted_events',10,1);
-add_filter( 'em_content_events_args', 'exclude_unlisted_events' );
-function exclude_unlisted_events ( $args ) {
+add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_category_args',10,1);
+add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
+function whx4_custom_category_args ( $args ) {
+    
+    // TS/logging setup
+	$do_ts = devmode_active(); 
+    $do_log = true;
+	sdg_log( "divline2", $do_log );
+    sdg_log( "function called: whx4_custom_category_args", $do_log );
+    
+    //sdg_log( "[cca] >> check_query_vars", $do_log );
+    $args = em_check_query_vars ($args);
+    
+    if ( isset($args['category']) ) {
+    	sdg_log( "[cca] args['category']: ".$args['category'], $do_log );
+    }
+    
+    // Exclude unlisted events
     $args['tag'] = "-unlisted"; // 3066 (stc-live)
     if ( !isset($args['category']) ) { 
     	$args['category'] = "-special-notice";
@@ -3900,6 +3915,9 @@ function exclude_unlisted_events ( $args ) {
 			$args['category'][] = "-special-notice";
 		}
     }
+    
+    sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
+    
     return $args;
 }
 
@@ -4171,7 +4189,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
     
     // Category
-    if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
+    //if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
     
     sdg_log( "[secsc] >> check_query_vars", $do_log );
     $args = em_check_query_vars ($args);
@@ -4182,10 +4200,11 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     } else {
     	$scope = null;
     }
-    if ( isset($args['category']) ) {
+    /*if ( isset($args['category']) ) {
     	$category = $args['category'];
     	sdg_log( "[secsc] args['category']: ".$category, $do_log );
-    }
+    	$conditions['category'] = $category;
+    }*/
     
     //if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
 	 
