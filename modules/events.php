@@ -3905,7 +3905,7 @@ function exclude_unlisted_events ( $args ) {
 
 // Function to check for scope and category in query vars if not already set otherwise
 add_filter( 'em_object_build_sql_conditions_args', 'em_check_query_vars',10,1);
-add_filter( 'em_content_events_args', 'em_check_query_vars' );
+//add_filter( 'em_content_events_args', 'em_check_query_vars' );
 function em_check_query_vars ( $args ) {
 
 	// TS/logging setup
@@ -4136,9 +4136,13 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
     sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
-    sdg_log( "[secsc] args: ". print_r($args,true), $do_log );
+    if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
     
-    if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
+    sdg_log( "[secsc] >> check_query_vars", $do_log );
+    $args = em_check_query_vars ($args);
+    if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
+    
+    //if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
     
 	if( is_admin() ) {
 		
