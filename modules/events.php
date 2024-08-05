@@ -4221,6 +4221,8 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 				} else {
 					$end_date = $start_date;
 				}
+			} else {
+				sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 			}
 			
 		}
