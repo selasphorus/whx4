@@ -4110,6 +4110,8 @@ function whx4_em_get_range_dates(){
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_em_get_range_dates", $do_log );
     
+    $today = date('Y-m-d');
+    
 	$ranges = array(
 		'all' => array('1970-01-01', $today),
 		'today'=> $today,
