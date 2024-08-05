@@ -4229,14 +4229,14 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 			$end_date 	= $arr_dates['end'];
 		}
 		
-	} else if ( $scope ) {
+	} else if ( $scope && !is_array($scope) ) {
 	
 		sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 		
 		$ranges = whx4_em_get_range_dates();
 		//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 		
-		if ( $ranges && is_array($ranges) && isset($ranges[$scope]) ) {
+		if ( $ranges && isset($ranges[$scope]) ) {
 			
 			sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
 			
