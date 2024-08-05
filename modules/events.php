@@ -3925,7 +3925,7 @@ function em_check_query_vars ( $args ) {
     	sdg_log( "category set via query_var", $do_log );
     }
     
-    sdg_log( "EM args: ".print_r($args, true), $do_log );
+    //sdg_log( "EM args: ".print_r($args, true), $do_log );
     
     return $args;
 }
@@ -4131,7 +4131,7 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 
 	// TS/logging setup
 	$do_ts = devmode_active(); 
-    $do_log = false;
+    $do_log = true;
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
