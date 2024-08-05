@@ -4135,8 +4135,8 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
-    //sdg_log( "args: ". print_r($args,true), $do_log );
     sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
+    sdg_log( "[secsc] args: ". print_r($args,true), $do_log );
     
     if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
     
