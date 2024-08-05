@@ -4155,8 +4155,8 @@ function sdg_em_custom_scope_arg( $args = array() ){
     return $args;
 }
 
-add_filter( 'em_events_build_sql_conditions', 'sdg_em_custom_scope_condition',10,2);
-function sdg_em_custom_scope_condition( $conditions, $args ){
+add_filter( 'em_events_build_sql_conditions', 'sdg_em_custom_query_conditions',10,2);
+function sdg_em_custom_query_conditions( $conditions, $args ){
 
 	// TS/logging setup
 	$do_ts = devmode_active(); 
@@ -4165,87 +4165,82 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
     //sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
+    
+    // Scope
     if ( isset($conditions['scope']) ) { sdg_log( "[secsc] conditions['scope']: ". print_r($conditions['scope'],true), $do_log ); }
     if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
     
+    // Category
+    if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
+    
     sdg_log( "[secsc] >> check_query_vars", $do_log );
     $args = em_check_query_vars ($args);
-    if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
+    
+    if ( isset($args['scope']) ) {
+    	$scope = $args['scope'];
+    	sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log );
+    } else {
+    	$scope = null;
+    }
+    if ( isset($args['category']) ) {
+    	$category = $args['category'];
+    	sdg_log( "[secsc] args['category']: ".$category, $do_log );
+    }
     
     //if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
-    
-	//if( is_admin() ) {
-		
-        if ( !empty($args['scope']) ) { $scope = $args['scope']; } else { $scope = null; }
-		
-		/*if ( ! is_array($scope) ) {
-			sdg_log("args['scope']: ".$args['scope'], $do_log);
-		} else {
-			sdg_log("args['scope']: ". print_r($args['scope'],true), $do_log );
-		}*/
+	 
+    // If this is the main admin events page...
+    //sdg_log( "args: ". print_r($args, true), $do_log );
+    //https://dev.saintthomaschurch.org/wp-admin/edit.php?s&post_status=all&post_type=event
         
-        /*if ( !empty($conditions['scope']) ) {
-            if ( ! is_array($conditions['scope']) ) {
-                sdg_log( "conditions['scope']".$conditions['scope'], $do_log );
-            } else {
-                sdg_log( "conditions['scope']". print_r($conditions['scope'],true), $do_log );
-            }        
-        }*/
+	// TODO: figure out how to eliminate redundancy of array declaration w/ sdg_em_scopes
+	$my_scopes = array( 'today-onward', 'upcoming', 'this-week', 'this-season', 'next-season', 'this-year', 'next-year');
+	
+	if ( in_array($scope, $my_scopes) ) {		
 		
-        // If this is the main admin events page...
-        //sdg_log( "args: ". print_r($args, true), $do_log );
-        //https://dev.saintthomaschurch.org/wp-admin/edit.php?s&post_status=all&post_type=event
-        
-		// TODO: figure out how to eliminate redundancy of array declaration w/ sdg_em_scopes
-		$my_scopes = array( 'today-onward', 'upcoming', 'this-week', 'this-season', 'next-season', 'this-year', 'next-year');
+		sdg_log("[secsc] ".$scope." is a CUSTOM scope.", $do_log);
+		$arr_dates = whx4_em_custom_scopes($scope);
+	
+		if ( $arr_dates) {
+			$start_date = $arr_dates['start'];
+			$end_date 	= $arr_dates['end'];
+		}
 		
-		if ( in_array($scope, $my_scopes) ) {		
-			
-			sdg_log("[secsc] ".$scope." is a CUSTOM scope.", $do_log);
-			$arr_dates = whx4_em_custom_scopes($scope);
+	} else {
+	
+		sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 		
-			if ( $arr_dates) {
-				$start_date = $arr_dates['start'];
-				$end_date 	= $arr_dates['end'];
-			}
-			
-		} else {
+		$ranges = whx4_em_get_range_dates();
+		//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 		
-			sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
+		if ( $ranges && isset($ranges[$scope]) ) {
 			
-			$ranges = whx4_em_get_range_dates();
-			//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+			sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
 			
-			if ( $ranges && isset($ranges[$scope]) ) {
-				
-				sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
-				
-				if ( is_array($ranges[$scope]) ) {
-					$start_date = $ranges[$scope][0];
-					if ( $ranges[$scope][1] ) {
-						$end_date = $ranges[$scope][1];
-					} else {
-						$end_date = $start_date;
-					}
+			if ( is_array($ranges[$scope]) ) {
+				$start_date = $ranges[$scope][0];
+				if ( $ranges[$scope][1] ) {
+					$end_date = $ranges[$scope][1];
 				} else {
-					$start_date = $end_date = $ranges[$scope];
+					$end_date = $start_date;
 				}
-				
-				sdg_log("[secsc] start_date: ".$start_date, $do_log);
-				sdg_log("[secsc] end_date: ".$end_date, $do_log);
-				
 			} else {
-				sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+				$start_date = $end_date = $ranges[$scope];
 			}
 			
+			sdg_log("[secsc] start_date: ".$start_date, $do_log);
+			sdg_log("[secsc] end_date: ".$end_date, $do_log);
+			
+		} else {
+			sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 		}
 		
-		if ( !empty($start_date) && !empty($end_date) ) {
-			sdg_log("[secsc] Resetting conditions scope.", $do_log);
-			$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
-		}
-
-	//}
+	}
+	
+	if ( !empty($start_date) && !empty($end_date) ) {
+		sdg_log("[secsc] Resetting conditions scope.", $do_log);
+		$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
+	}
     
     if ( isset($conditions['scope']) ) { sdg_log( "final conditions['scope']: ".$conditions['scope'], $do_log ); }
     
