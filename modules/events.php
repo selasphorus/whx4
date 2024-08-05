@@ -3923,7 +3923,7 @@ function em_check_query_vars ( $args ) {
     	$args['category'] = $_REQUEST['category'];
     }
     
-    sdg_log( "EM args: ".print_r(args, true), $do_log );
+    sdg_log( "EM args: ".print_r($args, true), $do_log );
     
     return $args;
 }
