@@ -4221,21 +4221,15 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 				sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
 				
 				if ( is_array($ranges[$scope]) ) {
-					$start = $ranges[$scope][0];
+					$start_date = $ranges[$scope][0];
 					if ( $ranges[$scope][1] ) {
-						$end = $ranges[$scope][1];
+						$end_date = $ranges[$scope][1];
 					} else {
-						$end = $start;
+						$end_date = $start_date;
 					}
 				} else {
-					$start = $end = $ranges[$scope];
+					$start_date = $end_date = $ranges[$scope];
 				}
-				
-				sdg_log("[secsc] start: ".$start, $do_log);
-				sdg_log("[secsc] end: ".$end, $do_log);
-				
-				$start_date = date_i18n('Y-m-d',$start);
-				$end_date = date_i18n('Y-m-d',$end);
 				
 				sdg_log("[secsc] start_date: ".$start_date, $do_log);
 				sdg_log("[secsc] end_date: ".$end_date, $do_log);
