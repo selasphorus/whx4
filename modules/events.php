@@ -4236,7 +4236,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 		$ranges = whx4_em_get_range_dates();
 		//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 		
-		if ( $ranges && isset($ranges[$scope]) ) {
+		if ( $ranges && is_array($ranges) && isset($ranges[$scope]) ) {
 			
 			sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
 			
