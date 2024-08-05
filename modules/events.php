@@ -3915,12 +3915,14 @@ function em_check_query_vars ( $args ) {
     sdg_log( "function called: em_check_query_vars", $do_log );
     
     // scope
-    if ( !isset($args['scope']) && isset($_REQUEST['scope']) ) { 
+    if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
     	$args['scope'] = $_REQUEST['scope'];
+    	sdg_log( "scope set via query_var", $do_log );
     }
     // category
-    if ( !isset($args['category']) && isset($_REQUEST['category']) ) { 
+    if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
     	$args['category'] = $_REQUEST['category'];
+    	sdg_log( "category set via query_var", $do_log );
     }
     
     sdg_log( "EM args: ".print_r($args, true), $do_log );
