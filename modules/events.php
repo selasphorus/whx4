@@ -3984,6 +3984,7 @@ function em_args_mod($args){
 
 
 // Create custom scopes: "Upcoming", "This Week", "This Season", "Next Season", "This Year", "Next Year"
+// TODO: refashion after get_ranges fcn?
 function whx4_em_custom_scopes( $scope = null ) {
     
     // TS/logging setup
@@ -4100,7 +4101,31 @@ function whx4_em_custom_scopes( $scope = null ) {
 }
 // SEE BELOW: ..._build_sql_conditions
 
+// Version of: public static function get_range_dates()
+function whx4_em_get_range_dates(){
 
+	// TS/logging setup
+    $do_ts = devmode_active(); 
+    $do_log = false;
+    sdg_log( "divline2", $do_log );
+    
+	$ranges = array(
+		'all' => array('1970-01-01', $today),
+		'today'=> $today,
+		'yesterday'=> date('Y-m-d', strtotime('yesterday')),
+		'this month'=> array( date('Y-m-01'), $today ),
+		'last month'=> array( date('Y-m-01', strtotime('last month')), date('Y-m-t', strtotime('last month')) ),
+		'3 months'=> array( date('Y-m-d', strtotime('-3 months')+$day), $today ),
+		'6 months'=> array( date('Y-m-d', strtotime('-6 months')+$day), $today ),
+		'12 months'=> array( date('Y-m-d', strtotime('-12 months')+$day), $today ),
+		'this year'=> array( date('Y-01-01'), $today ),
+		'last year'=> array( date('Y-01-01', strtotime('last year')), date('Y-12-31', strtotime('last year')) ),
+	);
+	
+	return $ranges;
+	
+}
+	
 // Convert custom scopes to array to allow for proper filtered results to display in Admin
 /*add_filter( 'em_events_build_sql_conditions', 'my_em_scope_conditions',1,2);
 function my_em_scope_conditions($conditions, $args){
@@ -4171,20 +4196,35 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 		
 		if ( in_array($scope, $my_scopes) ) {		
 			
-			sdg_log($scope." is a custom scope.", $do_log);
+			sdg_log($scope." is a CUSTOM scope.", $do_log);
 			$arr_dates = whx4_em_custom_scopes($scope);
 		
 			if ( $arr_dates) {
 				$start_date = $arr_dates['start'];
 				$end_date 	= $arr_dates['end'];
-				if ( !empty($start_date) && !empty($end_date) ) {
-					//$args['scope'] = array( $start_date, $end_date );
-                    $conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
+			}
+			
+		} else {
+		
+			sdg_log($scope." is a STANDARD scope.", $do_log);
+			
+			$ranges = whx4_em_get_range_dates();
+			
+			if ( $ranges && isset($ranges[$scope]) ) {
+				$start = $ranges[$scope][0];
+				$start_date = date_i18n('Y-m-d',$start);
+				if ( $ranges[$scope][1] ) {
+					$end = $ranges[$scope][1];
+					$end_date = date_i18n('Y-m-d',$end);
 				}
 			}
 			
 		}
 		
+		if ( !empty($start_date) && !empty($end_date) ) {
+			$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
+		}
+
 	//}
     
     if ( isset($conditions['scope']) ) { sdg_log( "final conditions['scope']: ".$conditions['scope'], $do_log ); }
