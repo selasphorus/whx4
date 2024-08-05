@@ -4214,8 +4214,10 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 			sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 			
 			$ranges = whx4_em_get_range_dates();
+			sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 			
 			if ( $ranges && isset($ranges[$scope]) ) {
+				
 				$start = $ranges[$scope][0];
 				$start_date = date_i18n('Y-m-d',$start);
 				if ( $ranges[$scope][1] ) {
