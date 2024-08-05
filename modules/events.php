@@ -4106,8 +4106,9 @@ function whx4_em_get_range_dates(){
 
 	// TS/logging setup
     $do_ts = devmode_active(); 
-    $do_log = false;
+    $do_log = true;
     sdg_log( "divline2", $do_log );
+    sdg_log( "function called: whx4_em_get_range_dates", $do_log );
     
 	$ranges = array(
 		'all' => array('1970-01-01', $today),
@@ -4160,7 +4161,8 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
     
-    sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
+    //sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
+    if ( isset($conditions['scope']) ) { sdg_log( "[secsc] conditions['scope']: ". print_r($conditions['scope'],true), $do_log ); }
     if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
     
     sdg_log( "[secsc] >> check_query_vars", $do_log );
@@ -4173,19 +4175,19 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 		
         if ( !empty($args['scope']) ) { $scope = $args['scope']; } else { $scope = null; }
 		
-		if ( ! is_array($scope) ) {
+		/*if ( ! is_array($scope) ) {
 			sdg_log("args['scope']: ".$args['scope'], $do_log);
 		} else {
 			sdg_log("args['scope']: ". print_r($args['scope'],true), $do_log );
-		}
+		}*/
         
-        if ( !empty($conditions['scope']) ) {
+        /*if ( !empty($conditions['scope']) ) {
             if ( ! is_array($conditions['scope']) ) {
                 sdg_log( "conditions['scope']".$conditions['scope'], $do_log );
             } else {
                 sdg_log( "conditions['scope']". print_r($conditions['scope'],true), $do_log );
             }        
-        }
+        }*/
 		
         // If this is the main admin events page...
         //sdg_log( "args: ". print_r($args, true), $do_log );
