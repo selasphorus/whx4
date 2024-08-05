@@ -4220,14 +4220,20 @@ function sdg_em_custom_scope_condition( $conditions, $args ){
 				
 				sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
 				
-				$start = $ranges[$scope][0];
-				$start_date = date_i18n('Y-m-d',$start);
-				if ( $ranges[$scope][1] ) {
-					$end = $ranges[$scope][1];
-					$end_date = date_i18n('Y-m-d',$end);
+				if ( is_array($ranges[$scope]) ) {
+					$start = $ranges[$scope][0];
+					if ( $ranges[$scope][1] ) {
+						$end = $ranges[$scope][1];
+					} else {
+						$end = $start;
+					}
 				} else {
-					$end_date = $start_date;
+					$start = $end = $ranges[$scope];
 				}
+				
+				$start_date = date_i18n('Y-m-d',$start);
+				$end_date = date_i18n('Y-m-d',$end);
+				
 			} else {
 				sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 			}
