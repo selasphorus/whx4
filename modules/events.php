@@ -3905,8 +3905,15 @@ function exclude_unlisted_events ( $args ) {
 
 // Function to check for scope and category in query vars if not already set otherwise
 add_filter( 'em_object_build_sql_conditions_args', 'check_query_vars',10,1);
-add_filter( 'em_content_events_args', 'check_query_vars' );
-function check_query_vars ( $args ) {
+add_filter( 'em_content_events_args', 'em_check_query_vars' );
+function em_check_query_vars ( $args ) {
+
+	// TS/logging setup
+    $do_ts = devmode_active(); 
+    $do_log = true;
+    sdg_log( "divline2", $do_log );
+    sdg_log( "function called: em_check_query_vars", $do_log );
+    
     // scope
     if ( !isset($args['scope']) && isset($_REQUEST['scope']) ) { 
     	$args['scope'] = $_REQUEST['scope'];
@@ -3915,6 +3922,9 @@ function check_query_vars ( $args ) {
     if ( !isset($args['category']) && isset($_REQUEST['category']) ) { 
     	$args['category'] = $_REQUEST['category'];
     }
+    
+    sdg_log( "EM args: ".print_r(args, true), $do_log );
+    
     return $args;
 }
 
@@ -4342,6 +4352,8 @@ function sdg_custom_event_search_build_sql_conditions($conditions, $args){
 			if ( !empty($start_date) && !empty($end_date) ) {
 				$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE)) OR (event_end_date BETWEEN CAST('$end_date' AS DATE) AND CAST('$start_date' AS DATE))";
 			}
+		} else {
+			//$conditions['scope'] = $scope;
 		}
 		
 	}
