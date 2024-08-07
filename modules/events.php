@@ -4233,33 +4233,53 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 	
 		sdg_log("[secsc] ".$scope." is a STANDARD scope.", $do_log);
 		
-		$ranges = whx4_em_get_range_dates();
-		//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+		// Is this a date or date pair? i.e. a string containing commas or hyphens?
+		if ( strpos($scope,",") || strpos($scope,"-") ) {
 		
-		if ( $ranges && isset($ranges[$scope]) ) {
-			
-			sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
-			
-			if ( is_array($ranges[$scope]) ) {
-				$start_date = $ranges[$scope][0];
-				if ( $ranges[$scope][1] ) {
-					$end_date = $ranges[$scope][1];
-				} else {
-					$end_date = $start_date;
-				}
-			} else {
-				$start_date = $end_date = $ranges[$scope];
+			$scope_dates = explode(",",$scope);
+			$start_date = $scope_dates[0];
+			if ( count($scope_dates) > 1 ) {
+				$end_date = $scope_dates[1];
 			}
 			
-			sdg_log("[secsc] start_date: ".$start_date, $do_log);
-			sdg_log("[secsc] end_date: ".$end_date, $do_log);
-			
 		} else {
+		
+			// Not a date or date pair? Check standard scope date ranges
+			$ranges = whx4_em_get_range_dates();
 			//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+			
+			if ( $ranges && isset($ranges[$scope]) ) {
+				
+				sdg_log( "[secsc] ranges[$scope]: ". print_r($ranges[$scope],true), $do_log );
+				
+				if ( is_array($ranges[$scope]) ) {
+					$start_date = $ranges[$scope][0];
+					if ( $ranges[$scope][1] ) {
+						$end_date = $ranges[$scope][1];
+					}
+				} else {
+					$start_date = $end_date = $ranges[$scope];
+				}
+				
+				sdg_log("[secsc] start_date: ".$start_date, $do_log);
+				sdg_log("[secsc] end_date: ".$end_date, $do_log);
+				
+			} else {
+				//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+			}
+		
 		}
+		
+		
 		
 	}
 	
+	// If start_date is set, but not end date, then set end_date same as start
+	if ( !empty($start_date) && empty($end_date) ) {
+		$end_date = $start_date;
+	}
+	
+	// If both start and end dates are properly set, then query the scope accordingly
 	if ( !empty($start_date) && !empty($end_date) ) {
 		sdg_log("[secsc] Resetting conditions scope.", $do_log);
 		$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE))";
