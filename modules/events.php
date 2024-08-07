@@ -4255,7 +4255,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 			sdg_log("[secsc] end_date: ".$end_date, $do_log);
 			
 		} else {
-			sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
+			//sdg_log( "[secsc] ranges: ". print_r($ranges,true), $do_log );
 		}
 		
 	}
