@@ -4187,7 +4187,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     $end_date = null;
     
     sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
-    sdg_log( "[secsc] args: ". print_r($args,true), $do_log );
+    //sdg_log( "[secsc] args: ". print_r($args,true), $do_log );
     
     // Scope
     if ( isset($conditions['scope']) ) { sdg_log( "[secsc] conditions['scope']: ". print_r($conditions['scope'],true), $do_log ); }
