@@ -3886,7 +3886,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		$args['year'] = $date[0];
 		//sdg_log( "set instance month/year to ".$date[1]."/".$date[0], $do_log );
     } else {
-    	sdg_log( "testing setting month/year args", $do_log );
+    	sdg_log( "Set the month/year args [wip]", $do_log );
     	//em_check_query_vars
     	$args = em_check_query_vars ($args);
     	//$args['month'] = 1; // tft
@@ -3900,8 +3900,8 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		}
 		*/
     }
-    sdg_log( "args['month']: ".$args['month'], $do_log );
-    sdg_log( "args['year']: ".$args['year'], $do_log );
+    sdg_log( "em_calendar_get_args -> args['month']: ".$args['month'], $do_log );
+    sdg_log( "em_calendar_get_args -> args['year']: ".$args['year'], $do_log );
     return $args;
 }
 
