@@ -3884,7 +3884,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		//sdg_log( "set instance month/year to ".$date[1]."/".$date[0], $do_log );
     } else {
     	sdg_log( "Set the month/year args [wip]", $do_log );
-    	//$args = em_check_query_vars ($args);
+    	//$args = whx4_custom_em_query_args ($args);
     	//$args['month'] = 1; // tft
 		//$args['year'] = 2021; // tft
 		/*
@@ -3978,8 +3978,8 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     
     // WIP: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
     if ( !isset($args['context']) || $args['context'] != "snippet" ) {
-    	sdg_log( "[weqc] >> check_query_vars", $do_log );
-    	$args = em_check_query_vars ($args);
+    	sdg_log( "[weqc] (check query vars)", $do_log );
+    	$args = whx4_custom_em_query_args ($args);
     } else {
     	sdg_log( "[weqc] args['context']: ".$args['context'], $do_log );
     }
