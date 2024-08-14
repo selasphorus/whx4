@@ -3934,8 +3934,11 @@ function whx4_custom_category_args ( $args ) {
 			$args['category'][] = "-special-notice";
 		}
     }
-    
-    sdg_log( "[cca] final args['category']: ".print_r($args['category'],true), $do_log );
+    if ( is_array($args['category']) ) {
+    	sdg_log( "[cca] final args['category']: ".print_r($args['category'],true), $do_log );
+    } else {
+    	sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
+    }    
     
     return $args;
 }
