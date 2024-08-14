@@ -3955,7 +3955,7 @@ function whx4_custom_em_query_args ( $args ) {
     return $args;
 }
 
-//add_filter( 'em_events_build_sql_conditions', 'whx4_em_custom_query_conditions',10,2);
+add_filter( 'em_events_build_sql_conditions', 'whx4_em_custom_query_conditions',10,2);
 function whx4_em_custom_query_conditions( $conditions, $args ){
 
 	// TS/logging setup
