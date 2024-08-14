@@ -4077,6 +4077,59 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     return $conditions;
 }
 
+
+// TODO: combine this with above (whx4_em_custom_query_conditions filter function)?
+///add_filter( 'em_events_build_sql_conditions', 'whx4_custom_event_search_build_sql_conditions',1,2);
+function whx4_custom_event_search_build_sql_conditions($conditions, $args){
+    
+    // TS/logging setup
+    $do_ts = devmode_active(); 
+    $do_log = false;
+    sdg_log( "divline2", $do_log );
+    sdg_log( "function called: sdg_custom_event_search_build_sql_conditions", $do_log );
+    
+    //sdg_log( "[sdg_custom_event_search...] conditions: ".print_r($conditions, true), $do_log );
+    //sdg_log( "[sdg_custom_event_search...] args: ".print_r($args, true), $do_log );
+    
+    global $wpdb;
+    
+    if( !empty($args['series']) && is_numeric($args['series']) ){
+        
+        sdg_log( "[sdg_custom_event_search...] series is set and valid: ".$args['series'], $do_log );
+        $meta_value = '%"'.$args['series'].'"%';
+        $sql = $wpdb->prepare(
+            "SELECT `event_id` FROM ".EM_EVENTS_TABLE.", `wpstc_postmeta` WHERE `meta_value` LIKE %s AND `meta_key`='events_series' AND ".EM_EVENTS_TABLE.".`post_id` = `wpstc_postmeta`.`post_id`", $meta_value
+        ); // 
+        //$sql = $wpdb->prepare("SELECT post_id FROM `wpstc_postmeta` WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
+        //$sql = $wpdb->prepare("SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
+        $conditions['series'] = "event_id IN ($sql)";
+        
+    }
+    
+    // The following seems to effect only front-end display. Look into affecting back-end display, also.
+    if( !empty($args['scope']) ) {
+		
+        sdg_log( "[sdg_custom_event_search...] scope: ".print_r( $args['scope'],true ), $do_log );
+        
+		$scope = $args['scope'];
+		$arr_dates = whx4_em_custom_scopes($scope);
+		
+		if ( $arr_dates) {
+			$start_date = $arr_dates['start'];
+			$end_date 	= $arr_dates['end'];
+			if ( !empty($start_date) && !empty($end_date) ) {
+				$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE)) OR (event_end_date BETWEEN CAST('$end_date' AS DATE) AND CAST('$start_date' AS DATE))";
+			}
+		} else {
+			//$conditions['scope'] = $scope;
+		}
+		
+	}
+    
+    //sdg_log( "[sdg_custom_event_search...] modified conditions: ".print_r($conditions, true), $do_log );
+    
+    return $conditions;
+}
 /*
 // Get the scope from the REQUEST array, if any.
 if ( isset($_REQUEST['scope']) ) {
@@ -4246,7 +4299,7 @@ function whx4_em_custom_scopes( $scope = null ) {
 	return $dates;
 	
 }
-// SEE BELOW: ..._build_sql_conditions
+// SEE ..._build_sql_conditions
 
 // Version of: public static function get_range_dates()
 function whx4_em_get_range_dates(){
@@ -4397,9 +4450,9 @@ function get_special_date_content( $the_date = null ) {
 }
 
 // Add "series" to acceptable EM search parameters (attributes)
-add_filter('em_events_get_default_search','sdg_custom_event_search_parameters',1,2);
-add_filter('em_calendar_get_default_search','sdg_custom_event_search_parameters',1,2);
-function sdg_custom_event_search_parameters($args, $array){
+add_filter('em_events_get_default_search','whx4_custom_event_search_parameters',1,2);
+add_filter('em_calendar_get_default_search','whx4_custom_event_search_parameters',1,2);
+function whx4_custom_event_search_parameters($args, $array){
     
     $args['series'] = false; // registers 'series' (ID) as an acceptable value, set to false by default
     if ( !empty($array['series']) && is_numeric($array['series']) ) {
@@ -4412,59 +4465,6 @@ function sdg_custom_event_search_parameters($args, $array){
     }
     return $args;
     
-}
-
-// TODO: combine this with scope-related em_events_build_sql_conditions filter function?
-///add_filter( 'em_events_build_sql_conditions', 'sdg_custom_event_search_build_sql_conditions',1,2);
-function sdg_custom_event_search_build_sql_conditions($conditions, $args){
-    
-    // TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = false;
-    sdg_log( "divline2", $do_log );
-    sdg_log( "function called: sdg_custom_event_search_build_sql_conditions", $do_log );
-    
-    //sdg_log( "[sdg_custom_event_search...] conditions: ".print_r($conditions, true), $do_log );
-    //sdg_log( "[sdg_custom_event_search...] args: ".print_r($args, true), $do_log );
-    
-    global $wpdb;
-    
-    if( !empty($args['series']) && is_numeric($args['series']) ){
-        
-        sdg_log( "[sdg_custom_event_search...] series is set and valid: ".$args['series'], $do_log );
-        $meta_value = '%"'.$args['series'].'"%';
-        $sql = $wpdb->prepare(
-            "SELECT `event_id` FROM ".EM_EVENTS_TABLE.", `wpstc_postmeta` WHERE `meta_value` LIKE %s AND `meta_key`='events_series' AND ".EM_EVENTS_TABLE.".`post_id` = `wpstc_postmeta`.`post_id`", $meta_value
-        ); // 
-        //$sql = $wpdb->prepare("SELECT post_id FROM `wpstc_postmeta` WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
-        //$sql = $wpdb->prepare("SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
-        $conditions['series'] = "event_id IN ($sql)";
-        
-    }
-    
-    // The following seems to effect only front-end display. Look into affecting back-end display, also.
-    if( !empty($args['scope']) ) {
-		
-        sdg_log( "[sdg_custom_event_search...] scope: ".print_r( $args['scope'],true ), $do_log );
-        
-		$scope = $args['scope'];
-		$arr_dates = whx4_em_custom_scopes($scope);
-		
-		if ( $arr_dates) {
-			$start_date = $arr_dates['start'];
-			$end_date 	= $arr_dates['end'];
-			if ( !empty($start_date) && !empty($end_date) ) {
-				$conditions['scope'] = " (event_start_date BETWEEN CAST('$start_date' AS DATE) AND CAST('$end_date' AS DATE)) OR (event_end_date BETWEEN CAST('$end_date' AS DATE) AND CAST('$start_date' AS DATE))";
-			}
-		} else {
-			//$conditions['scope'] = $scope;
-		}
-		
-	}
-    
-    //sdg_log( "[sdg_custom_event_search...] modified conditions: ".print_r($conditions, true), $do_log );
-    
-    return $conditions;
 }
 
 // Program/Event info via Event CPT & ACF -- for Admin use/Troubleshooting
