@@ -3857,9 +3857,10 @@ function cat_em_placeholder_mod($replace, $EM_Category, $result){
 }
 
 // Filter to force the mini-cal in the sidebar to match the month/year of the individual event [or archive scope? wip]
-add_filter( 'em_widget_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // old version
+//add_filter( 'em_widget_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // old version
+//function whx4_custom_em_calendar_widget ( $instance ) {
 add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
-function whx4_custom_em_calendar_widget ( $instance ) {
+function whx4_custom_em_calendar_widget ( $args ) {
     
     // TS/logging setup
     $do_ts = devmode_active(); 
@@ -3867,7 +3868,8 @@ function whx4_custom_em_calendar_widget ( $instance ) {
     sdg_log( "divline2", $do_log );
 	
 	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
-	sdg_log( "instance: ".print_r($instance,true)."");
+	sdg_log( "args: ".print_r($args,true)."");
+	//sdg_log( "instance: ".print_r($instance,true)."");
 	
 	global $post;
 	$post_id = get_the_ID();
@@ -3878,14 +3880,14 @@ function whx4_custom_em_calendar_widget ( $instance ) {
     if ( $post_type == 'event' ) {
     	$event_date = get_post_meta( $post_id, '_event_start_date', true );
         $date = explode('-', $event_date);
-		$instance['month'] = $date[1];
-		$instance['year'] = $date[0];
+		$args['month'] = $date[1];
+		$args['year'] = $date[0];
 		//sdg_log( "set instance month/year to ".$date[1]."/".$date[0], $do_log );
     } else {
-    	//sdg_log( "instance['month']: ".$instance['month'], $do_log );
-    	//sdg_log( "instance['year']: ".$instance['year'], $do_log );
+    	//sdg_log( "args['month']: ".$args['month'], $do_log );
+    	//sdg_log( "args['year']: ".$args['year'], $do_log );
     }
-    return $instance;
+    return $args;
 }
 
 // Function to exclude unlisted events according to tag
@@ -3895,7 +3897,7 @@ function whx4_custom_category_args ( $args ) {
     
     // TS/logging setup
 	$do_ts = devmode_active(); 
-    $do_log = true;
+    $do_log = false;
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_category_args", $do_log );
     
@@ -4182,7 +4184,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 	$do_ts = devmode_active(); 
     $do_log = true;
 	sdg_log( "divline2", $do_log );
-    sdg_log( "function called: sdg_em_custom_scope_condition", $do_log );
+    sdg_log( "function called: sdg_em_custom_query_conditions", $do_log );
     
     // Init
     $start_date = null;
@@ -4198,6 +4200,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     // Category
     //if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
     
+    // TODO: resovle interference with em-calendar functions in case of shortcode/snippet
     sdg_log( "[secsc] >> check_query_vars", $do_log );
     $args = em_check_query_vars ($args);
     
