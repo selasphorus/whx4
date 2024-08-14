@@ -3856,7 +3856,7 @@ function cat_em_placeholder_mod($replace, $EM_Category, $result){
 // Filter to force the mini-cal in the sidebar to match the month/year of the individual event [or archive scope? wip]
 //add_filter( 'em_widget_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // old version
 //function whx4_custom_em_calendar_widget ( $instance ) {
-///add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
+add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
 function whx4_custom_em_calendar_widget ( $args ) {
     
     // TS/logging setup
