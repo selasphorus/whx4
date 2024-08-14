@@ -3900,8 +3900,9 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		}
 		*/
     }
-    sdg_log( "em_calendar_get_args -> args['month']: ".$args['month'], $do_log );
-    sdg_log( "em_calendar_get_args -> args['year']: ".$args['year'], $do_log );
+    if ( isset($args['month']) ) { sdg_log( "em_calendar_get_args -> args['month']: ".$args['month'], $do_log ); }
+    if ( isset($args['year']) ) { sdg_log( "em_calendar_get_args -> args['year']: ".$args['year'], $do_log ); }
+    //
     return $args;
 }
 
