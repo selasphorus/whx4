@@ -3859,7 +3859,7 @@ function cat_em_placeholder_mod($replace, $EM_Category, $result){
 // Filter to force the mini-cal in the sidebar to match the month/year of the individual event [or archive scope? wip]
 //add_filter( 'em_widget_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // old version
 //function whx4_custom_em_calendar_widget ( $instance ) {
-add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
+///add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
 function whx4_custom_em_calendar_widget ( $args ) {
     
     // TS/logging setup
@@ -3906,8 +3906,8 @@ function whx4_custom_em_calendar_widget ( $args ) {
 }
 
 // Function to exclude unlisted events according to tag
-add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_category_args',10,1);
-add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
+///add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_category_args',10,1);
+///add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
 function whx4_custom_category_args ( $args ) {
     
     // TS/logging setup
@@ -4192,7 +4192,7 @@ function sdg_em_custom_scope_arg( $args = array() ){
     return $args;
 }
 
-add_filter( 'em_events_build_sql_conditions', 'sdg_em_custom_query_conditions',10,2);
+///add_filter( 'em_events_build_sql_conditions', 'sdg_em_custom_query_conditions',10,2);
 function sdg_em_custom_query_conditions( $conditions, $args ){
 
 	// TS/logging setup
@@ -4319,7 +4319,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 
 // Register custom scopes
 // TODO: figure out why this isn't working. New scopes show up in EM dropdown in CMS, but don't have any effect
-add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
+///add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
 function whx4_em_scopes($scopes){
     $my_scopes = array(
 		'upcoming' => 'Upcoming',
@@ -4443,7 +4443,7 @@ function sdg_custom_event_search_parameters($args, $array){
 }
 
 // TODO: combine this with scope-related em_events_build_sql_conditions filter function?
-add_filter( 'em_events_build_sql_conditions', 'sdg_custom_event_search_build_sql_conditions',1,2);
+///add_filter( 'em_events_build_sql_conditions', 'sdg_custom_event_search_build_sql_conditions',1,2);
 function sdg_custom_event_search_build_sql_conditions($conditions, $args){
     
     // TS/logging setup
