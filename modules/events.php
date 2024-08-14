@@ -3928,7 +3928,7 @@ function whx4_custom_category_args ( $args ) {
     if ( !isset($args['category']) ) { 
     	$args['category'] = "-special-notice";
     } else {
-    	if( !is_array($args['category']) ){
+    	if( !is_array($args['category']) && !empty($args['category']) ){
 			$args['category'] .= ", -special-notice";
 		} else {
 			$args['category'][] = "-special-notice";
