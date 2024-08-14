@@ -3903,8 +3903,8 @@ function whx4_custom_em_calendar_widget ( $args ) {
 }
 
 // Function to check for scope and category in query vars if not already set otherwise
-add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
-//add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
+///add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
+///add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
 function whx4_custom_em_query_args ( $args ) {
 
 	// TS/logging setup
@@ -4303,7 +4303,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
 
 // Register custom scopes
 // TODO: figure out why this isn't working. New scopes show up in EM dropdown in CMS, but don't have any effect
-///add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
+add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
 function whx4_em_scopes($scopes){
     $my_scopes = array(
 		'upcoming' => 'Upcoming',
