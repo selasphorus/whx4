@@ -3920,9 +3920,11 @@ function whx4_custom_em_query_args ( $args ) {
     	sdg_log( "request_scope is set: ".$_REQUEST['scope'], $do_log );
     	//$args['scope'] = $_REQUEST['scope'];
     	//sdg_log( "scope set via query_var", $do_log );
+    } else {
+    	sdg_log( "request_scope is NOT set", $do_log );
     }
-    // category
     
+    // category    
     /*if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
     	$args['category'] = $_REQUEST['category'];
     	sdg_log( "category set via query_var", $do_log );
