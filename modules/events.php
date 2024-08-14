@@ -3857,15 +3857,17 @@ function cat_em_placeholder_mod($replace, $EM_Category, $result){
 }
 
 // Filter to force the mini-cal in the sidebar to match the month/year of the individual event [or archive scope? wip]
-add_filter( 'em_widget_calendar_get_args', 'match_widget_to_event_content',1,3 );
-function match_widget_to_event_content ( $instance ) {
+add_filter( 'em_widget_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // old version
+add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // new version, to work with snippets
+function whx4_custom_em_calendar_widget ( $instance ) {
     
     // TS/logging setup
     $do_ts = devmode_active(); 
-    $do_log = false;
+    $do_log = devmode_active();
     sdg_log( "divline2", $do_log );
 	
-	//sdg_log( "fcn match_widget_to_event_content", $do_log );
+	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
+	sdg_log( "instance: ".print_r($instance,true)."";
 	
 	global $post;
 	$post_id = get_the_ID();
