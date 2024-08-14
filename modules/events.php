@@ -3935,7 +3935,7 @@ function whx4_custom_category_args ( $args ) {
 		}
     }
     
-    sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
+    sdg_log( "[cca] final args['category']: ".print_r($args['category'],true), $do_log );
     
     return $args;
 }
