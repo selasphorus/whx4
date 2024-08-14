@@ -3925,10 +3925,10 @@ function whx4_custom_category_args ( $args ) {
     
     // Exclude unlisted events
     $args['tag'] = "-unlisted"; // 3066 (stc-live)
-    if ( !isset($args['category']) ) { 
+    if ( !isset($args['category']) ) {
     	$args['category'] = "-special-notice";
     } else {
-    	if( !is_array($args['category']) && !empty($args['category']) ){
+    	if ( !is_array($args['category']) && !empty($args['category']) ) {
 			$args['category'] .= ", -special-notice";
 		} else {
 			$args['category'][] = "-special-notice";
