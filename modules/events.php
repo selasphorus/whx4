@@ -500,9 +500,6 @@ function get_event_rep( $atts = array() ) {
 	
 }
 
-//
-
-
 /***  Program/Event personnel via Event CPT & ACF ***/
 //
 add_shortcode('display_event_personnel', 'get_event_personnel');
@@ -3915,7 +3912,7 @@ function whx4_custom_em_query_args ( $args ) {
     $do_log = devmode_active();
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_em_query_args", $do_log );
-    
+    /*
     // scope
     if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
     	$args['scope'] = $_REQUEST['scope'];
@@ -3948,7 +3945,7 @@ function whx4_custom_em_query_args ( $args ) {
     } else {
     	sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
     }
-    
+    */
     //sdg_log( "EM args: ".print_r($args, true), $do_log );
     
     return $args;
