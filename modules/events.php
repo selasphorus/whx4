@@ -4205,23 +4205,27 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     $start_date = null;
     $end_date = null;
     
-    sdg_log( "[secsc] conditions: ". print_r($conditions,true), $do_log );
-    sdg_log( "[secsc] args: ". print_r($args,true), $do_log );
+    sdg_log( "[secsc] conditions: ".print_r($conditions,true), $do_log );
+    sdg_log( "[secsc] args: ".print_r($args,true), $do_log );
     
     // Scope
-    if ( isset($conditions['scope']) ) { sdg_log( "[secsc] conditions['scope']: ". print_r($conditions['scope'],true), $do_log ); }
-    if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log ); }
+    if ( isset($conditions['scope']) ) { sdg_log( "[secsc] conditions['scope']: ".print_r($conditions['scope'],true), $do_log ); }
+    if ( isset($args['scope']) ) { sdg_log( "[secsc] args['scope']: ".print_r($args['scope'],true), $do_log ); }
     
     // Category
     //if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
     
     // TODO: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
-    sdg_log( "[secsc] >> check_query_vars", $do_log );
-    $args = em_check_query_vars ($args);
+    if ( !isset($args['context']) || $args['context'] != "snippet" ) {
+    	sdg_log( "[secsc] >> check_query_vars", $do_log );
+    	$args = em_check_query_vars ($args);
+    } else {
+    	sdg_log( "[secsc] args['context']: ".$args['context'], $do_log );
+    }
     
     if ( isset($args['scope']) ) {
     	$scope = $args['scope'];
-    	sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log );
+    	sdg_log( "[secsc] args['scope']: ".print_r($args['scope'],true), $do_log );
     } else {
     	//$scope = null;
     }
