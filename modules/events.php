@@ -3867,7 +3867,7 @@ function whx4_custom_em_calendar_widget ( $instance ) {
     sdg_log( "divline2", $do_log );
 	
 	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
-	sdg_log( "instance: ".print_r($instance,true)."";
+	sdg_log( "instance: ".print_r($instance,true)."");
 	
 	global $post;
 	$post_id = get_the_ID();
