@@ -3878,6 +3878,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
     //sdg_log( "post_type: ".$post_type, $do_log );
 	
     if ( $post_type == 'event' ) {
+    	sdg_log( "setting month/year args from event_start_date", $do_log );
     	$event_date = get_post_meta( $post_id, '_event_start_date', true );
         $date = explode('-', $event_date);
 		$args['month'] = $date[1];
