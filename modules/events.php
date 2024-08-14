@@ -3907,7 +3907,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
 
 // Function to exclude unlisted events according to tag
 add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_category_args', 10, 1 );
-add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
+//add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
 function whx4_custom_category_args ( $args ) {
     
     // TS/logging setup
