@@ -4425,9 +4425,14 @@ add_filter('em_events_get_default_search','sdg_custom_event_search_parameters',1
 add_filter('em_calendar_get_default_search','sdg_custom_event_search_parameters',1,2);
 function sdg_custom_event_search_parameters($args, $array){
     
-    $args['series'] = false; // registers 'series' (ID) as an acceptable value, although set to false by default
+    $args['series'] = false; // registers 'series' (ID) as an acceptable value, set to false by default
     if( !empty($array['series']) && is_numeric($array['series']) ){
         $args['series'] = $array['series'];
+    }
+    //
+    $args['context'] = false; // registers 'context' as an acceptable value, set to false by default (for snippet e.g.)
+    if( !empty($array['context']) ){
+        $args['context'] = $array['context'];
     }
     return $args;
     
