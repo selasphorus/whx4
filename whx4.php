@@ -22,7 +22,7 @@ if ( !function_exists( 'add_action' ) ) {
 }
 
 // Define our handy constants.
-define( 'WHX4_VERSION', '0.1.5' );
+define( 'WHX4_VERSION', '0.2.0' );
 define( 'WHX4_PLUGIN_DIR', __DIR__ );
 define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
