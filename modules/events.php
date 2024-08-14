@@ -3903,7 +3903,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
 }
 
 // Function to check for scope and category in query vars if not already set otherwise
-///add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
+add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
 ///add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
 function whx4_custom_em_query_args ( $args ) {
 
@@ -3917,8 +3917,9 @@ function whx4_custom_em_query_args ( $args ) {
     
     // scope
     if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
-    	$args['scope'] = $_REQUEST['scope'];
-    	sdg_log( "scope set via query_var", $do_log );
+    	sdg_log( "request_scope is set: ".$_REQUEST['scope'], $do_log );
+    	//$args['scope'] = $_REQUEST['scope'];
+    	//sdg_log( "scope set via query_var", $do_log );
     }
     // category
     
