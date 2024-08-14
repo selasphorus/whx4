@@ -3868,7 +3868,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
     sdg_log( "divline2", $do_log );
 	
 	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
-	sdg_log( "args: ".print_r($args,true)."", $do_log);
+	sdg_log( "args: ".print_r($args,true), $do_log);
 	//sdg_log( "instance: ".print_r($instance,true)."");
 	
 	global $post;
@@ -4430,12 +4430,12 @@ add_filter('em_calendar_get_default_search','sdg_custom_event_search_parameters'
 function sdg_custom_event_search_parameters($args, $array){
     
     $args['series'] = false; // registers 'series' (ID) as an acceptable value, set to false by default
-    if( !empty($array['series']) && is_numeric($array['series']) ){
+    if ( !empty($array['series']) && is_numeric($array['series']) ) {
         $args['series'] = $array['series'];
     }
     //
     $args['context'] = false; // registers 'context' as an acceptable value, set to false by default (for snippet e.g.)
-    if( !empty($array['context']) ){
+    if ( !empty($array['context']) ) {
         $args['context'] = $array['context'];
     }
     return $args;
