@@ -4059,8 +4059,6 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
 		
 		}
 		
-		
-		
 	}
 	
 	// If start_date is set, but not end date, then set end_date same as start
@@ -4089,7 +4087,7 @@ function whx4_custom_event_search_build_sql_conditions ($conditions, $args) {
     $do_ts = devmode_active(); 
     $do_log = true;
     sdg_log( "divline2", $do_log );
-    sdg_log( "function called: sdg_custom_event_search_build_sql_conditions", $do_log );
+    sdg_log( "function called: whx4_custom_event_search_build_sql_conditions", $do_log );
     
     //sdg_log( "[sdg_custom_event_search...] conditions: ".print_r($conditions, true), $do_log );
     //sdg_log( "[sdg_custom_event_search...] args: ".print_r($args, true), $do_log );
@@ -4112,7 +4110,7 @@ function whx4_custom_event_search_build_sql_conditions ($conditions, $args) {
     // The following seems to effect only front-end display. Look into affecting back-end display, also.
     if( !empty($args['scope']) ) {
 		
-        sdg_log( "[sdg_custom_event_search...] scope: ".print_r( $args['scope'],true ), $do_log );
+        sdg_log( "[whx4_custom_event_search...] scope: ".print_r( $args['scope'],true ), $do_log );
         
 		$scope = $args['scope'];
 		$arr_dates = whx4_em_custom_scopes($scope);
