@@ -3925,7 +3925,7 @@ function whx4_custom_em_query_args ( $args ) {
     }
     
     // category    
-    /*if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
+    if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
     	$args['category'] = $_REQUEST['category'];
     	sdg_log( "category set via query_var", $do_log );
     }
@@ -3950,7 +3950,6 @@ function whx4_custom_em_query_args ( $args ) {
     } else {
     	sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
     }
-    */
     //sdg_log( "EM args: ".print_r($args, true), $do_log );
     
     return $args;
