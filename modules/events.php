@@ -3912,7 +3912,7 @@ function whx4_custom_em_query_args ( $args ) {
     $do_log = devmode_active();
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_em_query_args", $do_log );
-    /*
+    
     // scope
     if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
     	$args['scope'] = $_REQUEST['scope'];
@@ -3923,7 +3923,7 @@ function whx4_custom_em_query_args ( $args ) {
     	$args['category'] = $_REQUEST['category'];
     	sdg_log( "category set via query_var", $do_log );
     }
-    
+    /*
     // Exclude unlisted events according to tag
     if ( isset($args['category']) ) {
     	sdg_log( "[cca] args['category']: ".$args['category'], $do_log );
