@@ -3976,13 +3976,13 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     // Category
     //if ( isset($conditions['category']) ) { sdg_log( "[weqc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
     
-    // TODO: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
-    /*if ( !isset($args['context']) || $args['context'] != "snippet" ) {
+    // WIP: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
+    if ( !isset($args['context']) || $args['context'] != "snippet" ) {
     	sdg_log( "[weqc] >> check_query_vars", $do_log );
     	$args = em_check_query_vars ($args);
     } else {
     	sdg_log( "[weqc] args['context']: ".$args['context'], $do_log );
-    }*/
+    }
     
     if ( isset($args['scope']) ) {
     	$scope = $args['scope'];
