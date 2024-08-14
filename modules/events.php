@@ -3980,6 +3980,7 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     
     // WIP: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
     if ( !isset($args['context']) || $args['context'] != "snippet" ) {
+    	sdg_log( "[weqc] args['context'] NOT set", $do_log);
     	sdg_log( "[weqc] (check query vars)", $do_log );
     	$args = whx4_custom_em_query_args ($args);
     } else {
@@ -4452,7 +4453,7 @@ function get_special_date_content( $the_date = null ) {
 }
 
 // Add "series" to acceptable EM search parameters (attributes)
-///add_filter('em_events_get_default_search','whx4_custom_event_search_parameters',1,2);
+add_filter('em_events_get_default_search','whx4_custom_event_search_parameters',1,2);
 add_filter('em_calendar_get_default_search','whx4_custom_event_search_parameters',1,2);
 function whx4_custom_event_search_parameters($args, $array){
     
