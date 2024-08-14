@@ -4216,12 +4216,12 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     //if ( isset($conditions['category']) ) { sdg_log( "[secsc] conditions['category']: ". print_r($conditions['category'],true), $do_log ); }
     
     // TODO: resolve interference with em-calendar functions in case of shortcode/snippet -- figure out how to check context for query
-    if ( !isset($args['context']) || $args['context'] != "snippet" ) {
+    /*if ( !isset($args['context']) || $args['context'] != "snippet" ) {
     	sdg_log( "[secsc] >> check_query_vars", $do_log );
     	$args = em_check_query_vars ($args);
     } else {
     	sdg_log( "[secsc] args['context']: ".$args['context'], $do_log );
-    }
+    }*/
     
     if ( isset($args['scope']) ) {
     	$scope = $args['scope'];
