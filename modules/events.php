@@ -3877,6 +3877,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
     //sdg_log( "post_id: ".$post_id, $do_log );
     //sdg_log( "post_type: ".$post_type, $do_log );
 	
+	// The month/year args effect which dates are shown in the calendar grid and for which events are sought for linking
     if ( $post_type == 'event' ) {
     	sdg_log( "setting month/year args from event_start_date", $do_log );
     	$event_date = get_post_meta( $post_id, '_event_start_date', true );
@@ -3886,11 +3887,21 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		//sdg_log( "set instance month/year to ".$date[1]."/".$date[0], $do_log );
     } else {
     	sdg_log( "testing setting month/year args", $do_log );
-    	$args['month'] = 1; // tft
-		$args['year'] = 2021; // tft
-    	//sdg_log( "args['month']: ".$args['month'], $do_log );
-    	//sdg_log( "args['year']: ".$args['year'], $do_log );
+    	//em_check_query_vars
+    	$args = em_check_query_vars ($args);
+    	//$args['month'] = 1; // tft
+		//$args['year'] = 2021; // tft
+		/*
+		if ( isset($args['scope']) ) {
+			$scope = $args['scope'];
+			sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log );
+		} else {
+			$scope = null;
+		}
+		*/
     }
+    sdg_log( "args['month']: ".$args['month'], $do_log );
+    sdg_log( "args['year']: ".$args['year'], $do_log );
     return $args;
 }
 
@@ -4212,7 +4223,7 @@ function sdg_em_custom_query_conditions( $conditions, $args ){
     	$scope = $args['scope'];
     	sdg_log( "[secsc] args['scope']: ". print_r($args['scope'],true), $do_log );
     } else {
-    	$scope = null;
+    	//$scope = null;
     }
     /*if ( isset($args['category']) ) {
     	$category = $args['category'];
