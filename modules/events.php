@@ -3868,7 +3868,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
     sdg_log( "divline2", $do_log );
 	
 	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
-	sdg_log( "args: ".print_r($args,true)."");
+	sdg_log( "args: ".print_r($args,true)."", $do_log);
 	//sdg_log( "instance: ".print_r($instance,true)."");
 	
 	global $post;
@@ -3884,6 +3884,9 @@ function whx4_custom_em_calendar_widget ( $args ) {
 		$args['year'] = $date[0];
 		//sdg_log( "set instance month/year to ".$date[1]."/".$date[0], $do_log );
     } else {
+    	sdg_log( "testing setting month/year args", $do_log );
+    	$args['month'] = 1; // tft
+		$args['year'] = 2021; // tft
     	//sdg_log( "args['month']: ".$args['month'], $do_log );
     	//sdg_log( "args['year']: ".$args['year'], $do_log );
     }
