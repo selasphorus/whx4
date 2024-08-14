@@ -3919,11 +3919,11 @@ function whx4_custom_em_query_args ( $args ) {
     	sdg_log( "scope set via query_var", $do_log );
     }
     // category
-    if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
+    
+    /*if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
     	$args['category'] = $_REQUEST['category'];
     	sdg_log( "category set via query_var", $do_log );
     }
-    /*
     // Exclude unlisted events according to tag
     if ( isset($args['category']) ) {
     	sdg_log( "[cca] args['category']: ".$args['category'], $do_log );
