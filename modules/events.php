@@ -3912,7 +3912,7 @@ function whx4_custom_category_args ( $args ) {
     
     // TS/logging setup
 	$do_ts = devmode_active(); 
-    $do_log = false;
+    $do_log = devmode_active();
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_category_args", $do_log );
     
@@ -3947,7 +3947,7 @@ function em_check_query_vars ( $args ) {
 
 	// TS/logging setup
     $do_ts = devmode_active(); 
-    $do_log = true;
+    $do_log = devmode_active();
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: em_check_query_vars", $do_log );
     
