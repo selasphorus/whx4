@@ -3904,7 +3904,7 @@ function whx4_custom_em_calendar_widget ( $args ) {
 
 // Function to check for scope and category in query vars if not already set otherwise
 add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
-add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
+//add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
 function whx4_custom_em_query_args ( $args ) {
 
 	// TS/logging setup
@@ -3967,7 +3967,7 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     $end_date = null;
     
     sdg_log( "[weqc] conditions: ".print_r($conditions,true), $do_log );
-    sdg_log( "[weqc] args: ".print_r($args,true), $do_log );
+    //sdg_log( "[weqc] args: ".print_r($args,true), $do_log );
     
     // Scope
     if ( isset($conditions['scope']) ) { sdg_log( "[weqc] conditions['scope']: ".print_r($conditions['scope'],true), $do_log ); }
