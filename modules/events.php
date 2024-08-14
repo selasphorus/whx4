@@ -4081,12 +4081,12 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
 
 
 // TODO: combine this with above (whx4_em_custom_query_conditions filter function)?
-///add_filter( 'em_events_build_sql_conditions', 'whx4_custom_event_search_build_sql_conditions',1,2);
+add_filter( 'em_events_build_sql_conditions', 'whx4_custom_event_search_build_sql_conditions',1,2);
 function whx4_custom_event_search_build_sql_conditions ($conditions, $args) {
     
     // TS/logging setup
     $do_ts = devmode_active(); 
-    $do_log = false;
+    $do_log = true;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: sdg_custom_event_search_build_sql_conditions", $do_log );
     
