@@ -3905,20 +3905,29 @@ function whx4_custom_em_calendar_widget ( $args ) {
     return $args;
 }
 
-// Function to exclude unlisted events according to tag
-add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_category_args', 10, 1 );
-//add_filter( 'em_content_events_args', 'whx4_custom_category_args' );
-function whx4_custom_category_args ( $args ) {
-    
-    // TS/logging setup
-	$do_ts = devmode_active(); 
+// Function to check for scope and category in query vars if not already set otherwise
+add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
+//add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
+function whx4_custom_em_query_args ( $args ) {
+
+	// TS/logging setup
+    $do_ts = devmode_active(); 
     $do_log = devmode_active();
-	sdg_log( "divline2", $do_log );
-    sdg_log( "function called: whx4_custom_category_args", $do_log );
+    sdg_log( "divline2", $do_log );
+    sdg_log( "function called: whx4_custom_em_query_args", $do_log );
     
-    //sdg_log( "[cca] >> check_query_vars", $do_log );
-    $args = em_check_query_vars ($args);
+    // scope
+    if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
+    	$args['scope'] = $_REQUEST['scope'];
+    	sdg_log( "scope set via query_var", $do_log );
+    }
+    // category
+    if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
+    	$args['category'] = $_REQUEST['category'];
+    	sdg_log( "category set via query_var", $do_log );
+    }
     
+    // Exclude unlisted events according to tag
     if ( isset($args['category']) ) {
     	sdg_log( "[cca] args['category']: ".$args['category'], $do_log );
     }
@@ -3938,31 +3947,6 @@ function whx4_custom_category_args ( $args ) {
     	sdg_log( "[cca] final args['category']: ".print_r($args['category'],true), $do_log );
     } else {
     	sdg_log( "[cca] final args['category']: ".$args['category'], $do_log );
-    }    
-    
-    return $args;
-}
-
-// Function to check for scope and category in query vars if not already set otherwise
-//add_filter( 'em_object_build_sql_conditions_args', 'em_check_query_vars',10,1);
-//add_filter( 'em_content_events_args', 'em_check_query_vars' );
-function em_check_query_vars ( $args ) {
-
-	// TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
-    sdg_log( "divline2", $do_log );
-    sdg_log( "function called: em_check_query_vars", $do_log );
-    
-    // scope
-    if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
-    	$args['scope'] = $_REQUEST['scope'];
-    	sdg_log( "scope set via query_var", $do_log );
-    }
-    // category
-    if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
-    	$args['category'] = $_REQUEST['category'];
-    	sdg_log( "category set via query_var", $do_log );
     }
     
     //sdg_log( "EM args: ".print_r($args, true), $do_log );
