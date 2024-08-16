@@ -3917,7 +3917,7 @@ function whx4_custom_em_query_args ( $args ) {
     
     // scope
     if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
-    	sdg_log( "request_scope is set: ".$_REQUEST['scope'], $do_log );
+    	sdg_log( "request_scope is set: ".print_r($_REQUEST['scope'],true), $do_log );
     	//$args['scope'] = $_REQUEST['scope'];
     	//sdg_log( "scope set via query_var", $do_log );
     } else {
