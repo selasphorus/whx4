@@ -3993,11 +3993,11 @@ function whx4_em_custom_query_conditions( $conditions, $args ){
     } else {
     	//$scope = null;
     }
-    if ( isset($args['category']) ) {
+    /*if ( isset($args['category']) ) {
     	$category = $args['category'];
     	sdg_log( "[secsc] args['category']: ".$category, $do_log );
     	$conditions['category'] = $category;
-    }
+    }*/
     
     //if( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
 	 
