@@ -3941,8 +3941,10 @@ function whx4_custom_em_query_args ( $args ) {
     } else {
     	if ( !is_array($args['category']) && !empty($args['category']) ) {
 			$args['category'] .= ", -special-notice";
-		} else {
+		} else if ( is_array($args['category']) ) {
 			$args['category'][] = "-special-notice";
+		} else {
+			$args['category'] = "-special-notice";
 		}
     }
     if ( is_array($args['category']) ) {
