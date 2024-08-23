@@ -80,9 +80,9 @@ function whx4_scripts_method() {
     //global $current_user;
     //$current_user = wp_get_current_user();
     
-    $fpath = WP_PLUGIN_DIR . '/whx4/whx4.css';
+    $fpath = WP_PLUGIN_DIR . '/whx4/css/whx4.css';
     if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
-    wp_enqueue_style( 'whx4-style', plugins_url( 'whx4.css', __FILE__ ), $ver );
+    wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
     
     /*$fpath = WP_PLUGIN_DIR . '/whx4/js/whx4.js';
     if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = date('Ymd.hi'); }
