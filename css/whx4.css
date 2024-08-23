@@ -28,3 +28,50 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/*** Events Calendar Styling ***/
+
+
+.pub_date, .event_date {
+	font-style: italic;
+}
+
+.calendar-day,
+.calendar-day-spacer {
+    display: inline-block;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	color: #888888;
+    margin-bottom: 0.5rem;
+	text-transform: uppercase;
+}
+
+.calendar-day:not(.secondary),
+a.calendar-day {
+	background: 1px 3px url('graphics/expand-icon.gif') no-repeat;
+    background-position: 1px -14px;
+	padding-left: 17px;
+}
+
+.secondary,
+.calendar-day.secondary {
+	background-image: none;
+	padding-left: 0;
+	text-transform: none;
+	font-style: italic;
+}
+
+a.calendar-day:hover {
+    color: #666666;
+    background-position: 1px -14px;
+}
+
+.calendar-day-desc,
+.dialog_content {
+    display: none;
+}
+
+.pub_date.inline .posted-on,
+body:not(.search-results) article:not(.sticky) .pub_date.inline .posted-on {
+	display: inline-block;
+}
+
