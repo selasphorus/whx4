@@ -71,6 +71,28 @@ require 'includes/cpts.php';
 // Load custom taxonomies
 //require 'taxonomies.php';
 
+/**
+ * Enqueue scripts and styles
+ */
+add_action( 'wp_enqueue_scripts', 'whx4_scripts_method' );
+function whx4_scripts_method() {
+    
+    //global $current_user;
+    //$current_user = wp_get_current_user();
+    
+    $fpath = WP_PLUGIN_DIR . '/whx4/whx4.css';
+    if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
+    wp_enqueue_style( 'whx4-style', plugins_url( 'whx4.css', __FILE__ ), $ver );
+    
+    /*$fpath = WP_PLUGIN_DIR . '/whx4/js/whx4.js';
+    if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = date('Ymd.hi'); }
+    wp_enqueue_script( 'whx4', plugins_url( 'js/whx4.js', __FILE__ ), array( 'jquery-ui-dialog' ), $ver  );
+    wp_localize_script( 'whx4', 'theUser', array (
+        'username' => $current_user->user_login,
+    ) );*/
+    
+}
+
 /* +~+~+ Optional Modules +~+~+ */
 
 // Get plugin options -- WIP
