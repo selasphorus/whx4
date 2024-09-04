@@ -316,6 +316,51 @@ if ( in_array('places', $active_modules ) ) {
 
 if ( in_array('events', $active_modules ) ) {
 
+	// Event -- if EM is not active
+	/* +~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+~+ */
+	/*if ( !post_type_exists('event') ) {
+	
+		function brdhv_register_post_type_event() {
+	
+			$labels = array(
+				'name' => __( 'Birdhive Events', 'bkkp' ),
+				'singular_name' => __( 'Event', 'bkkp' ),
+				'add_new' => __( 'New Event', 'bkkp' ),
+				'add_new_item' => __( 'Add New Event', 'bkkp' ),
+				'edit_item' => __( 'Edit Event', 'bkkp' ),
+				'new_item' => __( 'New Event', 'bkkp' ),
+				'view_item' => __( 'View Event', 'bkkp' ),
+				'search_items' => __( 'Search Events', 'bkkp' ),
+				'not_found' =>  __( 'No Events Found', 'bkkp' ),
+				'not_found_in_trash' => __( 'No Events found in Trash', 'bkkp' ),
+			);
+		
+			$args = array(
+				'labels' => $labels,
+				'public' => true,
+				'publicly_queryable' => true,
+				'show_ui'            => true,
+				'show_in_menu'       => true,
+				'query_var'          => true,
+				'rewrite'            => array( 'slug' => 'events' ),
+				'capability_type' => $caps,
+				'map_meta_cap'       => true,
+				'has_archive'        => true,
+				'hierarchical'       => false,
+				//'menu_icon'          => 'dashicons-yes-alt',
+				'menu_position'      => null,
+				'supports'           => array( 'title', 'author', 'thumbnail', 'editor', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ), //
+				'taxonomies' => array( 'admin_tag', 'event_category' ), 
+				'show_in_rest' => false,    
+			);
+		
+			register_post_type( 'event', $args );
+		
+		}
+		add_action( 'init', 'brdhv_register_post_type_event' );
+		
+	}*/
+	
 	// Event Series
 	function register_post_type_event_series() {
 
