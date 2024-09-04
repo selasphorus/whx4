@@ -4372,6 +4372,7 @@ function my_em_scope_conditions($conditions, $args){
 add_filter( 'em_get_scopes', 'whx4_em_scopes', 10, 1);
 function whx4_em_scopes($scopes){
     $my_scopes = array(
+		'today-onward' => 'Today Onward',
 		'upcoming' => 'Upcoming',
 		'this-week' => 'This Week',
         //'next-month' => __('Events next month','events-manager'),
