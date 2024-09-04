@@ -3902,7 +3902,29 @@ function whx4_custom_em_calendar_widget ( $args ) {
     return $args;
 }
 
-// Function to check for scope and category in query vars if not already set otherwise
+// Functions to check for scope and category in query vars if not already set otherwise
+add_filter( 'em_content_events_args', 'whx4_em_scope_via_query_arg' );
+function whx4_em_scope_via_query_arg ( $args ) {
+
+	// TS/logging setup
+    $do_ts = devmode_active(); 
+    $do_log = devmode_active();
+    sdg_log( "divline2", $do_log );
+    sdg_log( "function called: whx4_em_scope_via_query_arg", $do_log );
+    //if ( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
+    
+    // scope
+    if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
+    	sdg_log( "request_scope is set: ".print_r($_REQUEST['scope'],true), $do_log );
+    	$args['scope'] = $_REQUEST['scope'];
+    	sdg_log( "scope set via query_var", $do_log );
+    } else {
+    	sdg_log( "request_scope is NOT set", $do_log );
+    }
+    
+    return $args;
+}
+    
 add_filter( 'em_object_build_sql_conditions_args', 'whx4_custom_em_query_args',10,1);
 add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
 function whx4_custom_em_query_args ( $args ) {
@@ -3916,13 +3938,13 @@ function whx4_custom_em_query_args ( $args ) {
     if ( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
     
     // scope
-    if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
+    /*if ( isset($_REQUEST['scope']) ) { //!isset($args['scope']) && 
     	sdg_log( "request_scope is set: ".print_r($_REQUEST['scope'],true), $do_log );
     	//$args['scope'] = $_REQUEST['scope'];
     	//sdg_log( "scope set via query_var", $do_log );
     } else {
     	sdg_log( "request_scope is NOT set", $do_log );
-    }
+    }*/
     
     // category    
     if ( isset($_REQUEST['category']) ) { //!isset($args['category']) && 
