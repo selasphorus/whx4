@@ -4340,6 +4340,7 @@ function whx4_em_get_range_dates(){
     
 	$ranges = array(
 		'all' => array('1970-01-01', $today),
+		'future' => array(date_i18n("Y-m-d"),date_i18n("Y-m-d",strtotime("+10 years"))), //onward
 		'today'=> $today,
 		'yesterday'=> date('Y-m-d', strtotime('yesterday')),
 		'this month'=> array( date('Y-m-01'), $today ),
