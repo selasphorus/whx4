@@ -529,7 +529,7 @@ if ( !function_exists( 'acf_update_related_field_on_save' ) ) {
 add_action( 'acf/init', 'whx4_bidirectional_field_updates' );
 function whx4_bidirectional_field_updates () {
 	if ( in_array('events', $active_modules ) ) {
-		add_filter('acf/update_value/name=events_series', 'bidirectional_acf_update_value', 10, 3);
+		add_filter('acf/update_value/name=series_events', 'bidirectional_acf_update_value', 10, 3);
 	}
 }
 */

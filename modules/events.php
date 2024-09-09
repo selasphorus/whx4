@@ -4123,7 +4123,7 @@ function whx4_custom_event_search_build_sql_conditions ($conditions, $args) {
         sdg_log( "[sdg_custom_event_search...] series is set and valid: ".$args['series'], $do_log );
         $meta_value = '%"'.$args['series'].'"%';
         $sql = $wpdb->prepare(
-            "SELECT `event_id` FROM ".EM_EVENTS_TABLE.", `wpstc_postmeta` WHERE `meta_value` LIKE %s AND `meta_key`='events_series' AND ".EM_EVENTS_TABLE.".`post_id` = `wpstc_postmeta`.`post_id`", $meta_value
+            "SELECT `event_id` FROM ".EM_EVENTS_TABLE.", `wpstc_postmeta` WHERE `meta_value` LIKE %s AND `meta_key`='series_events' AND ".EM_EVENTS_TABLE.".`post_id` = `wpstc_postmeta`.`post_id`", $meta_value
         ); // 
         //$sql = $wpdb->prepare("SELECT post_id FROM `wpstc_postmeta` WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
         //$sql = $wpdb->prepare("SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value=%s AND meta_key='event_series'", $args['event_series']);
