@@ -1372,7 +1372,7 @@ function get_event_program_items( $atts = array() ) {
 				// Get the program item name
 				// --------------------
 				// WIP
-				$arr_item_name = get_program_item_name( array( 'row' => $row, 'row_type' => $row_type, 'program_item_obj_id' => $program_item_obj_id, 'program_item_label' => $program_item_label ) );
+				$arr_item_name = get_program_item_name( array( 'row' => $row, 'program_type' => $program_type, 'row_type' => $row_type, 'program_item_obj_id' => $program_item_obj_id, 'program_item_label' => $program_item_label ) );
 				// Title as label?
 				if ( !empty($arr_item_name['title_as_label']) ) {
 					$row_info .= ">> use title_as_label<br />";
