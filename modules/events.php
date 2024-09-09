@@ -1789,7 +1789,7 @@ function get_program_item_name ( $args = array() ) {
     
     // Defaults
 	$defaults = array(
-		'program_type'	=> 'service_order',
+		'program_type'	=> 'default',
 		'row_type'		=> 'default', // other possible values include: "header", ...?
 		'row'			=> null,
 		'program_item_obj_id' => null,
@@ -1839,6 +1839,7 @@ function get_program_item_name ( $args = array() ) {
 				$ts_info .= $arr_item_name['ts_info'];
 				
 				if ( $program_type == "concert_program" ) { $authorship_format = 'concert_item'; } else { $authorship_format = 'title_as_label'; }
+				$ts_info .= "program_type: ".$program_type."<br />";
 				$ts_info .= "authorship_format: ".$authorship_format."<br />";
 				//if ( $program_type == "service_order" ) { $authorship_format = 'service_order'; } else { $authorship_format = 'concert_item'; } // wip
 				$authorship_args = array( 'data' => array( 'post_id' => $program_item_obj_id ), 'format' => $authorship_format, 'abbr' => false );
