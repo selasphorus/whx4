@@ -1267,7 +1267,7 @@ function get_event_program_items( $atts = array() ) {
 			
 				// Get the program item name
 				// --------------------
-				$arr_item_name = get_program_item_name( array( 'row' => $row, 'row_type' => $row_type, 'program_item_label' => $program_item_label ) );
+				$arr_item_name = get_program_item_name( array( 'row' => $row, 'program_type' => $program_type, 'row_type' => $row_type, 'program_item_label' => $program_item_label ) );
 				// Title as label?
 				if ( !empty($arr_item_name['title_as_label']) ) {
 					$row_info .= ">> use title_as_label<br />";
@@ -1281,7 +1281,7 @@ function get_event_program_items( $atts = array() ) {
 				}
 			
 				// Item Name
-				if ( $arr_item_name['item_name'] ) { $program_item_name = $arr_item_name['item_name']; }			//
+				if ( $arr_item_name['item_name'] ) { $program_item_name = $arr_item_name['item_name']; }
 				if ( !empty($program_item_name) ) {
 					$td_class = "program_item placeholder"; // placeholder because this is a zero-item row
 					if ( $title_as_label ) { $td_class .= " authorship"; }
@@ -1789,6 +1789,7 @@ function get_program_item_name ( $args = array() ) {
     
     // Defaults
 	$defaults = array(
+		'program_type'	=> 'service_order',
 		'row_type'		=> 'default', // other possible values include: "header", ...?
 		'row'			=> null,
 		'program_item_obj_id' => null,
@@ -1836,8 +1837,9 @@ function get_program_item_name ( $args = array() ) {
 				$arr_item_name = get_rep_info( $program_item_obj_id, 'display', false, true ); // item name WITHOUT authorship info
 				$title_as_label = $arr_item_name['info'];
 				$ts_info .= $arr_item_name['ts_info'];
-										
-				$authorship_args = array( 'data' => array( 'post_id' => $program_item_obj_id ), 'format' => 'concert_item', 'abbr' => false );
+				
+				if ( $program_type == "service_order" ) { $authorship_format = 'service_order'; } else { $authorship_format = 'concert_item'; } // wip
+				$authorship_args = array( 'data' => array( 'post_id' => $program_item_obj_id ), 'format' => $authorship_format, 'abbr' => false );
 				$arr_authorship_info = get_authorship_info ( $authorship_args );
 				$item_name = $arr_authorship_info['info'];
 				$ts_info .= $arr_authorship_info['ts_info'];
