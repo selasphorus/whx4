@@ -1838,7 +1838,8 @@ function get_program_item_name ( $args = array() ) {
 				$title_as_label = $arr_item_name['info'];
 				$ts_info .= $arr_item_name['ts_info'];
 				
-				if ( $program_type == "service_order" ) { $authorship_format = 'service_order'; } else { $authorship_format = 'concert_item'; } // wip
+				if ( $program_type == "concert_program" ) { $authorship_format = 'concert_item'; } else { $authorship_format = 'post_title'; }
+				//if ( $program_type == "service_order" ) { $authorship_format = 'service_order'; } else { $authorship_format = 'concert_item'; } // wip
 				$authorship_args = array( 'data' => array( 'post_id' => $program_item_obj_id ), 'format' => $authorship_format, 'abbr' => false );
 				$arr_authorship_info = get_authorship_info ( $authorship_args );
 				$item_name = $arr_authorship_info['info'];
