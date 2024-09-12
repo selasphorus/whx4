@@ -47,7 +47,7 @@
 
 .calendar-day:not(.secondary),
 a.calendar-day {
-	background: 1px 3px url('graphics/expand-icon.gif') no-repeat;
+	background: 1px 3px url('../graphics/expand-icon.gif') no-repeat;
     background-position: 1px -14px;
 	padding-left: 17px;
 }
