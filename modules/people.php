@@ -83,11 +83,12 @@ function get_person_display_name ( $args = array() ) {
 			if ( $suffix ) { $display_name .= ", ".$suffix; }
 		}
 		
+		/*
 		// Job Title
 		if ( $show_job_title ) {
 			$job_title = get_field('job_title',$person_id);
 			if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
-		}
+		}*/
 		
 		// Dates
 		// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
@@ -101,6 +102,12 @@ function get_person_display_name ( $args = array() ) {
 			$display_name = get_the_title( $person_id );
 		}
 	
+	}
+		
+	// Job Title
+	if ( $show_job_title ) {
+		$job_title = get_field('job_title',$person_id);
+		if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
 	}
 	
 	if ( $url ) {
