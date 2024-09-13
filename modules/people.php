@@ -30,7 +30,7 @@ function get_person_display_name ( $args = array() ) {
 		'name_abbr'   	=> 'full', // other option is "abbr", i.e. lastname only
 		'show_prefix'   => false,
 		'show_suffix'   => false,
-		'show_jobtitle' => false,
+		'show_job_title' => false,
 		'show_dates'    => false,
 		'url'    		=> null,
 		'styled'		=> false,
@@ -86,7 +86,7 @@ function get_person_display_name ( $args = array() ) {
 		// Job Title
 		if ( $show_job_title ) {
 			$job_title = get_field('job_title',$person_id);
-			if ( $job_title ) { $display_name .= ", ".$job_title; }
+			if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
 		}
 		
 		// Dates
