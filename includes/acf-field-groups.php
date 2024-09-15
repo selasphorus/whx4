@@ -2994,7 +2994,11 @@ function whx4_register_field_groups() {
 				'min' => '',
 				'max' => '',
 				'return_format' => 'id',
-				'bidirectional_target' => array(),
+				'bidirectional' => 1,
+				'bidirectional_target' => array(
+					0 => 'field_whx4_632a27ff8450f',
+				),
+				//'bidirectional_target' => array(),
 			),
 			array(
 				'key'	=>	'field_whx4_627c002205d63',
