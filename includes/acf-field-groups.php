@@ -554,7 +554,15 @@ function whx4_register_field_groups() {
 						'type' => 'post_object',
 						'instructions' => '',
 						'required' => 0,
-						'conditional_logic' => 0,
+						'conditional_logic' => array(
+							array(
+								array(
+									'field' => 'field_whx4_at_large',
+									'operator' => '==',
+									'value' => '0',
+								),
+							),
+						),
 						'wrapper' => array(
 							'width' => '40',
 							'class' => '',
@@ -599,6 +607,28 @@ function whx4_register_field_groups() {
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
 					array(
+						'key' => 'field_whx4_at_large',
+						'label' => 'At Large',
+						'name' => 'at_large',
+						'aria-label' => '',
+						'type' => 'true_false',
+						'instructions' => 'Check this box if this is the person\'s preferred general title, not in affiliation with any specific group',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '10',
+							'class' => '',
+							'id' => '',
+						),
+						'relevanssi_exclude' => 0,
+						'message' => '',
+						'default_value' => 0,
+						'ui' => 0,
+						'ui_on_text' => '',
+						'ui_off_text' => '',
+						'parent_repeater' => 'field_whx4_affiliations',
+					),
+					array(
 						'key' => 'field_whx4_current_role',
 						'label' => 'Current Role?',
 						'name' => 'current_role',
@@ -608,7 +638,7 @@ function whx4_register_field_groups() {
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array(
-							'width' => '',
+							'width' => '10',
 							'class' => '',
 							'id' => '',
 						),
