@@ -612,7 +612,7 @@ function whx4_register_field_groups() {
 						'name' => 'at_large',
 						'aria-label' => '',
 						'type' => 'true_false',
-						'instructions' => 'Check this box if this is the person\'s preferred general title, not in affiliation with any specific group',
+						'instructions' => 'Preferred general title', //'Check this box if this is the person\'s preferred general title, not in affiliation with any specific group',
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array(
