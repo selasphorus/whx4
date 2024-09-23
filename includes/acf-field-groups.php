@@ -544,7 +544,9 @@ function whx4_register_field_groups() {
 						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_affiliations',
 					),
-					array(
+					// TODO: decide whether separate 'title' field is useful
+					// Consider event-specific titles vs. group-affiliated titles -- might be e.g. Soprano with Musica Sacra but also Soprano Soloist with Sacra for a specific concert...
+					/*array(
 						'key'	=>	'field_whx4_affiliations_title',
 						'label' => 'Title',
 						'name' => 'title',
@@ -570,7 +572,7 @@ function whx4_register_field_groups() {
 						'multiple' => 0,
 						'bidirectional_target' => array(),
 						'parent_repeater' => 'field_whx4_affiliations',
-					),
+					),*/
 					array(
 						'key'	=>	'field_whx4_664c8a86cb584',
 						//'key'	=>	'field_whx4_affiliations_group',
