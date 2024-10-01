@@ -4409,7 +4409,7 @@ add_filter('em_cp_event_recurring_public','__return_true');
 function get_special_date_content( $the_date = null ) {
 	
 	// TS/logging setup
-    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_ts = devmode_active( array("whx4", "events") );
     $do_log = false;
     sdg_log( "divline2", $do_log );
     
@@ -4503,6 +4503,7 @@ function whx4_custom_event_search_parameters($args, $array){
 add_shortcode('display_event_stats', 'display_event_stats');
 function display_event_stats( $atts = array() ) {
 	
+	$do_ts = devmode_active( array("whx4", "events") );
 	$info = ""; // init
     
     // Extract args
@@ -4538,6 +4539,8 @@ function display_event_stats( $atts = array() ) {
     //$info .= "<pre>".print_r($post,true)."</pre>";
     //$info .= "<pre>".print_r($post_meta,true)."</pre>";    
     //$info .= "Delete"; // add delete link...
+    
+    if ( $do_ts ) { $info = '<span class="troubleshooting inline">'.$info.'</span>'; }
     
 	return $info;
 }
