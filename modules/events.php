@@ -50,7 +50,7 @@ function get_related_event( $post_id = null, $post_type = null, $link = true, $l
 function get_related_events ( $meta_field = null, $term_id = null, $return_fields = 'ids' ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") );
     $do_log = false;
     sdg_log( "divline2", $do_log );
 
@@ -122,7 +122,7 @@ add_shortcode('display_event_program', 'get_event_program_content');
 function get_event_program_content( $post_id = null ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
 	
@@ -183,7 +183,7 @@ add_shortcode('display_event_ticketing_info', 'get_event_ticketing_info');
 function get_event_ticketing_info( $post_id = null ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
 	
@@ -270,8 +270,8 @@ add_shortcode('call_time', 'get_call_time' );
 function get_call_time( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
 	
 	// Extract args
@@ -304,8 +304,8 @@ add_shortcode('md_overview', 'get_music_dept_overview' );
 function get_music_dept_overview( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active();
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") );
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
 	
 	// Extract args
@@ -360,8 +360,8 @@ add_shortcode('roster', 'get_event_roster' );
 function get_event_roster( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
 	
 	// Extract args
@@ -423,8 +423,8 @@ add_shortcode('repertoire', 'get_event_rep');
 function get_event_rep( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
 	
 	// Extract args
@@ -506,7 +506,7 @@ add_shortcode('display_event_personnel', 'get_event_personnel');
 function get_event_personnel( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     
@@ -728,7 +728,7 @@ function get_event_personnel( $atts = array() ) {
 			}*/
 			
 			// Insert row_info for troubleshooting
-			if ( devmode_active() ) {
+			if ( devmode_active( array("whx4", "events") ) ) {
 				if ( $display == 'table' ) {
 					//$table .= '<div class="troubleshooting">row_info:<br />'.$row_info.'</div>'; //$row_info; // Display comments w/ in row for ease of parsing dev notes
 				} else {
@@ -813,7 +813,7 @@ function get_event_personnel( $atts = array() ) {
 function get_personnel_role ( $args = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
 	
@@ -882,7 +882,7 @@ function get_personnel_role ( $args = array() ) {
 function get_personnel_person ( $args = array() ) {
 	
 	// TS/logging setup
-	$do_ts = devmode_active(); 
+	$do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: get_personnel_person", $do_log );
@@ -1018,7 +1018,7 @@ add_shortcode('display_event_program_items', 'get_event_program_items');
 function get_event_program_items( $atts = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") );
     $do_log = false;
     sdg_log( "divline2", $do_log );
     
@@ -1500,7 +1500,7 @@ function get_event_program_items( $atts = array() ) {
 				}*/
 			
 				// Insert row_info for troubleshooting
-				if ( devmode_active() ) {
+				if ( devmode_active( array("whx4", "events") ) ) {
 					if ( $display == 'table' ) {
 						//$table .= '<div class="troubleshooting">row_info:<br />'.$row_info.'</div>'; //$row_info; // Display comments w/ in row for ease of parsing dev notes
 					} else {
@@ -1693,7 +1693,7 @@ function get_event_program_items( $atts = array() ) {
 function get_program_item_label ( $row = null ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
 	
@@ -1771,7 +1771,7 @@ function get_program_item_label ( $row = null ) {
 function get_program_item_name ( $args = array() ) {
     
     // TS/logging setup
-    $do_ts = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") );
     $do_log = false;
     sdg_log( "divline2", $do_log );
 
@@ -3384,7 +3384,7 @@ function event_program_cleanup( $atts = array() ) {
 function get_event_programs_containing_post( $post_id = null ) { // formerly get_program_containing_post
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     
@@ -3558,7 +3558,7 @@ add_filter('em_event_output_placeholder','sdg_placeholders',1,3);
 function sdg_placeholders( $replace, $EM_Event, $result ) {
     
     // TS/logging setup
-    $do_ts = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") );
     $do_log = false;
     sdg_log( "divline2", $do_log );
     
@@ -3865,8 +3865,8 @@ add_filter( 'em_calendar_get_args', 'whx4_custom_em_calendar_widget',1,3 ); // n
 function whx4_custom_em_calendar_widget ( $args ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
 	
 	sdg_log( "function called: whx4_custom_em_calendar_widget", $do_log );
@@ -3912,8 +3912,8 @@ add_filter( 'em_content_events_args', 'whx4_em_scope_via_query_arg' );
 function whx4_em_scope_via_query_arg ( $args ) {
 
 	// TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_em_scope_via_query_arg", $do_log );
     //if ( is_admin() ) { sdg_log( "is_admin", $do_log ); } else { sdg_log( "NOT is_admin", $do_log ); }
@@ -3935,8 +3935,8 @@ add_filter( 'em_content_events_args', 'whx4_custom_em_query_args' );
 function whx4_custom_em_query_args ( $args ) {
 
 	// TS/logging setup
-    $do_ts = devmode_active(); 
-    $do_log = devmode_active();
+    $do_ts = devmode_active( array("whx4", "events") ); 
+    $do_log = devmode_active( array("whx4", "events") );
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_em_query_args", $do_log );
     
@@ -3988,7 +3988,7 @@ add_filter( 'em_events_build_sql_conditions', 'whx4_em_custom_query_conditions',
 function whx4_em_custom_query_conditions( $conditions, $args ){
 
 	// TS/logging setup
-	$do_ts = devmode_active(); 
+	$do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = true;
 	sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_em_custom_query_conditions", $do_log );
@@ -4113,7 +4113,7 @@ add_filter( 'em_events_build_sql_conditions', 'whx4_custom_event_search_build_sq
 function whx4_custom_event_search_build_sql_conditions ($conditions, $args) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = true;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_event_search_build_sql_conditions", $do_log );
@@ -4218,7 +4218,7 @@ function em_args_mod($args){
 function whx4_em_custom_scopes( $scope = null ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
 	
@@ -4335,7 +4335,7 @@ function whx4_em_custom_scopes( $scope = null ) {
 function whx4_em_get_range_dates(){
 
 	// TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = true;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_em_get_range_dates", $do_log );
@@ -4409,7 +4409,7 @@ add_filter('em_cp_event_recurring_public','__return_true');
 function get_special_date_content( $the_date = null ) {
 	
 	// TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "events") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     

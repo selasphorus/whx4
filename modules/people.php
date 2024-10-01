@@ -13,7 +13,7 @@ if ( !function_exists( 'add_action' ) ) {
 function get_person_display_name ( $args = array() ) {
 	
 	// TS/logging setup
-	$do_ts = devmode_active(); 
+	$do_ts = devmode_active( array("whx4", "people") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: get_person_display_name", $do_log );
@@ -264,7 +264,7 @@ function get_cpt_person_content( $post_id = null ) {
 function get_person_dates( $post_id, $styled = false ) {
     
     // TS/logging setup
-    $do_ts = devmode_active(); 
+    $do_ts = devmode_active( array("whx4", "people") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: get_person_dates", $do_log );
