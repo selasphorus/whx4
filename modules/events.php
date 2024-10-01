@@ -4540,9 +4540,9 @@ function display_event_stats( $atts = array() ) {
     //$info .= "<pre>".print_r($post_meta,true)."</pre>";    
     //$info .= "Delete"; // add delete link...
     
-    if ( $do_ts === true ) { $info = '<span class="troubleshooting inline">'.$info.'</span>'; }
+    $info = '<span class="troubleshooting inline">'.$info.'</span>';
     
-	return $info;
+	if ( $do_ts === true ) { return $info; } else { return null; }
 }
 
 // Tidier slugs for recurring event instances
