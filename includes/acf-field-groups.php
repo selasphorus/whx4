@@ -473,7 +473,8 @@ function whx4_register_field_groups() {
 				'key'	=>	'field_whx4_664c8a5fcb582',
 				//'key'	=>	'field_whx4_affiliations_tab',
 				//'key' => 'field_664c8a5fcb582',
-				'label' => 'Titles and Affiliations',
+				'label' => 'Affiliations and Identities',
+				//'label' => 'Titles and Affiliations',
 				'name' => 'affiliations_tab',
 				'aria-label' => '',
 				'type' => 'tab',
@@ -619,7 +620,7 @@ function whx4_register_field_groups() {
 						'name' => 'dates',
 						'aria-label' => '',
 						'type' => 'text',
-						'instructions' => 'Dates of affiliation',
+						'instructions' => 'Dates of affiliation/activity',
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array(
