@@ -36,7 +36,7 @@ function whx4_show_acf_admin() {
 			
 			// Compare current logged in user's email with our allow list.
 			//if ( in_array( $email_domain, $allowed_email_domains, true ) ) {
-			if ( $user->user_email == "birdhive@gmail.com" ) {
+			if ( $user->user_email == "birdhive@gmail.com" || $user->user_email == "alphameric@protonmail.com" ) {
 				return true;
 			}
 		}
