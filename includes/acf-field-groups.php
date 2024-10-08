@@ -398,18 +398,19 @@ function whx4_register_field_groups() {
 				'save_custom' => 1,
 				'save_post_type' => 'identity',
 				'save_post_status' => 'publish',
-				'acfe_bidirectional' => array(
+				/*'acfe_bidirectional' => array(
 					'acfe_bidirectional_enabled' => '1',
 					'acfe_bidirectional_related' => array(
 						0 => 'field_whx4_identity_person',
 					),
+				),*/
+				'bidirectional' => 1,
+				'bidirectional_target' => array(
+					0 => 'field_whx4_identity_person',
 				),
 				'allow_null' => 0,
 				'allow_in_bindings' => 0,
-				'bidirectional' => 0,
 				'ui' => 1,
-				'bidirectional_target' => array(
-				),
 			),
 			array(
 				'key'	=>	'field_whx4_64b065e9a96c7',
@@ -941,18 +942,19 @@ function whx4_register_field_groups() {
 				'multiple' => 0,
 				'save_custom' => 0,
 				'save_post_status' => 'publish',
-				'acfe_bidirectional' => array(
+				/*'acfe_bidirectional' => array(
 					'acfe_bidirectional_enabled' => '1', // true
 					'acfe_bidirectional_related' => array(
 						0 => 'field_whx4_person_ids', //0 => 'field_67054d2298e2a',
 					),
+				),*/
+				'bidirectional' => 1,
+				'bidirectional_target' => array(
+					0 => 'field_whx4_person_ids',
 				),
 				'allow_null' => 0,
 				'allow_in_bindings' => 0,
-				'bidirectional' => 0,
 				'ui' => 1,
-				'bidirectional_target' => array(
-				),
 				'save_post_type' => '',
 			),
 			array(
@@ -1772,7 +1774,8 @@ function whx4_register_field_groups() {
 						'relevanssi_exclude' => 0,
 						'post_type' => array(
 							0 => 'person',
-							1 => 'group',
+							1 => 'identity',
+							2 => 'group',
 						),
 						'post_status' => '',
 						'taxonomy' => '',
