@@ -68,6 +68,70 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 	}
 	add_action( 'init', 'register_post_type_person' );
 
+	// Identity
+	function register_post_type_identity() {
+	
+		if ( whx4_custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
+		
+		$labels = array(
+			'name' => __( 'Identities', 'whx4' ),
+			'singular_name' => __( 'Identity', 'whx4' ),
+			'add_new' => __( 'New Identity', 'whx4' ),
+			'add_new_item' => __( 'Add New Identity', 'whx4' ),
+			'edit_item' => __( 'Edit Identity', 'whx4' ),
+			'new_item' => __( 'New Identity', 'whx4' ),
+			'view_item' => __( 'View Identity', 'whx4' ),
+			'search_items' => __( 'Search Identities', 'whx4' ),
+			'not_found' =>  __( 'No Identities Found', 'whx4' ),
+			'not_found_in_trash' => __( 'No Identities found in Trash', 'whx4' ),
+			/*
+			'menu_name' => 'Identities',
+			'all_items' => 'Identities',
+			'view_items' => 'View Identities',
+			'parent_item_colon' => 'Parent Identity:',
+			'archives' => 'Identity Archives',
+			'attributes' => 'Identity Attributes',
+			'insert_into_item' => 'Insert into identity',
+			'uploaded_to_this_item' => 'Uploaded to this identity',
+			'filter_items_list' => 'Filter identities list',
+			'filter_by_date' => 'Filter identities by date',
+			'items_list_navigation' => 'Identities list navigation',
+			'items_list' => 'Identities list',
+			'item_published' => 'Identity published.',
+			'item_published_privately' => 'Identity published privately.',
+			'item_reverted_to_draft' => 'Identity reverted to draft.',
+			'item_scheduled' => 'Identity scheduled.',
+			'item_updated' => 'Identity updated.',
+			'item_link' => 'Identity Link',
+			'item_link_description' => 'A link to a identity.',
+			*/
+		);
+		
+		$args = array(
+			'labels' => $labels,
+			'public' => true,
+			'publicly_queryable'=> true,
+			'show_ui' 			=> true,
+			'show_in_menu'     	=> 'edit.php?post_type=person',
+			'query_var'        	=> true,
+			'rewrite'			=> array( 'slug' => 'people' ), // permalink structure slug
+			'capability_type'	=> $caps,
+			'map_meta_cap'		=> true,
+			'has_archive' 		=> true,
+			'hierarchical'		=> false,
+			'menu_icon'			=> 'dashicons-groups',
+			'menu_position'		=> null,
+			'supports' 			=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
+			'taxonomies'		=> array( 'person_category' ), 
+			'show_in_rest'		=> false, // false = use classic, not block editor
+			'delete_with_user' 	=> false,
+		);
+		
+		register_post_type( 'identity', $args );
+		
+	}
+	add_action( 'init', 'register_post_type_identity' );
+	
 	// Group
 	// TODO: Figure out how to allow for individual sites to customize labels -- e.g. "Ensembles" for STC(?)
 	function register_post_type_group() {

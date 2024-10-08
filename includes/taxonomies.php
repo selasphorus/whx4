@@ -53,10 +53,51 @@ if ( in_array('people', $active_modules ) ) {
 				'assign_terms'  =>   'assign_'.$cap.'_terms',
 			);
 		}*/	
-		register_taxonomy( 'person_category', [ 'person' ], $args );
-		//register_taxonomy( 'test_tax', array( 0 => 'person' ), $args ),
+		register_taxonomy( 'person_category', [ 'person' ], $args ); //register_taxonomy( 'test_tax', array( 0 => 'person' ), $args ),
 	}
 	add_action( 'init', 'register_taxonomy_person_category' );
+
+	// Custom Taxonomy: Person Role
+	// This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis identities and affiliations
+	// NB: previously linked to Events module, along with Program Items
+	function register_taxonomy_person_role() {
+		$labels = array(
+			'name'              => _x( 'Personnel Roles', 'taxonomy general name' ),
+			'singular_name'     => _x( 'Personnel Role', 'taxonomy singular name' ),
+			'search_items'      => __( 'Search Personnel Roles' ),
+			'all_items'         => __( 'All Personnel Roles' ),
+			'parent_item'       => __( 'Parent Personnel Role' ),
+			'parent_item_colon' => __( 'Parent Personnel Role:' ),
+			'edit_item'         => __( 'Edit Personnel Role' ),
+			'update_item'       => __( 'Update Personnel Role' ),
+			'add_new_item'      => __( 'Add New Personnel Role' ),
+			'new_item_name'     => __( 'New Personnel Role Name' ),
+			'menu_name'         => __( 'Personnel Roles' ),
+		);
+		$args = array(
+			'labels'            => $labels,
+			'description'       => 'This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis identities and affiliations.',
+			'public'            => true,
+			'hierarchical'      => true,
+			'show_ui'           => true,
+			'show_in_menu'      => true,
+			'show_admin_column' => true,
+			'meta_box_cb'       => false,
+			'query_var'         => true,
+			'rewrite'           => [ 'slug' => 'person_role' ],
+		);
+		/*if ( whx4_custom_caps() ) {
+			$cap = 'person';
+			$args['capabilities'] = array(
+				'manage_terms'  =>   'manage_'.$cap.'_terms',
+				'edit_terms'    =>   'edit_'.$cap.'_terms',
+				'delete_terms'  =>   'delete_'.$cap.'_terms',
+				'assign_terms'  =>   'assign_'.$cap.'_terms',
+			);
+		}*/
+		register_taxonomy( 'person_role', [ 'person' ], $args ); //register_taxonomy( 'person_role', [ 'event', 'event_program' ], $args );
+	}
+	add_action( 'init', 'register_taxonomy_person_role' );
 	
 	// Custom Taxonomy: Person Title
 	// TODO: phase out this taxonomy -- currently in use only for nycago -- replace with affiliations via person_role
@@ -106,7 +147,7 @@ if ( in_array('people', $active_modules ) ) {
 		);
 		$args = array(
 			'labels'            => $labels,
-			'description'       => '',
+			'description'       => '', // ???
 			'public'            => true,
 			'hierarchical'      => false,
 			'show_ui'           => true,
@@ -211,49 +252,8 @@ if ( in_array('places', $active_modules ) ) {
 
 if ( in_array('events', $active_modules ) ) {
 
-	// Custom Taxonomy: Person Role
-	// This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis group affiliations
-	// TODO: consider linking this instead with the People module
-	function register_taxonomy_person_role() {
-		$labels = array(
-			'name'              => _x( 'Personnel Roles', 'taxonomy general name' ),
-			'singular_name'     => _x( 'Personnel Role', 'taxonomy singular name' ),
-			'search_items'      => __( 'Search Personnel Roles' ),
-			'all_items'         => __( 'All Personnel Roles' ),
-			'parent_item'       => __( 'Parent Personnel Role' ),
-			'parent_item_colon' => __( 'Parent Personnel Role:' ),
-			'edit_item'         => __( 'Edit Personnel Role' ),
-			'update_item'       => __( 'Update Personnel Role' ),
-			'add_new_item'      => __( 'Add New Personnel Role' ),
-			'new_item_name'     => __( 'New Personnel Role Name' ),
-			'menu_name'         => __( 'Personnel Roles' ),
-		);
-		$args = array(
-			'labels'            => $labels,
-			'description'       => 'This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis group affiliations.',
-			'public'            => true,
-			'hierarchical'      => true,
-			'show_ui'           => true,
-			'show_in_menu'      => true,
-			'show_admin_column' => true,
-			'meta_box_cb'       => false,
-			'query_var'         => true,
-			'rewrite'           => [ 'slug' => 'person_role' ],
-		);
-		if ( whx4_custom_caps() ) {
-			$cap = 'event_program';
-			$args['capabilities'] = array(
-				'manage_terms'  =>   'manage_'.$cap.'_terms',
-				'edit_terms'    =>   'edit_'.$cap.'_terms',
-				'delete_terms'  =>   'delete_'.$cap.'_terms',
-				'assign_terms'  =>   'assign_'.$cap.'_terms',
-			);
-		}
-		register_taxonomy( 'person_role', [ 'event', 'event_program' ], $args );
-	}
-	add_action( 'init', 'register_taxonomy_person_role' );
-
 	// Custom Taxonomy: Program Label
+	// TODO: consider generalizing this taxonomy to something like info_label or item_label? Or at least remove the limit to events so it can also be used with e.g. Projects?
 	function register_taxonomy_program_label() {
 		$labels = array(
 			'name'              => _x( 'Program Labels', 'taxonomy general name' ),
