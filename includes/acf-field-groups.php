@@ -942,7 +942,7 @@ function whx4_register_field_groups() {
 				'save_custom' => 0,
 				'save_post_status' => 'publish',
 				'acfe_bidirectional' => array(
-					'acfe_bidirectional_enabled' => true,
+					'acfe_bidirectional_enabled' => '1', // true
 					'acfe_bidirectional_related' => array(
 						0 => 'field_whx4_person_ids', //0 => 'field_67054d2298e2a',
 					),
