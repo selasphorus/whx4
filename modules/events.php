@@ -39,7 +39,7 @@ function get_related_event( $post_id = null, $post_type = null, $link = true, $l
 	
 	//$info .= '<a href="'. esc_url(get_permalink($event_id)) . '">' . get_the_title($event_id) . '</a>';
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	return $info;
 	
@@ -169,7 +169,7 @@ function get_event_program_content( $post_id = null ) {
 	$info .= '</div>';
     $ts_info .= "===== // get_event_program_content =====<br />";
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; } //$info = $ts_info.$info; // ts_info at the top of the page
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; } //$info = $ts_info.$info; // ts_info at the top of the page
 	
     // TODO: get and display program_pdf?
 	//$info .= make_link($program_pdf,"Download Leaflet PDF", null, null, "_blank");
@@ -258,7 +258,7 @@ function get_event_ticketing_info( $post_id = null ) {
     
 	$info .= '</div>';
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	return $info;
 	
@@ -294,7 +294,7 @@ function get_call_time( $atts = array() ) {
     $call_time = get_field( 'call_time', $post_id ); //$call_time = get_post_meta( $post_id, 'call_time', true );
     $info .= '<h3 class="'.$hclass.'">Call Time:</h3>'.$call_time.'<br />';
     
-    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	return $info;
     
@@ -350,7 +350,7 @@ function get_music_dept_overview( $atts = array() ) {
     
     $ts_info .= "===== // get_music_dept_overview =====<br />";
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	return $info;
 
@@ -413,7 +413,7 @@ function get_event_roster( $atts = array() ) {
 		$info .= $choir_notes;
 	}
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
 	return $info;
 
@@ -491,7 +491,7 @@ function get_event_rep( $atts = array() ) {
     
     $ts_info .= "===== // get_event_rep =====<br />";
 	
-	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+	if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 	
     // TODO: get and display program_pdf?
 	//$info .= make_link($program_pdf,"Download Leaflet PDF", null, null, "_blank");
@@ -3365,7 +3365,7 @@ function event_program_cleanup( $atts = array() ) {
 				$ts_info .= "wp_args: <pre>".print_r($wp_args, true)."</pre>";
 				$ts_info .= "Last SQL-Query: <pre>".$result->request."</pre>";
 				*/
-				if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+				if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 			}
 		
 		}
@@ -3657,7 +3657,7 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
 				} else {
 					// If player_status is NOT ready, get some TS info -- tft
 					$media_info = get_media_player( $post_id, false, 'above' );
-					$ts_info .= "media_player ts: ".$media_info['ts_info'];
+					$ts_info .= "[sdgp] media_player ts: ".$media_info['ts_info'];
 				}
 								
 			}
@@ -3772,7 +3772,7 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
     	
     }
     
-    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "" ) ) { $replace .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $replace .= '<div class="troubleshooting sdgp">'.$ts_info.'</div>'; }
     
     return $replace;
 }
