@@ -272,16 +272,20 @@ if ( in_array('places', $active_modules ) ) {
 }
 
 /*** ADDRESSES ***/
-// *** TODO: rename as locations? for use when EM is not active? TBD...
+// An address record should link a person or group with a location -- WIP 11/04/24
+// Multiple addresses may be needed to capture formatting differences if mailing list management is a concern
+// *** TODO: also add CPT: location? for use when EM is not active? TBD...
 // Check for EM activation...
-// Fields to add via ACF to EM location: cross_street, neighborhood, location_status, notes... related_entities....
-//if ( in_array('addresses', $active_modules ) ) {
-if ( in_array('places', $active_modules ) ) {
+// Fields to add via ACF: cross_street, neighborhood, location_status, notes... related_entities....
+// Add those same fields to EM location if EM is active?
+if ( in_array('addresses', $active_modules ) ) {
+//if ( in_array('places', $active_modules ) ) {
 
 	// Address
 	function register_post_type_address() {
 
-		if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('address', 'addresses'); } else { $caps = "post"; }
+		//if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'Addresses', 'whx4' ),
@@ -318,7 +322,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'address', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_address' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
+	add_action( 'init', 'register_post_type_address' ); // NB: Addresses as distinct from locations
 	
 }
 
