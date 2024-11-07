@@ -3650,7 +3650,6 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
 				//$ts_info .= "[sdgp] is_singular('event')<br />";
 				$mp_args = array('post_id' => $post_id, 'status_only' => true, 'position' => 'above', 'media_type' => 'video' );
 				$player_status = get_media_player( $mp_args );
-				//$player_status = get_media_player( $post_id, true, 'above', 'video' ); // get_media_player ( $post_id = null, $position = 'above', $media_type = 'video', $status_only = false, $url = null )
 				$ts_info .= "player_status: ".$player_status."<br />";
 				
 				if ( $player_status == "ready" ) {
