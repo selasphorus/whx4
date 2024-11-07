@@ -3648,15 +3648,19 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
         	} else if ( is_singular('event') ) { //&& function_exists('post_is_webcast_eligible') && post_is_webcast_eligible( $post_id )
 				
 				//$ts_info .= "[sdgp] is_singular('event')<br />";
-				
-				$player_status = get_media_player( $post_id, true, 'above', 'video' ); // get_media_player ( $post_id = null, $position = 'above', $media_type = 'video', $status_only = false, $url = null )
+				$mp_args = array('post_id' => $post_id, 'status_only' => true, 'position' => 'above', 'media_type' => 'video' );
+				$player_status = get_media_player( $mp_args );
+				//$player_status = get_media_player( $post_id, true, 'above', 'video' ); // get_media_player ( $post_id = null, $position = 'above', $media_type = 'video', $status_only = false, $url = null )
 				$ts_info .= "player_status: ".$player_status."<br />";
+				
 				if ( $player_status == "ready" ) {
 					$show_image = false;
 					$ts_info .= "[sdgp] show video, not image<br />";
 				} else {
-					// If player_status is NOT ready, get some TS info -- tft
-					$media_info = get_media_player( $post_id, false, 'above' );
+					// If player_status is NOT ready, get some TS info -- tft					
+					$mp_args = array('post_id' => $post_id, 'position' => 'above' );
+					$media_info = get_media_player( $mp_args );
+					//$media_info = get_media_player( $post_id, false, 'above' );
 					$ts_info .= "[sdgp] media_player ts: ".$media_info['ts_info'];
 				}
 								
