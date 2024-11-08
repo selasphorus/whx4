@@ -50,7 +50,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 			'show_ui' 			=> true,
 			'show_in_menu'     	=> true,
 			'query_var'        	=> true,
-			'rewrite'			=> array( 'slug' => 'people' ), // permalink structure slug
+			'rewrite'			=> array( 'slug' => 'people_test' ), // permalink structure slug
 			'capability_type'	=> $caps,
 			'map_meta_cap'		=> true,
 			'has_archive' 		=> true,
