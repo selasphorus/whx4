@@ -12,7 +12,7 @@ if ( !function_exists( 'add_action' ) ) {
 function whx4_flush_rewrite_rules() {
     flush_rewrite_rules();
 }
-add_action( 'init', 'whx4_flush_rewrite_rules' );
+//add_action( 'init', 'whx4_flush_rewrite_rules' );
 
 /*
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
