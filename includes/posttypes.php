@@ -56,7 +56,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 			'has_archive' 		=> true,
 			'hierarchical'		=> false,
 			'menu_icon'			=> 'dashicons-groups',
-			'menu_position'		=> null,
+			//'menu_position'		=> null,
 			'supports' 			=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
 			'taxonomies'		=> array( 'person_category', 'person_title', 'admin_tag' ), //, 'person_tag', 'people_category'
 			'show_in_rest'		=> false, // false = use classic, not block editor
