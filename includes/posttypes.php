@@ -8,6 +8,22 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
+// Flush rewrite rules -- to be activated only temporarily for TS of CPT 404s
+function whx4_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+add_action( 'init', 'whx4_flush_rewrite_rules' );
+
+/*
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, 'whx4_flush_rewrites' );
+function whx4_flush_rewrites() {
+	// call your CPT registration function here (it should also be hooked into 'init')
+	myplugin_custom_post_types_registration();
+	flush_rewrite_rules();
+}
+*/
+
 // Get plugin options to determine which modules are active
 $options = get_option( 'whx4_settings' );
 if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
