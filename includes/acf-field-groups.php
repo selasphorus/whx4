@@ -2929,7 +2929,7 @@ function whx4_register_field_groups() {
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
-					'width' => '',
+					'width' => '25',
 					'class' => '',
 					'id' => '',
 				),
@@ -2949,7 +2949,7 @@ function whx4_register_field_groups() {
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
-					'width' => '',
+					'width' => '25',
 					'class' => '',
 					'id' => '',
 				),
