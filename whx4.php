@@ -2,8 +2,10 @@
 /**
  * Plugin Name:       WHx4 ACF plugin
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When) using ACF PRO Blocks, Post Types, Options Pages, Taxonomies and more.
- * Requires at least: 6.4
- * Requires PHP:      7.4
+ * //Requires at least: 6.4
+ * //Requires PHP:      7.4
+ * Dependencies:	  Requires SDG for various utility functions
+ * Requires Plugins:  sdg
  * Version:           0.1
  * Author:            ACF
  * License:           GPL-2.0-or-later
