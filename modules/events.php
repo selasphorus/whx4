@@ -3939,6 +3939,7 @@ function whx4_custom_em_query_args ( $args ) {
 
 	// TS/logging setup
     if ( function_exists('devmode_active') ) { $do_ts = devmode_active( array("whx4", "events") ); } else { $do_ts = null; }
+    $do_log = false;
     sdg_log( "divline2", $do_log );
     sdg_log( "function called: whx4_custom_em_query_args", $do_log );
     
