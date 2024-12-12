@@ -4472,7 +4472,7 @@ function get_special_date_content( $the_date = null ) {
     	}
     	
     	$classes = "message centered special-notice";
-    	if ( str_word_count($content) < 50 ) { $classes .= " scalloped"; }
+    	if ( str_word_count($content) < 75 ) { $classes .= " scalloped"; }
     	$ts_info .= str_word_count($content)." words";
         $info .= '<div class="'.$classes.'">';
     	$info .= $content;
