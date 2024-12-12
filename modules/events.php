@@ -4418,6 +4418,7 @@ function get_special_date_content( $the_date = null ) {
     
 	$info = "";
 	$ts_info = "";
+	$content = "";
 	
 	if ( empty($the_date) ) { return null; }
 	
@@ -4461,15 +4462,19 @@ function get_special_date_content( $the_date = null ) {
         $fixed_date_str = date("F d", $timestamp ); // day w/ leading zeros
         $ts_info .= "timestamp: '$timestamp'<br />";
         
-        $info .= '<div class="message centered special-notice scalloped">';
-    	foreach ( $posts as $post ) {
+        foreach ( $posts as $post ) {
     		//$info .= "<pre>".print_r($post, true)."</pre>"; // tft
     		$post_id = $post->ID;
     		if ( $post_id ) {
     			$notice_text = $post->post_content;
-    			$info .= $notice_text;
+    			$content .= $notice_text;
     		}
     	}
+    	
+    	$classes = "message centered special-notice";
+    	if ( str_word_count($content < 50) ) { $classes .= " scalloped"; }
+        $info .= '<div class="'.$classes.'">';
+    	$info .= $content;
         $info .= '</div>';
         
     } else {
