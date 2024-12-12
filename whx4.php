@@ -155,4 +155,29 @@ foreach ( $active_modules as $module ) {
 
 }
 
+/* +~+~+ Misc Functions +~+~+ */
+
+//add_action( 'init', 'whx4_redirect');
+function whx4_redirect() {
+
+	// If /events/ with query args and limit is set to 1, then see if there's a matching event and redirect to that event
+	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
+	// /music/the-sunday-recital-series/upcoming-sunday-recital/
+	//$current_url = home_url( add_query_arg( array(), $wp->request ) );
+	
+	if ( $wp->request == "/events" && get_query_var('limit') == "1") {
+        
+        // Run EM search based on query vars
+        // Redirect to next single event record matching scope etc.
+        
+        //wp_redirect( site_url('/de/') ); 
+        //exit; 
+    }
+    
+    /*if (get_query_var('lang') == "de") {
+        wp_redirect( site_url('/de/') ); 
+        exit; 
+    }*/
+}
+
 ?>
