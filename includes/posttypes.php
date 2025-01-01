@@ -477,7 +477,7 @@ if ( in_array('events', $active_modules ) ) {
 			'hierarchical'		=> false,
 			//'menu_icon'			=> 'dashicons-book',
 			'menu_position'		=> null,
-			'supports' 			=> array( 'title', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ), //'editor', 
+			'supports' 			=> array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ),
 			'taxonomies'		=> array( 'admin_tag' ),
 			'show_in_rest'		=> false,
 		);
