@@ -3559,12 +3559,17 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
     
     // TS/logging setup
     if ( function_exists('devmode_active') ) { $do_ts = devmode_active( array("whx4", "events") ); } else { $do_ts = null; }
-    $do_log = false;
+    $do_log = true;
     sdg_log( "divline2", $do_log );
     
     // Init vars
     $ts_info = "";
-    $post_id = $EM_Event->post_id;
+    if ($EM_Event instanceof EM_Event) {
+    	$post_id = $EM_Event->post_id;
+	} else {
+		sdg_log( "EM_Event var NOT an instanceof EM_Event", $do_log );
+		$post_id = null;
+	}
     //$event_id = $EM_Event->ID;
     //$ts_info .= "[sdgp] EM  $result for post_id: $post_id<br />"; // breaks layout?
     //$ts_info .= "EM result: $result<br />";
