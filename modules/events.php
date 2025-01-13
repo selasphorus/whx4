@@ -1981,8 +1981,10 @@ function set_row_authorship_display ( $item_ids = array() ) {
 		$item_post_type = get_post_type( $item_id );
 		if ( $item_post_type == 'repertoire' ) {
 			$item_composer_ids = get_composer_ids( $item_id );
-			foreach ( $item_composer_ids as $composer_id ) {
-				$arr_items[$composer_id][$x] = $item_id;
+			if ( is_array($item_composer_ids) ) {
+				foreach ( $item_composer_ids as $composer_id ) {
+					$arr_items[$composer_id][$x] = $item_id;
+				}
 			}
 		}
 	}
