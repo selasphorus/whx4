@@ -907,8 +907,8 @@ function get_personnel_person ( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
 	
-	//$ts_info .= "get_personnel_person"; // tft
-	//$ts_info .= "get_personnel_person -- row: ".print_r($row, true); // tft
+	//$ts_info .= "get_personnel_person";
+	//$ts_info .= "get_personnel_person -- row: ".print_r($row, true);
 	
 	if ( isset($row['person']) && is_array($row['person']) ) {
 	
@@ -946,12 +946,14 @@ function get_personnel_person ( $args = array() ) {
 					$personnel_url = $row['personnel_url'];
 				} else {
 					$personnel_post_type = get_post_type( $person_id );
-					if ( $personnel_post_type == "person" ) { 
+					$personnel_url = get_post_meta( $person_id, 'website', true );
+					/*if ( $personnel_post_type == "person" ) { 
 						$personnel_url = get_post_meta( $person_id, 'website', true );
 					} else if ( $personnel_post_type == "group" ) { 
-						$personnel_url = get_post_meta( $person_id, 'group_url', true );
-					}           
+						$personnel_url = get_post_meta( $person_id, 'website', true ); // group_url
+					}*/       
 				}
+				$ts_info .= "personnel_url for $personnel_post_type [$person_id]: ".$personnel_url."<br />";
 			} else {
 				// And/or link to person page on sdg site listing events, sermons, &c.?
 			}
