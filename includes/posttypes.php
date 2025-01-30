@@ -294,8 +294,8 @@ if ( in_array('places', $active_modules ) ) {
 // Check for EM activation...
 // Fields to add via ACF: cross_street, neighborhood, location_status, notes... related_entities....
 // Add those same fields to EM location if EM is active?
-if ( in_array('addresses', $active_modules ) ) {
 //if ( in_array('places', $active_modules ) ) {
+if ( in_array('addresses', $active_modules ) ) {
 
 	// Address
 	function register_post_type_address() {
@@ -346,8 +346,8 @@ if ( in_array('addresses', $active_modules ) ) {
 // TBD: does it make sense to have a separate post type for buildings?
 // Consider possibilities: multiple buildings at same address/location over time; buildings re-purposed, e.g. synagogue turned into church, etc.
 // Fields to include: location_id, related_entities, building_status (e.g. extant; raised), date_built, date_demolished, building_history (renovations etc.)
-//if ( in_array('locations', $active_modules ) ) {
-if ( in_array('places', $active_modules ) ) {
+//if ( in_array('places', $active_modules ) ) {
+if ( in_array('buildings', $active_modules ) ) {
 
 	// Building -- change to "Structure"? TBD
 	function register_post_type_building() {
@@ -389,7 +389,7 @@ if ( in_array('places', $active_modules ) ) {
 		register_post_type( 'building', $args );
 	
 	}
-	//add_action( 'init', 'register_post_type_building' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
+	add_action( 'init', 'register_post_type_building' ); // NB: redundant w/ EM locations -- disabled for venues module 08/20/22
 	// Fields to add via ACF to EM location: cross_street, neighborhood, location_status, notes... related_entities....
 	
 	

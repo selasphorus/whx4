@@ -60,9 +60,9 @@ function whx4_register_options_page() {
 						//'groups' => 'Groups',
 						'places' => 'Places',
 						//'locations' => 'Locations',
-						//'buildings' => 'Buildings',
 						'events' => 'Events',
 						'addresses' => 'Addresses',
+						//'buildings' => 'Buildings',
 					),
 					'default_value' => array(
 					),
