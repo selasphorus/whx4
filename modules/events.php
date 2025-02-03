@@ -939,7 +939,7 @@ function get_personnel_person ( $args = array() ) {
 		
 			$display_args = array( 'person_id' => $person_id, 'override' => $override, 'name_abbr' => $name_abbr, 'show_prefix' => $show_prefix, 'show_suffix' => $show_suffix, 'show_job_title' => $show_job_title, 'show_dates' => $show_dates, 'styled' => $styled );
 		
-			// Get URL for person, if any
+			// Get URL for person/group, if any
 			$personnel_url = null; // init
 			if ( $program_type == "concert_program" ) {
 				if ( isset($row['personnel_url']) && $row['personnel_url'] != "" ) { 
@@ -947,15 +947,10 @@ function get_personnel_person ( $args = array() ) {
 				} else {
 					$personnel_post_type = get_post_type( $person_id );
 					$personnel_url = get_post_meta( $person_id, 'website', true );
-					/*if ( $personnel_post_type == "person" ) { 
-						$personnel_url = get_post_meta( $person_id, 'website', true );
-					} else if ( $personnel_post_type == "group" ) { 
-						$personnel_url = get_post_meta( $person_id, 'website', true ); // group_url
-					}*/       
 				}
 				$ts_info .= "personnel_url for $personnel_post_type [$person_id]: ".$personnel_url."<br />";
 			} else {
-				// And/or link to person page on sdg site listing events, sermons, &c.?
+				// And/or link to person page on sdg site listing events, sermons, &c.? TBD/TODO
 			}
 			$display_args['url'] = $personnel_url;
 			
