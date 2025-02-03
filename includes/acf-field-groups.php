@@ -1844,7 +1844,7 @@ function whx4_register_field_groups() {
 						//'key'	=>	'field_whx4_personnel_url',
 						//'key' => 'field_62ea94927dcc0',
 						'label' => 'Personnel URL',
-						'name' => 'person_url',
+						'name' => 'personnel_url',
 						'aria-label' => '',
 						'type' => 'url',
 						'instructions' => '',
