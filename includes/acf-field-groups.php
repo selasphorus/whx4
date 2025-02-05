@@ -1484,7 +1484,7 @@ function whx4_register_field_groups() {
 				'pagination' => 0,
 				'min' => 0,
 				'max' => 0,
-				'collapsed' => '',
+				'collapsed' => 'field_whx4_5ca37c2297392',
 				'button_label' => 'Add Row',
 				'rows_per_page' => 20,
 				'sub_fields' => array(
