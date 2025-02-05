@@ -62,7 +62,7 @@ function whx4_register_options_page() {
 						//'locations' => 'Locations',
 						'events' => 'Events',
 						'addresses' => 'Addresses',
-						//'buildings' => 'Buildings',
+						'buildings' => 'Buildings',
 					),
 					'default_value' => array(
 					),
