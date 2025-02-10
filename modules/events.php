@@ -941,11 +941,11 @@ function get_personnel_person ( $args = array() ) {
 		
 			// Get URL for person/group, if any
 			$personnel_url = null; // init
+			$personnel_post_type = get_post_type( $person_id );
 			if ( $program_type == "concert_program" ) {
 				if ( isset($row['personnel_url']) && $row['personnel_url'] != "" ) { 
 					$personnel_url = $row['personnel_url'];
 				} else {
-					$personnel_post_type = get_post_type( $person_id );
 					$personnel_url = get_post_meta( $person_id, 'website', true );
 				}
 				$ts_info .= "personnel_url for $personnel_post_type [$person_id]: ".$personnel_url."<br />";
