@@ -246,7 +246,8 @@ if ( in_array('places', $active_modules ) ) {
 	// Venue
 	function register_post_type_venue() {
 
-		if ( whx4_custom_caps() ) { $caps = array('venue', 'venues'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('place', 'places'); } else { $caps = "post"; }
+		//if ( whx4_custom_caps() ) { $caps = array('venue', 'venues'); } else { $caps = "post"; } // old: clean caps
 		
 		$labels = array(
 			'name' => __( 'Venues', 'whx4' ),
@@ -290,7 +291,7 @@ if ( in_array('places', $active_modules ) ) {
 /*** ADDRESSES ***/
 // An address record should link a person or group with a location -- WIP 11/04/24
 // Multiple addresses may be needed to capture formatting differences if mailing list management is a concern
-// *** TODO: also add CPT: location? for use when EM is not active? TBD...
+// *** TODO: also add CPT: location? or VENUE for use when EM is not active? TBD...
 // Check for EM activation...
 // Fields to add via ACF: cross_street, neighborhood, location_status, notes... related_entities....
 // Add those same fields to EM location if EM is active?
@@ -300,7 +301,9 @@ if ( in_array('addresses', $active_modules ) ) {
 	// Address
 	function register_post_type_address() {
 
-		if ( whx4_custom_caps() ) { $caps = array('address', 'addresses'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('place', 'places'); } else { $caps = "post"; }
+		// old => clean caps:
+		//if ( whx4_custom_caps() ) { $caps = array('address', 'addresses'); } else { $caps = "post"; }
 		//if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
 		
 		$labels = array(
@@ -338,7 +341,7 @@ if ( in_array('addresses', $active_modules ) ) {
 		register_post_type( 'address', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_address' ); // NB: Addresses as distinct from locations
+	add_action( 'init', 'register_post_type_address' ); // NB: Addresses as distinct from locations/venues/buildings
 	
 }
 
@@ -352,7 +355,8 @@ if ( in_array('buildings', $active_modules ) ) {
 	// Building -- change to "Structure"? TBD
 	function register_post_type_building() {
 
-		if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; }
+		if ( whx4_custom_caps() ) { $caps = array('place', 'places'); } else { $caps = "post"; }		
+		//if ( whx4_custom_caps() ) { $caps = array('location', 'locations'); } else { $caps = "post"; } // old => clean caps
 		
 		$labels = array(
 			'name' => __( 'Buildings', 'whx4' ),
