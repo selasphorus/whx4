@@ -273,7 +273,7 @@ if ( in_array('places', $active_modules ) ) {
 			'capability_type'	=> $caps,
 			'map_meta_cap'		=> true,
 			'has_archive' 		=> true,
-			'hierarchical'		=> false,
+			'hierarchical'		=> true,
 			'menu_icon'			=> 'dashicons-admin-multisite',
 			'menu_position'		=> null,
 			'supports' 			=> array( 'title', 'author', 'thumbnail', 'editor', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ), //
@@ -439,7 +439,7 @@ if ( in_array('events', $active_modules ) ) {
 				'menu_position'      => null,
 				'supports'           => array( 'title', 'author', 'thumbnail', 'editor', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ), //
 				'taxonomies' => array( 'admin_tag', 'event_category' ), 
-				'show_in_rest' => false,    
+				'show_in_rest'		=> true,    
 			);
 		
 			register_post_type( 'event', $args );
