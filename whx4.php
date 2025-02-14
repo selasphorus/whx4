@@ -7,7 +7,7 @@
  * Dependencies:	  Requires SDG for various utility functions
  * Requires Plugins:  sdg
  * Version:           0.1
- * Author:            ACF
+ * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       whx4
