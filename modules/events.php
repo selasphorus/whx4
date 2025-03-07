@@ -3580,6 +3580,7 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
     //
 	$title_args = array( 'post' => $post_id, 'link' => $make_link, 'line_breaks' => false, 'show_subtitle' => $show_subtitle, 'echo' => false, 'hlevel' => $hlevel, 'hlevel_sub' => $hlevel_sub, 'do_ts' => $do_ts );
     //$ts_info .= "[sdgp] title_args: ".print_r($title_args,true)."<br />"; // breaks layout?
+    if ( is_dev_site() ) { $title_args['show_series_title'] = true; }
     $event_title = sdg_post_title( $title_args );
     
     if ( $result == '#_EVENT_LIST_ITEM' ) {
