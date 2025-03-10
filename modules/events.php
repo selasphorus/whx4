@@ -3553,8 +3553,8 @@ function display_webcast_events() {
 /*** EM Events Manager Customizations ***/
 
 // Function to modify default #_XXX placeholders
-add_filter('em_event_output_placeholder','sdg_placeholders',1,3);
-function sdg_placeholders( $replace, $EM_Event, $result ) {
+add_filter('em_event_output_placeholder','whx4_placeholders',1,3);
+function whx4_placeholders( $replace, $EM_Event, $result ) {
     
     // TS/logging setup
     if ( function_exists('devmode_active') ) { $do_ts = devmode_active( array("whx4", "events") ); } else { $do_ts = null; }
@@ -3576,12 +3576,13 @@ function sdg_placeholders( $replace, $EM_Event, $result ) {
     // Get the formatted event title
     if ( $result == '#_EVENTLINK' ) { $make_link = true; } else { $make_link = false; }
     // Make sure not to include any extra info -- this is for the mini-cal
-    if ( $result == '#_EVENTNAMETXT' ) { $do_ts = false; $show_subtitle = false; $hlevel = null; $hlevel_sub = null; } else { $show_subtitle = true; $hlevel = 0; $hlevel_sub = 0; }
+    if ( $result == '#_EVENTNAMETXT' ) { $do_ts = false; $show_subtitle = false; $hlevel = null; $hlevel_sub = null; } else { $show_subtitle = true; $hlevel = null; $hlevel_sub = null; }
     //
-	$title_args = array( 'post' => $post_id, 'link' => $make_link, 'line_breaks' => false, 'show_subtitle' => $show_subtitle, 'echo' => false, 'hlevel' => $hlevel, 'hlevel_sub' => $hlevel_sub, 'called_by' => 'whx4', 'do_ts' => $do_ts );
-    //$ts_info .= "[sdgp] title_args: ".print_r($title_args,true)."<br />"; // breaks layout?
+    // Get the event title formatted using our special function
+	$title_args = array( 'post' => $post_id, 'link' => $make_link, 'line_breaks' => false, 'show_subtitle' => $show_subtitle, 'echo' => false, 'hlevel' => $hlevel, 'hlevel_sub' => $hlevel_sub, 'called_by' => 'whx4_placeholders', 'do_ts' => $do_ts );
     if ( is_dev_site() ) { $title_args['show_series_title'] = true; }
     $event_title = sdg_post_title( $title_args );
+    $ts_info .= "title_args: ".print_r($title_args,true)."<br />"; // breaks layout?
     
     if ( $result == '#_EVENT_LIST_ITEM' ) {
     
