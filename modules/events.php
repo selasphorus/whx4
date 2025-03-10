@@ -3580,7 +3580,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
     //
     // Get the event title formatted using our special function
 	$title_args = array( 'post' => $post_id, 'link' => $make_link, 'line_breaks' => false, 'show_subtitle' => $show_subtitle, 'echo' => false, 'hlevel' => $hlevel, 'hlevel_sub' => $hlevel_sub, 'called_by' => 'whx4_placeholders', 'do_ts' => $do_ts );
-    if ( is_dev_site() ) { $title_args['show_series_title'] = true; }
+    if ( $result == '#_EVENTLINK' ) { $title_args['show_series_title'] = "append"; }
     $event_title = sdg_post_title( $title_args );
     $ts_info .= "title_args: ".print_r($title_args,true)."<br />"; // breaks layout?
     
