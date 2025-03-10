@@ -3781,7 +3781,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
     	
     }
     
-    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $replace .= '<div class="troubleshooting sdgp">'.$ts_info.'</div>'; }
+    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "events" ) ) { $replace .= '<div class="troubleshooting whx4_placeholders">'.$ts_info.'</div>'; }
     
     return $replace;
 }
