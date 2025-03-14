@@ -2378,6 +2378,13 @@ function whx4_register_field_groups() {
 				array(
 					'param' => 'post_type',
 					'operator' => '==',
+					'value' => 'whx4_event',
+				),
+			),
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
 					'value' => 'event',
 				),
 			),
@@ -2987,6 +2994,13 @@ function whx4_register_field_groups() {
 				array(
 					'param' => 'post_type',
 					'operator' => '==',
+					'value' => 'whx4_event',
+				),
+			),
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
 					'value' => 'event',
 				),
 			),
@@ -3308,6 +3322,18 @@ function whx4_register_field_groups() {
 			),
 		),
 		'location' => array(
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'whx4_event',
+				),
+				array(
+					'param' => 'current_user_role',
+					'operator' => '==',
+					'value' => 'administrator',
+				),
+			),
 			array(
 				array(
 					'param' => 'post_type',
