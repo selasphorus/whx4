@@ -37,14 +37,13 @@ function whx4_register_options_page() {
 	// Add 'Modules & Settings' field group
 	acf_add_local_field_group(
 		array(
-			'key'      => 'group_whx4_modules',
-			//'key'      => 'group_6511a57f5680c',
-			'title'    => 'Modules &amp; Settings',
+			'key'      => 'group_whx4_settings',
+			'title'    => 'WHx4 Settings',
 			'fields'   => array(
 				array(
 					'key'	=>	'field_whx4_general_settings',
-					'label' => 'WHx4 General Settings',
-					'name' => 'whx4_general_tab',
+					'label' => 'Modules',
+					'name' => 'whx4_modules_tab',
 					'aria-label' => '',
 					'type' => 'tab',
 					'instructions' => '',
@@ -133,6 +132,26 @@ function whx4_register_options_page() {
 					'endpoint' => 0,
 					'selected' => 0,
 				),
+			array(
+				'key'	=>	'field_whx4_event_list_item_format',
+				'label' => 'Event List Item Format',
+				'name' => 'whx4_event_list_item_format',
+				'aria-label' => '',
+				'type' => 'textarea',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'default_value' => '',
+				'placeholder' => '',
+				'maxlength' => '',
+				'rows' => '',
+				'new_lines' => '',
+			),
 			),
 			'location' => array(
 				array(
