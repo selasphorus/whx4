@@ -95,6 +95,25 @@ function whx4_register_options_page() {
 					'aria-label' => '',
 					'relevanssi_exclude' => 0,
 				),
+				array(
+					'key'	=>	'field_whx4_event_formatting',
+					'label' => 'Event Formatting',
+					'name' => 'event_formatting_tab',
+					'aria-label' => '',
+					'type' => 'tab',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '22',
+						'class' => 'float-left',
+						'id' => '',
+					),
+					'relevanssi_exclude' => 0,
+					'placement' => 'top',
+					'endpoint' => 0,
+					'selected' => 0,
+				),
 			),
 			'location' => array(
 				array(
