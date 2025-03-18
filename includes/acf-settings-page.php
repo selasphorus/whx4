@@ -42,6 +42,25 @@ function whx4_register_options_page() {
 			'title'    => 'Modules &amp; Settings',
 			'fields'   => array(
 				array(
+					'key'	=>	'field_whx4_general_settings',
+					'label' => 'WHx4 General Settings',
+					'name' => 'whx4_general_tab',
+					'aria-label' => '',
+					'type' => 'tab',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '22',
+						'class' => 'float-left',
+						'id' => '',
+					),
+					'relevanssi_exclude' => 0,
+					'placement' => 'top',
+					'endpoint' => 0,
+					'selected' => 0,
+				),
+				array(
 					'key'           => 'field_whx4_modules',
 					//'key'           => 'field_6511a57fcbe7e',
 					'label'         => 'Active Modules',
