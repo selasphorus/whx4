@@ -96,6 +96,13 @@ function get_cpt_venue_content( $post_id = null ) {
     // Link to Legacy venue page, if any
     $venue_filename = get_post_meta( $post_id, 'venue_filename', true );
     if ( $venue_filename ) {
+    	if ( isset($post_meta['borough'][0]) ) {
+    		$borough = $post_meta['borough'][0];
+    		$boroughs = array('bronx' => 'Brx', 'brooklyn' => 'Bkln', 'manhattan' => 'NYC', 'queens' => 'Qns', 'statenisland' => 'SI');
+    		$venue_path = "Organs/".$boroughs[$borough]."/html/".$venue_filename;
+    		$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
+    	}
+    	
     	//$info .=
     	//$info .= '<strong>venue_filename</strong>: <div class="xxx wip">'.print_r($venue_filename, true)."</div>";
     } ///Organs/Brx/html/RCOrphanAsylum.html
