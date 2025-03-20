@@ -99,8 +99,13 @@ function get_cpt_venue_content( $post_id = null ) {
     	if ( isset($post_meta['borough'][0]) ) {
     		$borough = $post_meta['borough'][0];
     		$boroughs = array('bronx' => 'Brx', 'brooklyn' => 'Bkln', 'manhattan' => 'NYC', 'queens' => 'Qns', 'statenisland' => 'SI');
-    		$venue_path = "Organs/".$boroughs[$borough]."/html/".$venue_filename;
-    		$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
+    		$url = "/Organs/".$boroughs[$borough]."/html/".$venue_filename;
+    		$text = "View legacy venue page";
+    		$title = $url;
+    		$class = "";
+    		$target = "_blank";
+    		$info .= make_link( $url, $text, $title, $class, $target)."<br />";
+    		//$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
     	}
     	
     	//$info .=
