@@ -15,10 +15,20 @@ function get_cpt_venue_content( $post_id = null ) {
 	
 	// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 	
-    $info = ""; // init
-    if ($post_id === null) { $post_id = get_the_ID(); }
+	// TS/logging setup
+    $do_ts = devmode_active( array("whx4", "venues") ); 
+    $do_log = false;
+    $fcn_id = "[whx4-get_cpt_venue_content]&nbsp;";
+    sdg_log( "divline2", $do_log );
     
-    if ( $post_id === null ) { return false; }
+    // Init vars
+	$info = "";
+	$ts_info = "";
+	if ( $post_id === null ) { $post_id = get_the_ID(); }
+	if ( $post_id === null ) { return false; }
+	
+    $post_meta = get_post_meta( $post_id );
+	$ts_info .= $fcn_id."<pre>post_meta: ".print_r($post_meta, true)."</pre>";
     
     // Group <> Titles & Associations
     // WIP
@@ -81,8 +91,15 @@ function get_cpt_venue_content( $post_id = null ) {
     
     //$info .= display_postmeta( array('post_id' => $post_id) );
     
+    // TODO: generalize -- venue_filename and many other of following meta are particular to NYCAGO
+    
+    // Link to Legacy venue page, if any
     $venue_filename = get_post_meta( $post_id, 'venue_filename', true );
-    $info .= '<strong>venue_filename</strong>: <div class="xxx wip">'.print_r($venue_filename, true)."</div>";
+    if ( $venue_filename ) {
+    	//$info .=
+    	//$info .= '<strong>venue_filename</strong>: <div class="xxx wip">'.print_r($venue_filename, true)."</div>";
+    } ///Organs/Brx/html/RCOrphanAsylum.html
+    
     
     if ( function_exists('sdg_editmode') && !sdg_editmode() ) {
     	// If not in editmode, show content instead of acf_form
