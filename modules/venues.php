@@ -124,6 +124,8 @@ function get_cpt_venue_content( $post_id = null ) {
     	$info .= '<strong>organs_html_vp</strong>: <div class="xxx wip">'.$organs_html_vp."</div>";
     }
     
+    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "venues" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+    
     return $info;
     
 }
