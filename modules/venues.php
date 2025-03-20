@@ -104,7 +104,7 @@ function get_cpt_venue_content( $post_id = null ) {
     		$title = $url;
     		$class = "";
     		$target = "_blank";
-    		$info .= make_link( $url, $text, $title, $class, $target)."<br />";
+    		$info .= '<div class="xxx wip">'.make_link( $url, $text, $title, $class, $target)."</div>";
     		//$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
     	}
     	
