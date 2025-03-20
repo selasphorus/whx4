@@ -104,7 +104,7 @@ function get_cpt_venue_content( $post_id = null ) {
     		$title = $url;
     		$class = "";
     		$target = "_blank";
-    		$info .= '<div class="xxx wip">'.make_link( $url, $text, $title, $class, $target)."</div>";
+    		$info .= '<div class="xxx">'.make_link( $url, $text, $title, $class, $target)."</div>";
     		//$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
     	}
     	
@@ -121,10 +121,11 @@ function get_cpt_venue_content( $post_id = null ) {
     	$info .= '<strong>venue_info_ip</strong>: <div class="xxx wip">'.$venue_info_ip."</div>";
     	//<div class="source venue_source wip">
     	$venue_info_vp = get_post_meta( $post_id, 'venue_info_vp', true );
-    	$info .= '<strong>venue_info_vp</strong>: <div class="xxx wip">'.$venue_info_vp."</div>";
+    	$info .= '<div class="xxx wip">'.$venue_info_vp."</div>";
+    	//$info .= '<strong>venue_info_vp</strong>: <div class="xxx wip">'.$venue_info_vp."</div>";
     	
     	$venue_sources = get_post_meta( $post_id, 'venue_sources', true );
-    	$info .= '<strong>venue_sources</strong>: <div class="xxx wip">'.$venue_sources."</div>";
+    	$info .= '<strong>Sources</strong>: <div class="xxx wip">'.$venue_sources."</div>";
     	
     	$venue_html_ip = get_post_meta( $post_id, 'venue_html_ip', true );
     	$info .= '<strong>venue_html_ip</strong>: <div class="xxx wip">'.$venue_html_ip."</div>";
