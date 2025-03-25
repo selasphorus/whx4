@@ -984,8 +984,7 @@ function whx4_register_field_groups() {
 				'allow_in_bindings' => 1,
 				'bidirectional' => 0,
 				'multiple' => 0,
-				'bidirectional_target' => array(
-				),
+				'bidirectional_target' => array(),
 			),
 			array(
 				'key' => 'field_whx4_identity_first_name',
@@ -1080,8 +1079,7 @@ function whx4_register_field_groups() {
 				'allow_in_bindings' => 0,
 				'bidirectional' => 0,
 				'ui' => 1,
-				'bidirectional_target' => array(
-				),
+				'bidirectional_target' => array(),
 				'save_post_type' => '',
 			),
 			array(
