@@ -117,7 +117,7 @@ function get_cpt_venue_content( $post_id = null ) {
     if ( function_exists('sdg_editmode') && sdg_editmode() ) {
 		
 		$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
-		acf_form( $settings );	
+		$info .= acf_form( $settings );	
 	
 	} else {
     	
