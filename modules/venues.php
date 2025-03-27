@@ -14,6 +14,7 @@ if ( !function_exists( 'add_action' ) ) {
 function get_cpt_venue_content( $post_id = null ) {
 	
 	// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
+	// TODO: refine overall get_cpt_XXX_content setup to facilitate designation of content to display before and/or after main post_content
 	
 	// TS/logging setup
     $do_ts = devmode_active( array("whx4", "venues") ); 
