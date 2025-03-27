@@ -117,8 +117,10 @@ function get_cpt_venue_content( $post_id = null ) {
     if ( function_exists('sdg_editmode') && sdg_editmode() ) {
 		
 		// Needs work -- default of acf_form function is echo...
-		$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
-		//$info .= acf_form( $settings );	
+		//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
+		//$info .= acf_form( $settings );
+		$acf_fields = 'venue_info_ip, venue_info_vp, venue_addresses, building_dates, venue_sources, venue_html_ip, organs_html_ip, organs_html_vp';
+		$info .= do_shortcode( '[mlib_acf_form fields="'.$acf_fields.'"]' );
 	
 	} else {
     	
