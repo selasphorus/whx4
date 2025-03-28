@@ -130,19 +130,19 @@ function get_cpt_venue_content( $post_id = null ) {
     	// WIP
     	//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) );
     	$venue_info_ip = get_post_meta( $post_id, 'venue_info_ip', true );
-    	$info .= '<strong>venue_info_ip</strong>: <div class="venue_info_ip">'.$venue_info_ip."</div>";
+    	$info .= '<strong>venue_info_ip</strong>: <div class="venue_info_ip wipf">'.$venue_info_ip."</div>";
     	$info .= '<hr />';
     	
     	$venue_info_vp = get_post_meta( $post_id, 'venue_info_vp', true );
-    	$info .= '<div class="venue_info_vp">'.$venue_info_vp."</div>";
+    	$info .= '<strong>venue_info_vp</strong>: <div class="venue_info_vp wipf">'.$venue_info_vp."</div>";
     	$info .= '<hr />';
     	
     	$venue_html_ip = get_post_meta( $post_id, 'venue_html_ip', true );
-    	$info .= '<strong>venue_html_ip</strong>: <div class="venue_html_ip">'.$venue_html_ip."</div>";
+    	$info .= '<strong>venue_html_ip</strong>: <div class="venue_html_ip wipf">'.$venue_html_ip."</div>";
     	$info .= '<hr />';
     	
     	$venue_sources = get_post_meta( $post_id, 'venue_sources', true );
-    	$info .= '<strong>Sources</strong>: <div class="venue_sources">'.$venue_sources."</div>";
+    	$info .= '<strong>Sources</strong>: <div class="venue_sources wipf">'.$venue_sources."</div>";
     	$info .= '<hr />';
     	
     	/*
