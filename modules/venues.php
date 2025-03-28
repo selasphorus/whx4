@@ -108,6 +108,8 @@ function get_cpt_venue_content( $post_id = null ) {
     		$target = "_blank";
     		$info .= '<div class="xxx">'.make_link( $url, $text, $title, $class, $target)."</div>";
     		//$info .= '<strong>venue_path</strong>: <div class="xxx wip">'.$venue_path."</div>";
+    		// TODO: add link to relevant part of borough index page
+    		//
     	}
     	
     	//$info .=
@@ -135,14 +137,15 @@ function get_cpt_venue_content( $post_id = null ) {
     	$info .= '<div class="venue_info_vp">'.$venue_info_vp."</div>";
     	$info .= '<hr />';
     	
-    	$venue_sources = get_post_meta( $post_id, 'venue_sources', true );
-    	$info .= '<strong>Sources</strong>: <div class="venue_sources">'.$venue_sources."</div>";
-    	$info .= '<hr />';
-    	
     	$venue_html_ip = get_post_meta( $post_id, 'venue_html_ip', true );
     	$info .= '<strong>venue_html_ip</strong>: <div class="venue_html_ip">'.$venue_html_ip."</div>";
     	$info .= '<hr />';
     	
+    	$venue_sources = get_post_meta( $post_id, 'venue_sources', true );
+    	$info .= '<strong>Sources</strong>: <div class="venue_sources">'.$venue_sources."</div>";
+    	$info .= '<hr />';
+    	
+    	/*
     	$organs_html_ip = get_post_meta( $post_id, 'organs_html_ip', true );
     	$info .= '<strong>organs_html_ip</strong>: <div class="organs_html_ip">'.$organs_html_ip."</div>";
     	$info .= '<hr />';
@@ -150,6 +153,29 @@ function get_cpt_venue_content( $post_id = null ) {
     	$organs_html_vp = get_post_meta( $post_id, 'organs_html_vp', true );
     	$info .= '<strong>organs_html_vp</strong>: <div class="organs_html_vp">'.$organs_html_vp."</div>";
     	$info .= '<hr />';
+    	*/
+    	
+    	// Venue Organs
+    	
+		// Get and display post titles for "related_liturgical_dates".
+		$instruments = get_field('venue_instruments', $post_id, false); // returns array of IDs
+		if ( $instruments ) {
+		
+			$info .= "<h3>Instruments</h3>";
+			$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
+			$ts_info .= $fcn_id."<pre>instruments: ".print_r($instruments, true)."</pre>";
+			
+			foreach ($instruments AS $instrument_id) {
+				$instrument_title = get_the_title($instrument_id);
+				$info .= '<span class="instrument">';
+				$info .= make_link( get_the_permalink($instrument_id), $instrument_title, null, null, "_blank" );
+				$info .= '</span><br />';
+			}
+			
+			$info .= "<hr />";
+	
+		}
+    	
     }
     
     if ( $ts_info != "" && ( $do_ts === true || $do_ts == "venues" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
