@@ -121,10 +121,10 @@ function get_cpt_venue_content( $post_id = null ) {
     $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
     $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
     $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
-    $ts_info .= "wp_get_current_user: ".print_r(wp_get_current_user(), true)."<br />";
+    $ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
     $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
     //
-    if ( function_exists('sdg_editmode') && sdg_editmode() ) {
+    if ( function_exists('sdg_editmode') && sdg_editmode() === true ) {
 		
 		//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
 		//$info .= acf_form( $settings );
