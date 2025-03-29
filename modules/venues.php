@@ -30,7 +30,7 @@ function get_cpt_venue_content( $post_id = null ) {
 	if ( $post_id === null ) { return false; }
 	
     $post_meta = get_post_meta( $post_id );
-	$ts_info .= $fcn_id."<pre>post_meta: ".print_r($post_meta, true)."</pre>";
+	//$ts_info .= $fcn_id."<pre>post_meta: ".print_r($post_meta, true)."</pre>";
     
     // Group <> Titles & Associations
     // WIP
@@ -121,6 +121,8 @@ function get_cpt_venue_content( $post_id = null ) {
     $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
     $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
     $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
+    $ts_info .= "wp_get_current_user: ".print_r(wp_get_current_user(), true)."<br />";
+    $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
     //
     if ( function_exists('sdg_editmode') && sdg_editmode() ) {
 		
