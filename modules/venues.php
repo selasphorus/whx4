@@ -120,7 +120,7 @@ function get_cpt_venue_content( $post_id = null ) {
     // TS editmode -- tft
     $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
     $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
-    $ts_info .= "devmode_active('edit'): ".print_r(devmode_active("edit"), true)."<br />";
+    $ts_info .= "devmode_active(array('edit')): ".print_r(devmode_active(array("edit")), true)."<br />";
     $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
     $ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
     $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
