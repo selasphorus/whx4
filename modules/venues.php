@@ -124,8 +124,7 @@ function get_cpt_venue_content( $post_id = null ) {
     $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
     $ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
     $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
-    
-    $info .= $ts_info;
+    //$info .= $ts_info;
     
     //
     if ( function_exists('sdg_editmode') && sdg_editmode() === true ) {
