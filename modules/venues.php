@@ -117,6 +117,10 @@ function get_cpt_venue_content( $post_id = null ) {
     	//$info .= '<strong>venue_filename</strong>: <div class="xxx wip">'.print_r($venue_filename, true)."</div>";
     } ///Organs/Brx/html/RCOrphanAsylum.html
     
+    // TS editmode -- tft
+    $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
+    $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
+    $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
     //
     if ( function_exists('sdg_editmode') && sdg_editmode() ) {
 		
