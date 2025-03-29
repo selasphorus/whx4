@@ -23,6 +23,7 @@ function get_cpt_venue_content( $post_id = null ) {
     sdg_log( "divline2", $do_log );
     
     // Init vars
+    $arr_info = array(); // WIP -- 
 	$info = "";
 	$ts_info = "";
 	if ( $post_id === null ) { $post_id = get_the_ID(); }
@@ -121,7 +122,7 @@ function get_cpt_venue_content( $post_id = null ) {
 		
 		//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
 		//$info .= acf_form( $settings );
-		$acf_fields = 'venue_info_ip, venue_info_vp, venue_addresses, building_dates, venue_sources, venue_html_ip, organs_html_ip, organs_html_vp';
+		$acf_fields = 'venue_website, venue_info_ip, venue_info_vp, venue_addresses, building_dates, venue_sources, venue_html_ip, organs_html_ip, organs_html_vp';
 		$info .= do_shortcode( '[mlib_acf_form fields="'.$acf_fields.'"]' );
 	
 	} else {
