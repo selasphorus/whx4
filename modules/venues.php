@@ -143,16 +143,16 @@ function get_cpt_venue_content( $post_id = null ) {
     	
     	$info .= '<p class="smaller">'.the_modified_date( 'F j, Y g:i a', 'Last updated: ', '', false )."</p>";
     	
+    	$venue_addresses = get_post_meta( $post_id, 'venue_addresses', true );
+    	if ( !empty($venue_addresses) ) {
+    		$info .= '<div class="venue_addresses wipf">'.$venue_addresses."</div>";
+    		$info .= '<hr />';
+    	}
+    	
     	$venue_website = get_post_meta( $post_id, 'venue_website', true );
     	if ( !empty($venue_website) ) {
     		$venue_website = make_link( $venue_website, $venue_website, 'Venue Website URL', '', '_blank');
     		$info .= '<div class="venue_website">'.$venue_website."</div>";
-    		$info .= '<hr />';
-    	}
-    	
-    	$venue_addresses = get_post_meta( $post_id, 'venue_addresses', true );
-    	if ( !empty($venue_addresses) ) {
-    		$info .= '<div class="venue_addresses wipf">'.$venue_addresses."</div>";
     		$info .= '<hr />';
     	}
     	
