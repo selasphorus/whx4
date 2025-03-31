@@ -141,6 +141,7 @@ function get_cpt_venue_content( $post_id = null ) {
     	// If not in editmode, show content instead of acf_form
     	// WIP
     	
+    	$info .= "Last updated: ".the_modified_date()."<br />";
     	
     	$venue_addresses = get_post_meta( $post_id, 'venue_addresses', true );
     	if ( !empty($venue_addresses) ) {
