@@ -95,6 +95,8 @@ function get_cpt_venue_content( $post_id = null ) {
     
     //$info .= display_postmeta( array('post_id' => $post_id) );
     
+    $info .= '<p class="smaller">'.the_modified_date( 'F j, Y g:i a', 'Last updated: ', '', false )."</p>";
+    
     // TODO: generalize -- venue_filename and many other of following meta are particular to NYCAGO
     
     // Link to Legacy venue page, if any
@@ -140,8 +142,6 @@ function get_cpt_venue_content( $post_id = null ) {
     	
     	// If not in editmode, show content instead of acf_form
     	// WIP
-    	
-    	$info .= '<p class="smaller">'.the_modified_date( 'F j, Y g:i a', 'Last updated: ', '', false )."</p>";
     	
     	$venue_addresses = get_post_meta( $post_id, 'venue_addresses', true );
     	if ( !empty($venue_addresses) ) {
