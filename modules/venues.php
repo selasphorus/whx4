@@ -146,7 +146,7 @@ function get_cpt_venue_content( $post_id = null ) {
     	$venue_website = get_post_meta( $post_id, 'venue_website', true );
     	if ( !empty($venue_website) ) {
     		$venue_website = make_link( $venue_website, $venue_website, 'Venue Website URL', '', '_blank');
-    		$info .= '<div class="venue_website wipf">'.$venue_website."</div>";
+    		$info .= '<div class="venue_website">'.$venue_website."</div>";
     		$info .= '<hr />';
     	}
     	
