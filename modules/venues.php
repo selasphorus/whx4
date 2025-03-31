@@ -168,8 +168,8 @@ function get_cpt_venue_content( $post_id = null ) {
 	
 		}
     	
-    	
-    	//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) );
+    	//
+    	/*
     	$venue_info_ip = get_post_meta( $post_id, 'venue_info_ip', true );
     	if ( !empty($venue_info_ip) ) {
     		$info .= '<strong>venue_info_ip</strong>: <div class="venue_info_ip wipf">'.$venue_info_ip."</div>";
@@ -187,6 +187,7 @@ function get_cpt_venue_content( $post_id = null ) {
     		$info .= '<strong>venue_html_ip</strong>: <div class="venue_html_ip wipf">'.$venue_html_ip."</div>";
     		$info .= '<hr />';
     	}
+    	*/
     	
     	$venue_sources = get_post_meta( $post_id, 'venue_sources', true );
     	if ( !empty($venue_sources) ) {
