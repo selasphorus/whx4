@@ -25,6 +25,8 @@ function get_cpt_venue_content( $post_id = null ) {
     // Init vars
     $arr_info = array(); // WIP -- 
 	$info = "";
+	$before_pc = ""; // cpt content to show before/above main post content
+	$after_pc = ""; // cpt content to show after/below main post content
 	$ts_info = "";
 	if ( $post_id === null ) { $post_id = get_the_ID(); }
 	if ( $post_id === null ) { return false; }
@@ -138,6 +140,35 @@ function get_cpt_venue_content( $post_id = null ) {
     	
     	// If not in editmode, show content instead of acf_form
     	// WIP
+    	
+    	
+    	$venue_addresses = get_post_meta( $post_id, 'venue_addresses', true );
+    	if ( !empty($venue_addresses) ) {
+    		$info .= '<div class="venue_addresses wipf">'.$venue_addresses."</div>";
+    		$info .= '<hr />';
+    	}
+    	
+    	// Venue Organs
+		// Get and display post titles for "venue_instruments".
+		$instruments = get_field('venue_instruments', $post_id, false); // returns array of IDs
+		if ( $instruments ) {
+		
+			$info .= "<h3>Instruments</h3>";
+			$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
+			$ts_info .= $fcn_id."<pre>instruments: ".print_r($instruments, true)."</pre>";
+			
+			foreach ($instruments AS $instrument_id) {
+				$instrument_title = get_the_title($instrument_id);
+				$info .= '<span class="instrument">';
+				$info .= make_link( get_the_permalink($instrument_id), $instrument_title, null, null, "_blank" );
+				$info .= '</span><br />';
+			}
+			
+			$info .= "<hr />";
+	
+		}
+    	
+    	
     	//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) );
     	$venue_info_ip = get_post_meta( $post_id, 'venue_info_ip', true );
     	if ( !empty($venue_info_ip) ) {
@@ -172,27 +203,6 @@ function get_cpt_venue_content( $post_id = null ) {
     	$info .= '<strong>organs_html_vp</strong>: <div class="organs_html_vp">'.$organs_html_vp."</div>";
     	$info .= '<hr />';
     	*/
-    	
-    	// Venue Organs
-    	
-		// Get and display post titles for "related_liturgical_dates".
-		$instruments = get_field('venue_instruments', $post_id, false); // returns array of IDs
-		if ( $instruments ) {
-		
-			$info .= "<h3>Instruments</h3>";
-			$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
-			$ts_info .= $fcn_id."<pre>instruments: ".print_r($instruments, true)."</pre>";
-			
-			foreach ($instruments AS $instrument_id) {
-				$instrument_title = get_the_title($instrument_id);
-				$info .= '<span class="instrument">';
-				$info .= make_link( get_the_permalink($instrument_id), $instrument_title, null, null, "_blank" );
-				$info .= '</span><br />';
-			}
-			
-			$info .= "<hr />";
-	
-		}
     	
     }
     
