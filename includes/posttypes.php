@@ -128,7 +128,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 			'public' => true,
 			'publicly_queryable'=> true,
 			'show_ui' 			=> true,
-			'show_in_menu'     	=> 'edit.php?post_type=identity',
+			'show_in_menu'     	=> 'edit.php?post_type=person',
 			'query_var'        	=> true,
 			'rewrite'			=> array( 'slug' => 'identities' ), // permalink structure slug
 			'capability_type'	=> $caps,
