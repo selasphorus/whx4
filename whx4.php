@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name:       WHx4 ACF plugin
- * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When) using ACF PRO Blocks, Post Types, Options Pages, Taxonomies and more.
+ * Plugin Name:       WHx4 plugin
+ * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When)
  * //Requires at least: 6.4
  * //Requires PHP:      7.4
  * Dependencies:	  Requires SDG for various utility functions
@@ -15,13 +15,35 @@
  * @package           whx4
  */
 
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+// v1 designed using ACF PRO Blocks, Post Types, Options Pages, Taxonomies and more.
+// v2 OOP version WIP
+
+if ( !defined( 'ABSPATH' ) ) exit;
+//defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
 }
+
+/* WIP >> OOP
+
+// Via Composer
+require_once __DIR__ . '/vendor/autoload.php';
+$plugin = new WHx4\Core\Plugin();
+
+-- OR --
+
+// Via Autoloader Class
+require_once __DIR__ . '/WHx4/Autoloader.php';
+WHx4_Autoloader::register();
+
+// Found at /WHx4/Plugin.php
+$plugin = new WHx4_Plugin();
+
+*/
+
 
 // Define our handy constants.
 define( 'WHX4_VERSION', '0.2.0' );
