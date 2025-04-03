@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       WHx4 plugin
- * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When)
+ * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * //Requires at least: 6.4
  * //Requires PHP:      7.4
  * Dependencies:	  Requires SDG for various utility functions
@@ -31,6 +31,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 // Via Composer
 require_once __DIR__ . '/vendor/autoload.php';
+//require 'vendor/autoload.php'
 $plugin = new WHx4\Core\Plugin();
 
 -- OR --
@@ -42,8 +43,15 @@ WHx4_Autoloader::register();
 // Found at /WHx4/Plugin.php
 $plugin = new WHx4_Plugin();
 
+---
+
+use atc\WHx4\Plugin;
+
+Plugin::run( entry_point: __FILE__ );
+
 */
 
+/* ***** TODO: Move all of the following away into classes ***** */
 
 // Define our handy constants.
 define( 'WHX4_VERSION', '0.2.0' );
