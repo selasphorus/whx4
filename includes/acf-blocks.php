@@ -66,7 +66,9 @@ function whx4_get_blocks() {
 		update_option( 'whx4_blocks', $blocks );
 		update_option( 'whx4_blocks_version', WHX4_VERSION );
 	}
-
+	
+	if ( !is_array($blocks) ) { $blocks = array(); } // tft
+	
 	return $blocks;
 }
 
