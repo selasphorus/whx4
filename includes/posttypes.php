@@ -82,7 +82,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 		register_post_type( 'person', $args );
 	
 	}
-	add_action( 'init', 'register_post_type_person' );
+	//add_action( 'init', 'register_post_type_person' );
 
 	// Identity
 	function register_post_type_identity() {

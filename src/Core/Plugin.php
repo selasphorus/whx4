@@ -80,7 +80,6 @@ class Plugin {
 					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters', 'caps' => array('post') );
 				case 'people':
 					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); //'caps' => array('person', 'people')
-					//$cpts[] = 'person';
 					//$cpts[] = 'group';
 				case 'places':
 					//$cpts[] = 'venue';
