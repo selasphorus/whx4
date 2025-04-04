@@ -25,7 +25,7 @@ class Person implements CustomPostType {
         	add_action( 'init', 'register_post_type_person' );
         }
     }*/
-
+    
 	protected function get_person_display_name ( $args = array() ) {
 		
 		// TS/logging setup

@@ -74,20 +74,17 @@ class Plugin {
 			
 			switch($type) {
 				case 'people':
-					$cpts[] = 'person';
-					$cpts[] = 'group';
-					//??? do something???					
-					//return new Dog();
+					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('person', 'people'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
+					//$cpts[] = 'person';
+					//$cpts[] = 'group';
 				case 'places':
-					$cpts[] = 'venue';
-					$cpts[] = 'address';
-					$cpts[] = 'building';
-					//return new Cat();
+					//$cpts[] = 'venue';
+					//$cpts[] = 'address';
+					//$cpts[] = 'building';
 				case 'events':
-					$cpts[] = "event";
-					$cpts[] = "event_recurring";
-					$cpts[] = "event_series";
-					//return new Cat();
+					//$cpts[] = "event";
+					//$cpts[] = "event_recurring";
+					//$cpts[] = "event_series";
 				default:
 					//throw new Exception("Invalid module");
 			}
@@ -102,6 +99,15 @@ class Plugin {
 				));
 			}
 			
+		}
+		
+		foreach ( $cpts as $cpt ) {
+			$cpt_name = $cpt['name'];
+			if ( !post_type_exists( $cpt_name ) ) {
+				$this->register_custom_post_type ( $args );
+				add_action( 'init', 'register_post_type_'.$cpt_name );
+				// TODO: Register associated taxonomies
+			}
 		}
 		
     }
