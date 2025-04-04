@@ -4,6 +4,20 @@ namespace atc\WHx4;
 
 class Person { // implements CustomPostType
 
+	// Property to store the post object
+    private $post;
+
+    // Constructor to set the post object
+    public function __construct($post) {
+        // Store the post object in a class property
+        $this->post = $post;
+    }
+
+    // Method to get the post ID
+    public function get_post_id() {
+        return $this->post->ID;
+    }
+    
 	/*
 	//public $event_id;
 	public $post_id;
@@ -138,14 +152,17 @@ class Person { // implements CustomPostType
 		
 	}
 	
-	protected function get_cpt_person_content( $post_id = null ) {
+	protected function get_cpt_content() {
+		
+		$post_id = $this->get_post_id();
 		
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 		
 		$info = ""; // init
-		if ($post_id === null) { $post_id = get_the_ID(); }
 		
 		if ( $post_id === null ) { return false; }
+		
+		//$post = get_post($post_id);
 		
 		// Group <> Titles & Associations
 		// WIP
