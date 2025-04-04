@@ -64,10 +64,10 @@ class Plugin {
     private function activate_modules() {
     
     	// Get plugin options to determine which modules are active
-		protected $active_modules;
-		protected $options = get_option( 'whx4_settings' );
+		$active_modules;
+		$options = get_option( 'whx4_settings' );
 		if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
-		protected $cpts = array();
+		$cpts = array();
 		
 		// Activate each of the modules -- register post type(s) etc.
 		foreach ( $active_modules as $module ) {
