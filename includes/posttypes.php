@@ -44,7 +44,6 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
 	function register_post_type_person() {
 
 		if ( whx4_custom_caps() ) { $caps = array('person', 'people'); } else { $caps = "post"; }
-		//if ( whx4_custom_caps() ) { $caps = "person"; } else { $caps = "post"; }
 		
 		$labels = array(
 			'name' => __( 'People', 'whx4' ),
