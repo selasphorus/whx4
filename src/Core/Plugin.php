@@ -4,7 +4,7 @@
 
 namespace atc\WHx4\Core;
 
-class Plugin implements CustomPostType {
+class Plugin {
     
     /*
     public function __construct() {
