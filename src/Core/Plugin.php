@@ -1,0 +1,172 @@
+<?php
+
+// Initialize the plugin, register hooks, and manage dependencies
+
+namespace atc\WHx4\Core;
+
+class Plugin {
+    
+    /*
+    public function __construct() {
+        add_action('init', [ $this, 'init' ]);
+    }
+
+    public function init() {
+        // Custom initialization logic
+    }
+    */
+    
+    
+    public function __construct() {  
+        $this->define_constants();
+        $this->setup_actions(); //$this->init_hooks();
+        $this->activate_modules();
+    }
+
+    private function define_constants() {
+        define( 'WHX4_PLUGIN_DIR', __DIR__ );
+        //define('WHX4_DIR', plugin_dir_path(__FILE__));  
+        define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+        //define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
+    	define( 'WHX4_VERSION', '2.0.0' );
+    }
+
+
+	/**
+	 * Set up Hooks and Actions
+	 */
+    private function setup_actions() { //public function setup_actions() { //private function init_hooks() {
+        //add_action('init', [$this, 'load_components']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
+        //register_activation_hook( DIR_PATH, array( 'WHx4', 'activate' ) );
+		//register_deactivation_hook( DIR_PATH, array( 'WHx4', 'deactivate' ) );
+    }
+
+    public function enqueue_admin_assets() {  
+        //wp_enqueue_style('newsletter-admin', NEWSLETTER_DIR . 'assets/admin.css');  
+    }
+
+    public function enqueue_public_assets() {  
+        $fpath = WP_PLUGIN_DIR . '/whx4/css/whx4.css';
+    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
+    	wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
+    }
+    
+    protected function use_custom_caps() {
+		$use_custom_caps = false;
+		if ( isset($options['use_custom_caps']) && !empty($options['use_custom_caps']) ) {
+			$use_custom_caps = true;
+		}
+		return $use_custom_caps;
+	}
+
+    private function activate_modules() {
+    
+    	// Get plugin options to determine which modules are active
+		protected $active_modules;
+		protected $options = get_option( 'whx4_settings' );
+		if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+		protected $cpts = array();
+		
+		// Activate each of the modules -- register post type(s) etc.
+		foreach ( $active_modules as $module ) {
+			
+			switch($type) {
+				case 'people':
+					$cpts[] = 'person';
+					$cpts[] = 'group';
+					//??? do something???					
+					//return new Dog();
+				case 'places':
+					$cpts[] = 'venue';
+					$cpts[] = 'address';
+					$cpts[] = 'building';
+					//return new Cat();
+				case 'events':
+					$cpts[] = "event";
+					$cpts[] = "event_recurring";
+					$cpts[] = "event_series";
+					//return new Cat();
+				default:
+					throw new Exception("Invalid module");
+			}
+			
+			if ( function_exists('acf_add_options_page') ) {
+				// Add module options page
+				acf_add_options_sub_page(array(
+					'page_title'	=> ucfirst($module).' Module Options',
+					'menu_title'    => ucfirst($module).' Module Options',//'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
+					'menu_slug' 	=> $module.'-module-options',
+					'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
+				));
+			}
+			
+		}
+		
+    }
+    
+	
+	public static function register_custom_post_types ( $cpts ) {
+	
+	}
+	
+	public static function register_custom_post_type ( $args, $caps ) {
+	
+	}
+    
+    
+    
+    public function load_components() {  
+        $db = new DatabaseManager();  
+        //$api = new MailchimpAPI();  
+        //new AdminSettings($db, $api);  
+        //new FrontendForm($db);  
+    }
+    
+    /*
+    protected static ?self $instance = null;
+
+    protected ?string $entry_point = null;
+
+    public static function get_instance(): self {
+       if ( is_null( self::$instance ) ) {
+          self::$instance = new self();
+       }
+
+       return self::$instance;
+    }
+
+    public static function run( string $entry_point ): self {
+       $plugin = self::get_instance();
+
+       $plugin->entry_point = $entry_point;
+
+       register_activation_hook( $entry_point, function () {
+          self::activate();
+       } );
+
+       register_deactivation_hook( $entry_point, function () {
+          self::deactivate();
+       } );
+
+       // Other initialization code...
+
+       return $plugin;
+    }
+    */
+
+    protected static function activate(): void { //public static function activate() {
+       flush_rewrite_rules();
+    }
+
+    protected static function deactivate(): void { //public static function deactivate() {
+       flush_rewrite_rules();
+    }
+    
+}
+
+// To initialize the class:
+// $plugin = new \WHx4\Core\Plugin();
+
+?>

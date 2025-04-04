@@ -1,0 +1,21 @@
+{
+    "name": "atc/whx4",
+    "type": "wordpress-plugin",
+    "description": "A WordPress plugin for managing People, Places, and Events (Who/What/Where/When)",
+  	"keywords": ["wordpress", "plugin", "people", "places", "events"],
+    "authors": [
+        {
+            "name": "atc",
+            "email": "birdhive@gmail.com",
+            "homepage": "https://birdhive.com/"
+        }
+    ],
+	"require": {
+		"php": "^7.4 || ^8.0"
+	},
+    "autoload": {
+        "psr-4": {
+            "Atc\\Whx4\\": "src/"
+        }
+    }
+}
