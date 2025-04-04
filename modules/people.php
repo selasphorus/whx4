@@ -10,6 +10,8 @@ if ( !function_exists( 'add_action' ) ) {
 
 /*********** Functions pertaining to CPT: PERSON ***********/
 
+/* In v2-OOP, the following functions/methods have been moved to the Person class file. This file will be deleted. */
+
 function get_person_display_name ( $args = array() ) {
 	
 	// TS/logging setup

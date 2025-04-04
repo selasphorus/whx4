@@ -11,6 +11,8 @@ if ( !function_exists( 'add_action' ) ) {
 
 /*********** CPT: GROUP ***********/
 
+/* In v2-OOP, the following functions/methods have been moved to the Person class file. This file will be deleted. */
+
 // TODO: consider folding this in to the display-content plugin as a special content structure (group/subgroup)
 // AND generalize it so as to be able to use it for links and other content types...
 // Display the titles and personnel for a given subgroup or groups
