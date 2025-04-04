@@ -33,7 +33,7 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 //require 'vendor/autoload.php';
 //$plugin = new Core\Plugin();
 //$plugin = new WHx4\Core\Plugin();
-$plugin = new atc\WHx4\Core\Plugin();
+//$plugin = new atc\WHx4\Core\Plugin();
 
 /* 
 -- OR --

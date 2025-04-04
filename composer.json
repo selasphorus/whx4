@@ -15,7 +15,7 @@
 	},
     "autoload": {
         "psr-4": {
-            "Atc\\Whx4\\": "src/"
+            "atc\\WHx4\\": "src/"
         }
     }
 }
