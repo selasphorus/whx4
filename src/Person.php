@@ -158,7 +158,11 @@ class Person { // implements CustomPostType
 		
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 		
-		$info = ""; // init
+		// Init
+		$info = "";
+		$ts_info = "";
+		
+		$ts_info .= "post_id: ".$post_id."<br />";
 		
 		if ( $post_id === null ) { return false; }
 		
@@ -289,6 +293,8 @@ class Person { // implements CustomPostType
 			}
 			$info .= '</div>';
 		}
+		
+		$info .= $ts_info;
 		
 		return $info;
 		
