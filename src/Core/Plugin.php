@@ -75,7 +75,7 @@ class Plugin {
 			
 			switch( $module ) {
 				case 'people':
-					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('person', 'people'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
+					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); //'caps' => array('person', 'people')
 					//$cpts[] = 'person';
 					//$cpts[] = 'group';
 				case 'places':
