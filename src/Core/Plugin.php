@@ -2,7 +2,7 @@
 
 // Initialize the plugin, register hooks, and manage dependencies
 
-namespace atc\WHx4\Core;
+namespace atc\WHx4\Core; //namespace atc\WHx4\Core;
 
 class Plugin {
     
@@ -24,7 +24,7 @@ class Plugin {
     }
 
     private function define_constants() {
-        define( 'WHX4_PLUGIN_DIR', __DIR__ );
+        define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
         //define('WHX4_DIR', plugin_dir_path(__FILE__));  
         define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
@@ -36,7 +36,7 @@ class Plugin {
 	 * Set up Hooks and Actions
 	 */
     private function setup_actions() { //public function setup_actions() { //private function init_hooks() {
-        add_action('init', [$this, 'load_components']);
+        //add_action('init', [$this, 'load_components']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
         //register_activation_hook( DIR_PATH, array( 'WHx4', 'activate' ) );
@@ -48,7 +48,7 @@ class Plugin {
     }
 
     public function enqueue_public_assets() {  
-        $fpath = WP_PLUGIN_DIR . '/whx4/css/whx4.css';
+        $fpath = WHX4_PLUGIN_DIR . '/css/whx4.css';
     	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
     	wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
     }
@@ -62,7 +62,7 @@ class Plugin {
 	}
 
     private function activate_modules() {
-    
+    	
     	// Get plugin options to determine which modules are active
 		$active_modules;
 		$options = get_option( 'whx4_settings' );
@@ -100,13 +100,15 @@ class Plugin {
 			}
 			
 		}
+    
+    	$cptm = new \atc\WHx4\Admin\CustomPostTypeManager();
 		
 		foreach ( $cpts as $cpt ) {
 			$cpt_name = $cpt['name'];
 			if ( !post_type_exists( $cpt_name ) ) {
 				//echo "post_type ".$cpt_name." does not exist!";
-				$this->register_custom_post_type ( $args );
-				add_action( 'init', 'register_post_type_'.$cpt_name );
+				//register_custom_post_type ( $args ); //$cptm->register_custom_post_type ( $args );
+				//add_action( 'init', 'register_post_type_'.$cpt_name );
 				// TODO: Register associated taxonomies
 			}
 		}
@@ -126,7 +128,6 @@ class Plugin {
     
     public function load_components() {  
         $dbm = new DatabaseManager();
-        $cptm = new CustomPostTypeManager(); 
         //$api = new MailchimpAPI();  
         //new AdminSettings($db, $api);  
         //new FrontendForm($db);  
