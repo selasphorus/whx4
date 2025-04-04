@@ -2,7 +2,7 @@
 
 namespace atc\WHx4;
 
-class Person implements CustomPostType {
+class Person { // implements CustomPostType
 
 	/*
 	//public $event_id;
