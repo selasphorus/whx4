@@ -4,7 +4,7 @@
 
 namespace atc\WHx4\Core;
 
-class Plugin {
+class Plugin implements CustomPostType {
     
     /*
     public function __construct() {
@@ -113,7 +113,7 @@ class Plugin {
 		
     }
     
-	
+	/*
 	public static function register_custom_post_types ( $cpts ) {
 	
 	}
@@ -121,7 +121,7 @@ class Plugin {
 	public static function register_custom_post_type ( $args, $caps ) {
 	
 	}
-    
+	*/    
     
     
     public function load_components() {  
