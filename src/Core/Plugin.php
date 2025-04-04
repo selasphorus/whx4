@@ -104,8 +104,9 @@ class Plugin {
 		foreach ( $cpts as $cpt ) {
 			$cpt_name = $cpt['name'];
 			if ( !post_type_exists( $cpt_name ) ) {
-				$this->register_custom_post_type ( $args );
-				add_action( 'init', 'register_post_type_'.$cpt_name );
+				echo "post_type ".$cpt_name." does not exist!";
+				//$this->register_custom_post_type ( $args );
+				//add_action( 'init', 'register_post_type_'.$cpt_name );
 				// TODO: Register associated taxonomies
 			}
 		}
