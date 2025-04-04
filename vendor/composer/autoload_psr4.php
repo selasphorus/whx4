@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'atc\\WHx4\\' => array($baseDir . '/src'),
+    'atc\\WHx4\\' => array($baseDir . '/includes/classes'),
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
 );
