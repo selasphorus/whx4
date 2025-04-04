@@ -36,7 +36,7 @@ class Plugin implements CustomPostType {
 	 * Set up Hooks and Actions
 	 */
     private function setup_actions() { //public function setup_actions() { //private function init_hooks() {
-        //add_action('init', [$this, 'load_components']);
+        add_action('init', [$this, 'load_components']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
         //register_activation_hook( DIR_PATH, array( 'WHx4', 'activate' ) );
@@ -125,7 +125,8 @@ class Plugin implements CustomPostType {
     
     
     public function load_components() {  
-        $db = new DatabaseManager();  
+        $dbm = new DatabaseManager();
+        $cptm = new CustomPostTypeManager(); 
         //$api = new MailchimpAPI();  
         //new AdminSettings($db, $api);  
         //new FrontendForm($db);  

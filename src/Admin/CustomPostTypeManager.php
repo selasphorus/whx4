@@ -1,8 +1,8 @@
 <?php
 
-namespace atc\WHx4\Core;
+namespace atc\WHx4\Admin;
 
-interface CustomPostType {
+class CustomPostTypeManager {
 	
 	public function register_custom_post_type ( $args ) {
 		
