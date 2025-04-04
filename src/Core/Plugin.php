@@ -72,7 +72,7 @@ class Plugin {
 		// Activate each of the modules -- register post type(s) etc.
 		foreach ( $active_modules as $module ) {
 			
-			switch($type) {
+			switch( $module ) {
 				case 'people':
 					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('person', 'people'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
 					//$cpts[] = 'person';
@@ -95,7 +95,7 @@ class Plugin {
 					'page_title'	=> ucfirst($module).' Module Options',
 					'menu_title'    => ucfirst($module).' Module Options', //'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
 					'menu_slug' 	=> $module.'-module-options',
-					'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
+					//'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
 				));
 			}
 			
