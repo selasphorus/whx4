@@ -28,8 +28,9 @@ if ( !function_exists( 'add_action' ) ) {
 
 // WIP >> OOP
 
-// Autoload Classes via Composer
-require_once __DIR__ . '/vendor/autoload.php'; //require 'vendor/autoload.php'
+// Via Composer
+//require_once __DIR__ . '/vendor/autoload.php';
+require 'vendor/autoload.php';
 $plugin = new WHx4\Core\Plugin();
 
 /* 
@@ -45,10 +46,12 @@ $plugin = new WHx4_Plugin();
 -- OR --
 
 use atc\WHx4\Plugin;
+
 Plugin::run( entry_point: __FILE__ );
+
 */
 
-/* ***** TODO/WIP: Move all of the following away into classes ***** */
+/* ***** TODO: Move all of the following away into classes ***** */
 
 // Function to check for main dev/admin user
 function whx4_queenbee() {
@@ -82,11 +85,6 @@ require 'includes/template-tags.php';
 	
 // Load ACF field groups hard-coded as PHP
 require 'includes/acf-field-groups.php';
-
-// Post types, taxonomies, field groups
-//require 'includes/cpts.php'; // Deprecated -- now handled via OOP
-
-
 
 /* +~+~+ Misc Functions +~+~+ */
 
