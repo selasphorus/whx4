@@ -110,7 +110,7 @@ class Plugin {
 				$cpt_tft = $cptm->register_custom_post_type ( $cpt_args );
 				//var_dump($cpt_tft);
 				$cptm->register_custom_post_type ( $cpt_args ); //register_custom_post_type ( $args ); //$cptm->register_custom_post_type ( $args );
-				//add_action( 'init', 'register_post_type_'.$cpt_name );
+				add_action( 'init', 'register_post_type_'.$cpt_name );
 				// TODO: Register associated taxonomies
 			}
 		}
