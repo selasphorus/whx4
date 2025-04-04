@@ -20,7 +20,7 @@ class Plugin {
     public function __construct() {  
         $this->define_constants();
         //$this->setup_actions(); //$this->init_hooks();
-        $this->activate_modules();
+        //$this->activate_modules();
     }
 
     private function define_constants() {
@@ -36,6 +36,7 @@ class Plugin {
 	 * Set up Hooks and Actions
 	 */
     private function setup_actions() { //public function setup_actions() { //private function init_hooks() {
+        add_action('init', [$this, 'activate_modules']);
         //add_action('init', [$this, 'load_components']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
@@ -109,8 +110,7 @@ class Plugin {
 				//echo "post_type ".$cpt_name." does not exist!"; // tft
 				//$cpt_tft = $cptm->register_custom_post_type ( $cpt_args );
 				//var_dump($cpt_tft); // tft
-				$cptm->register_custom_post_type ( $cpt_args ); //register_custom_post_type ( $args ); //$cptm->register_custom_post_type ( $args );
-				add_action( 'init', 'register_post_type_'.$cpt_name );
+				$cptm->register_custom_post_type ( $cpt_args ); //register_custom_post_type ( $args );
 				// TODO: Register associated taxonomies
 			}
 		}
