@@ -70,10 +70,14 @@ class Plugin {
 		if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 		$cpts = array();
 		
+		$active_modules[] = 'monsters'; // tft
+		
 		// Activate each of the modules -- register post type(s) etc.
 		foreach ( $active_modules as $module ) {
 			
 			switch( $module ) {
+				case 'monsters':
+					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters', 'caps' => array('post') );
 				case 'people':
 					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); //'caps' => array('person', 'people')
 					//$cpts[] = 'person';

@@ -63,7 +63,7 @@ class CustomPostTypeManager {
 		
 		$cpt_args['labels'] = $labels;
 		$cpt_args['rewrite'] = array( 'slug' => $slug ); // permalink structure slug -- needs TS
-		//$cpt_args['capability_type'] = $caps;
+		//$cpt_args['capability_type'] = $caps; // TODO: figure out why this isn't working -- even for Admin with all caps granted, could not access new post_type
 		$cpt_args['supports'] = $supports;
 		$cpt_args['taxonomies'] = $taxonomies;
 
