@@ -36,7 +36,7 @@ interface CustomPostType {
 				'add_new_item' => __( 'Add New '.ucfirst($name), 'whx4' ),
 				'edit_item' => __( 'Edit '.ucfirst($name), 'whx4' ),
 				'new_item' => __( 'New '.ucfirst($name), 'whx4' ),
-				'view_item' => __( 'View 'ucfirst($name), 'whx4' ),
+				'view_item' => __( 'View '.ucfirst($name), 'whx4' ),
 				'search_items' => __( 'Search '.ucfirst($plural_name), 'whx4' ),
 				'not_found' =>  __( 'No '.ucfirst($plural_name).' Found', 'whx4' ),
 				'not_found_in_trash' => __( 'No '.ucfirst($plural_name).' found in Trash', 'whx4' ),
