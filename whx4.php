@@ -29,6 +29,8 @@ if ( !function_exists( 'add_action' ) ) {
 // WIP >> OOP
 
 // Via Composer
+use atc\WHx4\Core\Plugin;
+
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 //require 'vendor/autoload.php';
 //$plugin = new Core\Plugin();
