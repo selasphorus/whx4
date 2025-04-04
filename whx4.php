@@ -30,6 +30,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 // Via Composer
 use atc\WHx4\Core\Plugin;
+use atc\WHx4\Person;
 
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 //require 'vendor/autoload.php';

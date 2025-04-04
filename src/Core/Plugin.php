@@ -19,8 +19,8 @@ class Plugin {
     
     public function __construct() {  
         $this->define_constants();
-        $this->setup_actions(); //$this->init_hooks();
-        //$this->activate_modules();
+        //$this->setup_actions(); //$this->init_hooks();
+        $this->activate_modules();
     }
 
     private function define_constants() {
