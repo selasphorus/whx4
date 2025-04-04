@@ -55,8 +55,12 @@ function whx4_get_blocks() {
 	$version = get_option( 'whx4_blocks_version' );
 
 	if ( empty( $blocks ) || version_compare( WHX4_VERSION, $version ) || ( function_exists( 'wp_get_environment_type' ) && 'production' !== wp_get_environment_type() ) ) {
+		
 		$blocks = scandir( WHX4_PLUGIN_BLOCKS );
-		$blocks = array_values( array_diff( $blocks, array( '..', '.', '.DS_Store' ) ) );
+		
+		if ( is_array($blocks) ) {
+			$blocks = array_values( array_diff( $blocks, array( '..', '.', '.DS_Store' ) ) );
+		}
 
 		// Update our options.
 		update_option( 'whx4_blocks', $blocks );
