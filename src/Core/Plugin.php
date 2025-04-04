@@ -89,14 +89,14 @@ class Plugin {
 					$cpts[] = "event_series";
 					//return new Cat();
 				default:
-					throw new Exception("Invalid module");
+					//throw new Exception("Invalid module");
 			}
 			
 			if ( function_exists('acf_add_options_page') ) {
 				// Add module options page
 				acf_add_options_sub_page(array(
 					'page_title'	=> ucfirst($module).' Module Options',
-					'menu_title'    => ucfirst($module).' Module Options',//'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
+					'menu_title'    => ucfirst($module).' Module Options', //'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
 					'menu_slug' 	=> $module.'-module-options',
 					'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
 				));

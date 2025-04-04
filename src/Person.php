@@ -17,14 +17,14 @@ class Person implements CustomPostType {
 	*/
 
 	// construct -- check if person and group post_types exist and if not, register them
-	public function __construct() {  
+	/*public function __construct() {  
         
         if ( !post_type_exists( 'person' ) ) {
         	$args = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('person', 'people'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
         	$this->register_custom_post_type ( $args );
         	add_action( 'init', 'register_post_type_person' );
         }
-    }	
+    }*/
 
 	protected function get_person_display_name ( $args = array() ) {
 		

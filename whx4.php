@@ -31,7 +31,7 @@ if ( !function_exists( 'add_action' ) ) {
 // Via Composer
 //require_once __DIR__ . '/vendor/autoload.php';
 require 'vendor/autoload.php';
-$plugin = new WHx4\Core\Plugin();
+//$plugin = new WHx4\Core\Plugin();
 
 /* 
 -- OR --
