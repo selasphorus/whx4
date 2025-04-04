@@ -24,7 +24,7 @@ class CustomPostTypeManager {
 		//$name, $plural_name, $labels, $args, $caps, $supports, $taxonomies
 		
 		if ( empty($plural_name) ) { $plural_name = $name."s"; }
-		if ( empty($slug) ) { $slug = $plural_name; }
+		if ( empty($slug) ) { $slug = $name; } //$slug = $plural_name;
 		
 		if ( empty($caps) ) { $caps = array($name, $plural_name); }
 		
@@ -62,13 +62,13 @@ class CustomPostTypeManager {
 		}
 		
 		$cpt_args['labels'] = $labels;
-		$cpt_args['rewrite'] = array( 'slug' => $slug ); // permalink structure slug
+		$cpt_args['rewrite'] = array( 'slug' => $slug ); // permalink structure slug -- needs TS
 		$cpt_args['capability_type'] = $caps;
 		$cpt_args['supports'] = $supports;
 		$cpt_args['taxonomies'] = $taxonomies;
 
 		register_post_type( $name, $cpt_args );
-	
+		//return $cpt_args; // tft
 	}
 	
 
