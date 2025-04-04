@@ -152,7 +152,7 @@ class Person { // implements CustomPostType
 		
 	}
 	
-	protected function get_cpt_content() {
+	public function get_cpt_content() {
 		
 		$post_id = $this->get_post_id();
 		
