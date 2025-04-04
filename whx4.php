@@ -70,7 +70,6 @@ function whx4_queenbee() {
 
 /* +~+~+ ACF +~+~+ */
 
-/*
 // Set custom load & save JSON points for ACF sync
 require 'includes/acf-json.php';
 
@@ -88,7 +87,7 @@ require 'includes/template-tags.php';
 	
 // Load ACF field groups hard-coded as PHP
 require 'includes/acf-field-groups.php';
-*/
+/**/
 
 /* +~+~+ Misc Functions +~+~+ */
 
