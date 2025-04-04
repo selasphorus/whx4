@@ -62,7 +62,7 @@ class Plugin {
 		return $use_custom_caps;
 	}
 
-    private function activate_modules() {
+    public function activate_modules() { // why not private or protected?
     	
     	// Get plugin options to determine which modules are active
 		$active_modules;
@@ -107,13 +107,13 @@ class Plugin {
 		foreach ( $cpts as $cpt_args ) {
 			$cpt_name = $cpt_args['name'];
 			if ( !post_type_exists( $cpt_name ) ) {
-				echo "post_type ".$cpt_name." does not exist!"; // tft
+				//echo "post_type ".$cpt_name." does not exist!"; // tft
 				//$cpt_tft = $cptm->register_custom_post_type ( $cpt_args );
 				//var_dump($cpt_tft); // tft
 				$cptm->register_custom_post_type ( $cpt_args ); //register_custom_post_type ( $args );
 				// TODO: Register associated taxonomies
 			} else {
-				echo "post_type ".$cpt_name." already exists!"; // tft
+				//echo "post_type ".$cpt_name." already exists!"; // tft
 			}
 		}
 		
