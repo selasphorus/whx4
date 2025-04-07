@@ -71,19 +71,6 @@ class CPTRegistrar {
 		//return $cpt_args; // tft
 	}
 
-    public static function register_custom_post_types() {
-        // Check the stored option to see which modules are enabled
-        $enabled_modules = get_option('my_plugin_enabled_modules', []);
-        
-        if (in_array('monster', $enabled_modules)) {
-            self::register_monster_post_type();
-        }
-    }
-
 }
-
-// SEE Plugin.php for init action
-// Hook into init to register post types
-//add_action('init', ['CPTRegistrar', 'register_custom_post_types']);
 
 ?>
