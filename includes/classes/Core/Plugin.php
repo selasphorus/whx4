@@ -88,8 +88,8 @@ class Plugin {
 					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'plural_name' => 'Buildings', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=venue' );
 				case 'events':
 					$cpts[] = array( 'slug' => 'event', 'name' => 'Event', 'plural_name' => 'Events', 'caps' => array('post') );
-					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=event' );
-					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=event' );
+					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=whx4_event' );
+					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=whx4_event' );
 				default:
 					//throw new Exception("Invalid module");
 			}
