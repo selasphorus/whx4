@@ -134,6 +134,7 @@ class Plugin {
 			}
 		}
 		
+		/*
 		// Register Custom Taxonomies
     	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
 		foreach ( $taxonomies as $tax_args ) {
@@ -145,6 +146,7 @@ class Plugin {
 				//echo "taxonomy ".$tax_name." already exists!"; // tft
 			}
 		}
+		*/
 		
     }
     
