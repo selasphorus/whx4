@@ -89,7 +89,7 @@ class Plugin {
 					// rosters as separate module?
 					//$cpts[] = array( 'slug' => 'roster', 'name' => 'Roster', 'plural_name' => 'Rosters', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'roster_category', 'admin_tag' ) );
 					// Taxonomies
-					$taxonomies[] = array();
+					//$taxonomies[] = array( 'slug' => 'person_category', 'name' => 'Person Category', 'plural_name' => 'Person Categories', 'show_in_menu' => 'edit.php?post_type=venue' );
 				case 'places':
 					// Post Types
 					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'menu_icon' => 'dashicons-admin-multisite' ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
@@ -122,8 +122,7 @@ class Plugin {
 		}
     
     	// Register Custom Post Types
-    	$cptm = new \atc\WHx4\Core\PostTypeRegistrar(); // Formerly: CustomPostTypeManager();
-		
+    	$cptm = new \atc\WHx4\Core\PostTypeRegistrar();
 		foreach ( $cpts as $cpt_args ) {
 			$cpt_name = $cpt_args['name'];
 			if ( !post_type_exists( $cpt_name ) ) {
@@ -132,6 +131,18 @@ class Plugin {
 				// TODO: Register associated taxonomies
 			} else {
 				//echo "post_type ".$cpt_name." already exists!"; // tft
+			}
+		}
+		
+		// Register Custom Taxonomies
+    	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
+		foreach ( $taxonomies as $tax_args ) {
+			$tax_name = $tax_args['name'];
+			if ( !post_type_exists( $tax_name ) ) {
+				//echo "taxonomy ".$tax_name." does not exist!";
+				$taxm->register_custom_taxonomy ( $tax_args );
+			} else {
+				//echo "taxonomy ".$tax_name." already exists!"; // tft
 			}
 		}
 		
