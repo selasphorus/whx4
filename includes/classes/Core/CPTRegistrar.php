@@ -36,7 +36,7 @@ class CPTRegistrar {
 				'edit_item' => __( 'Edit '.$name, 'whx4' ),
 				'new_item' => __( 'New '.$name, 'whx4' ),
 				'view_item' => __( 'View '.$name, 'whx4' ),
-				'search_items' => __( 'Search '.$plural_name), 'whx4' ),
+				'search_items' => __( 'Search '.$plural_name, 'whx4' ),
 				'not_found' =>  __( 'No '.$plural_name.' Found', 'whx4' ),
 				'not_found_in_trash' => __( 'No '.$plural_name.' found in Trash', 'whx4' ),
 			);
