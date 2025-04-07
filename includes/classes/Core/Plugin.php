@@ -81,6 +81,7 @@ class Plugin {
 				case 'people':
 					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
 					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
+					$cpts[] = array( 'slug' => 'identity', 'name' => 'Identity', 'plural_name' => 'Identities', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=person' );
 					$cpts[] = array( 'slug' => 'group', 'name' => 'Group', 'plural_name' => 'Groups', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=person' );
 				case 'places':
 					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'plural_name' => 'Venues', 'caps' => array('post') ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
