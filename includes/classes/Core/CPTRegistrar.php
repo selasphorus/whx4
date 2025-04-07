@@ -8,9 +8,9 @@ class CPTRegistrar {
 		
 		// Defaults
 		$defaults = array(
-			'name' 			=> 'monster',
+			'slug' 			=> 'dragon',
+			'name' 			=> 'Dragon',
 			'plural_name'	=> null,
-			'slug'			=> null,
 			'labels'		=> array(),
 			'supports'		=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
 			'taxonomies'	=> array( 'category', 'tag' ),
@@ -24,22 +24,21 @@ class CPTRegistrar {
 		//$name, $plural_name, $labels, $args, $caps, $supports, $taxonomies
 		
 		if ( empty($plural_name) ) { $plural_name = $name."s"; }
-		if ( empty($slug) ) { $slug = $name; } //$slug = $plural_name;
-		
+		if ( empty($slug) ) { $slug = strtolower($name); }
 		if ( empty($caps) ) { $caps = array($name, $plural_name); }
 		
 		if ( empty($labels) ) {
 			$labels = array(
-				'name' => __( ucfirst($plural_name), 'whx4' ),
-				'singular_name' => __( ucfirst($name), 'whx4' ),
-				'add_new' => __( 'New '.ucfirst($name), 'whx4' ),
-				'add_new_item' => __( 'Add New '.ucfirst($name), 'whx4' ),
-				'edit_item' => __( 'Edit '.ucfirst($name), 'whx4' ),
-				'new_item' => __( 'New '.ucfirst($name), 'whx4' ),
-				'view_item' => __( 'View '.ucfirst($name), 'whx4' ),
-				'search_items' => __( 'Search '.ucfirst($plural_name), 'whx4' ),
-				'not_found' =>  __( 'No '.ucfirst($plural_name).' Found', 'whx4' ),
-				'not_found_in_trash' => __( 'No '.ucfirst($plural_name).' found in Trash', 'whx4' ),
+				'name' => __( $plural_name, 'whx4' ),
+				'singular_name' => __( $name, 'whx4' ),
+				'add_new' => __( 'New '.$name, 'whx4' ),
+				'add_new_item' => __( 'Add New '.$name), 'whx4' ),
+				'edit_item' => __( 'Edit '.$name, 'whx4' ),
+				'new_item' => __( 'New '.$name, 'whx4' ),
+				'view_item' => __( 'View '.$name, 'whx4' ),
+				'search_items' => __( 'Search '.$plural_name), 'whx4' ),
+				'not_found' =>  __( 'No '.$plural_name.' Found', 'whx4' ),
+				'not_found_in_trash' => __( 'No '.$plural_name.' found in Trash', 'whx4' ),
 			);
 		}
 		
@@ -67,8 +66,11 @@ class CPTRegistrar {
 		$cpt_args['supports'] = $supports;
 		$cpt_args['taxonomies'] = $taxonomies;
 
-		register_post_type( $name, $cpt_args );
+		register_post_type( $slug, $cpt_args );
+		
 		//return $cpt_args; // tft
+		//return true; //???
+		
 	}
 
 }

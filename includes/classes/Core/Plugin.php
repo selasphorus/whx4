@@ -79,16 +79,17 @@ class Plugin {
 				case 'monsters':
 					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters', 'caps' => array('post') );
 				case 'people':
-					$cpts[] = array( 'name' => 'person', 'plural_name' => 'people', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); //'caps' => array('person', 'people')
+					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
+					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); 
 					//$cpts[] = 'group';
 				case 'places':
-					//$cpts[] = 'venue';
-					//$cpts[] = 'address';
-					//$cpts[] = 'building';
+					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'plural_name' => 'Venues', 'caps' => array('post') ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
+					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'caps' => array('post') );
+					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'plural_name' => 'Buildings', 'caps' => array('post') );
 				case 'events':
-					//$cpts[] = "event";
-					//$cpts[] = "event_recurring";
-					//$cpts[] = "event_series";
+					$cpts[] = array( 'slug' => 'event', 'name' => 'Event', 'plural_name' => 'Events', 'caps' => array('post') );
+					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post') );
+					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post') );
 				default:
 					//throw new Exception("Invalid module");
 			}
