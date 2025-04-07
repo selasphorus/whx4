@@ -106,7 +106,7 @@ class Plugin {
 		}
     
     	// Register Custom Post Types
-    	$cptm = new \atc\WHx4\Admin\CPTRegistrar(); // Formerly: CustomPostTypeManager();
+    	$cptm = new \atc\WHx4\Core\CPTRegistrar(); // Formerly: CustomPostTypeManager();
 		
 		foreach ( $cpts as $cpt_args ) {
 			$cpt_name = $cpt_args['name'];
