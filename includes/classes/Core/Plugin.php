@@ -80,16 +80,16 @@ class Plugin {
 					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters', 'caps' => array('post') );
 				case 'people':
 					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
-					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) ); 
-					//$cpts[] = 'group';
+					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
+					$cpts[] = array( 'slug' => 'group', 'name' => 'Group', 'plural_name' => 'Groups', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=person' );
 				case 'places':
 					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'plural_name' => 'Venues', 'caps' => array('post') ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
-					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'caps' => array('post') );
-					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'plural_name' => 'Buildings', 'caps' => array('post') );
+					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=venue' );
+					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'plural_name' => 'Buildings', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=venue' );
 				case 'events':
 					$cpts[] = array( 'slug' => 'event', 'name' => 'Event', 'plural_name' => 'Events', 'caps' => array('post') );
-					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post') );
-					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post') );
+					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=event' );
+					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=event' );
 				default:
 					//throw new Exception("Invalid module");
 			}

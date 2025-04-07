@@ -15,6 +15,7 @@ class CPTRegistrar {
 			'supports'		=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
 			'taxonomies'	=> array( 'category', 'tag' ),
 			'cpt_args'		=> array(),
+			'show_in_menu'	=> true,
 		);
 		
 		// Parse & Extract args
@@ -48,7 +49,7 @@ class CPTRegistrar {
 				'public' => true,
 				'publicly_queryable'=> true,
 				'show_ui' 			=> true,
-				'show_in_menu'     	=> true,
+				//'show_in_menu'     	=> true,
 				'query_var'        	=> true,
 				'map_meta_cap'		=> true,
 				'has_archive' 		=> true,
@@ -65,6 +66,7 @@ class CPTRegistrar {
 		//$cpt_args['capability_type'] = $caps; // TODO: figure out why this isn't working -- even for Admin with all caps granted, could not access new post_type
 		$cpt_args['supports'] = $supports;
 		$cpt_args['taxonomies'] = $taxonomies;
+		$cpt_args['show_in_menu'] = $show_in_menu;
 
 		register_post_type( $slug, $cpt_args );
 		
