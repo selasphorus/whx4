@@ -2,7 +2,7 @@
 
 namespace atc\WHx4;
 
-class Person extends Core\CPTHandler { // implements CustomPostType
+class WHx4_Person extends Core\CPTHandler { // implements CustomPostType
     
 	protected function get_person_display_name ( $args = array() ) {
 		

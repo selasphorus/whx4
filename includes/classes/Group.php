@@ -2,16 +2,13 @@
 
 namespace atc\WHx4;
 
-class Group {
+class WHx4_Group extends Core\CPTHandler {
 
-	/*public function __construct() {
-        add_shortcode('shortcode_name', array($this, 'shortcode'));
-    }
-     
-    public function shortcode() {
-        // Contents of this function will execute when the blogger 
-        // uses the [shortcode_name] shortcode. 
-    }*/
+	public function get_cpt_content() {
+		
+		$post_id = $this->get_post_id();
+		
+	}
 
 	/*
 	//public $event_id;

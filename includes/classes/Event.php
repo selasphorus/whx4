@@ -2,7 +2,13 @@
 
 namespace atc\WHx4;
 
-class Event {
+class WHx4_Event extends Core\CPTHandler {
+
+	public function get_cpt_content() {
+		
+		$post_id = $this->get_post_id();
+		
+	}
 	
 	/*
 	//public $event_id;

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4;
 
-class Venue {
+class WHx4_Venue extends Core\CPTHandler {
 
 	/*
 	public $post_id;
@@ -16,7 +16,9 @@ class Venue {
 	*/
 	
 	// TODO: generalize beyond NYCAGO-specific usage
-	protected function get_cpt_venue_content( $post_id = null ) {
+	public function get_cpt_content() {
+		
+		$post_id = $this->get_post_id();
 		
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 		// TODO: refine overall get_cpt_XXX_content setup to facilitate designation of content to display before and/or after main post_content
@@ -33,7 +35,7 @@ class Venue {
 		$before_pc = ""; // cpt content to show before/above main post content
 		$after_pc = ""; // cpt content to show after/below main post content
 		$ts_info = "";
-		if ( $post_id === null ) { $post_id = get_the_ID(); }
+		
 		if ( $post_id === null ) { return false; }
 		
 		$post_meta = get_post_meta( $post_id );

@@ -2,20 +2,10 @@
 
 namespace atc\WHx4;
 
-class Monster {
-    
-    private $post;
-
-    public function __construct(WP_Post $post) {
-        $this->post = $post;
-    }
-
-	public function say_hi() {
-		return "Monster says hi!";
-	}
+class WHx4_Monster extends Core\CPTHandler {
 	
-	public function get_cpt_special_content() { //  $post_id = null 
-		return $this->say_hi();
+	public function get_cpt_content() {
+		return "hello";
 	}
     
     public function get_color() {
