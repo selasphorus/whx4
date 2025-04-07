@@ -1,6 +1,6 @@
 <?php
 
-namespace atc\WHx4;
+namespace atc\WHx4\Core;
 
 class CPTHandler {
 
