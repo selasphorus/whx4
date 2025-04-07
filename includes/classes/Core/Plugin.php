@@ -77,20 +77,22 @@ class Plugin {
 			
 			switch( $module ) {
 				case 'monsters':
-					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters', 'caps' => array('post') );
+					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters' );
 				case 'people':
 					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
-					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'caps' => array('post'), 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ) );
-					$cpts[] = array( 'slug' => 'identity', 'name' => 'Identity', 'plural_name' => 'Identities', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=person' );
-					$cpts[] = array( 'slug' => 'group', 'name' => 'Group', 'plural_name' => 'Groups', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=person' );
+					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ), 'menu_icon' => 'dashicons-groups' );
+					$cpts[] = array( 'slug' => 'identity', 'name' => 'Identity', 'plural_name' => 'Identities', 'show_in_menu' => 'edit.php?post_type=person' ); //, 'taxonomies' => array( 'person_category' )
+					// TODO: Figure out how to allow for individual sites to customize labels -- e.g. "Ensembles" for STC(?)
+					$cpts[] = array( 'slug' => 'group', 'name' => 'Group', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'group_category', 'admin_tag' ) );
+					//$cpts[] = array( 'slug' => 'roster', 'name' => 'Roster', 'plural_name' => 'Rosters', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'roster_category', 'admin_tag' ) );
 				case 'places':
-					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'plural_name' => 'Venues', 'caps' => array('post') ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
-					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=venue' );
-					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'plural_name' => 'Buildings', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=venue' );
+					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'menu_icon' => 'dashicons-admin-multisite' ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
+					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'show_in_menu' => 'edit.php?post_type=venue' );
+					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'show_in_menu' => 'edit.php?post_type=venue' );
 				case 'events':
-					$cpts[] = array( 'slug' => 'event', 'name' => 'Event', 'plural_name' => 'Events', 'caps' => array('post') );
-					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'plural_name' => 'Recurring Events', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=whx4_event' );
-					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'caps' => array('post'), 'show_in_menu' => 'edit.php?post_type=whx4_event' );
+					$cpts[] = array( 'slug' => 'event', 'name' => 'Event' );
+					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
+					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
 				default:
 					//throw new Exception("Invalid module");
 			}
@@ -180,6 +182,16 @@ class Plugin {
     protected static function deactivate(): void { //public static function deactivate() {
        flush_rewrite_rules();
     }
+    
+    /*
+	register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+	register_activation_hook( __FILE__, 'whx4_flush_rewrites' );
+	function whx4_flush_rewrites() {
+		// call your CPT registration function here (it should also be hooked into 'init')
+		myplugin_custom_post_types_registration();
+		flush_rewrite_rules();
+	}
+	*/
     
 }
 

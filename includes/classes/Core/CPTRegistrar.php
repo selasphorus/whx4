@@ -14,6 +14,7 @@ class CPTRegistrar {
 			'labels'		=> array(),
 			'supports'		=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
 			'taxonomies'	=> array( 'category', 'tag' ),
+			'caps'			=> array( 'post' ),
 			'cpt_args'		=> array(),
 			'show_in_menu'	=> true,
 		);
@@ -26,7 +27,7 @@ class CPTRegistrar {
 		
 		if ( empty($plural_name) ) { $plural_name = $name."s"; }
 		if ( empty($slug) ) { $slug = strtolower($name); }
-		if ( empty($caps) ) { $caps = array($name, $plural_name); }
+		//if ( empty($caps) ) { $caps = array($name, $plural_name); }
 		
 		if ( empty($labels) ) {
 			$labels = array(
@@ -49,12 +50,10 @@ class CPTRegistrar {
 				'public' => true,
 				'publicly_queryable'=> true,
 				'show_ui' 			=> true,
-				//'show_in_menu'     	=> true,
 				'query_var'        	=> true,
 				'map_meta_cap'		=> true,
 				'has_archive' 		=> true,
 				'hierarchical'		=> false,
-				'menu_icon'			=> 'dashicons-groups',
 				//'menu_position'		=> null,
 				'show_in_rest'		=> false, // false = use classic, not block editor
 				//'delete_with_user' 	=> false,
@@ -67,6 +66,7 @@ class CPTRegistrar {
 		$cpt_args['supports'] = $supports;
 		$cpt_args['taxonomies'] = $taxonomies;
 		$cpt_args['show_in_menu'] = $show_in_menu;
+		$cpt_args['menu_icon'] = $menu_icon;
 
 		register_post_type( $slug, $cpt_args );
 		
