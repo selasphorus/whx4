@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Core;
 
-class CPTHandler {
+class PostTypeHandler {
 
 	// Property to store the post object
     protected $post; //private $post;

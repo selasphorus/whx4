@@ -2,7 +2,7 @@
 
 namespace atc\WHx4;
 
-class WHx4_Event extends Core\CPTHandler {
+class WHx4_Event extends Core\PostTypeHandler {
 
 	public function get_cpt_content() {
 		

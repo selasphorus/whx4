@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Core;
 
-class CPTRegistrar {
+class PostTypeRegistrar {
 	
 	public function register_custom_post_type ( $args ) {
 		

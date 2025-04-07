@@ -2,7 +2,7 @@
 
 namespace atc\WHx4;
 
-class WHx4_Venue extends Core\CPTHandler {
+class WHx4_Venue extends Core\PostTypeHandler {
 
 	/*
 	public $post_id;
