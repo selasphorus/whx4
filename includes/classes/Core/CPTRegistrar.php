@@ -32,7 +32,7 @@ class CPTRegistrar {
 				'name' => __( $plural_name, 'whx4' ),
 				'singular_name' => __( $name, 'whx4' ),
 				'add_new' => __( 'New '.$name, 'whx4' ),
-				'add_new_item' => __( 'Add New '.$name), 'whx4' ),
+				'add_new_item' => __( 'Add New '.$name, 'whx4' ),
 				'edit_item' => __( 'Edit '.$name, 'whx4' ),
 				'new_item' => __( 'New '.$name, 'whx4' ),
 				'view_item' => __( 'View '.$name, 'whx4' ),
