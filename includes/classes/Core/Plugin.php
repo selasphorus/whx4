@@ -97,14 +97,14 @@ class Plugin {
 					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'show_in_menu' => 'edit.php?post_type=venue' );
 					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'show_in_menu' => 'edit.php?post_type=venue' );
 					// Taxonomies
-					$taxonomies[] = array();
+					//$taxonomies[] = array();
 				case 'events':
 					// Post Types
 					$cpts[] = array( 'slug' => 'event', 'name' => 'Event' );
 					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
 					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
 					// Taxonomies
-					$taxonomies[] = array();
+					//$taxonomies[] = array();
 				default:
 					//throw new Exception("Invalid module");
 			}
@@ -124,7 +124,7 @@ class Plugin {
     	// Register Custom Post Types
     	$cptm = new \atc\WHx4\Core\PostTypeRegistrar();
 		foreach ( $cpts as $cpt_args ) {
-			$cpt_name = $cpt_args['name'];
+			$cpt_name = $cpt_args['slug'];
 			if ( !post_type_exists( $cpt_name ) ) {
 				//echo "post_type ".$cpt_name." does not exist!"; // tft //$cpt_tft = $cptm->register_custom_post_type ( $cpt_args ); //var_dump($cpt_tft); // tft
 				$cptm->register_custom_post_type ( $cpt_args );
@@ -137,7 +137,7 @@ class Plugin {
 		// Register Custom Taxonomies
     	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
 		foreach ( $taxonomies as $tax_args ) {
-			$tax_name = $tax_args['name'];
+			$tax_name = $tax_args['slug'];
 			if ( !post_type_exists( $tax_name ) ) {
 				//echo "taxonomy ".$tax_name." does not exist!";
 				$taxm->register_custom_taxonomy ( $tax_args );
