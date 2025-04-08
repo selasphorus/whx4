@@ -89,7 +89,7 @@ class Plugin {
 					// rosters as separate module?
 					//$cpts[] = array( 'slug' => 'roster', 'name' => 'Roster', 'plural_name' => 'Rosters', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'roster_category', 'admin_tag' ) );
 					// Taxonomies
-					//$taxonomies[] = array( 'slug' => 'person_category', 'name' => 'Person Category', 'plural_name' => 'Person Categories', 'show_in_menu' => 'edit.php?post_type=venue' );
+					$taxonomies[] = array( 'slug' => 'person_category', 'name' => 'Person Category', 'plural_name' => 'Person Categories', 'show_in_menu' => 'edit.php?post_type=venue' );
 				case 'places':
 					// Post Types
 					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'menu_icon' => 'dashicons-admin-multisite' ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
@@ -134,7 +134,6 @@ class Plugin {
 			}
 		}
 		
-		/*
 		// Register Custom Taxonomies
     	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
 		foreach ( $taxonomies as $tax_args ) {
@@ -146,7 +145,6 @@ class Plugin {
 				//echo "taxonomy ".$tax_name." already exists!"; // tft
 			}
 		}
-		*/
 		
     }
     
