@@ -126,7 +126,7 @@ class Plugin {
     	$cpt_slug = "";
 		foreach ( $cpts as $cpt_args ) {
 			if ( isset($cpt_args['slug'] ) ) { $cpt_slug = $cpt_args['slug']; } else if ( isset($cpt_args['name'] ) ) { $cpt_slug = strtolower($cpt_args['name']); }
-			if ( !post_type_exists( $cpt_name ) ) {
+			if ( !post_type_exists( $cpt_slug ) ) {
 				//echo "post_type ".$cpt_name." does not exist!"; // tft //$cpt_tft = $cptm->register_custom_post_type ( $cpt_args ); //var_dump($cpt_tft); // tft
 				$cptm->register_custom_post_type ( $cpt_args );
 				// TODO: Register associated taxonomies
