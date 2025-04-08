@@ -140,7 +140,7 @@ class Plugin {
 			$tax_name = $tax_args['slug'];
 			if ( !post_type_exists( $tax_name ) ) {
 				//echo "taxonomy ".$tax_name." does not exist!";
-				$taxm->register_custom_taxonomy ( $tax_args );
+				//$taxm->register_custom_taxonomy ( $tax_args );
 			} else {
 				//echo "taxonomy ".$tax_name." already exists!"; // tft
 			}
