@@ -78,7 +78,7 @@ class Plugin {
 			
 			switch( $module ) {
 				case 'monsters':
-					$cpts[] = array( 'name' => 'monster', 'plural_name' => 'monsters' );
+					$cpts[] = array( 'slug' => 'monster', 'name' => 'monster', 'plural_name' => 'monsters' );
 				case 'people':
 					// Post Types
 					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
@@ -123,8 +123,9 @@ class Plugin {
     
     	// Register Custom Post Types
     	$cptm = new \atc\WHx4\Core\PostTypeRegistrar();
+    	$cpt_slug = "";
 		foreach ( $cpts as $cpt_args ) {
-			$cpt_name = $cpt_args['slug'];
+			if ( isset($cpt_args['slug'] ) ) { $cpt_slug = $cpt_args['slug']; } else if ( isset($cpt_args['name'] ) ) { $cpt_slug = strtolower($cpt_args['name']); }
 			if ( !post_type_exists( $cpt_name ) ) {
 				//echo "post_type ".$cpt_name." does not exist!"; // tft //$cpt_tft = $cptm->register_custom_post_type ( $cpt_args ); //var_dump($cpt_tft); // tft
 				$cptm->register_custom_post_type ( $cpt_args );
@@ -136,9 +137,10 @@ class Plugin {
 		
 		// Register Custom Taxonomies
     	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
+    	$tax_slug = "";
 		foreach ( $taxonomies as $tax_args ) {
-			$tax_name = $tax_args['slug'];
-			if ( !post_type_exists( $tax_name ) ) {
+			if ( isset($tax_args['slug'] ) ) { $tax_slug = $tax_args['slug']; } else if ( isset($tax_args['name'] ) ) { $tax_slug = strtolower($tax_args['name']); }
+			if ( !post_type_exists( $tax_slug ) ) {
 				//echo "taxonomy ".$tax_name." does not exist!";
 				//$taxm->register_custom_taxonomy ( $tax_args );
 			} else {
