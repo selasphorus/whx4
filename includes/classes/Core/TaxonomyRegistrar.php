@@ -41,7 +41,7 @@ class TaxonomyRegistrar {
 			'new_item' => __( 'New '.$name, 'whx4' ),
 			'view_item' => __( 'View '.$name, 'whx4' ),
 			'parent_item'       => __( 'Parent '.$name, 'whx4' ),
-			'parent_item_colon' => __( 'Parent '.$name.':', 'whx4' ),
+			///'parent_item_colon' => __( 'Parent '.$name.':', 'whx4' ),
 			'menu_name' => __( $plural_name, 'whx4' ),			
 		);
 		
@@ -61,7 +61,7 @@ class TaxonomyRegistrar {
 			//'menu_position'		=> null,
 			'show_in_rest'		=> false, // false = use classic, not block editor
 			//'delete_with_user' 	=> false,
-			'rewrite' => array( 'slug' => $slug ),
+			///'rewrite' => array( 'slug' => $slug ),
 		);
 		
 		// Merge user-defined labels
