@@ -24,6 +24,7 @@ class Plugin {
     }
 
     private function define_constants() {
+    	define( 'WHX4_TEXTDOMAIN', 'whx4' );
         define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
         //define('WHX4_DIR', plugin_dir_path(__FILE__));  
         define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -40,8 +41,8 @@ class Plugin {
         //add_action('init', [$this, 'load_components']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
-        //register_activation_hook( DIR_PATH, array( 'WHx4', 'activate' ) );
-		//register_deactivation_hook( DIR_PATH, array( 'WHx4', 'deactivate' ) );
+        //register_activation_hook( DIR_PATH, [ 'WHx4', 'activate' ] );
+		//register_deactivation_hook( DIR_PATH, [ 'WHx4', 'deactivate' ] );
     }
 
     public function enqueue_admin_assets() {  
@@ -67,9 +68,9 @@ class Plugin {
     	// Get plugin options to determine which modules are active
 		$active_modules;
 		$options = get_option( 'whx4_settings' );
-		if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
-		$cpts = array();
-		$taxonomies = array();
+		if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = []; }
+		$cpts = [];
+		$taxonomies = [];
 		
 		$active_modules[] = 'monsters'; // tft
 		
@@ -78,45 +79,45 @@ class Plugin {
 			
 			switch( $module ) {
 				case 'monsters':
-					$cpts[] = array( 'slug' => 'monster', 'name' => 'monster', 'plural_name' => 'monsters' );
+					$cpts[] = [ 'slug' => 'monster', 'name' => 'monster', 'plural_name' => 'monsters' ];
 				case 'people':
 					// Post Types
-					// TODO: fix custom caps setup => 'caps' => array('person', 'people')
-					$cpts[] = array( 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' ), 'menu_icon' => 'dashicons-groups' );
-					$cpts[] = array( 'slug' => 'identity', 'name' => 'Identity', 'plural_name' => 'Identities', 'show_in_menu' => 'edit.php?post_type=person' ); //, 'taxonomies' => array( 'person_category' )
+					// TODO: fix custom caps setup => 'caps' => ['person', 'people']
+					$cpts[] = [ 'slug' => 'person', 'name' => 'Person', 'plural_name' => 'People', 'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ], 'menu_icon' => 'dashicons-groups' ];
+					$cpts[] = [ 'slug' => 'identity', 'name' => 'Identity', 'plural_name' => 'Identities', 'show_in_menu' => 'edit.php?post_type=person' ]; //, 'taxonomies' => [ 'person_category' ]
 					// TODO: Figure out how to allow for individual sites to customize labels -- e.g. "Ensembles" for STC(?)
-					$cpts[] = array( 'slug' => 'group', 'name' => 'Group', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'group_category', 'admin_tag' ) );
+					$cpts[] = [ 'slug' => 'group', 'name' => 'Group', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => [ 'group_category', 'admin_tag' ] ];
 					// rosters as separate module?
-					//$cpts[] = array( 'slug' => 'roster', 'name' => 'Roster', 'plural_name' => 'Rosters', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => array( 'roster_category', 'admin_tag' ) );
+					//$cpts[] = [ 'slug' => 'roster', 'name' => 'Roster', 'plural_name' => 'Rosters', 'show_in_menu' => 'edit.php?post_type=person', 'taxonomies' => [ 'roster_category', 'admin_tag' ] ];
 					// Taxonomies
-					$taxonomies[] = array( 'slug' => 'person_category', 'name' => 'Person Category', 'plural_name' => 'Person Categories', 'show_in_menu' => 'edit.php?post_type=venue' );
+					$taxonomies[] = [ 'slug' => 'person_category', 'name' => 'Person Category', 'plural_name' => 'Person Categories', 'show_in_menu' => 'edit.php?post_type=venue' ];
 				case 'places':
 					// Post Types
-					$cpts[] = array( 'slug' => 'venue', 'name' => 'Venue', 'menu_icon' => 'dashicons-admin-multisite' ); //, 'taxonomies' => array( 'person_category', 'person_title', 'admin_tag' )
+					$cpts[] = [ 'slug' => 'venue', 'name' => 'Venue', 'menu_icon' => 'dashicons-admin-multisite' ]; //, 'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ]
 					// Addresses/Buildings enabled separately?
-					$cpts[] = array( 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'show_in_menu' => 'edit.php?post_type=venue' );
-					$cpts[] = array( 'slug' => 'building', 'name' => 'Building', 'show_in_menu' => 'edit.php?post_type=venue' );
+					$cpts[] = [ 'slug' => 'address', 'name' => 'Address', 'plural_name' => 'Addresses', 'show_in_menu' => 'edit.php?post_type=venue' ];
+					$cpts[] = [ 'slug' => 'building', 'name' => 'Building', 'show_in_menu' => 'edit.php?post_type=venue' ];
 					// Taxonomies
-					//$taxonomies[] = array();
+					//$taxonomies[] = [];
 				case 'events':
 					// Post Types
-					$cpts[] = array( 'slug' => 'event', 'name' => 'Event' );
-					$cpts[] = array( 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
-					$cpts[] = array( 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'show_in_menu' => 'edit.php?post_type=whx4_event' );
+					$cpts[] = [ 'slug' => 'event', 'name' => 'Event' ];
+					$cpts[] = [ 'slug' => 'event_recurring', 'name' => 'Recurring Event', 'show_in_menu' => 'edit.php?post_type=whx4_event' ];
+					$cpts[] = [ 'slug' => 'event_series', 'name' => 'Event Series', 'plural_name' => 'Event Series', 'show_in_menu' => 'edit.php?post_type=whx4_event' ];
 					// Taxonomies
-					//$taxonomies[] = array();
+					//$taxonomies[] = [];
 				default:
 					//throw new Exception("Invalid module");
 			}
 			
 			if ( function_exists('acf_add_options_page') ) {
 				// Add module options page
-				acf_add_options_sub_page(array(
+				acf_add_options_sub_page( [
 					'page_title'	=> ucfirst($module).' Module Options',
 					'menu_title'    => ucfirst($module).' Module Options', //'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
 					'menu_slug' 	=> $module.'-module-options',
 					//'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
-				));
+				] );
 			}
 			
 		}
@@ -138,15 +139,15 @@ class Plugin {
 		// Register Custom Taxonomies
     	$taxm = new \atc\WHx4\Core\TaxonomyRegistrar();
     	$tax_slug = "";
-		foreach ( $taxonomies as $tax_args ) {
+		/*foreach ( $taxonomies as $tax_args ) {
 			if ( isset($tax_args['slug'] ) ) { $tax_slug = $tax_args['slug']; } else if ( isset($tax_args['name'] ) ) { $tax_slug = strtolower($tax_args['name']); }
 			if ( !post_type_exists( $tax_slug ) ) {
-				//echo "taxonomy ".$tax_name." does not exist!";
-				$taxm->register_custom_taxonomy ( $tax_args );
+				echo "taxonomy ".$tax_slug." does not exist!";
+				//$taxm->register_custom_taxonomy ( $tax_args ); // WIP
 			} else {
-				//echo "taxonomy ".$tax_name." already exists!"; // tft
+				echo "taxonomy ".$tax_slug." already exists!"; // tft
 			}
-		}
+		}*/
 		
     }
     
