@@ -35,7 +35,7 @@ use atc\WHx4\Core\PostUtils;
 
 // Example usage
 add_action('init', function () {
-    PostUtils::say_hello();
+    //PostUtils::say_hello();
 });
 
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
