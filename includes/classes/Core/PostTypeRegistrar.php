@@ -7,16 +7,16 @@ class PostTypeRegistrar {
 	public function register_custom_post_type ( $args ) {
 		
 		// Defaults
-		$defaults = array(
+		$defaults = [
 			'slug' 			=> 'dragon',
 			'name' 			=> 'Dragon',
 			'plural_name'	=> null,
-			'labels'		=> array(),
-			'supports'		=> array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
-			'taxonomies'	=> array( 'category', 'tag' ),
-			'caps'			=> array( 'post' ),
-			'cpt_args'		=> array(),
-		);
+			'labels'		=> [],
+			'supports'		=> [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
+			'taxonomies'	=> [ 'category', 'tag' ],
+			'caps'			=> [ 'post' ],
+			'cpt_args'		=> [],
+		];
 		
 		// Parse & Extract args
 		$args = wp_parse_args( $args, $defaults );
@@ -26,10 +26,10 @@ class PostTypeRegistrar {
 		
 		if ( empty($plural_name) ) { $plural_name = $name."s"; }
 		if ( empty($slug) ) { $slug = strtolower($name); }
-		//if ( empty($caps) ) { $caps = array($name, $plural_name); }
+		//if ( empty($caps) ) { $caps = [$name, $plural_name); }
 		
 		// Default labels
-		$default_labels = array(
+		$default_labels = [
 			'name' => __( $plural_name, 'whx4' ),
 			'singular_name' => __( $name, 'whx4' ),
 			'add_new' => __( 'New '.$name, 'whx4' ),
@@ -40,14 +40,14 @@ class PostTypeRegistrar {
 			'search_items' => __( 'Search '.$plural_name, 'whx4' ),
 			'not_found' =>  __( 'No '.$plural_name.' Found', 'whx4' ),
 			'not_found_in_trash' => __( 'No '.$plural_name.' found in Trash', 'whx4' ),
-		);
+		];
 		
 		// Merge user-defined labels
 		$labels = array_merge($default_labels, $labels);
 		
 		// TODO: modify so it's easier to set all individual args via function call
 		// Default args
-		$default_args = array(
+		$default_args = [
 			'public' => true,
 			'publicly_queryable'=> true,
 			'show_ui' 			=> true,
@@ -59,8 +59,8 @@ class PostTypeRegistrar {
 			//'menu_position'		=> null,
 			'show_in_rest'		=> false, // false = use classic, not block editor
 			//'delete_with_user' 	=> false,
-			'rewrite' => array( 'slug' => $slug ),
-		);
+			'rewrite' => [ 'slug' => $slug ],
+		];
 		
 		// Merge user-defined labels
 		$cpt_args = array_merge($default_args, $cpt_args);
