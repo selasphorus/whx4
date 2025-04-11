@@ -60,10 +60,9 @@ function whx4_register_options_page() {
 					'selected' => 0,
 				),
 				array(
-					'key'           => 'field_whx4_modules',
-					//'key'           => 'field_6511a57fcbe7e',
+					'key'           => 'field_whx4_modules', // 'field_6511a57fcbe7e',
 					'label'         => 'Active Modules',
-					'name'          => 'whx4_active_modules',
+					'name'          => 'whx4_active_modules', // rename as 'active_modules' -- check options table structure to see if this will cause confusion/ambiguity
 					'type'          => 'checkbox',
 					'instructions' => 'Select the modules to activate.',
 					'required' => 0,
@@ -75,10 +74,11 @@ function whx4_register_options_page() {
 					),
 					'choices' => array(
 						'people' => 'People',
-						//'groups' => 'Groups',
+						'groups' => 'Groups',
 						'places' => 'Places',
 						//'locations' => 'Locations',
 						'events' => 'Events',
+						'venues' => 'Venues',
 						'addresses' => 'Addresses',
 						'buildings' => 'Buildings',
 					),
