@@ -2,9 +2,10 @@
 
 // Initialize the plugin, register hooks, and manage dependencies
 
-namespace atc\WHx4; //namespace YourPlugin\Core;
+namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\PostTypeRegistrar;
+use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Admin\SettingsManager;
 //
@@ -53,7 +54,7 @@ class Plugin
 		// 4. Register ACF field groups (after ACF is ready)
 		//AcfBootstrapper::init();
 		JsonPaths::register();
-		RestrictAccess::apply();
+		RestrictAccess::register(); //RestrictAccess::apply();
 		BlockRegistrar::register();
 		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
 	

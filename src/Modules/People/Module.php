@@ -9,12 +9,12 @@ use atc\WHx4\Modules\People\PostTypes\GroupEntity;
 
 class Module extends BaseModule
 {
-    public static function getName(): string
+    public function getName(): string
     {
         return 'People';
     }
 
-    public static function getPostTypeHandlers(): array
+    public function getPostTypeHandlers(): array
     {
         return [
             Person::class,
