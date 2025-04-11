@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Plugin;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
