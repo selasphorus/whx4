@@ -29,7 +29,7 @@ if ( !function_exists( 'add_action' ) ) {
 // WIP >> OOP
 
 // Via Composer
-use atc\WHx4\Core\Plugin;
+use atc\WHx4\Plugin;
 use atc\WHx4\Core\PostUtils;
 // TBD whether there's a way to streamline the following
 use atc\WHx4\Modules\Supernatural\Module as Supernatural;

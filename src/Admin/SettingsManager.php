@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Admin;
 
-use atc\WHx4\Core\Plugin;
+use atc\WHx4\Plugin;
 
 class SettingsManager
 {

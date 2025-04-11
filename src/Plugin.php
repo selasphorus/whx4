@@ -2,7 +2,7 @@
 
 // Initialize the plugin, register hooks, and manage dependencies
 
-namespace atc\WHx4\Core;
+namespace atc\WHx4;
 
 use atc\WHx4\Core\PostTypeRegistrar;
 use atc\WHx4\Core\FieldGroupLoader;
@@ -62,8 +62,6 @@ class Plugin
 		$this->setupActions();
 		$this->settingsManager = new SettingsManager($this);
 	}
-
-
     
     private function defineConstants()
     {
@@ -84,6 +82,10 @@ class Plugin
 		}
 	}
 
+	public function getAvailableModules(): array
+	{
+		return $this->availableModules;
+	}
 
 	/**
      * Load active modules from the saved plugin settings.
