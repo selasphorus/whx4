@@ -4,9 +4,9 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * //Requires at least: 6.4
  * //Requires PHP:      7.4
- * Dependencies:	  Requires SDG for various utility functions
- * Requires Plugins:  sdg
- * Version:           0.1
+ * //Dependencies:	  Requires SDG for various utility functions
+ * //Requires Plugins:  
+ * Version:           1.0
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,39 +31,29 @@ if ( !function_exists( 'add_action' ) ) {
 // Via Composer
 use atc\WHx4\Core\Plugin;
 use atc\WHx4\Core\PostUtils;
-//use atc\WHx4\Person;
-
-// Example usage
-add_action('init', function () {
-    //PostUtils::say_hello();
-});
+// TBD whether there's a way to streamline the following
+use atc\WHx4\Modules\Supernatural\Module as Supernatural;
+use atc\WHx4\Modules\People\Module as People;
+use atc\WHx4\Modules\Places\Module as Places;
+use atc\WHx4\Modules\Events\Module as Events;
 
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
-//require 'vendor/autoload.php';
-$plugin = new Plugin();
-//$plugin = new Core\Plugin();
-//$plugin = new WHx4\Core\Plugin();
-//$plugin = new atc\WHx4\Core\Plugin();
 
-/* 
--- OR --
+// Init
+add_filter( 'whx4_register_modules', function( array $modules ) {
+    return array_merge( $modules, [
+        'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
+        'people'		=> People::class,
+        'places'		=> Places::class,
+        'events' 		=> Events::class
+    ]);
+});
 
-// Via Autoloader Class
-require_once __DIR__ . '/WHx4/Autoloader.php';
-WHx4_Autoloader::register();
-
-// Found at /WHx4/Plugin.php
-$plugin = new WHx4_Plugin();
-
--- OR --
-
-use atc\WHx4\Plugin;
-
-Plugin::run( entry_point: __FILE__ );
-
-*/
-
-/* ***** TODO: Move all of the following away into classes ***** */
+add_action( 'init', function() {
+    Plugin::getInstance()->boot();
+});
+    
+/* ***** TODO: Move most or all of the following away into classes ***** */
 
 // Function to check for main dev/admin user
 function whx4_queenbee() {
@@ -119,4 +109,3 @@ function whx4_redirect() {
     }
 }
 
-?>
