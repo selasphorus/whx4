@@ -7,6 +7,10 @@ namespace atc\WHx4; //namespace YourPlugin\Core;
 use atc\WHx4\Core\PostTypeRegistrar;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Admin\SettingsManager;
+//
+use atc\WHx4\ACF\JsonPaths;
+use atc\WHx4\ACF\RestrictAccess;
+use atc\WHx4\ACF\BlockRegistrar;
 
 class Plugin
 {
@@ -46,8 +50,11 @@ class Plugin
 		$this->postTypeRegistrar = new PostTypeRegistrar();
 		$this->fieldGroupLoader = new FieldGroupLoader($this); //$this->fieldGroupLoader = new FieldGroupLoader();
 
-	
 		// 4. Register ACF field groups (after ACF is ready)
+		//AcfBootstrapper::init();
+		JsonPaths::register();
+		RestrictAccess::apply();
+		BlockRegistrar::register();
 		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
 	
 		// 5. Hook into WordPress lifecycle
