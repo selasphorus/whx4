@@ -3,7 +3,7 @@
         'name' => 'atc/whx4',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0592ca08567dd26e05ac5bbf81ba42e10fbd659b',
+        'reference' => '1d81dc8a8acad6a4964120a990046f633ac1eea7',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'atc/whx4' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0592ca08567dd26e05ac5bbf81ba42e10fbd659b',
+            'reference' => '1d81dc8a8acad6a4964120a990046f633ac1eea7',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

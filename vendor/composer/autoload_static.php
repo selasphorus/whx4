@@ -20,7 +20,7 @@ class ComposerStaticInit79e97093d8a36b936357e12844d9102a
     public static $prefixDirsPsr4 = array (
         'atc\\WHx4\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/includes/classes',
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Composer\\Installers\\' => 
         array (
