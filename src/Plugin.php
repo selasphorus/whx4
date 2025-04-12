@@ -17,6 +17,7 @@ class Plugin
 {
     protected static ?self $instance = null;
     protected postTypeRegistrar $postTypeRegistrar;
+    protected FieldGroupLoader $fieldGroupLoader;
 
 	// Set modules array via boot
 	// This way, Plugin contains logic only, and other plugins or themes can register additional modules dynamically
