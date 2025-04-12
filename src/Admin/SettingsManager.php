@@ -93,7 +93,7 @@ class SettingsManager
 			echo '<tr>';
 			echo '<th scope="row">';
 			echo '<label>';
-			echo 'Post Types';
+			echo 'Post Types for '.$moduleClass;
 			echo '</label>';
 			echo '</th>';
 			echo '<td>'.print_r($postTypes, true).'</td>';
