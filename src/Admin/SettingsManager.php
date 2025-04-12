@@ -61,7 +61,6 @@ class SettingsManager
 			$module = new $moduleClass();
 			$postTypes = $module->getPostTypes();
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
-			$postTypes = [];
 
 			echo '<tr>';
 			echo '<th scope="row">';
@@ -79,7 +78,7 @@ class SettingsManager
 			echo 'Post Types';
 			echo '</label>';
 			echo '</th>';
-			echo '<td>'.print_r($postTypes).'</td>';
+			echo '<td>'.print_r($postTypes, true).'</td>';
 			echo '</tr>';
 	
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
