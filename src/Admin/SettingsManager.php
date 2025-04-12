@@ -57,18 +57,7 @@ class SettingsManager
 	
 		foreach ( $availableModules as $key => $moduleClass ) {
 			
-			$isActive = in_array( $key, $activeModules, true );
-			
-			$postTypes = []; // init
-			$module = new $moduleClass();
-			/*if( !class_exists( $moduleClass ) ) {				
-				echo '<tr><th>Missing class:</th><td>'.$moduleClass.'</td></tr>';
-				//continue;
-			} else 
-				$postTypes = $module->getPostTypes();
-			}
-			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
-			*/
+			$isActive = in_array( $key, $activeModules, true );			
 
 			echo '<tr>';
 			echo '<th scope="row">';
@@ -79,6 +68,16 @@ class SettingsManager
 			echo '</th>';
 			echo '<td></td>';
 			echo '</tr>';
+			
+			$postTypes = []; // init
+			$module = new $moduleClass();
+			if( !class_exists( $moduleClass ) ) {				
+				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
+				//continue;
+			} else 
+				//$postTypes = $module->getPostTypes();
+			}
+			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
 			
 			/*
 			echo '<tr>';
