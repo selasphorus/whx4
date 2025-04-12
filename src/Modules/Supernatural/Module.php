@@ -13,7 +13,17 @@ class Module extends BaseModule
     {
         return 'Supernatural';
     }
-
+	
+	public function getPostTypeHandlers(): array
+    {
+        return [
+            Monster::class,
+            Enchanter::class,
+            Spell::class,
+        ];
+    }
+    
+	/*
 	public function getPostTypeHandlers(): array
     {
     	$settings = get_option( 'whx4_plugin_settings', [] );
@@ -37,5 +47,5 @@ class Module extends BaseModule
         return $handlers;
         
     }
-    
+    */
 }
