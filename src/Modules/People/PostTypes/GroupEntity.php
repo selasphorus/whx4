@@ -54,7 +54,8 @@ class GroupEntity extends PostTypeHandler
 
     
     
-	public function get_cpt_content() {
+	public function get_cpt_content()
+	{
 		
 		$post_id = $this->get_post_id();
 		
@@ -63,7 +64,8 @@ class GroupEntity extends PostTypeHandler
 	// TODO: consider folding this in to the display-content plugin as a special content structure (group/subgroup)
 	// AND generalize it so as to be able to use it for links and other content types...
 	// Display the titles and personnel for a given subgroup or groups
-	protected function display_group_personnel ( $args = array() ) {
+	protected function display_group_personnel ( $args = array() )
+	{
 	
 		// TS/logging setup
 		$do_ts = devmode_active( array("whx4", "people") );
@@ -221,8 +223,9 @@ class GroupEntity extends PostTypeHandler
 	} // END function display_group_personnel ( $args = array() ) 
 	
 	
-	add_shortcode('group_personnel', 'whx4_group_personnel');
-	protected function whx4_group_personnel ( $atts = array() ) {
+	//add_shortcode('group_personnel', 'whx4_group_personnel');
+	protected function whx4_group_personnel ( $atts = array() )
+	{
 	
 		// TS/logging setup
 		$do_ts = devmode_active( array("whx4", "people") );
@@ -251,5 +254,5 @@ class GroupEntity extends PostTypeHandler
 		
 	}
 	
-	}
+}
 
