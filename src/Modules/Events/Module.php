@@ -18,8 +18,8 @@ class Module extends BaseModule
     {
         return [
             Event::class,
-            RecurringEvent::class,
-            EventSeries::class,
+            //RecurringEvent::class,
+            //EventSeries::class,
         ];
     }
 }
