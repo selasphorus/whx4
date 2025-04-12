@@ -52,7 +52,7 @@ class Person extends PostTypeHandler
         return $this->config['taxonomies'] ?? [ 'person_category', 'person_title', 'admin_tag' ];
     }
     
-	
+	/*
 	protected function get_person_display_name ($args = [])
 	{
 		
@@ -127,12 +127,12 @@ class Person extends PostTypeHandler
 				if ( $suffix ) { $display_name .= ", ".$suffix; }
 			}
 			
-			/*
+			
 			// Job Title
 			if ( $show_job_title ) {
 				$job_title = get_field('job_title',$person_id);
 				if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
-			}*/
+			}
 			
 			// Dates
 			// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
@@ -192,12 +192,11 @@ class Person extends PostTypeHandler
 		// TODO: include theme-specific content? via apply_filters?
 		
 		// Dates
-		/*
 		// TODO: figure out where to put this -- probably appended to post_title?
 		$dates = get_person_dates( $post_id, true );
 		if ( $dates && $dates != "" && $dates != "(-)" ) { 
-			$info .= $dates; 
-		}*/
+			//$info .= $dates; 
+		}
 		
 		// Compositions
 		// TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
@@ -256,7 +255,6 @@ class Person extends PostTypeHandler
 		
 		// Related Events
 		if ( is_dev_site() ) {
-			/*
 			// Get Related Events
 			$wp_args = array(
 				'posts_per_page'=> -1,
@@ -296,7 +294,6 @@ class Person extends PostTypeHandler
 				$info .= "<!-- No related events found for post_id: $post_id -->";
 			}
 			wp_reset_query();
-			*/
 		}
 		
 		// Person Categories
@@ -361,6 +358,6 @@ class Person extends PostTypeHandler
 		
 	
 	}
-
+	*/
 }
 
