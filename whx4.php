@@ -29,6 +29,8 @@ if ( !function_exists( 'add_action' ) ) {
 // WIP >> OOP
 
 // Via Composer
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+
 use atc\WHx4\Plugin;
 use atc\WHx4\Core\PostUtils;
 // TBD whether there's a way to streamline the following
@@ -36,8 +38,6 @@ use atc\WHx4\Modules\Supernatural\Module as Supernatural;
 use atc\WHx4\Modules\People\Module as People;
 use atc\WHx4\Modules\Places\Module as Places;
 use atc\WHx4\Modules\Events\Module as Events;
-
-require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
 // Init
 add_filter( 'whx4_register_modules', function( array $modules ) {
