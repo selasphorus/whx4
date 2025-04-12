@@ -9,18 +9,26 @@ abstract class Module implements ModuleInterface
     abstract public function getName(): string;
 
     abstract public function getPostTypeHandlers(): array;
-
+	
 	public function getPostTypes(): array
 	{
 		$postTypes = [];
 	
 		foreach( $this->getPostTypeHandlers() as $class ) {
-			$handler = new $class();
-			$postTypes[ $handler->getSlug() ] = $handler->getLabels()['singular_name']; // or getLabel()?
+			try {
+				$handler = new $class();
+				$slug = $handler->getSlug();
+				$label = $handler->getLabels()['singular_name']; // or getLabel()
+					
+				$postTypes[ $slug ] = $label;
+			} catch( \Throwable $e ) {
+				error_log( "Error in post type handler {$class}: " . $e->getMessage() );
+			}
 		}
 	
 		return $postTypes;
 	}
+
 
     public function boot(): void // was static
     {
