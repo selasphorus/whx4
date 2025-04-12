@@ -71,9 +71,9 @@ class SettingsManager
 			
 			$postTypes = []; // init
 			
-			//error_log("Trying to instantiate post type handler: {$moduleClass}");
+			error_log("Trying to instantiate post type handler: {$moduleClass}");
 			$module = new $moduleClass();
-			//error_log("Successfully instantiated handler: ".get_class($module));
+			error_log("Successfully instantiated handler: ".get_class($module));
 			
 			if( !class_exists( $moduleClass ) ) {
 				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
