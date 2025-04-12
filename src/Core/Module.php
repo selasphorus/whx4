@@ -18,8 +18,7 @@ abstract class Module implements ModuleInterface
 			try {
 				$handler = new $class();
 				$slug = $handler->getSlug();
-				$label = $handler->getLabels()['singular_name']; // or getLabel()
-					
+				$label = $handler->getLabels()['singular_name']; // or getLabel()					
 				$postTypes[ $slug ] = $label;
 			} catch( \Throwable $e ) {
 				error_log( "Error in post type handler {$class}: " . $e->getMessage() );

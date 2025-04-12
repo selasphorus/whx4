@@ -46,17 +46,8 @@ class Monster extends PostTypeHandler
         return $this->config['supports'] ?? ['title', 'editor'];
     }
     
-	/*
-	public const SLUG = 'monster';
-    public const LABELS = [
-        'name'          => 'Monsters',
-        'singular_name' => 'Monster',
-        'add_new_item'  => 'Summon Monster',
-        // etc...
-    ];
-    */
-    
-	public function get_cpt_content() {
+
+	public function getCPTContent() {
 		return "hello";
 	}
     

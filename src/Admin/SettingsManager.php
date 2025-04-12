@@ -77,6 +77,7 @@ class SettingsManager
 			} else {
 				echo '<tr><td>Class exists:</td><td>'.$moduleClass.'</td></tr>';
 				$postTypes = $module->getPostTypes();
+				echo '<tr><td>Error:</td><td><pre>' . $e->getMessage() . '</pre></td></tr>';
 				/*if ($postTypes) {
 					echo '<tr><td>Got postTypes:</td><td><pre>'.print_r($postTypes, true).'</pre></td></tr>';
 				} else {
