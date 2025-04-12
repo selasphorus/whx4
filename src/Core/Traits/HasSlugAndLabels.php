@@ -5,12 +5,13 @@ namespace atc\WHx4\Core\Traits;
 // TODO: adapt as needed to apply to taxonomies and blocks as well as post types -- ???
 trait HasSlugAndLabels
 {
-    protected array $config = [];
+    /*protected array $config = [];
 
     public function setConfig( array $config ): void
     {
         $this->config = $config;
     }
+    */
 
     public function getSlug(): string
     {
