@@ -45,6 +45,8 @@ class SettingsManager
 		$activeModules = $option['active_modules'] ?? [];
 		$disabledPostTypes = $option['disabled_post_types'] ?? [];
 	
+		//$settingsHTML = ""; // TBD: can we clean this up to not have all those echos...
+		
 		echo '<div class="wrap">';
 		echo '<h1>Plugin Settings</h1>';
 		echo '<form method="post" action="options.php">';
@@ -69,6 +71,15 @@ class SettingsManager
 			echo '</label>';
 			echo '</th>';
 			echo '<td></td>';
+			echo '</tr>';
+			
+			echo '<tr>';
+			echo '<th scope="row">';
+			echo '<label>';
+			echo 'Post Types';
+			echo '</label>';
+			echo '</th>';
+			echo '<td>'.print_r($postTypes).'</td>';
 			echo '</tr>';
 	
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
