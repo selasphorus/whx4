@@ -22,8 +22,8 @@ class Plugin
 
 	// Set modules array via boot
 	// This way, Plugin contains logic only, and other plugins or themes can register additional modules dynamically
-	//protected array $availableModules = []; // 'supernatural' => \YourPlugin\Modules\Supernatural\Module::class
-    protected array $availableModules = [ 'supernatural' => atc\WHx4\Modules\Supernatural\Module::class ]; // default tft
+	protected array $availableModules = []; // 'supernatural' => \YourPlugin\Modules\Supernatural\Module::class
+   	//protected array $availableModules = [ 'supernatural' => atc\WHx4\Modules\Supernatural\Module::class ]; // default tft
     
     protected array $activeModules = [];
     protected bool $modulesLoaded = false;
