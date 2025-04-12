@@ -56,8 +56,8 @@ class SettingsManager
 		foreach ( $availableModules as $key => $moduleClass ) {
 			$isActive = in_array( $key, $activeModules, true );
 			
-			//$module = new $moduleClass();
-			//$postTypes = $module->getPostTypes();
+			$module = new $moduleClass();
+			$postTypes = $module->getPostTypes();
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
 			$postTypes = [];
 
