@@ -43,7 +43,8 @@ class SettingsManager
 		$availableModules = $this->plugin->getAvailableModules();
 		$option = get_option( 'whx4_plugin_settings', [] );
 		$activeModules = $option['active_modules'] ?? [];
-		$disabledPostTypes = $option['disabled_post_types'] ?? [];
+		//$disabledPostTypes = $option['disabled_post_types'] ?? [];
+		$enabledPostTypes = $option['enabled_post_types'] ?? [];
 	
 		//$settingsHTML = ""; // TBD: can we clean this up to not have all those echos...
 		
@@ -71,34 +72,37 @@ class SettingsManager
 			
 			$postTypes = []; // init
 			
-			error_log("Trying to instantiate post type handler: {$moduleClass}");
+			//error_log("Trying to instantiate post type handler: {$moduleClass}");
 			$module = new $moduleClass();
-			error_log("Successfully instantiated handler: ".get_class($module));
+			//error_log("Successfully instantiated handler: ".get_class($module));
 			
-			if( !class_exists( $moduleClass ) ) {
-				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
-			} else {
-				//echo '<tr><td>Class exists:</td><td>'.$moduleClass.'</td></tr>';
+			if ( class_exists( $moduleClass ) ) {
+				$module = new $moduleClass();
 				$postTypes = $module->getPostTypes();
+			} else {
+				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
 			}
 			
-			echo '<tr>';
+			/*echo '<tr>';
 			echo '<th scope="row">';
 			echo '<label>';
 			echo 'Post Types for '.$moduleClass;
 			echo '</label>';
 			echo '</th>';
 			echo '<td>'.print_r($postTypes, true).'</td>';
-			echo '</tr>';
+			echo '</tr>';*/
 			
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
 			echo '<td colspan="2" style="padding-left: 30px;">';
 	
-			foreach ( $postTypes as $postType ) {
-				$isDisabled = isset( $disabledPostTypes[ $key ] ) && in_array( $postType, $disabledPostTypes[ $key ], true );
+			foreach ( $postTypes as $slug => $label ) {
+			//foreach ( $postTypes as $postType ) {
+				// Post Types enabled by default if no setting exists
+				$isEnabled = !isset( $enabledPostTypes[ $key ] ) || in_array( $slug, $enabledPostTypes[ $key ], true );
+				
 				echo '<label style="display:block;">';
-				echo '<input type="checkbox" name="whx4_plugin_settings[disabled_post_types][' . esc_attr( $key ) . '][]" value="' . esc_attr( $postType ) . '" ' . checked( $isDisabled, true, false ) . ' />';
-				echo ' Disable <code>' . esc_html( $postType ) . '</code>';
+				echo '<input type="checkbox" name="rex_plugin_settings[enabled_post_types][' . esc_attr( $key ) . '][]" value="' . esc_attr( $slug ) . '" ' . checked( $isEnabled, true, false ) . ' />';
+				echo ' Enable <code>' . esc_html( $slug ) . '</code>: ' . esc_html( $label );
 				echo '</label>';
 			}
 	
