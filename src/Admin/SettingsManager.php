@@ -76,6 +76,7 @@ class SettingsManager
 				//continue;
 			} else {
 				$postTypes = $module->getPostTypes();
+				echo '<tr><td>Got post types:</td><td>'.print_r($postTypes).'</td></tr>';
 			}
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
 			
