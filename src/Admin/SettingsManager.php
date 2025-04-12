@@ -56,17 +56,20 @@ class SettingsManager
 		echo '<table class="form-table" id="whx4-settings-table"><tbody>';
 	
 		foreach ( $availableModules as $key => $moduleClass ) {
+			
 			$isActive = in_array( $key, $activeModules, true );
 			
+			$postTypes = []; // init
+			/*
 			$module = new $moduleClass();
-			if( !class_exists( $moduleClass ) ) {
-				$postTypes = [];
+			if( !class_exists( $moduleClass ) ) {				
 				echo '<tr><th>Missing class:</th><td>'.$moduleClass.'</td></tr>';
 				//continue;
 			} else 
 				$postTypes = $module->getPostTypes();
 			}
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
+			*/
 
 			echo '<tr>';
 			echo '<th scope="row">';
