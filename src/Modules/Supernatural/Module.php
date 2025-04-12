@@ -18,8 +18,8 @@ class Module extends BaseModule
     {
         return [
             Monster::class,
-            Enchanter::class,
-            Spell::class,
+            //Enchanter::class,
+            //Spell::class,
         ];
     }
     

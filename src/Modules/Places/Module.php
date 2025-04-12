@@ -18,8 +18,8 @@ class Module extends BaseModule
     {
         return [
             Venue::class,
-            Address::class,
-            Building::class,
+            //Address::class,
+            //Building::class,
         ];
     }
 }
