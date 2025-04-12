@@ -72,6 +72,7 @@ class SettingsManager
 			echo '<td></td>';
 			echo '</tr>';
 			
+			/*
 			echo '<tr>';
 			echo '<th scope="row">';
 			echo '<label>';
@@ -80,7 +81,8 @@ class SettingsManager
 			echo '</th>';
 			echo '<td>'.print_r($postTypes, true).'</td>';
 			echo '</tr>';
-	
+			*/
+			
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
 			echo '<td colspan="2" style="padding-left: 30px;">';
 	
