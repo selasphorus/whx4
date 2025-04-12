@@ -16,8 +16,9 @@ use atc\WHx4\ACF\BlockRegistrar;
 class Plugin
 {
     protected static ?self $instance = null;
-    protected postTypeRegistrar $postTypeRegistrar;
-    protected fieldGroupLoader $fieldGroupLoader;
+    protected PostTypeRegistrar $postTypeRegistrar;
+    protected FieldGroupLoader $fieldGroupLoader;
+    protected SettingsManager $settingsManager;
 
 	// Set modules array via boot
 	// This way, Plugin contains logic only, and other plugins or themes can register additional modules dynamically
@@ -49,7 +50,7 @@ class Plugin
 	
 		// 3. Initialize core components
 		$this->defineConstants();
-		$this->postTypeRegistrar = new PostTypeRegistrar();
+		$this->postTypeRegistrar = new PostTypeRegistrar($this);
 		$this->fieldGroupLoader = new FieldGroupLoader($this); //$this->fieldGroupLoader = new FieldGroupLoader();
 
 		// 4. Register ACF field groups (after ACF is ready)
