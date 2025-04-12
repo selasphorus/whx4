@@ -4,8 +4,8 @@ namespace atc\WHx4\Modules\Events;
 
 use atc\WHx4\Core\Module as BaseModule;
 use atc\WHx4\Modules\People\PostTypes\Event;
-use atc\WHx4\Modules\People\PostTypes\RecurringEvent;
-use atc\WHx4\Modules\People\PostTypes\EventSeries;
+//use atc\WHx4\Modules\People\PostTypes\RecurringEvent;
+//use atc\WHx4\Modules\People\PostTypes\EventSeries;
 
 class Module extends BaseModule
 {
