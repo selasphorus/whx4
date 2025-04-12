@@ -2,6 +2,8 @@
 
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Core\Contracts\ModuleInterface;
+
 abstract class Module implements ModuleInterface
 {
     abstract public function getName(): string;
