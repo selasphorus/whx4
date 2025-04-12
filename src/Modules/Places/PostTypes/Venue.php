@@ -18,15 +18,14 @@ class Venue extends PostTypeHandler
     
     public function getSlug(): string
     {
-        return $this->config['slug'] ?? 'person';
+        return $this->config['slug'] ?? 'venue';
     }
     
     public function getLabels(): array
     {
         $custom_labels = [
-            'name' => 'People',
-            'add_new_item' => 'Procreate',
-            'not_found' => 'No people loitering nearby',
+            'name' => 'Venues',
+            'not_found' => 'Nowhere to go',
         ];
         
         // Combine custom labels with those from config, if any
@@ -49,7 +48,7 @@ class Venue extends PostTypeHandler
 
     public function getTaxonomies(): array
     {
-        return $this->config['taxonomies'] ?? [ 'person_category', 'person_title', 'admin_tag' ];
+        return $this->config['taxonomies'] ?? [ 'venue_category', 'admin_tag' ];
     }
 
 }
