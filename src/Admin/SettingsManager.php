@@ -79,7 +79,7 @@ class SettingsManager
 				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
 				//continue;
 			} else {
-				echo '<tr><td>Class exists:</td><td>'.$moduleClass.'</td></tr>';
+				//echo '<tr><td>Class exists:</td><td>'.$moduleClass.'</td></tr>';
 				$postTypes = $module->getPostTypes();
 				//echo '<tr><td>Error:</td><td><pre>' . $e->getMessage() . '</pre></td></tr>';
 				/*if ($postTypes) {
@@ -90,7 +90,6 @@ class SettingsManager
 			}
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
 			
-			/*
 			echo '<tr>';
 			echo '<th scope="row">';
 			echo '<label>';
@@ -99,7 +98,6 @@ class SettingsManager
 			echo '</th>';
 			echo '<td>'.print_r($postTypes, true).'</td>';
 			echo '</tr>';
-			*/
 			
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
 			echo '<td colspan="2" style="padding-left: 30px;">';
