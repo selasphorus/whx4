@@ -3,7 +3,7 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Traits\HasSlugAndLabels;
+use atc\WHx4\Core\Traits\HasSlugAndLabels;
 
 class Event extends PostTypeHandler 
 {

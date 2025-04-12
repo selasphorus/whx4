@@ -3,7 +3,7 @@
 namespace atc\WHx4\Modules\Places\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Traits\HasSlugAndLabels;
+use atc\WHx4\Core\Traits\HasSlugAndLabels;
 
 class Venue extends PostTypeHandler
 {
