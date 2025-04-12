@@ -71,10 +71,10 @@ class SettingsManager
 			
 			$postTypes = []; // init
 			$module = new $moduleClass();
-			if( !class_exists( $moduleClass ) ) {				
+			if( !class_exists( $moduleClass ) ) {
 				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
 				//continue;
-			} else 
+			} else {
 				//$postTypes = $module->getPostTypes();
 			}
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
