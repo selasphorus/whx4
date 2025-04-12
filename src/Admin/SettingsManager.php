@@ -60,9 +60,8 @@ class SettingsManager
 			$isActive = in_array( $key, $activeModules, true );
 			
 			$postTypes = []; // init
-			/*
 			$module = new $moduleClass();
-			if( !class_exists( $moduleClass ) ) {				
+			/*if( !class_exists( $moduleClass ) ) {				
 				echo '<tr><th>Missing class:</th><td>'.$moduleClass.'</td></tr>';
 				//continue;
 			} else 
