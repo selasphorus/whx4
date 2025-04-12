@@ -76,8 +76,8 @@ class SettingsManager
 				//continue;
 			} else {
 				echo '<tr><td>Class exists:</td><td>'.$moduleClass.'</td></tr>';
-				/*$postTypes = $module->getPostTypes();
-				if ($postTypes) {
+				$postTypes = $module->getPostTypes();
+				/*if ($postTypes) {
 					echo '<tr><td>Got postTypes:</td><td><pre>'.print_r($postTypes, true).'</pre></td></tr>';
 				} else {
 					echo '<tr><td>Problem!</td><td>module->getPostTypes() not working</td></tr>';	
