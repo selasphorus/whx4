@@ -75,7 +75,7 @@ class SettingsManager
 				echo '<tr><td>Missing class:</td><td>'.$moduleClass.'</td></tr>';
 				//continue;
 			} else {
-				//$postTypes = $module->getPostTypes();
+				$postTypes = $module->getPostTypes();
 			}
 			//$postTypes = method_exists( $moduleClass, 'getPostTypes' ) ? $moduleClass::getPostTypes() : [];
 			
