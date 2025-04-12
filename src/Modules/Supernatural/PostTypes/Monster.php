@@ -21,25 +21,25 @@ class Monster extends PostTypeHandler
         return $this->config['slug'] ?? 'monster';
     }
     
+    
     public function getLabels(): array
-    {
-        $custom_labels = [
-            'add_new_item' => 'Summon New Monster',
-            'not_found' => 'No monsters lurking nearby',
-        ];
-        
-        // Combine custom labels with those from config, if any
-    	$overrides = array_merge($custom_labels, $this->config['labels'] ?? []);
-    	
-    	// Merge with trait defaults, giving priority to custom overrides
-    	$labels = array_merge($this->getDefaultLabels(), $overrides);
-    	
-    	// Use the class' slug for filtering
-    	$slug = $this->getSlug();
-    	
-    	return apply_filters("whx4_labels_{$slug}", $labels);
-    	
-    }    
+	{
+		$custom_labels = [
+			'add_new_item' => 'Summon New Monster',
+			'not_found'    => 'No monsters lurking nearby',
+		];
+	
+		// Combine custom labels with those from config, if any
+		$overrides = array_merge($custom_labels, $this->config['labels'] ?? []);
+		
+		// Merge with trait defaults, giving priority to custom overrides
+		$labels = array_merge($this->getDefaultLabels(), $overrides);
+		
+		// Use the class' slug for filtering
+		$slug = $this->getSlug();
+	
+		return apply_filters("whx4_labels_{$slug}", $labels, $slug, $this);
+	}
 
     public function getSupports(): array
     {
@@ -53,7 +53,7 @@ class Monster extends PostTypeHandler
     
     public function get_color() {
         // Assuming the color is stored as a custom field, for example, _monster_color
-        return get_post_meta($this->post->ID, '_monster_color', true);
+        return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : null;
     }
 
     // Other methods related to the monster...
