@@ -48,8 +48,9 @@ class PostTypeRegistrar {
     {
     	error_log( '=== WHx4 PostTypeRegistrar->registerMany() ===' );
     	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
-        foreach( $postTypeClasses as $handler ) {
-        	error_log( 'attempting to register handler: '.$handler );
+        foreach( $postTypeClasses as $handlerClass ) {
+        	error_log( 'attempting to register handlerClass: '.$handlerClass );
+        	$handler = new $handlerClass();
             $this->registerCPT( $handler );
         }
     }

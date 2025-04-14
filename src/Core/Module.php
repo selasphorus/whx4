@@ -12,6 +12,7 @@ abstract class Module implements ModuleInterface
 	
 	public function getPostTypes(): array
 	{
+		error_log( '=== atc\WHx4\Core\Module -- getPostTypes() ===' );
 		$postTypes = [];
 	
 		foreach( $this->getPostTypeHandlers() as $class ) {
@@ -24,7 +25,9 @@ abstract class Module implements ModuleInterface
 				error_log( "Error in post type handler {$class}: " . $e->getMessage() );
 			}
 		}
-	
+		
+		error_log("postTypes: " . print_r($postTypes, true));
+		
 		return $postTypes;
 	}
 

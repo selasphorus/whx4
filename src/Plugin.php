@@ -347,7 +347,8 @@ final class Plugin
 			}
 		}
 	
-		error_log( '=== WHx4 getActivePostTypes() complete -- about to return ===' );
+		//error_log( '=== WHx4 getActivePostTypes() complete -- about to return ===' );
+		error_log("active postTypes: " . print_r($postTypes, true));
 		
 		return array_unique($postTypes);
 	}
