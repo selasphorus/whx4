@@ -47,6 +47,7 @@ class PostTypeRegistrar {
     public function registerMany( array $postTypeClasses ): void
     {
     	error_log( '=== WHx4 PostTypeRegistrar->registerMany() ===' );
+    	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $handler ) {
         	error_log( 'attempting to register handler: '.$handler );
             $this->registerCPT( $handler );

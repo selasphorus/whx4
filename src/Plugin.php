@@ -136,6 +136,21 @@ final class Plugin
     }
 	
 	
+	
+	public function maybeLoadSettingsManager(): void
+	{
+		if ( is_admin() && $this->isSettingsPage() ) {
+			$this->settingsManager = new SettingsManager( $this );
+		}
+	}
+	
+	protected function isSettingsPage(): bool
+	{
+		return isset( $_GET['page'] ) && $_GET['page'] === 'whx4_settings';
+	}
+
+	
+	
 	// Call this during plugin init (e.g. hooked into 'init').
 	public function registerHooks(): void
 	{
