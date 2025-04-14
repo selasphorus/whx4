@@ -318,18 +318,19 @@ final class Plugin
 					error_log("Class $moduleClass is not a ModuleInterface.");
 					continue;
 				}
-	
+
+				//$slug = strtolower($moduleClass::getName());
 				$module = new $moduleClass();
 				$slug = strtolower($module->getName());
-				//$slug = strtolower($moduleClass::getName());
 	
 				if( !method_exists($moduleClass, 'getPostTypes') ) {
 					error_log("Module $moduleClass does not implement getPostTypes().");
 					continue;
 				}
 	
-				$definedPostTypes = $moduleClass::getPostTypes();
-	
+				//$definedPostTypes = $moduleClass::getPostTypes();
+				$definedPostTypes = $moduleClass->getPostTypes();
+
 				$enabled = $enabledPostTypesByModule[ $slug ] ?? $definedPostTypes;
 	
 				error_log("Module $slug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
