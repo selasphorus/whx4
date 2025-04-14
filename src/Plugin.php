@@ -123,6 +123,7 @@ class Plugin
      * based on both the module definitions and plugin settings.
      */
 
+    /*
     public function getActivePostTypes(): array
     {
         $this->loadActiveModules();
@@ -139,24 +140,70 @@ class Plugin
                 //$enabled = $enabledPostTypesByModule[$slug] ?? $definedPostTypes;
                 $enabled = $enabledPostTypesByModule[$slug] ?? array_keys( $definedPostTypes );
                 
+                //foreach( $definedPostTypes as $type ) {
                 foreach( array_keys( $definedPostTypes ) as $type ) {
 					if( in_array( $type, $enabled, true ) ) {
 						$postTypes[] = $type;
 					}
 				}
-				/*
-				foreach( $definedPostTypes as $type ) {
-                    if( in_array( $type, $enabled, true ) ) {
-                        $postTypes[] = $type;
-                    }
-                }
-                */
             }
         }
 
         return array_unique( $postTypes );
     }
+    */
     
+    public function getActivePostTypes(): array
+	{
+		$this->loadActiveModules();
+	
+		$settings = get_option( 'whx4_plugin_settings', [] );
+		$enabledPostTypesByModule = $settings['enabled_post_types'] ?? [];
+	
+		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
+	
+		$postTypes = [];
+	
+		foreach( $this->activeModules as $moduleClass ) {
+			try {
+				if( !class_exists($moduleClass) ) {
+					error_log("Class $moduleClass does not exist.");
+					continue;
+				}
+	
+				if( !is_subclass_of($moduleClass, \atc\Whx4\Core\Contracts\ModuleInterface::class) ) {
+					error_log("Class $moduleClass is not a ModuleInterface.");
+					continue;
+				}
+	
+				$slug = $moduleClass::getSlug();
+	
+				if( !method_exists($moduleClass, 'getPostTypes') ) {
+					error_log("Module $moduleClass does not implement getPostTypes().");
+					continue;
+				}
+	
+				$definedPostTypes = $moduleClass::getPostTypes();
+	
+				$enabled = $enabledPostTypesByModule[ $slug ] ?? $definedPostTypes;
+	
+				error_log("Module $slug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
+	
+				foreach( $definedPostTypes as $type ) {
+					if( in_array( $type, $enabled, true ) ) {
+						$postTypes[] = $type;
+					} else {
+						error_log("Post type '$type' from module '$slug' is not enabled.");
+					}
+				}
+			} catch( \Throwable $e ) {
+				error_log("Exception in getActivePostTypes for module $moduleClass: " . $e->getMessage());
+			}
+		}
+	
+		return array_unique($postTypes);
+	}
+
     /**
      * Loop through each module and register its post types.
      */
