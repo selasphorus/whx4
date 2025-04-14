@@ -42,25 +42,25 @@ class Plugin
     // Call this during plugin init (e.g. hooked into 'init').
 	public function boot(): void
 	{
-		error_log( '=== WHx4 boot() Step 1 ===' );
+		//error_log( '=== WHx4 boot() Step 1 ===' ); //ok
 		
 		// 1. Register available modules via filter
 		$modules = apply_filters( 'whx4_register_modules', [] );
 		$this->setAvailableModules( $modules );
 
-		error_log( '=== WHx4 boot() Step 2 ===' );
+		//error_log( '=== WHx4 boot() Step 2 ===' ); //ok
 		
 		// 2. Load active modules from settings
 		$this->loadActiveModules();
 
-		error_log( '=== WHx4 boot() Step 3 ===' );
+		//error_log( '=== WHx4 boot() Step 3 ===' ); //ok
 	
 		// 3. Initialize core components
 		$this->defineConstants();
 		$this->postTypeRegistrar = new PostTypeRegistrar($this);
 		$this->fieldGroupLoader = new FieldGroupLoader($this); //$this->fieldGroupLoader = new FieldGroupLoader();
 
-		error_log( '=== WHx4 boot() Step 4 ===' );
+		//error_log( '=== WHx4 boot() Step 4 ===' ); //ok
 
 		// 4. Register ACF field groups (after ACF is ready)
 		//AcfBootstrapper::init();
@@ -69,7 +69,7 @@ class Plugin
 		BlockRegistrar::register();
 		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
 
-		error_log( '=== WHx4 boot() Step 5 ===' );
+		//error_log( '=== WHx4 boot() Step 5 ===' ); //ok
 	
 		// 5. Hook into WordPress lifecycle
 		$this->setupActions();
@@ -226,6 +226,7 @@ class Plugin
      */
     public function registerPostTypes(): void
 	{
+		error_log( '=== WHx4 registerPostTypes() ===' );
 		$this->postTypeRegistrar->registerMany( $this->getActivePostTypes() );
 	}
     
@@ -240,6 +241,7 @@ class Plugin
 	 */
 	protected function setupActions(): void
 	{
+		error_log( '=== WHx4 setupActions() ===' );
     	add_action( 'init', [ $this, 'registerPostTypes' ] );
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
