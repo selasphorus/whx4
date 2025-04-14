@@ -58,6 +58,8 @@ class SettingsManager
 		//use_custom_caps
 		
 		echo '<table class="form-table" id="whx4-settings-table"><tbody>';
+		
+		//echo '<tr><td>enabledPostTypes</td><td><pre>'.print_r($enabledPostTypes, true).'</pre></td></tr>'; // ts
 	
 		foreach ( $availableModules as $key => $moduleClass ) {
 			
@@ -97,12 +99,11 @@ class SettingsManager
 			
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
 			echo '<td colspan="2" style="padding-left: 30px;">';
-			echo 'enabledPostTypes: <pre>'.print_r($enabledPostTypes, true).'</pre>';
 			//
 			foreach ( $postTypes as $slug => $label ) {
 			//foreach ( $postTypes as $postType ) {
 				// Post Types enabled by default if no setting exists
-				$isEnabled = !isset( $enabledPostTypes[ $key ] ) || in_array( $slug, $enabledPostTypes[ $key ], true );
+				$isEnabled = isset( $enabledPostTypes[ $key ] ) && in_array( $slug, $enabledPostTypes[ $key ], true );
 				
 				echo '<label style="display:block;">';
 				echo '<input type="checkbox" name="whx4_plugin_settings[enabled_post_types][' . esc_attr( $key ) . '][]" value="' . esc_attr( $slug ) . '" ' . checked( $isEnabled, true, false ) . ' />';
