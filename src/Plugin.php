@@ -340,9 +340,9 @@ final class Plugin
 				foreach ($definedPostTypes as $postTypeHandlerClass) {
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
-					$className = $handler->getLabels()['singular_name'];
+					//$className = $handler->getLabels()['singular_name'];
 					if (in_array( $postTypeSlug, $enabled, true )) {
-						$postTypeClasses[] = $className;
+						$postTypeClasses[] = $postTypeHandlerClass; //$className;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
