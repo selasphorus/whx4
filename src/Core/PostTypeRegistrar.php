@@ -14,20 +14,24 @@ class PostTypeRegistrar {
     	$slug = $handler->getSlug();
     	error_log('slug: '.$slug);
     	
+    	$labels = $handler->getLabels();
+    	error_log('slug: '.print_r($labels,true));
+    	
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
             $capabilities = $this->generateDefaultCapabilities($handler);
         }
+    	error_log('capabilities: '.$capabilities);
         
         // Register the post type
         register_post_type($slug, [
-            'labels'       => $handler->getLabels(),
+            'labels'       => $labels,
             'capabilities' => $capabilities, // $handler->getLabels(),
             'public'       => true,
             'show_in_rest' => true,  // Enable REST API support
             'supports'     => ['title', 'editor'],
-            'rewrite'      => ['slug' => $handler->getSlug()], //'rewrite' => ['slug' => $handlerClass::getSlug()],
+            'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,
         ]);
