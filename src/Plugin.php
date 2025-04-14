@@ -154,7 +154,7 @@ final class Plugin
 	}
 
     // Call this during plugin init (e.g. hooked into 'init').
-	public function boot(): void
+	public function bootv1(): void
 	{/*
 		//error_log( '=== WHx4 boot() Step 1 ===' ); //ok
 		
