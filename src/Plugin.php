@@ -355,7 +355,18 @@ final class Plugin
     public function registerPostTypes(): void
 	{
 		error_log( '=== WHx4 registerPostTypes() ===' );
-		$this->postTypeRegistrar->registerMany( $this->getActivePostTypes() );
+		
+		$activePostTypes = $this->getActivePostTypes();
+
+		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
+	
+		if( empty( $activePostTypes ) ) {
+			error_log( 'No active post types found. Skipping registration.' );
+			return;
+		}
+	
+		$this->postTypeRegistrar->registerMany( $activePostTypes );
+    	//$this->postTypeRegistrar->registerMany( $this->getActivePostTypes() );
 	}
     
     protected function registerTaxonomies(): void
