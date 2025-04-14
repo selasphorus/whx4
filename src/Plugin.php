@@ -74,6 +74,7 @@ class Plugin
         define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
     	define( 'WHX4_VERSION', '2.0.0' );
+    	error_log( '=== WHx4 defineConstants() complete ===' );
     }
 
 	public function setAvailableModules( array $modules ): void
@@ -155,7 +156,10 @@ class Plugin
     
     public function getActivePostTypes(): array
 	{
-		$this->loadActiveModules();
+		
+    	error_log( '=== WHx4 getActivePostTypes() ===' );
+    	
+    	$this->loadActiveModules();
 	
 		$settings = get_option( 'whx4_plugin_settings', [] );
 		$enabledPostTypesByModule = $settings['enabled_post_types'] ?? [];
@@ -201,6 +205,8 @@ class Plugin
 			}
 		}
 	
+		error_log( '=== WHx4 getActivePostTypes() complete -- about to return ===' );
+		
 		return array_unique($postTypes);
 	}
 

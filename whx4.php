@@ -28,7 +28,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 // WIP >> OOP
 
-error_log( '=== WHx4 test: did this run? ===' );
+//error_log( '=== WHx4 test: did this run? ===' );
 
 // Via Composer
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
