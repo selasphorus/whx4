@@ -319,7 +319,9 @@ final class Plugin
 					continue;
 				}
 	
-				$slug = strtolower($moduleClass::getName());
+				$module = new $moduleClass();
+				$slug = strtolower($module->getName());
+				//$slug = strtolower($moduleClass::getName());
 	
 				if( !method_exists($moduleClass, 'getPostTypes') ) {
 					error_log("Module $moduleClass does not implement getPostTypes().");
