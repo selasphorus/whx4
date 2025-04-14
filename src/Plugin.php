@@ -329,7 +329,7 @@ final class Plugin
 				}
 	
 				//$definedPostTypes = $moduleClass::getPostTypes();
-				$definedPostTypes = $moduleInstance->getPostTypes();
+				$definedPostTypes = $moduleInstance->getPostTypeHandlers();
 				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 				
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;

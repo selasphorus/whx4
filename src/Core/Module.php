@@ -12,7 +12,7 @@ abstract class Module implements ModuleInterface
 	
 	public function getPostTypes(): array
 	{
-		error_log( '=== atc\WHx4\Core\Module -- getPostTypes() ===' );
+		error_log( '=== \Core\Module -- getPostTypes() ===' );
 		$postTypes = [];
 	
 		foreach( $this->getPostTypeHandlers() as $class ) {
