@@ -97,7 +97,8 @@ class SettingsManager
 			
 			echo '<tr id="post-types-' . esc_attr( $key ) . '" class="post-type-row" ' . ( $isActive ? '' : 'style="display:none;"' ) . '>';
 			echo '<td colspan="2" style="padding-left: 30px;">';
-	
+			echo 'enabledPostTypes: <pre>'.print_r($enabledPostTypes, true).'</pre>';
+			//
 			foreach ( $postTypes as $slug => $label ) {
 			//foreach ( $postTypes as $postType ) {
 				// Post Types enabled by default if no setting exists
