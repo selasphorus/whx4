@@ -70,7 +70,7 @@ class Plugin
 
     // Call this during plugin init (e.g. hooked into 'init').
 	public function boot(): void
-	/*{
+	{/*
 		//error_log( '=== WHx4 boot() Step 1 ===' ); //ok
 		
 		// 1. Register available modules via filter
@@ -102,7 +102,7 @@ class Plugin
 		// 5. Hook into WordPress lifecycle
 		$this->setupActions();
 		$this->settingsManager = new SettingsManager($this);
-	}*/
+	*/}
     
     private function defineConstants()
     {
