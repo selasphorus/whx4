@@ -13,9 +13,10 @@ use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
 use atc\WHx4\ACF\BlockRegistrar;
 
-class Plugin
+final class Plugin
 {
-    protected static ?self $instance = null;
+    private static ?self $instance = null;
+    
     protected PostTypeRegistrar $postTypeRegistrar;
     protected FieldGroupLoader $fieldGroupLoader;
     protected SettingsManager $settingsManager;
@@ -28,7 +29,29 @@ class Plugin
     protected array $activeModules = [];
     protected bool $modulesLoaded = false;
 
-    protected function __construct() {}
+    //protected function __construct() {}
+    /**
+     * Private constructor to prevent direct instantiation.
+     */
+    private function __construct()
+    {
+        // Initialize internal state or dependencies
+    }
+    
+    /**
+     * Prevent cloning of the instance.
+     */
+    private function __clone()
+    {
+    }
+
+    /**
+     * Prevent unserializing of the instance.
+     */
+    public function __wakeup()
+    {
+        throw new \RuntimeException('Cannot unserialize a singleton.');
+    }
 
     public static function getInstance(): self
     {
@@ -38,30 +61,92 @@ class Plugin
 
         return static::$instance;
     }
+    
+    public function boot(): void
+    {
+    	// Step 1 -- on 'plugins_loaded': Load modules, config, and class setup
+        $this->loadCore();
+        
+        // Step 2 -- on 'init': Register post types, taxonomies, shortcodes
+        add_action( 'init', [ $this, 'registerPostTypes' ] );
+        
+        // Step 3 -- on 'acf/init': Register ACF fields
+        add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
+        
+        // Step 4 -- on admin_init
+        add_action( 'admin_init', [ $this, 'loadAdmin' ] );
+        
+        // Step 4a: Admin scripts/styles
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
+        
+        // Step 4b: Frontend scripts/styles
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
+    }
 
-	public function setupCore(): void
-	{
-		// Load modules and config
-		$modules = apply_filters( 'rex_register_modules', [] );
-		$this->setAvailableModules( $modules );
-		$this->loadActiveModules();
-	
+    public function loadCore(): void
+    {
+    	// Load modules and config
+        $modules = apply_filters( 'whx4_register_modules', [] );
+        $this->setAvailableModules( $modules );
+        $this->loadActiveModules();
+
 		// Initialize core components
-		$this->defineConstants();
-		$this->postTypeRegistrar = new PostTypeRegistrar($this);
-		$this->fieldGroupLoader = new FieldGroupLoader($this);
-	
-		// Register init-time actions
-		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
-		$this->settingsManager = new SettingsManager($this);
-	
-		// Note: Do NOT call registerPostTypes() here
+        $this->defineConstants();
+        $this->postTypeRegistrar = new PostTypeRegistrar( $this );
+        $this->fieldGroupLoader = new FieldGroupLoader( $this );
+    }
+
+	public function loadAdmin(): void
+	{
+		$this->settingsManager = new SettingsManager( $this );
 	}
+
+    public function registerFieldGroups(): void
+    {
+        $this->fieldGroupLoader->registerAll();
+    }
+    
+	public function enqueueAdminAssets(string $hook): void
+	{
+		if ( $hook !== 'settings_page_whx4-settings' ) {
+			return;
+		}
 	
+		wp_enqueue_script(
+			'whx4-settings',
+			WHX4_PLUGIN_DIR . '/assets/js/settings.js',
+			[],
+			'1.0',
+			true
+		);
+	
+		/*wp_enqueue_style(
+			'whx4-settings',
+			WHX4_PLUGIN_DIR . '/assets/css/settings.css',
+			[],
+			'1.0'
+		);*/
+	}
+
+    public function enqueuePublicAssets(): void
+    {
+        $fpath = WHX4_PLUGIN_DIR . '/assets/css/whx4.css';
+    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
+    	wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
+    }
+	
+	
+	// Call this during plugin init (e.g. hooked into 'init').
 	public function registerHooks(): void
 	{
-		// Only now is it safe to register post types
+		// Register post types
 		$this->registerPostTypes();
+		
+		// Register ACF field groups (after ACF is ready)
+		JsonPaths::register();
+		RestrictAccess::register(); //RestrictAccess::apply();
+		BlockRegistrar::register();
+		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
 	
 		// And enqueue assets
 		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
@@ -275,34 +360,6 @@ class Plugin
         add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
         //register_activation_hook( DIR_PATH, [ 'WHx4', 'activate' ] );
 		//register_deactivation_hook( DIR_PATH, [ 'WHx4', 'deactivate' ] );
-    }
-
-	public function enqueue_admin_assets(string $hook): void
-	{
-		if ( $hook !== 'settings_page_whx4-settings' ) {
-			return;
-		}
-	
-		wp_enqueue_script(
-			'whx4-settings',
-			WHX4_PLUGIN_DIR . '/assets/js/settings.js',
-			[],
-			'1.0',
-			true
-		);
-	
-		/*wp_enqueue_style(
-			'whx4-settings',
-			WHX4_PLUGIN_DIR . '/assets/css/settings.css',
-			[],
-			'1.0'
-		);*/
-	}
-
-    public function enqueue_public_assets() {  
-        $fpath = WHX4_PLUGIN_DIR . '/assets/css/whx4.css';
-    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
-    	wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
     }
     
     protected function use_custom_caps() {

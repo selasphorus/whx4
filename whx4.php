@@ -54,16 +54,9 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
 /*add_action( 'init', function() {
     Plugin::getInstance()->boot();
 });
-add_action( 'plugins_loaded', function() {
-    Plugin::getInstance()->boot();
-});
 */
 add_action( 'plugins_loaded', function() {
-    Plugin::getInstance()->setupCore();
-});
-
-add_action( 'init', function() {
-    Plugin::getInstance()->registerHooks();
+    Plugin::getInstance()->boot();
 });
 
     
