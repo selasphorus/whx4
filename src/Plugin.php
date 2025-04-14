@@ -42,17 +42,25 @@ class Plugin
     // Call this during plugin init (e.g. hooked into 'init').
 	public function boot(): void
 	{
+		error_log( '=== WHx4 boot() Step 1 ===' );
+		
 		// 1. Register available modules via filter
 		$modules = apply_filters( 'whx4_register_modules', [] );
 		$this->setAvailableModules( $modules );
-	
+
+		error_log( '=== WHx4 boot() Step 2 ===' );
+		
 		// 2. Load active modules from settings
 		$this->loadActiveModules();
+
+		error_log( '=== WHx4 boot() Step 3 ===' );
 	
 		// 3. Initialize core components
 		$this->defineConstants();
 		$this->postTypeRegistrar = new PostTypeRegistrar($this);
 		$this->fieldGroupLoader = new FieldGroupLoader($this); //$this->fieldGroupLoader = new FieldGroupLoader();
+
+		error_log( '=== WHx4 boot() Step 4 ===' );
 
 		// 4. Register ACF field groups (after ACF is ready)
 		//AcfBootstrapper::init();
@@ -60,6 +68,8 @@ class Plugin
 		RestrictAccess::register(); //RestrictAccess::apply();
 		BlockRegistrar::register();
 		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
+
+		error_log( '=== WHx4 boot() Step 5 ===' );
 	
 		// 5. Hook into WordPress lifecycle
 		$this->setupActions();
@@ -74,7 +84,7 @@ class Plugin
         define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
     	define( 'WHX4_VERSION', '2.0.0' );
-    	error_log( '=== WHx4 defineConstants() complete ===' );
+    	//error_log( '=== WHx4 defineConstants() complete ===' ); //ok
     }
 
 	public function setAvailableModules( array $modules ): void
@@ -88,6 +98,7 @@ class Plugin
 
 	public function getAvailableModules(): array
 	{
+		error_log( '=== WHx4 getAvailableModules() ===' );
 		return $this->availableModules;
 	}
 
