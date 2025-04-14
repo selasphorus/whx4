@@ -54,6 +54,9 @@ class SettingsManager
 	
 		settings_fields( 'whx4_plugin_settings_group' );
 	
+		//event_list_item_format
+		//use_custom_caps
+		
 		echo '<table class="form-table" id="whx4-settings-table"><tbody>';
 	
 		foreach ( $availableModules as $key => $moduleClass ) {
@@ -101,7 +104,7 @@ class SettingsManager
 				$isEnabled = !isset( $enabledPostTypes[ $key ] ) || in_array( $slug, $enabledPostTypes[ $key ], true );
 				
 				echo '<label style="display:block;">';
-				echo '<input type="checkbox" name="rex_plugin_settings[enabled_post_types][' . esc_attr( $key ) . '][]" value="' . esc_attr( $slug ) . '" ' . checked( $isEnabled, true, false ) . ' />';
+				echo '<input type="checkbox" name="whx4_plugin_settings[enabled_post_types][' . esc_attr( $key ) . '][]" value="' . esc_attr( $slug ) . '" ' . checked( $isEnabled, true, false ) . ' />';
 				echo ' Enable <code>' . esc_html( $slug ) . '</code>: ' . esc_html( $label );
 				echo '</label>';
 			}
