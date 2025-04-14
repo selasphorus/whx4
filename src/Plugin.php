@@ -39,9 +39,38 @@ class Plugin
         return static::$instance;
     }
 
+	public function setupCore(): void
+	{
+		// Load modules and config
+		$modules = apply_filters( 'rex_register_modules', [] );
+		$this->setAvailableModules( $modules );
+		$this->loadActiveModules();
+	
+		// Initialize core components
+		$this->defineConstants();
+		$this->postTypeRegistrar = new PostTypeRegistrar($this);
+		$this->fieldGroupLoader = new FieldGroupLoader($this);
+	
+		// Register init-time actions
+		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
+		$this->settingsManager = new SettingsManager($this);
+	
+		// Note: Do NOT call registerPostTypes() here
+	}
+	
+	public function registerHooks(): void
+	{
+		// Only now is it safe to register post types
+		$this->registerPostTypes();
+	
+		// And enqueue assets
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
+		add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
+	}
+
     // Call this during plugin init (e.g. hooked into 'init').
 	public function boot(): void
-	{
+	/*{
 		//error_log( '=== WHx4 boot() Step 1 ===' ); //ok
 		
 		// 1. Register available modules via filter
@@ -73,7 +102,7 @@ class Plugin
 		// 5. Hook into WordPress lifecycle
 		$this->setupActions();
 		$this->settingsManager = new SettingsManager($this);
-	}
+	}*/
     
     private function defineConstants()
     {
