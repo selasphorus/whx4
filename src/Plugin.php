@@ -122,6 +122,7 @@ class Plugin
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
      */
+
     public function getActivePostTypes(): array
     {
         $this->loadActiveModules();
@@ -135,13 +136,21 @@ class Plugin
             if( is_subclass_of( $moduleClass, ModuleInterface::class ) ) {
                 $slug = $moduleClass::getSlug();
                 $definedPostTypes = $moduleClass::getPostTypes();
-                $enabled = $enabledPostTypesByModule[$slug] ?? $definedPostTypes;
-
-                foreach( $definedPostTypes as $type ) {
+                //$enabled = $enabledPostTypesByModule[$slug] ?? $definedPostTypes;
+                $enabled = $enabledPostTypesByModule[$slug] ?? array_keys( $definedPostTypes );
+                
+                foreach( array_keys( $definedPostTypes ) as $type ) {
+					if( in_array( $type, $enabled, true ) ) {
+						$postTypes[] = $type;
+					}
+				}
+				/*
+				foreach( $definedPostTypes as $type ) {
                     if( in_array( $type, $enabled, true ) ) {
                         $postTypes[] = $type;
                     }
                 }
+                */
             }
         }
 
