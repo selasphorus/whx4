@@ -334,7 +334,7 @@ final class Plugin
 				
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
 	
-				error_log("Module $slug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
+				error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 	
 				foreach ($definedPostTypes as $postTypeHandler) {
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
