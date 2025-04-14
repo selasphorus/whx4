@@ -51,12 +51,22 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
     ]);
 });
 
-/*add_action( 'init', function() {
-    Plugin::getInstance()->boot();
-});
-*/
+// Once plugins are loaded, boot everything up
 add_action( 'plugins_loaded', function() {
     Plugin::getInstance()->boot();
+});
+
+// On activation, set up post types and capabilities
+register_activation_hook( __FILE__, function() {
+    $plugin = Plugin::getInstance();
+    $plugin->boot();
+    $plugin->assignPostTypeCapabilities();
+});
+
+// Deactivation
+register_deactivation_hook( __FILE__, function() {
+    $plugin = Plugin::getInstance();
+    $plugin->removePostTypeCapabilities();
 });
 
     

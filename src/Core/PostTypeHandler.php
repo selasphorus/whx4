@@ -2,50 +2,36 @@
 
 namespace atc\WHx4\Core;
 
-use atc\WHx4\Core\Traits\HasSlugAndLabels;
+use atc\WHx4\Core\BaseHandler;
 
-abstract class PostTypeHandler
+abstract class PostTypeHandler extends BaseHandler
 {
-    use HasSlugAndLabels;
-    
 	// Property to store the post object
     protected $post; // better private?
 
     // Constructor to set the post object
-    public function __construct($post) {
+    public function __construct($post)
+    {
         // Store the post object in a class property
         $this->post = $post;
     }
     
-    public function getSupports(): array
-    {
-        return $this->config['supports'] ?? ['title', 'editor'];
+    public function getSupports(): array {
+        return $this->getConfig()['supports'] ?? [ 'title', 'editor' ];
     }
 
-    public function getTaxonomies(): array
-    {
-        return $this->config['taxonomies'] ?? [ 'admin_tag' ];
+    public function getTaxonomies(): array {
+        return $this->getConfig()['taxonomies'] ?? [ 'admin_tag' ];
     }
 
-    public function getCapabilities(): ?array //public static function getCapabilities(): ?array
-    {
-        //return $this->config['capabilities'] ?? ['edit_posts', 'delete_posts'];
-        //return ['edit_posts', 'delete_posts']; // default example
-        return null; // override if needed
+    public function getMenuIcon(): ?string {
+        return $this->getConfig()['menu_icon'] ?? null;
     }
     
-    public function getArgs(): array //public static function getArgs(): array {
-    {
-        return [
-            'public'       => true,
-            'show_in_rest' => true,
-            'labels'       => $this->getLabels(), //'labels'       => static::getLabels(),
-            'supports'		=> $this->getSupports(), //'supports'     => ['title', 'editor'],
-        ];
-    }
+    ////
     
     // Method to get the post ID
-    public function get_post_id()
+    public function getPostID()
     {
         return $this->post->ID;
     }
@@ -53,12 +39,12 @@ abstract class PostTypeHandler
     // Method to get the post title
     public function get_post_title()
     {
-        return get_the_title($this->post->ID);
+        return get_the_title($this->getPostID());
     }
 	
-	public function get_cpt_content()
+	public function getCustomContent()
 	{
-		$post_id = $this->get_post_id();
+		$post_id = $this->getPostID();
 		
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 		

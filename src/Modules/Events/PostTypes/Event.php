@@ -3,11 +3,11 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Core\Traits\HasSlugAndLabels;
+use atc\WHx4\Core\Traits\HasTypeProperties;
 
 class Event extends PostTypeHandler 
 {
-	use HasSlugAndLabels;
+	use HasTypeProperties;
 	
 	protected array $config;
 	

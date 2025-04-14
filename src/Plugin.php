@@ -23,9 +23,7 @@ final class Plugin
 
 	// Set modules array via boot
 	// This way, Plugin contains logic only, and other plugins or themes can register additional modules dynamically
-	protected array $availableModules = []; // 'supernatural' => \YourPlugin\Modules\Supernatural\Module::class
-   	//protected array $availableModules = [ 'supernatural' => atc\WHx4\Modules\Supernatural\Module::class ]; // default tft
-    
+	protected array $availableModules = [];    
     protected array $activeModules = [];
     protected bool $modulesLoaded = false;
 
@@ -72,8 +70,12 @@ final class Plugin
         add_action( 'init', [ $this, 'registerPostTypes' ] );
         
         // Step 3 -- on 'acf/init': Register ACF fields
+		JsonPaths::register();
+		RestrictAccess::register(); //RestrictAccess::apply();
+		BlockRegistrar::register();
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
-        
+		//add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
+		
         // Step 4 -- on admin_init
         //add_action( 'admin_init', [ $this, 'loadAdmin' ] ); // nope too late
         
@@ -155,60 +157,6 @@ final class Plugin
 	}
 
 	
-	
-	// Call this during plugin init (e.g. hooked into 'init').
-	public function registerHooks(): void
-	{
-		// Register post types
-		$this->registerPostTypes();
-		
-		// Register ACF field groups (after ACF is ready)
-		JsonPaths::register();
-		RestrictAccess::register(); //RestrictAccess::apply();
-		BlockRegistrar::register();
-		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
-	
-		// And enqueue assets
-		add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
-	}
-
-    // Call this during plugin init (e.g. hooked into 'init').
-	public function bootv1(): void
-	{/*
-		//error_log( '=== WHx4 boot() Step 1 ===' ); //ok
-		
-		// 1. Register available modules via filter
-		$modules = apply_filters( 'whx4_register_modules', [] );
-		$this->setAvailableModules( $modules );
-
-		//error_log( '=== WHx4 boot() Step 2 ===' ); //ok
-		
-		// 2. Load active modules from settings
-		$this->loadActiveModules();
-
-		//error_log( '=== WHx4 boot() Step 3 ===' ); //ok
-	
-		// 3. Initialize core components
-		$this->defineConstants();
-		$this->postTypeRegistrar = new PostTypeRegistrar($this);
-		$this->fieldGroupLoader = new FieldGroupLoader($this);
-
-		//error_log( '=== WHx4 boot() Step 4 ===' ); //ok
-
-		// 4. Register ACF field groups (after ACF is ready)
-		JsonPaths::register();
-		RestrictAccess::register(); //RestrictAccess::apply();
-		BlockRegistrar::register();
-		add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
-
-		//error_log( '=== WHx4 boot() Step 5 ===' ); //ok
-	
-		// 5. Hook into WordPress lifecycle
-		$this->setupActions();
-		$this->settingsManager = new SettingsManager($this);
-	*/}
-    
     private function defineConstants()
     {
     	define( 'WHX4_TEXTDOMAIN', 'whx4' );
@@ -267,36 +215,6 @@ final class Plugin
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
      */
-
-    /*
-    public function getActivePostTypes(): array
-    {
-        $this->loadActiveModules();
-
-        $settings = get_option( 'whx4_plugin_settings', [] );
-        $enabledPostTypesByModule = $settings['enabled_post_types'] ?? [];
-
-        $postTypes = [];
-
-        foreach( $this->activeModules as $moduleClass ) {
-            if( is_subclass_of( $moduleClass, ModuleInterface::class ) ) {
-                $slug = $moduleClass::getSlug();
-                $definedPostTypes = $moduleClass::getPostTypes();
-                //$enabled = $enabledPostTypesByModule[$slug] ?? $definedPostTypes;
-                $enabled = $enabledPostTypesByModule[$slug] ?? array_keys( $definedPostTypes );
-                
-                //foreach( $definedPostTypes as $type ) {
-                foreach( array_keys( $definedPostTypes ) as $type ) {
-					if( in_array( $type, $enabled, true ) ) {
-						$postTypes[] = $type;
-					}
-				}
-            }
-        }
-
-        return array_unique( $postTypes );
-    }
-    */
     
     public function getActivePostTypes(): array
 	{
@@ -387,21 +305,19 @@ final class Plugin
     {
 		// Register Custom Taxonomies for active modules		
     }    
+ 
 
+	/// WIP
 
-	/**
-	 * Set up Hooks and Actions
-	 */
-	protected function setupActions(): void
-	{
-		error_log( '=== WHx4 setupActions() ===' );
-    	add_action( 'init', [ $this, 'registerPostTypes' ] );
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_public_assets']);
-        //register_activation_hook( DIR_PATH, [ 'WHx4', 'activate' ] );
-		//register_deactivation_hook( DIR_PATH, [ 'WHx4', 'deactivate' ] );
-    }
-    
+	public function assignPostTypeCapabilities(): void {
+		$this->postTypeRegistrar->assignPostTypeCapabilities();
+	}
+
+	public function removePostTypeCapabilities(): void {
+		$this->postTypeRegistrar->removePostTypeCapabilities();
+	}
+	
+	//
     protected function use_custom_caps() {
 		$use_custom_caps = false;
 		if ( isset($options['use_custom_caps']) && !empty($options['use_custom_caps']) ) {
@@ -409,13 +325,6 @@ final class Plugin
 		}
 		return $use_custom_caps;
 	}
-    
-    public function load_components() {  
-        $dbm = new DatabaseManager();
-        //$api = new MailchimpAPI();  
-        //new AdminSettings($db, $api);  
-        //new FrontendForm($db);  
-    }
     
     /*
     protected static ?self $instance = null;
