@@ -15,15 +15,15 @@ class PostTypeRegistrar {
     	error_log('slug: '.$slug);
     	
     	$labels = $handler->getLabels();
-    	error_log('slug: '.print_r($labels,true));
+    	error_log('labels: '.print_r($labels,true));
     	
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
             $capabilities = $this->generateDefaultCapabilities($handler);
         }
-    	error_log('capabilities: '.$capabilities);
-        
+    	error_log('capabilities: '.print_r($capabilities,true));
+
         // Register the post type
         register_post_type($slug, [
             'labels'       => $labels,
