@@ -3,11 +3,11 @@
 namespace atc\WHx4\Modules\People\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Core\Traits\HasTypeProperties;
+//use atc\WHx4\Core\Traits\HasTypeProperties;
 
 class GroupEntity extends PostTypeHandler
 {
-	use HasTypeProperties;
+	//use HasTypeProperties;
 
     public function __construct(WP_Post|null $post = null) {
 		$config = [
@@ -25,7 +25,7 @@ class GroupEntity extends PostTypeHandler
 		parent::__construct($config, 'post_type', $post);
 	}
     
-	public function get_cpt_content()
+	public function getCPTContent()
 	{
 		$post_id = $this->get_post_id();
 	}

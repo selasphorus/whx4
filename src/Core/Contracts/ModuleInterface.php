@@ -8,5 +8,5 @@ interface ModuleInterface
 
     public function getPostTypeHandlers(): array;
 
-    public function boot(): void;
+    //public function boot(): void;
 }

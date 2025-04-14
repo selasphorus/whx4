@@ -3,11 +3,11 @@
 namespace atc\WHx4\Modules\People\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Core\Traits\HasTypeProperties;
+//use atc\WHx4\Core\Traits\HasTypeProperties;
 
 class Person extends PostTypeHandler
 {
-	use HasTypeProperties;
+	//use HasTypeProperties;
 
     public function __construct(WP_Post|null $post = null) {
 		$config = [

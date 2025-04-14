@@ -32,8 +32,8 @@ abstract class Module implements ModuleInterface
 	}
 
 
-    public function boot(): void // was static
+    /*public function boot(): void // was static
     {
         // Optional: hookable logic
-    }
+    }*/
 }
