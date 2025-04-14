@@ -25,8 +25,8 @@ class Person extends PostTypeHandler
     {
         $custom_labels = [
             'name' => 'People',
-            'add_new_item' => 'Procreate',
-            'not_found' => 'No people loitering nearby',
+            //'add_new_item' => 'Procreate',
+            //'not_found' => 'No people loitering nearby',
         ];
         
         // Combine custom labels with those from config, if any
