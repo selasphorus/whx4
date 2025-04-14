@@ -305,7 +305,7 @@ final class Plugin
 	
 		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
 	
-		$postTypes = [];
+		$postTypeClasses = [];
 	
 		foreach( $this->activeModules as $moduleClass ) {
 			try {
@@ -338,7 +338,7 @@ final class Plugin
 	
 				foreach ($definedPostTypes as $postTypeSlug => $name) {
 					if (in_array( $postTypeSlug, $enabled, true )) {
-						$postTypes[] = $postTypeSlug;
+						$postTypeClasses[] = $name;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
@@ -349,9 +349,9 @@ final class Plugin
 		}
 	
 		//error_log( '=== WHx4 getActivePostTypes() complete -- about to return ===' );
-		error_log("active postTypes: " . print_r($postTypes, true));
+		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 		
-		return array_unique($postTypes);
+		return array_unique($postTypeClasses);
 	}
 
     /**
