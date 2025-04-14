@@ -11,6 +11,9 @@ class PostTypeRegistrar {
     
     	error_log( '=== PostTypeRegistrar->registerCPT() ===' );
     	
+    	$slug = $handler->getSlug();
+    	error_log('slug: '.$slug);
+    	
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
@@ -18,7 +21,7 @@ class PostTypeRegistrar {
         }
         
         // Register the post type
-        register_post_type($handler->getSlug(), [
+        register_post_type($slug, [
             'labels'       => $handler->getLabels(),
             'capabilities' => $capabilities, // $handler->getLabels(),
             'public'       => true,
