@@ -336,9 +336,12 @@ final class Plugin
 	
 				error_log("Module $slug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 	
-				foreach ($definedPostTypes as $postTypeSlug => $name) {
+				foreach ($definedPostTypes as $postTypeHandler) {
+				//foreach ($definedPostTypes as $postTypeSlug => $name) {
+					$postTypeSlug = $postTypeHandler->getSlug();
+					$className = $postTypeHandler->getLabels()['singular_name'];
 					if (in_array( $postTypeSlug, $enabled, true )) {
-						$postTypeClasses[] = $name;
+						$postTypeClasses[] = $className;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
