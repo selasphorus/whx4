@@ -98,6 +98,7 @@ final class Plugin
 
 	public function loadAdmin(): void
 	{
+		error_log( '=== Plugin->loadAdmin() ===' );
 		$this->settingsManager = new SettingsManager( $this );
 	}
 
