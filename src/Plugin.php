@@ -321,7 +321,7 @@ final class Plugin
 
 				//$slug = strtolower($moduleClass::getName());
 				$moduleInstance = new $moduleClass();
-				$slug = strtolower($moduleInstance->getName());
+				$moduleSlug = strtolower($moduleInstance->getName());
 	
 				if( !method_exists($moduleClass, 'getPostTypes') ) {
 					error_log("Module $moduleClass does not implement getPostTypes().");
@@ -330,16 +330,17 @@ final class Plugin
 	
 				//$definedPostTypes = $moduleClass::getPostTypes();
 				$definedPostTypes = $moduleInstance->getPostTypes();
-
-				$enabled = $enabledPostTypesByModule[ $slug ] ?? $definedPostTypes;
+				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
+				
+				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
 	
 				error_log("Module $slug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 	
-				foreach( $definedPostTypes as $type ) {
-					if( in_array( $type, $enabled, true ) ) {
-						$postTypes[] = $type;
+				foreach ($definedPostTypes as $postTypeSlug => $name) {
+					if (in_array( $postTypeSlug, $enabled, true )) {
+						$postTypes[] = $postTypeSlug;
 					} else {
-						error_log("Post type '$type' from module '$slug' is not enabled.");
+						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
 				}
 			} catch( \Throwable $e ) {
