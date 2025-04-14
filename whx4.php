@@ -51,9 +51,13 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
     ]);
 });
 
-add_action( 'init', function() {
+/*add_action( 'init', function() {
+    Plugin::getInstance()->boot();
+});*/
+add_action( 'plugins_loaded', function() {
     Plugin::getInstance()->boot();
 });
+
     
 /* ***** TODO: Move most or all of the following away into classes ***** */
 

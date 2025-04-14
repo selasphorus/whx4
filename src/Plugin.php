@@ -58,12 +58,11 @@ class Plugin
 		// 3. Initialize core components
 		$this->defineConstants();
 		$this->postTypeRegistrar = new PostTypeRegistrar($this);
-		$this->fieldGroupLoader = new FieldGroupLoader($this); //$this->fieldGroupLoader = new FieldGroupLoader();
+		$this->fieldGroupLoader = new FieldGroupLoader($this);
 
 		//error_log( '=== WHx4 boot() Step 4 ===' ); //ok
 
 		// 4. Register ACF field groups (after ACF is ready)
-		//AcfBootstrapper::init();
 		JsonPaths::register();
 		RestrictAccess::register(); //RestrictAccess::apply();
 		BlockRegistrar::register();
