@@ -9,6 +9,8 @@ class PostTypeRegistrar {
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void {
     
+    	error_log( '=== PostTypeRegistrar->registerCPT() ===' );
+    	
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
@@ -31,6 +33,9 @@ class PostTypeRegistrar {
 	
 	// TODO:  move this to the PostTypeHandler where default labels etc are defined
 	protected function generateDefaultCapabilities(PostTypeHandler $handler): array {
+        
+        error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
+        
         $slug = $handler->getSlug();
 
         return [
@@ -46,7 +51,7 @@ class PostTypeRegistrar {
     
     public function registerMany( array $postTypeClasses ): void
     {
-    	error_log( '=== WHx4 PostTypeRegistrar->registerMany() ===' );
+    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
     	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $handlerClass ) {
         	error_log( 'attempting to register handlerClass: '.$handlerClass );
