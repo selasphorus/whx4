@@ -336,10 +336,11 @@ final class Plugin
 	
 				error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 	
-				foreach ($definedPostTypes as $postTypeHandler) {
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
-					$postTypeSlug = $postTypeHandler->getSlug();
-					$className = $postTypeHandler->getLabels()['singular_name'];
+				foreach ($definedPostTypes as $postTypeHandlerClass) {
+					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
+					$postTypeSlug = $handler->getSlug();
+					$className = $handler->getLabels()['singular_name'];
 					if (in_array( $postTypeSlug, $enabled, true )) {
 						$postTypeClasses[] = $className;
 					} else {
