@@ -70,10 +70,10 @@ final class Plugin
         add_action( 'init', [ $this, 'registerPostTypes' ] );
         
         // Step 3 -- on 'acf/init': Register ACF fields
-		JsonPaths::register();
-		RestrictAccess::register(); //RestrictAccess::apply();
-		BlockRegistrar::register();
-        add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
+		//JsonPaths::register();
+		//RestrictAccess::register(); //RestrictAccess::apply();
+		//BlockRegistrar::register();
+        //add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
 		//add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
 		
         // Step 4 -- on admin_init
