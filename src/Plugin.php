@@ -66,6 +66,7 @@ final class Plugin
     {
     	// Step 1 -- on 'plugins_loaded': Load modules, config, and class setup
         $this->loadCore();
+        $this->loadAdmin();
         
         // Step 2 -- on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ] );
@@ -74,7 +75,7 @@ final class Plugin
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
         
         // Step 4 -- on admin_init
-        add_action( 'admin_init', [ $this, 'loadAdmin' ] );
+        //add_action( 'admin_init', [ $this, 'loadAdmin' ] ); // nope too late
         
         // Step 4a: Admin scripts/styles
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
@@ -99,8 +100,11 @@ final class Plugin
 	public function loadAdmin(): void
 	{
 		error_log( '=== Plugin->loadAdmin() ===' );
-		$this->settingsManager = new SettingsManager( $this );
+		if ( is_admin() ) {
+			$this->settingsManager = new SettingsManager( $this );
+		}
 	}
+
 
     public function registerFieldGroups(): void
     {
