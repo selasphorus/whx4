@@ -17,28 +17,63 @@ class PostTypeRegistrar {
     	$labels = $handler->getLabels();
     	error_log('labels: '.print_r($labels,true));
     	
+    	$supports = $handler->getSupports();
+    	error_log('supports: '.print_r($supports,true));
+    	
+    	$taxonomies = $handler->getTaxonomies();
+    	error_log('taxonomies: '.print_r($taxonomies,true));
+    	
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
             $capabilities = $this->generateDefaultCapabilities($handler);
         }
     	error_log('capabilities: '.print_r($capabilities,true));
+    	
+    	$icon = $handler->getMenuIcon();
+    	error_log('icon: '.$icon);
 
         // Register the post type
         register_post_type($slug, [
-            'labels'       => $labels,
-            'capabilities' => $capabilities, // $handler->getLabels(),
+            
             'public'       => true,
-            'show_in_rest' => true,  // Enable REST API support
-            'supports'     => ['title', 'editor'],
+			'publicly_queryable'=> true,
+			'show_ui' 			=> true,
+			'query_var'        	=> true,
+            'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
+            'labels'       => $labels,
+            'capability_type' => $slug,
+            'capabilities' => $capabilities, // $handler->getLabels(),
+			//'caps'			=> [ 'post' ],
+            'map_meta_cap'    => true,
+
+            'supports'     => $supports, //['title', 'editor'],
+            //'supports'		=> [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
+			//'taxonomies'	=> [ 'category', 'tag' ],
             'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,
+			'hierarchical'		=> false,
+			//'menu_position'		=> null,
+			//'delete_with_user' 	=> false,
         ]);
         
 	}
 	
-	// TODO:  move this to the PostTypeHandler where default labels etc are defined
+    //
+    public function registerMany( array $postTypeClasses ): void
+    {
+    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
+    	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
+        foreach( $postTypeClasses as $handlerClass ) {
+        	error_log( 'attempting to register handlerClass: '.$handlerClass );
+        	$handler = new $handlerClass();
+            $this->registerCPT( $handler );
+        }
+    }
+	
+    // Capabilities
+	// TODO:  move this to the PostTypeHandler where default labels etc are defined?
 	protected function generateDefaultCapabilities(PostTypeHandler $handler): array {
         
         error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
@@ -56,90 +91,40 @@ class PostTypeRegistrar {
         ];
     }
     
-    public function registerMany( array $postTypeClasses ): void
-    {
-    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
-    	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
-        foreach( $postTypeClasses as $handlerClass ) {
-        	error_log( 'attempting to register handlerClass: '.$handlerClass );
-        	$handler = new $handlerClass();
-            $this->registerCPT( $handler );
-        }
-    }
-    
-	/*
-	public function registerCPT ( $args ) {
-		
-		// Defaults
-		$defaults = [
-			'slug' 			=> 'dragon',
-			'name' 			=> 'Dragon',
-			'plural_name'	=> null,
-			'labels'		=> [],
-			'supports'		=> [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
-			'taxonomies'	=> [ 'category', 'tag' ],
-			'caps'			=> [ 'post' ],
-			'cpt_args'		=> [],
-		];
-		
-		// Parse & Extract args
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args );
-		
-		//$name, $plural_name, $labels, $args, $caps, $supports, $taxonomies
-		
-		if ( empty($plural_name) ) { $plural_name = $name."s"; }
-		if ( empty($slug) ) { $slug = strtolower($name); }
-		//if ( empty($caps) ) { $caps = [$name, $plural_name); }
-		
-		// Default labels
-		$default_labels = [
-			'name' => __( $plural_name, 'whx4' ),
-			'singular_name' => __( $name, 'whx4' ),
-			'add_new' => __( 'New '.$name, 'whx4' ),
-			'add_new_item' => __( 'Add New '.$name, 'whx4' ),
-			'edit_item' => __( 'Edit '.$name, 'whx4' ),
-			'new_item' => __( 'New '.$name, 'whx4' ),
-			'view_item' => __( 'View '.$name, 'whx4' ),
-			'search_items' => __( 'Search '.$plural_name, 'whx4' ),
-			'not_found' =>  __( 'No '.$plural_name.' Found', 'whx4' ),
-			'not_found_in_trash' => __( 'No '.$plural_name.' found in Trash', 'whx4' ),
-		];
-		
-		// Merge user-defined labels
-		$labels = array_merge($default_labels, $labels);
-		
-		// TODO: modify so it's easier to set all individual args via function call
-		// Default args
-		$default_args = [
-			'public' => true,
-			'publicly_queryable'=> true,
-			'show_ui' 			=> true,
-			'query_var'        	=> true,
-			'map_meta_cap'		=> true,
-			'has_archive' 		=> true,
-			'hierarchical'		=> false,
-			'show_in_menu'		=> true,
-			//'menu_position'		=> null,
-			'show_in_rest'		=> false, // false = use classic, not block editor
-			//'delete_with_user' 	=> false,
-			'rewrite' => [ 'slug' => $slug ],
-		];
-		
-		// Merge user-defined labels
-		$cpt_args = array_merge($default_args, $cpt_args);
-		
-		$cpt_args['labels'] = $labels;
-		//$cpt_args['capability_type'] = $caps; // TODO: figure out why this isn't working -- even for Admin with all caps granted, could not access new post_type
-		$cpt_args['supports'] = $supports;
-		$cpt_args['taxonomies'] = $taxonomies;
-
-		register_post_type( $slug, $cpt_args );
-		
-		//return $cpt_args; // tft
-		//return true; //???
-		
+    public function assignPostTypeCapabilities(): void {
+		$roles = [ 'administrator', 'editor' ]; // Add others as needed
+	
+		foreach ( $this->getPostTypeHandlers() as $handler ) {
+			$caps = $handler->getCapabilities();
+	
+			foreach ( $roles as $role_name ) {
+				$role = get_role( $role_name );
+	
+				if ( $role ) {
+					foreach ( $caps as $cap ) {
+						$role->add_cap( $cap );
+					}
+				}
+			}
+		}
 	}
-	*/
+
+	public function removePostTypeCapabilities(): void {
+		$roles = [ 'administrator', 'editor' ]; // Adjust as needed
+	
+		foreach ( $this->getPostTypeHandlers() as $handler ) {
+			$caps = $handler->getCapabilities();
+	
+			foreach ( $roles as $role_name ) {
+				$role = get_role( $role_name );
+	
+				if ( $role ) {
+					foreach ( $caps as $cap ) {
+						$role->remove_cap( $cap );
+					}
+				}
+			}
+		}
+	}
 	
 }
