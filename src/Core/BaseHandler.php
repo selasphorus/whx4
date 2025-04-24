@@ -9,26 +9,22 @@ abstract class BaseHandler
 {
     use HasTypeProperties;
 
-    //protected array $config = [];
+    protected array $config = [];
     //protected string $type = 'post_type';
     protected const TYPE = 'post_type';
     protected WP_Post|WP_Term|null $object = null;
-
 
     /*public function __construct(array $config = [], ?string $type = null, WP_Post|WP_Term|null $object = null) {
         $this->config = $config;
         $this->type   = $type ?? 'post_type';
         $this->object = $object;
     }*/
-
     public function __construct(WP_Post|WP_Term|null $object = null)
     {
         //$this->config = $this->defineConfig();
         //$this->type   = $this->defineType();
         $this->object = $object;
     }
-
-    abstract protected function defineConfig(): array;
 
     public function getType(): string {
 		return static::TYPE;
@@ -40,6 +36,8 @@ abstract class BaseHandler
 		// Override in TaxonomyHandler to return 'taxonomy'
 		return 'post_type';
 	}*/
+
+    //abstract protected function defineConfig(): array;
 
     public function getConfig(): array {
         return $this->config;
