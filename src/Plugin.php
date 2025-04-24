@@ -299,7 +299,7 @@ final class Plugin
 					}
 				}
 			} catch( \Throwable $e ) {
-				error_log("Exception in getActivePostTypes for module $moduleClass: " . $e->getMessage());
+				error_log("Exception in getActivePostTypes for module $moduleSlug: " . $e->getMessage());
 			}
 		}
 
