@@ -222,7 +222,8 @@ final class Plugin
 
     public function bootModules(): void
     {
-        foreach ( $this->getActiveModules() as $module ) {
+        foreach ( $this->getActiveModules() as $moduleClass ) {
+        	$module = new $moduleClass();
             if ( method_exists( $module, 'boot' ) ) {
                 $module->boot();
             }
