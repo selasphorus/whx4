@@ -15,23 +15,23 @@ class PostTypeRegistrar {
     	error_log('slug: '.$slug);
 
     	$labels = $handler->getLabels();
-    	error_log('labels: '.print_r($labels,true));
+    	//error_log('labels: '.print_r($labels,true));
 
     	$supports = $handler->getSupports();
-    	error_log('supports: '.print_r($supports,true));
+    	//error_log('supports: '.print_r($supports,true));
 
     	$taxonomies = $handler->getTaxonomies();
-    	error_log('taxonomies: '.print_r($taxonomies,true));
+    	//error_log('taxonomies: '.print_r($taxonomies,true));
 
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
         if (!$capabilities) {
             $capabilities = $this->generateDefaultCapabilities($handler);
         }
-    	error_log('capabilities: '.print_r($capabilities,true));
+    	//error_log('capabilities: '.print_r($capabilities,true));
 
     	$icon = $handler->getMenuIcon();
-    	error_log('icon: '.$icon);
+    	//error_log('icon: '.$icon);
 
         // Register the post type
         register_post_type($slug, [
