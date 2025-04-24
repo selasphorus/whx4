@@ -206,8 +206,8 @@ final class Plugin
                 /*if ( method_exists( $module, 'setPlugin' ) ) {
                     $module->setPlugin( $this ); // Optional: inject plugin
                 }*/
-
-                $this->activeModules[ $slug ] = $module;
+                //$this->activeModules[ $slug ] = $module;
+                $this->activeModules[ $slug ] = $moduleClass;
             }
         }
 
@@ -253,12 +253,12 @@ final class Plugin
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
 
-		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
+		//error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
-			error_log("moduleSlug: " . print_r($moduleSlug, true));
+			//error_log("moduleSlug: " . print_r($moduleSlug, true));
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
