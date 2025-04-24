@@ -9,11 +9,27 @@ use atc\WHx4\Modules\Supernatural\PostTypes\Spell;
 
 class Module extends BaseModule
 {
+    public function boot(): void
+    {
+    	ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' );
+
+        $this->applyTitleDefaults( 'monster', [
+            'line_breaks'   => true,
+            'show_subtitle' => true,
+            'hlevel_sub'    => 2,
+            'called_by'     => 'supernatural-module',
+        ]);
+
+        $this->applyTitleDefaults( 'spell', [
+            'line_breaks' => false,
+        ]);
+    }
+
     public function getName(): string // was static
     {
         return 'Supernatural';
     }
-	
+
 	public function getPostTypeHandlers(): array
     {
         return [
@@ -22,30 +38,5 @@ class Module extends BaseModule
             //Spell::class,
         ];
     }
-    
-	/*
-	public function getPostTypeHandlers(): array
-    {
-    	$settings = get_option( 'whx4_plugin_settings', [] );
-    	$moduleConfig = $settings['modules']['Supernatural']['enabledPostTypes'] ?? [];
-       	//$config = $settings['postTypeConfigs']['Supernatural']['Monster'] ?? [];
 
-        $handlers = [];
-
-        if ( !isset( $moduleConfig['monster'] ) || $moduleConfig['monster'] !== false ) {
-            $handlers[] = new Monster( $moduleConfig['monster'] ?? [] );
-        }
-
-        if ( !isset( $moduleConfig['enchanter'] ) || $moduleConfig['enchanter'] !== false ) {
-            $handlers[] = new Enchanter( $moduleConfig['enchanter'] ?? [] );
-        }
-
-        if ( !isset( $moduleConfig['spell'] ) || $moduleConfig['spell'] !== false ) {
-            $handlers[] = new Spell( $moduleConfig['spell'] ?? [] );
-        }
-
-        return $handlers;
-        
-    }
-    */
 }

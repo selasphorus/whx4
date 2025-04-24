@@ -1,0 +1,42 @@
+<?php
+
+
+    // PROBLEM! TODO/WIP -- figure out why event listings accessed via pagination links send un-parseable date string to this function. It LOOKS like a string, but commas aren't recognized as commas, &c.
+    // Make sure the date hasn't been returned enclosed in quotation marks
+    // e.g. "Sunday, February 5, 2023"
+    $dateType = gettype($date);
+    $ts_info .= "var the_date is of type: ".$dateType."<br />";
+    //
+    if ( $dateType == "string" ) {
+    	$dateStr = $date;
+        if ( strpos($dateStr, '"') !== false || strpos($dateStr, "'") !== false ) { $ts_info .= "[1] the_date contains quotation marks<br />"; } else { $ts_info .= "[1] the_date contains NO quotation marks<br />"; }
+        $dateStr = preg_replace('/[[:cntrl:]]/', '', $dateStr);
+        //
+        $dateStr = htmlspecialchars_decode($dateStr);
+        $dateStr = html_entity_decode($dateStr);
+        $dateStr = strip_tags($dateStr);
+        $dateStr = stripslashes($dateStr);
+        //    
+        if ( strpos($dateStr, '"') !== false || strpos($dateStr, "'") !== false ) { $ts_info .= "[2] the_date contains quotation marks<br />"; } else { $ts_info .= "[2] the_date contains NO quotation marks<br />"; }
+    
+        // Remove quotation marks
+        $dateStr = str_replace('\"', '', $dateStr);
+        $dateStr = str_replace("\'", '', $dateStr);
+        $dateStr = str_replace('"', '', $dateStr);
+        $dateStr = str_replace("'", "", $dateStr);
+        //
+        $date_bits = explode(", ",$dateStr); // ???
+        $ts_info .= "date_bits: ".print_r($date_bits,true)."<br />";
+        $ts_info .= "the_date: ".$dateStr."<br />";
+        if ( strtotime($dateStr) ) { $ts_info .= "strtotime(the_date): ".strtotime($dateStr)."<br />"; } else { $ts_info .= '<span class="error">strtotime(the_date) FAILED</span><br />'; }
+    
+        $dateStr = date("Y-m-d", strtotime($dateStr));
+    
+    } else {
+        
+        //the_date is NOT a string?!? hm...
+        $dateStr = "";
+    
+    }
+    
+    $ts_info .= "date_str: ".dateStr."<br />";
