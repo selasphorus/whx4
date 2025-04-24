@@ -13,17 +13,11 @@ class Module extends BaseModule
     {
     	$this->registerDefaultViewRoot();
     	//ViewLoader::registerModuleViewRoot( 'people', __DIR__ . '/views' );
-
-        $this->applyTitleDefaults( 'people', [
-            'line_breaks'   => true,
-            'show_subtitle' => true,
-            'hlevel_sub'    => 2,
-            'called_by'     => 'people-module',
-        ]);
-
-        /*$this->applyTitleDefaults( 'spell', [
-            'line_breaks' => false,
-        ]);*/
+    	/*$this->applyTitleArgs( 'people', [
+            'line_breaks'    => true,
+            'show_subtitle'  => true,
+            'hlevel_sub'     => 4,
+        ] );*/
     }
 
     public function getPostTypeHandlers(): array

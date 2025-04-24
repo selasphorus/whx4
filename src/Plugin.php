@@ -242,25 +242,24 @@ final class Plugin
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
      */
-    public function getActivePostTypes(): array
-    {
-        return $this->postTypeRegistrar->getActiveSlugs();
-    }
     /*public function getActivePostTypes(): array
+    {
+        return $this->getSettingsManager()->getEnabledPostTypeSlugs();
+    }*/
+    public function getActivePostTypes(): array
 	{
-    	error_log( '=== START getActivePostTypes() ===' );
+    	//error_log( '=== START getActivePostTypes() ===' );
 
     	$this->loadActiveModules();
-
-		$settings = get_option( 'whx4_plugin_settings', [] );
-		$enabledPostTypesByModule = $settings['enabled_post_types'] ?? [];
+		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
 
 		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleClass ) {
-			try {
+			error_log("moduleClass: " . print_r($moduleClass, true));
+			/*try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
 					continue;
@@ -301,14 +300,14 @@ final class Plugin
 				}
 			} catch( \Throwable $e ) {
 				error_log("Exception in getActivePostTypes for module $moduleClass: " . $e->getMessage());
-			}
+			}*/
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
-		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
-	}*/
+	}
 
 	//getEnabledTaxonomies
 
