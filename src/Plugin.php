@@ -5,9 +5,11 @@
 namespace atc\WHx4;
 
 use atc\WHx4\Core\PostTypeRegistrar;
+//use atc\WHx4\Core\TaxonomyRegistrar;
 use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
-use atc\WHx4\Admin\SettingsManager;
+use atc\WHx4\Core\SettingsManager;
+use atc\WHx4\Core\ViewLoader;
 //
 use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
@@ -16,16 +18,21 @@ use atc\WHx4\ACF\BlockRegistrar;
 final class Plugin
 {
     private static ?self $instance = null;
-    
+
+	// NB: Set the actual modules array via boot (whx4.php) -- this way, Plugin class contains logic only, and other plugins or themes can register additional modules dynamically
+	protected array $availableModules = [];
+    protected array $activeModules = [];
+    protected bool $modulesLoaded = false;
+
     protected PostTypeRegistrar $postTypeRegistrar;
+    //protected TaxonomyRegistrar $taxonomyRegistrar;
     protected FieldGroupLoader $fieldGroupLoader;
     protected SettingsManager $settingsManager;
 
-	// Set modules array via boot
-	// This way, Plugin contains logic only, and other plugins or themes can register additional modules dynamically
-	protected array $availableModules = [];    
-    protected array $activeModules = [];
-    protected bool $modulesLoaded = false;
+    /*
+    public function isPostTypeEnabled( string $slug ): bool
+    public function getModule( string $slug ): ?Module
+    */
 
     //protected function __construct() {}
     /**
@@ -34,8 +41,16 @@ final class Plugin
     private function __construct()
     {
         // Initialize internal state or dependencies
+        $this->settingsManager = new SettingsManager( $this );
     }
-    
+
+    // Convenience accessor. Keeps $settingsManager protected inside the Plugin class
+    // call e.g. from inside module: `if ( $this->plugin->getSettingsManager()->isPostTypeEnabled( 'monster' ) ) {}`
+    public function getSettingsManager(): SettingsManager
+    {
+        return $this->settingsManager;
+    }
+
     /**
      * Prevent cloning of the instance.
      */
@@ -53,35 +68,35 @@ final class Plugin
 
     public static function getInstance(): self
     {
-        if( static::$instance === null ) {
+        if ( static::$instance === null ) {
             static::$instance = new self();
         }
 
         return static::$instance;
     }
-    
+
     public function boot(): void
     {
     	// Step 1 -- on 'plugins_loaded': Load modules, config, and class setup
         $this->loadCore();
         $this->loadAdmin();
-        
+
         // Step 2 -- on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ] );
-        
+
         // Step 3 -- on 'acf/init': Register ACF fields
 		//JsonPaths::register();
 		//RestrictAccess::register(); //RestrictAccess::apply();
 		//BlockRegistrar::register();
         //add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
 		//add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
-		
+
         // Step 4 -- on admin_init
         //add_action( 'admin_init', [ $this, 'loadAdmin' ] ); // nope too late
-        
+
         // Step 4a: Admin scripts/styles
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
-        
+
         // Step 4b: Frontend scripts/styles
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
     }
@@ -92,6 +107,7 @@ final class Plugin
         $modules = apply_filters( 'whx4_register_modules', [] );
         $this->setAvailableModules( $modules );
         $this->loadActiveModules();
+        $this->bootModules();
 
 		// Initialize core components
         $this->defineConstants();
@@ -101,24 +117,18 @@ final class Plugin
 
 	public function loadAdmin(): void
 	{
-		error_log( '=== Plugin->loadAdmin() ===' );
+		//error_log( '=== Plugin->loadAdmin() ===' );
 		if ( is_admin() ) {
 			$this->settingsManager = new SettingsManager( $this );
 		}
 	}
 
-
-    public function registerFieldGroups(): void
-    {
-        $this->fieldGroupLoader->registerAll();
-    }
-    
 	public function enqueueAdminAssets(string $hook): void
 	{
 		if ( $hook !== 'settings_page_whx4-settings' ) {
 			return;
 		}
-	
+
 		wp_enqueue_script(
 			'whx4-settings',
 			WHX4_PLUGIN_DIR . '/assets/js/settings.js',
@@ -126,7 +136,7 @@ final class Plugin
 			'1.0',
 			true
 		);
-	
+
 		/*wp_enqueue_style(
 			'whx4-settings',
 			WHX4_PLUGIN_DIR . '/assets/css/settings.css',
@@ -138,30 +148,27 @@ final class Plugin
     public function enqueuePublicAssets(): void
     {
         $fpath = WHX4_PLUGIN_DIR . '/assets/css/whx4.css';
-    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
+    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }
     	wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
     }
-	
-	
-	
+
 	public function maybeLoadSettingsManager(): void
 	{
 		if ( is_admin() && $this->isSettingsPage() ) {
 			$this->settingsManager = new SettingsManager( $this );
 		}
 	}
-	
+
 	protected function isSettingsPage(): bool
 	{
 		return isset( $_GET['page'] ) && $_GET['page'] === 'whx4_settings';
 	}
 
-	
     private function defineConstants()
     {
     	define( 'WHX4_TEXTDOMAIN', 'whx4' );
         define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
-        //define('WHX4_DIR', plugin_dir_path(__FILE__));  
+        //define('WHX4_DIR', plugin_dir_path(__FILE__));
         define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
         define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
     	define( 'WHX4_VERSION', '2.0.0' );
@@ -171,7 +178,7 @@ final class Plugin
 	public function setAvailableModules( array $modules ): void
 	{
 		foreach( $modules as $slug => $class ) {
-			if( is_subclass_of( $class, ModuleInterface::class ) ) {
+			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
 			}
 		}
@@ -179,26 +186,28 @@ final class Plugin
 
 	public function getAvailableModules(): array
 	{
-		error_log( '=== WHx4 getAvailableModules() ===' );
 		return $this->availableModules;
 	}
 
-	/**
-     * Load active modules from the saved plugin settings.
-     */
     protected function loadActiveModules(): void
     {
-        if( $this->modulesLoaded ) {
+        if ( $this->modulesLoaded ) {
             return;
         }
 
-        $settings = get_option( 'whx4_plugin_settings', [] );
-        // Get array of enabled modules (e.g. ['supernatural', 'people', 'places'])
-        $activeModuleSlugs = $settings['active_modules'] ?? [];
+        $activeSlugs = $this->settingsManager->getActiveModuleSlugs();
 
-        foreach( $activeModuleSlugs as $slug ) {
-            if( isset( $this->availableModules[$slug] ) ) {
-                $this->activeModules[] = $this->availableModules[$slug];
+        foreach ( $activeSlugs as $slug ) {
+            if ( isset( $this->availableModules[ $slug ] ) ) {
+                //$this->activeModules[] = $this->availableModules[ $slug ]; // v1
+                $moduleClass = $this->availableModules[ $slug ];
+                $module = new $moduleClass();
+
+                if ( method_exists( $module, 'setPlugin' ) ) {
+                    $module->setPlugin( $this ); // Optional: inject plugin
+                }
+
+                $this->activeModules[ $slug ] = $module;
             }
         }
 
@@ -211,32 +220,52 @@ final class Plugin
         return $this->activeModules;
     }
 
+    public function bootModules(): void
+    {
+        foreach ( $this->getActiveModules() as $module ) {
+            if ( method_exists( $module, 'boot' ) ) {
+                $module->boot();
+            }
+        }
+    }
+/*
+    protected function bootModules(): void
+    {
+        foreach ( $this->activeModules as $module ) {
+            if ( method_exists( $module, 'boot' ) ) {
+                $module->boot();
+            }
+        }
+    }
+*/
     /**
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
      */
-    
+    public function getActivePostTypes(): array
+    {
+        return $this->postTypeRegistrar->getActiveSlugs();
+    }
     public function getActivePostTypes(): array
 	{
-		
-    	error_log( '=== WHx4 getActivePostTypes() ===' );
-    	
+    	error_log( '=== START getActivePostTypes() ===' );
+
     	$this->loadActiveModules();
-	
+
 		$settings = get_option( 'whx4_plugin_settings', [] );
 		$enabledPostTypesByModule = $settings['enabled_post_types'] ?? [];
-	
+
 		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
-	
+
 		$postTypeClasses = [];
-	
+
 		foreach( $this->activeModules as $moduleClass ) {
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
 					continue;
 				}
-	
+
 				if( !is_subclass_of($moduleClass, \atc\Whx4\Core\Contracts\ModuleInterface::class) ) {
 					error_log("Class $moduleClass is not a ModuleInterface.");
 					continue;
@@ -245,20 +274,20 @@ final class Plugin
 				//$slug = strtolower($moduleClass::getName());
 				$moduleInstance = new $moduleClass();
 				$moduleSlug = strtolower($moduleInstance->getName());
-	
+
 				if( !method_exists($moduleClass, 'getPostTypes') ) {
 					error_log("Module $moduleClass does not implement getPostTypes().");
 					continue;
 				}
-	
+
 				//$definedPostTypes = $moduleClass::getPostTypes();
 				$definedPostTypes = $moduleInstance->getPostTypeHandlers();
 				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
-				
+
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
-	
+
 				error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
-	
+
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
 				foreach ($definedPostTypes as $postTypeHandlerClass) {
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
@@ -274,38 +303,45 @@ final class Plugin
 				error_log("Exception in getActivePostTypes for module $moduleClass: " . $e->getMessage());
 			}
 		}
-	
-		//error_log( '=== WHx4 getActivePostTypes() complete -- about to return ===' );
+
+		//error_log( '=== END getActivePostTypes() ===' );
 		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
-		
+
 		return array_unique($postTypeClasses);
 	}
+
+	//getEnabledTaxonomies
 
     /**
      * Loop through each module and register its post types.
      */
     public function registerPostTypes(): void
 	{
-		error_log( '=== WHx4 registerPostTypes() ===' );
-		
+		error_log( '=== registerPostTypes() ===' );
+
 		$activePostTypes = $this->getActivePostTypes();
 
 		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
-	
+
 		if( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );
 			return;
 		}
-	
+
 		$this->postTypeRegistrar->registerMany( $activePostTypes );
     	//$this->postTypeRegistrar->registerMany( $this->getActivePostTypes() );
 	}
-    
+
+    public function registerFieldGroups(): void
+    {
+        $this->fieldGroupLoader->registerAll();
+    }
+
     protected function registerTaxonomies(): void
     {
-		// Register Custom Taxonomies for active modules		
-    }    
- 
+		// Register Custom Taxonomies for active modules
+    }
+
 
 	/// WIP
 
@@ -316,7 +352,7 @@ final class Plugin
 	public function removePostTypeCapabilities(): void {
 		$this->postTypeRegistrar->removePostTypeCapabilities();
 	}
-	
+
 	//
     protected function use_custom_caps() {
 		$use_custom_caps = false;
@@ -325,7 +361,7 @@ final class Plugin
 		}
 		return $use_custom_caps;
 	}
-    
+
     /*
     protected static ?self $instance = null;
 
@@ -358,6 +394,23 @@ final class Plugin
     }
     */
 
+	public function renderView( string $view, array $vars = [] ): void
+	{
+		ViewLoader::render( $view, $vars );
+	}
+
+	public function renderViewToString( string $view, array $vars = [] ): string
+	{
+		return ViewLoader::renderToString( $view, $vars );
+	}
+	/*
+	Usage in a shortcode or module method:
+	//
+	$html = $this->plugin->renderViewToString( 'partials/monster-list', [
+		'monsters' => $this->getMonsterPosts(),
+	]);
+	*/
+
     protected static function activate(): void { //public static function activate() {
        flush_rewrite_rules();
     }
@@ -365,7 +418,7 @@ final class Plugin
     protected static function deactivate(): void { //public static function deactivate() {
        flush_rewrite_rules();
     }
-    
+
     /*
 	register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 	register_activation_hook( __FILE__, 'whx4_flush_rewrites' );
@@ -375,6 +428,6 @@ final class Plugin
 		flush_rewrite_rules();
 	}
 	*/
-    
+
 }
 
