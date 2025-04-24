@@ -63,7 +63,7 @@ class ViewLoader
     }
     /* Usage examples:
     From a module:
-    $this->plugin->renderView( 'modules/supernatural/monster-list', [
+    $this->renderView( 'monster-list', [
         'monsters' => $this->getMonsterPosts(),
     ]);
 

@@ -10,8 +10,60 @@ abstract class Module implements ModuleInterface
 {
     use AppliesTitleArgs;
 
+    protected ?string $moduleSlug = null;
     abstract public function getName(): string;
     abstract public function getPostTypeHandlers(): array;
+
+    public function boot(): void
+    {
+        $this->registerDefaultViewRoot();
+    }
+
+	public function getSlug(): string
+	{
+		return $this->detectModuleSlugFromNamespace();
+	}
+
+	// Human-readable label version of Module name
+	public function getName(): string
+	{
+		$parts = explode( '\\', static::class );
+		$name  = end( $parts ) === 'Module' && isset( $parts[ count( $parts ) - 2 ] )
+			? $parts[ count( $parts ) - 2 ]
+			: ( new \ReflectionClass( $this ) )->getShortName();
+
+		return ucwords( str_replace( '_', ' ', $name ) );
+	}
+
+
+	protected function registerDefaultViewRoot(): void
+	{
+		$slug = $this->detectModuleSlugFromNamespace();
+
+		if ( ! ViewLoader::hasViewRoot( $slug ) ) {
+			ViewLoader::registerModuleViewRoot( $slug, __DIR__ . '/views' );
+		}
+	}
+
+	protected function detectModuleSlugFromNamespace(): string
+	{
+		if ( isset( $this->moduleSlug ) ) {
+			return $this->moduleSlug;
+		}
+
+		$parts = explode( '\\', static::class ); // Example: smith\Rex\Modules\Supernatural\Module → supernatural
+
+		$key = array_search( 'Modules', $parts, true );
+		if ( $key !== false && isset( $parts[ $key + 1 ] ) ) {
+			$this->moduleSlug = strtolower( $parts[ $key + 1 ] );
+		} else {
+			// Fallback
+			// ->getShortName() returns just the class name without the namespace
+			$this->moduleSlug = strtolower( ( new \ReflectionClass( $this ) )->getShortName() );
+		}
+
+		return $this->moduleSlug;
+	}
 
 	public function getPostTypes(): array
 	{
@@ -34,9 +86,18 @@ abstract class Module implements ModuleInterface
 		return $postTypes;
 	}
 
+	public function renderView( string $view, array $vars = [] ): void
+	{
+		$this->plugin->renderView( $view, $vars, $this->getSlug() );
+	}
 
-    public function boot(): void
-    {
-        // Optional: hookable logic
-    }
+    public function getViewPath( string $view ): ?string
+	{
+		return $this->plugin->getViewPath( $view, $this->getSlug() );
+	}
+
+	public function renderViewToString( string $view, array $vars = [] ): string
+	{
+		return $this->plugin->renderViewToString( $view, $vars, $this->getSlug() );
+	}
 }

@@ -246,7 +246,7 @@ final class Plugin
     {
         return $this->postTypeRegistrar->getActiveSlugs();
     }
-    public function getActivePostTypes(): array
+    /*public function getActivePostTypes(): array
 	{
     	error_log( '=== START getActivePostTypes() ===' );
 
@@ -308,7 +308,7 @@ final class Plugin
 		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
-	}
+	}*/
 
 	//getEnabledTaxonomies
 
@@ -394,12 +394,23 @@ final class Plugin
     }
     */
 
-	public function renderView( string $view, array $vars = [] ): void
+    public function getViewPath( string $view, string $module = '' ): ?string
+	{
+		return ViewLoader::getViewPath( $view, $module );
+	}
+	/* Inside, e.g. Supernatural\Module:
+	$path = $this->getViewPath( 'monster-list' );
+	if ( $path ) {
+		include $path;
+	}
+	*/
+
+	public function renderView( string $view, array $vars = [], string $module = '' ): void
 	{
 		ViewLoader::render( $view, $vars );
 	}
 
-	public function renderViewToString( string $view, array $vars = [] ): string
+	public function renderViewToString( string $view, array $vars = [], string $module = '' ): string
 	{
 		return ViewLoader::renderToString( $view, $vars );
 	}

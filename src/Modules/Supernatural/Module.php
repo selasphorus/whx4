@@ -11,7 +11,13 @@ class Module extends BaseModule
 {
     public function boot(): void
     {
-    	ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' );
+    	$this->registerDefaultViewRoot();
+
+    	//parent::boot(); // Register default view root first
+
+    	//ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' ); // default
+    	// Override with custom path
+    	//ViewLoader::registerModuleViewRoot( 'supernatural', WP_CONTENT_DIR . '/shared-supernatural-views' );
 
         $this->applyTitleDefaults( 'monster', [
             'line_breaks'   => true,
@@ -25,10 +31,17 @@ class Module extends BaseModule
         ]);
     }
 
-    public function getName(): string // was static
+    /*
+    // Optional: override defaults that match to namespace
+    public function getSlug(): string
     {
-        return 'Supernatural';
+        return 'spooky';
     }
+    public function getName(): string
+	{
+		return 'Spooky Things';
+	}
+    */
 
 	public function getPostTypeHandlers(): array
     {
