@@ -3,11 +3,9 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-//use atc\WHx4\Core\Traits\HasTypeProperties;
 
-class Event extends PostTypeHandler 
+class Event extends PostTypeHandler
 {
-	//use HasTypeProperties;
 
     public function __construct(WP_Post|null $post = null) {
 		$config = [
@@ -19,10 +17,10 @@ class Event extends PostTypeHandler
 			],*/
 			//'menu_icon'   => 'dashicons-palmtree',
 		];
-	
+
 		parent::__construct($config, 'post_type', $post);
 	}
-	
+
 	/*
 	//public $event_id;
 	public $post_id;
@@ -31,10 +29,10 @@ class Event extends PostTypeHandler
 	public $event_owner;
 	public $event_name;
 	*/
-	
+
 	public function getCPTContent() {
-		
+
 		$post_id = $this->get_post_id();
-		
+
 	}
 }

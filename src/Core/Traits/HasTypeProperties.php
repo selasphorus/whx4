@@ -20,14 +20,16 @@ trait HasTypeProperties
 
     public function getLabels(): array
 	{
+		error_log('=== getLabels() ===');
 		$slug = $this->getSlug();
 		$defaults = $this->getDefaultLabels();
 		$overrides = $this->config['labels'] ?? [];
-
+		// Merge defaults with overrides
 		$labels = array_merge($defaults, $overrides);
-		$filtered = apply_filters("whx4_labels_{$slug}", $merged, $slug, $this);
+    	error_log( 'labels (merged): ' . print_r( $labels, true ) );
+    	//
+		$filtered = apply_filters("whx4_labels_{$slug}", $labels, $slug, $this);
 		return apply_filters("whx4_labels", $filtered, $slug, $this);
-
 	}
 
 	public function getDefaultLabels(): array

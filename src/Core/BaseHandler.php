@@ -21,7 +21,8 @@ abstract class BaseHandler
     }*/
     public function __construct(WP_Post|WP_Term|null $object = null)
     {
-        $this->config = $this->defineConfig();
+        $this->config = $this->getConfig();
+        //$this->config = $this->defineConfig();
         //$this->type   = $this->defineType();
         $this->object = $object;
     }

@@ -43,7 +43,7 @@ class PostTypeRegistrar {
             'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
             'labels'       => $labels,
             'capability_type' => $slug,
-            'capabilities' => $capabilities, // $handler->getLabels(),
+            'capabilities' => $capabilities,
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,
 
