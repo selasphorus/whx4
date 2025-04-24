@@ -6,6 +6,11 @@ class ViewLoader
 {
     protected static array $moduleViewRoots = [];
 
+    public static function hasViewRoot( string $slug ): bool
+    {
+        return isset( self::$moduleViewRoots[ $slug ] );
+    }
+
     /**
      * Register a module-specific view directory (e.g., src/Modules/Supernatural/views)
      */

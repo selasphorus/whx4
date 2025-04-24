@@ -7,7 +7,7 @@ trait HasTypeProperties
 {
 	abstract public function getConfig(): array;
     abstract public function getType(): string; // 'post_type' or 'taxonomy'
-    
+
     public function getSlug(): string
     {
         return $this->getConfig()['slug'] ?? strtolower( basename( str_replace( '\\', '/', static::class ) ) );
@@ -17,24 +17,24 @@ trait HasTypeProperties
     {
         return $this->getConfig()['plural_slug'] ?? $this->getSlug() . 's';
     }
-    
+
     public function getLabels(): array
 	{
-		$slug = $this->getSlug();	
+		$slug = $this->getSlug();
 		$defaults = $this->getDefaultLabels();
 		$overrides = $this->config['labels'] ?? [];
-	
+
 		$labels = array_merge($defaults, $overrides);
 		$filtered = apply_filters("whx4_labels_{$slug}", $merged, $slug, $this);
 		return apply_filters("whx4_labels", $filtered, $slug, $this);
 
 	}
-	
+
 	public function getDefaultLabels(): array
 	{
 		$singular = ucfirst( $this->getSlug() );
         $plural   = ucfirst( $this->getPluralSlug() );
-	
+
 		return [
 			'name'               => $plural,
 			'singular_name'      => $singular,
@@ -88,8 +88,9 @@ trait HasTypeProperties
             'read_private_posts' => "read_private_{$plural}",
         ];
     }
-    
-	public function isHierarchical(): bool {
+
+	public function isHierarchical(): bool
+	{
 		$default = $this->getType() === 'taxonomy';
 		return $this->getConfig()['hierarchical'] ?? $default;
 	}
