@@ -19,7 +19,12 @@ class Module extends BaseModule
     	// Override with custom path
     	//ViewLoader::registerModuleViewRoot( 'supernatural', WP_CONTENT_DIR . '/shared-supernatural-views' );
 
-        $this->applyTitleDefaults( 'monster', [
+    	$this->applyTitleArgs( 'monster', [
+            'line_breaks'    => true,
+            'show_subtitle'  => true,
+            'hlevel_sub'     => 4,
+        ] );
+        /*$this->applyTitleDefaults( 'monster', [
             'line_breaks'   => true,
             'show_subtitle' => true,
             'hlevel_sub'    => 2,
@@ -28,7 +33,7 @@ class Module extends BaseModule
 
         $this->applyTitleDefaults( 'spell', [
             'line_breaks' => false,
-        ]);
+        ]);*/
     }
 
     /*
