@@ -203,9 +203,9 @@ final class Plugin
                 $moduleClass = $this->availableModules[ $slug ];
                 $module = new $moduleClass();
 
-                if ( method_exists( $module, 'setPlugin' ) ) {
+                /*if ( method_exists( $module, 'setPlugin' ) ) {
                     $module->setPlugin( $this ); // Optional: inject plugin
-                }
+                }*/
 
                 $this->activeModules[ $slug ] = $module;
             }
@@ -257,9 +257,9 @@ final class Plugin
 
 		$postTypeClasses = [];
 
-		foreach( $this->activeModules as $moduleClass ) {
-			error_log("moduleClass: " . print_r($moduleClass, true));
-			/*try {
+		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
+			error_log("moduleSlug: " . print_r($moduleSlug, true));
+			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
 					continue;
@@ -300,7 +300,7 @@ final class Plugin
 				}
 			} catch( \Throwable $e ) {
 				error_log("Exception in getActivePostTypes for module $moduleClass: " . $e->getMessage());
-			}*/
+			}
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
