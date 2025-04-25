@@ -1,6 +1,6 @@
 <?php
 
-namespace smith\Rex\Utils;
+namespace atc\Whx4\Utils;
 
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -29,7 +29,7 @@ class DateHelper {
      * @param bool                         $asDateObjects If true, returns DateTimeImmutable objects
      * @return array|DateTimeImmutable|string
      */
-    public static function normalizeDateInput( array $args = [] ): array|DateTimeImmutable|string 
+    public static function normalizeDateInput( array $args = [] ): array|DateTimeImmutable|string
     {
         $args = wp_parse_args( $args, [
             'scope'         => null,
@@ -148,7 +148,7 @@ class DateHelper {
     public static function normalizeMonthToInt( string $month ): ?int
     {
         $month = strtolower( trim( $month ) );
-        
+
         $map = [
             'jan' => 1, 'january'   => 1,
             'feb' => 2, 'february'  => 2,
@@ -163,7 +163,7 @@ class DateHelper {
             'nov' => 11, 'november' => 11,
             'dec' => 12, 'december' => 12,
         ];
-        
+
         return $map[ $month ] ?? null;
     }
 

@@ -2,12 +2,19 @@
 
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Plugin;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
 
 abstract class Module implements ModuleInterface
 {
+    protected Plugin $plugin;
     protected ?string $moduleSlug = null;
+
+    public function setPlugin( Plugin $plugin ): void
+	{
+		$this->plugin = $plugin;
+	}
 
     /**
 	 * @return array<class-string>

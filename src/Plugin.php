@@ -232,6 +232,9 @@ final class Plugin
     {
         foreach ( $this->getActiveModules() as $moduleClass ) {
         	$module = new $moduleClass();
+        	if ( $module instanceof ModuleInterface ) {
+				$module->setPlugin( $this );
+			}
             if ( method_exists( $module, 'boot' ) ) {
                 $module->boot();
             }
