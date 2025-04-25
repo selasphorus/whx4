@@ -14,6 +14,7 @@ class TitleFilter
 
     public static function setGlobalArgsForPostType( string $post_type, array $args ): void
     {
+        error_log("=== TitleFilter: setGlobalArgsForPostType ===");
         self::$globalArgsByPostType[ $post_type ] = $args;
     }
 
