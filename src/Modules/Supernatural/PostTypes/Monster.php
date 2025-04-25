@@ -30,7 +30,7 @@ class Monster extends PostTypeHandler
 			'show_subtitle'  => true,
 			'hlevel_sub'     => 4,
 			'called_by'      => 'Monster::boot',
-			'append'         => 'TESTTF',
+			'append'         => ' {Rowarrr!}',
 		]);
 	}
 
