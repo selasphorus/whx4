@@ -9,10 +9,10 @@ class PostTypeRegistrar {
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void {
 
-    	error_log( '=== PostTypeRegistrar->registerCPT() ===' );
+    	//error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
     	$slug = $handler->getSlug();
-    	error_log('slug: '.$slug);
+    	//error_log('slug: '.$slug);
 
     	$labels = $handler->getLabels();
     	//error_log('labels: '.print_r($labels,true));
@@ -63,10 +63,10 @@ class PostTypeRegistrar {
     //
     public function registerMany( array $postTypeClasses ): void
     {
-    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
-    	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
+    	//error_log( '=== PostTypeRegistrar->registerMany() ===' );
+    	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $handlerClass ) {
-        	error_log( 'attempting to register handlerClass: '.$handlerClass );
+        	//error_log( 'attempting to register handlerClass: '.$handlerClass );
         	$handler = new $handlerClass();
             $this->registerCPT( $handler );
         }
