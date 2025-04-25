@@ -6,7 +6,8 @@ interface ModuleInterface
 {
     public function getName(): string;
 
-    public function getPostTypeHandlers(): array;
+    public function getPostTypeHandlerClasses(): array;
+    //public function getPostTypeHandlers(): array;
 
     //public function boot(): void;
 }

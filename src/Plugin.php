@@ -289,7 +289,7 @@ final class Plugin
 				}
 
 				//$definedPostTypes = $moduleClass::getPostTypes();
-				$definedPostTypes = $moduleInstance->getPostTypeHandlers();
+				$definedPostTypes = $moduleInstance->getPostTypeHandlerClasses();
 				//error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
@@ -297,7 +297,7 @@ final class Plugin
 				//error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
-				foreach ($definedPostTypes as $postTypeHandlerClass) {
+				foreach ( $definedPostTypes as $postTypeHandlerClass ) {
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
 					//$className = $handler->getLabels()['singular_name'];

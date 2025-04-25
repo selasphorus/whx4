@@ -34,7 +34,7 @@ abstract class Module implements ModuleInterface
 			->getSettingsManager()
 			->getEnabledPostTypeSlugsByModule()[ $this->getSlug() ] ?? [];
 
-		foreach ( $this->getPostTypeHandlers() as $handlerClass ) {
+		foreach ( $this->getPostTypeHandlerClasses() as $handlerClass ) {
 			if ( ! class_exists( $handlerClass ) ) {
 				error_log( "Missing post type handler: $handlerClass" );
 				continue;
@@ -119,7 +119,7 @@ abstract class Module implements ModuleInterface
 		error_log( '=== \Core\Module -- getPostTypes() ===' );
 		$postTypes = [];
 
-		foreach( $this->getPostTypeHandlers() as $class ) {
+		foreach( $this->getPostTypeHandlerClasses() as $class ) {
 			try {
 				$handler = new $class();
 				$slug = $handler->getSlug();
