@@ -9,12 +9,13 @@ class TitleFilter
 
     public static function boot(): void
     {
+        error_log("=== TitleFilter: boot() ===");
         add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
     }
 
     public static function setGlobalArgsForPostType( string $post_type, array $args ): void
     {
-        error_log("=== TitleFilter: setGlobalArgsForPostType ===");
+        //error_log("=== TitleFilter: setGlobalArgsForPostType ===");
         self::$globalArgsByPostType[ $post_type ] = $args;
     }
 
