@@ -4,15 +4,15 @@
 
 namespace atc\WHx4;
 
+use atc\WHx4\Core\CoreServices;
 use atc\WHx4\Core\PostTypeRegistrar;
 //use atc\WHx4\Core\TaxonomyRegistrar;
 use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
-use atc\WHx4\Core\ViewLoader;
-use atc\WHx4\Utils\TitleFilter;
-//
 use atc\WHx4\Admin\SettingsPageController;
+///use atc\WHx4\Core\ViewLoader;
+///use atc\WHx4\Utils\TitleFilter;
 //
 use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
@@ -32,12 +32,6 @@ final class Plugin
     protected FieldGroupLoader $fieldGroupLoader;
     protected SettingsManager $settingsManager;
 
-    /*
-    public function isPostTypeEnabled( string $slug ): bool
-    public function getModule( string $slug ): ?Module
-    */
-
-    //protected function __construct() {}
     /**
      * Private constructor to prevent direct instantiation.
      */
@@ -57,16 +51,14 @@ final class Plugin
     /**
      * Prevent cloning of the instance.
      */
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     /**
      * Prevent unserializing of the instance.
      */
     public function __wakeup()
     {
-        throw new \RuntimeException('Cannot unserialize a singleton.');
+        throw new \RuntimeException( 'Cannot unserialize a singleton.' );
     }
 
     public static function getInstance(): self
@@ -74,64 +66,46 @@ final class Plugin
         if ( static::$instance === null ) {
             static::$instance = new self();
         }
-
         return static::$instance;
     }
 
     public function boot(): void
     {
-    	// Step 1 -- on 'plugins_loaded': Load modules, config, and class setup
-        $this->loadCore();
-        $this->loadAdmin();
+        $this->defineConstants();
+        $this->registerAdminHooks();
+        $this->registerPublicHooks();
+        $this->initializeCore();
+    }
 
-        // Step 2 -- on 'init': Register post types, taxonomies, shortcodes
+    protected function registerAdminHooks(): void
+    {
+        if ( is_admin() ) {
+            ( new SettingsPageController( $this ) )->addHooks();
+            add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
+        }
+    }
+
+    protected function registerPublicHooks(): void
+    {
+        // on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ] );
-        TitleFilter::boot();
-
-        // Step 3 -- on 'acf/init': Register ACF fields
-		//JsonPaths::register();
-		//RestrictAccess::register(); //RestrictAccess::apply();
-		//BlockRegistrar::register();
-        //add_action( 'acf/init', [ $this, 'registerFieldGroups' ] );
-		//add_action( 'acf/init', [ $this->fieldGroupLoader, 'registerAll' ] );
-
-        // Step 4 -- on admin_init
-        //add_action( 'admin_init', [ $this, 'loadAdmin' ] ); // nope too late
-
-        // Step 4a: Admin scripts/styles
-        add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
-
-        // Step 4b: Frontend scripts/styles
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
     }
 
-    public function loadCore(): void
+    protected function initializeCore(): void
     {
-    	// Load modules and config
+        CoreServices::boot();
+
+        // Load modules and config
         $modules = apply_filters( 'whx4_register_modules', [] );
         $this->setAvailableModules( $modules );
-        //
-        if ( is_admin() ) {
-			( new SettingsPageController( $this ) )->addHooks();
-		}
 
-		//
         $this->loadActiveModules();
         $this->bootModules();
 
-		// Initialize core components
-        $this->defineConstants();
-        $this->postTypeRegistrar = new PostTypeRegistrar( $this );
-        $this->fieldGroupLoader = new FieldGroupLoader( $this );
+        $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
+        $this->fieldGroupLoader   = new FieldGroupLoader( $this );
     }
-
-	public function loadAdmin(): void
-	{
-		//error_log( '=== Plugin->loadAdmin() ===' );
-		if ( is_admin() ) {
-			$this->settingsManager = new SettingsManager( $this );
-		}
-	}
 
 	public function enqueueAdminAssets(string $hook): void
 	{
@@ -174,7 +148,7 @@ final class Plugin
 		return isset( $_GET['page'] ) && $_GET['page'] === 'whx4_settings';
 	}
 
-    private function defineConstants()
+    protected function defineConstants(): void //private function defineConstants()
     {
     	define( 'WHX4_TEXTDOMAIN', 'whx4' );
         define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
