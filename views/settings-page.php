@@ -11,6 +11,11 @@
         <?php settings_fields( 'whx4_plugin_settings_group' ); ?>
         <?php do_settings_sections( 'whx4_plugin_settings' ); ?>
 
+        <h3>Troubleshooting...</h3>
+        <?php echo "availableModules: <pre>" . print_r($availableModules, true) . "</pre>"; ?>
+        <?php echo "activeModules: <pre>" . print_r($activeModules, true) . "</pre>"; ?>
+        <?php echo "enabledPostTypes: <pre>" . print_r($enabledPostTypes, true) . "</pre>"; ?>
+
         <table class="form-table" id="whx4-settings-table">
             <tbody>
                 <?php foreach ( $availableModules as $key => $moduleClass ) :
