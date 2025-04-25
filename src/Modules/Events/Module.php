@@ -9,12 +9,12 @@ use atc\WHx4\Modules\Events\PostTypes\Event;
 
 class Module extends BaseModule
 {
-    public function getName(): string
+    public function boot(): void
     {
-        return 'Events';
+        $this->registerDefaultViewRoot();
     }
 
-    public function getPostTypeHandlers(): array
+    public function getPostTypeHandlerClasses(): array
     {
         return [
             Event::class,

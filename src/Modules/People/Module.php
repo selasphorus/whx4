@@ -20,7 +20,7 @@ class Module extends BaseModule
         ] );*/
     }
 
-    public function getPostTypeHandlers(): array
+    public function getPostTypeHandlerClasses(): array
     {
         return [
             Person::class,

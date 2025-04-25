@@ -9,12 +9,12 @@ use atc\WHx4\Modules\Places\PostTypes\Venue;
 
 class Module extends BaseModule
 {
-    public function getName(): string
+    public function boot(): void
     {
-        return 'Places';
+        $this->registerDefaultViewRoot();
     }
 
-    public function getPostTypeHandlers(): array
+    public function getPostTypeHandlerClasses(): array
     {
         return [
             Venue::class,
