@@ -230,11 +230,14 @@ final class Plugin
 
     public function bootModules(): void
     {
+        error_log( '=== Plugin: bootModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
+            error_log( 'About to attempt instantiation for moduleClass: ' . $moduleClass );
         	$module = new $moduleClass();
         	if ( $module instanceof ModuleInterface ) {
 				$module->setPlugin( $this );
 			}
+			error_log( 'About to attempt module boot()' );
             if ( method_exists( $module, 'boot' ) ) {
                 $module->boot();
             }
