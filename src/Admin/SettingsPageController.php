@@ -11,6 +11,7 @@ class SettingsPageController
     public function __construct( Plugin $plugin )
     {
         $this->plugin = $plugin;
+        $this->addHooks();
 
         //add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         //add_action( 'admin_init', [ $this, 'registerSettings' ] );
