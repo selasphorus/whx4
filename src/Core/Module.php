@@ -68,18 +68,6 @@ abstract class Module implements ModuleInterface
 			}
 			$handler->boot();
 		}
-
-		/*foreach ( $this->getPostTypeHandlers() as $handlerClass ) {
-			//error_log( 'About to attempt boot for handlerClass: ' . print_r($handlerClass,true) );
-			if ( class_exists( $handlerClass ) ) {
-				$handler = new $handlerClass();
-				if ( method_exists( $handler, 'boot' ) ) {
-					$handler->boot();
-				}
-			} else {
-				error_log( "PostTypeHandler class not found: $handlerClass" );
-			}
-		}*/
     }
 
 	public function getSlug(): string
