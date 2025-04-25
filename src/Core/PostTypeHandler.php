@@ -3,9 +3,12 @@
 namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\BaseHandler;
+use atc\WHx4\Core\Traits\AppliesTitleArgs;
 
 abstract class PostTypeHandler extends BaseHandler
 {
+	use AppliesTitleArgs;
+
 	// Property to store the post object
     protected $post; // better private?
 
@@ -15,7 +18,7 @@ abstract class PostTypeHandler extends BaseHandler
         // Store the post object in a class property
         $this->post = $post;
     }
-    
+
     public function getSupports(): array {
         return $this->getConfig()['supports'] ?? [ 'title', 'editor' ];
     }
@@ -27,39 +30,39 @@ abstract class PostTypeHandler extends BaseHandler
     public function getMenuIcon(): ?string {
         return $this->getConfig()['menu_icon'] ?? null;
     }
-    
+
     ////
-    
+
     // Method to get the post ID
     public function getPostID()
     {
         return $this->post->ID;
     }
-    
+
     // Method to get the post title
     public function get_post_title()
     {
         return get_the_title($this->getPostID());
     }
-	
+
 	public function getCustomContent()
 	{
 		$post_id = $this->getPostID();
-		
+
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
-		
+
 		// Init
 		$info = "";
 		$ts_info = "";
-		
+
 		$ts_info .= "post_id: ".$post_id."<br />";
-		
+
 		if ( $post_id === null ) { return false; }
-		
+
 		$info .= $ts_info;
-		
+
 		return $info;
-		
+
 	}
 
 }

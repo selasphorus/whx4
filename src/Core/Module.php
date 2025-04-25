@@ -4,11 +4,11 @@ namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
-use atc\WHx4\Core\Traits\AppliesTitleArgs;
+//use atc\WHx4\Core\Traits\AppliesTitleArgs; // do this via posttypehandler instead
 
 abstract class Module implements ModuleInterface
 {
-    use AppliesTitleArgs;
+    //use AppliesTitleArgs;
 
     protected ?string $moduleSlug = null;
     abstract public function getPostTypeHandlers(): array;

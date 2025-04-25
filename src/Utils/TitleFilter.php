@@ -41,9 +41,19 @@ class TitleFilter
             $args
         );
 
+        // Prepend designated content, if any
+        if ( $args['prepend'] ) {
+            $title = $args['prepend'] . $title;
+        }
+
         // Apply line breaks for certain call contexts
         if ( $args['line_breaks'] ) {
             $title = str_replace( ': ', ":<br>", $title );
+        }
+
+        // Append designated content, if any -- move this after subtitle, maybe?
+        if ( $args['append'] ) {
+            $title .= $args['append'];
         }
 
         // Append subtitle if enabled and supported
@@ -70,11 +80,25 @@ class TitleFilter
         $defaults = [
             'line_breaks'    => false,
             'show_subtitle'  => false,
-            'hlevel_sub'     => 3,
+            'hlevel'         => 1,
+            'hlevel_sub'     => 2,
+            'hclass'         => 'entry-title',
+            'hclass_sub'     => 'subtitle',
             'called_by'      => 'default',
+            'link'           => false,
             'echo'           => false,
+            'prepend'        => '', // aka/previously 'before'
+            'append'         => '', // aka/previously 'after'
         ];
-
+        /*
+        $defaults = array(
+		'the_title'		=> null, // optional override to set title via fcn arg, not via post
+		'post'			=> null,
+		'show_person_title' => false, // WIP
+		'show_series_title' => false,
+		'do_ts'			=> devmode_active( array("sdg", "titles") ),
+	);
+	*/
         // TODO: move this to appropriate spot in Supernatural module and so on
         if ( $postType === 'monster' ) {
             $defaults['show_subtitle'] = true;

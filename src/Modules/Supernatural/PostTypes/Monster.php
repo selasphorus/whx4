@@ -18,6 +18,14 @@ class Monster extends PostTypeHandler
 		];
 
 		parent::__construct($config, 'post_type', $post);
+
+		$this->applyTitleArgs( $this->getSlug(), [
+            'line_breaks'    => true,
+            'show_subtitle'  => true,
+            'hlevel_sub'     => 4,
+            'called_by'      => 'Monster::boot',
+            'append'         => 'TESTTF',
+        ]);
 	}
 
     /*
