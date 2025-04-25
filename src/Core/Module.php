@@ -7,17 +7,55 @@ use atc\WHx4\Core\ViewLoader;
 
 abstract class Module implements ModuleInterface
 {
-
     protected ?string $moduleSlug = null;
-    abstract public function getPostTypeHandlers(): array;
+
+    /**
+	 * @return array<class-string>
+	 */
+	abstract public function getPostTypeHandlerClasses(): array;
+	/**
+	 * @return array<class-string>
+	 */
+    //abstract public function getPostTypeHandlers(): array;
+    public function getPostTypeHandlers(): array
+	{
+		return array_map(
+			fn( $class ) => new $class(),
+			$this->getPostTypeHandlerClasses()
+		);
+	}
 
     public function boot(): void
     {
-		error_log( '=== Module class boot() ===' );
+		//error_log( '=== Module class boot() ===' );
         $this->registerDefaultViewRoot();
 
+        $enabledSlugs = $this->plugin
+			->getSettingsManager()
+			->getEnabledPostTypeSlugsByModule()[ $this->getSlug() ] ?? [];
+
 		foreach ( $this->getPostTypeHandlers() as $handlerClass ) {
-			error_log( 'About to attempt boot for handlerClass: ' . print_r($handlerClass,true) );
+			if ( ! class_exists( $handlerClass ) ) {
+				error_log( "Missing post type handler: $handlerClass" );
+				continue;
+			}
+
+			$handler = new $handlerClass();
+
+			if ( ! method_exists( $handler, 'getSlug' ) ) {
+				error_log( "Handler class $handlerClass missing getSlug()" );
+				continue;
+			}
+
+			if ( ! in_array( $handler->getSlug(), $enabledSlugs, true ) ) {
+				continue; // Skip if not enabled for this module
+			}
+
+			$handler->boot();
+		}
+
+		/*foreach ( $this->getPostTypeHandlers() as $handlerClass ) {
+			//error_log( 'About to attempt boot for handlerClass: ' . print_r($handlerClass,true) );
 			if ( class_exists( $handlerClass ) ) {
 				$handler = new $handlerClass();
 				if ( method_exists( $handler, 'boot' ) ) {
@@ -26,7 +64,7 @@ abstract class Module implements ModuleInterface
 			} else {
 				error_log( "PostTypeHandler class not found: $handlerClass" );
 			}
-		}
+		}*/
     }
 
 	public function getSlug(): string
@@ -75,6 +113,7 @@ abstract class Module implements ModuleInterface
 		return $this->moduleSlug;
 	}
 
+	// ?? obsolete/redundant
 	public function getPostTypes(): array
 	{
 		error_log( '=== \Core\Module -- getPostTypes() ===' );
