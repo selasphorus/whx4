@@ -206,7 +206,7 @@ final class Plugin
 
     public function bootModules(): void
     {
-        error_log( '=== Plugin: bootModules() ===' );
+        //error_log( '=== Plugin: bootModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
             //error_log( 'About to attempt instantiation for moduleClass: ' . $moduleClass );
         	$module = new $moduleClass();
