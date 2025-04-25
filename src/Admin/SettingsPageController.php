@@ -10,7 +10,7 @@ class SettingsPageController
 
     public function __construct( Plugin $plugin )
     {
-        error_log( '=== SettingsPageController __construct() ===' );
+        //error_log( '=== SettingsPageController __construct() ===' );
         $this->plugin = $plugin;
 
         //add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
@@ -19,14 +19,14 @@ class SettingsPageController
 
     public function addHooks(): void
     {
-        error_log( '=== addHooks() ===' );
+        //error_log( '=== addHooks() ===' );
         add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         add_action( 'admin_init', [ $this, 'registerSettings' ] );
     }
 
     public function addSettingsPage(): void
     {
-        error_log( '=== SettingsManager->addSettingsPage() ===' );
+        //error_log( '=== SettingsManager->addSettingsPage() ===' );
         add_options_page(
             'WHx4 v2 Plugin Settings', // page_title
             'WHx4 v2 Settings', // menu_title
