@@ -10,6 +10,7 @@ class SettingsPageController
 
     public function __construct( Plugin $plugin )
     {
+        error_log( '=== SettingsPageController __construct() ===' );
         $this->plugin = $plugin;
         $this->addHooks();
 
@@ -19,6 +20,7 @@ class SettingsPageController
 
     public function addHooks(): void
     {
+        error_log( '=== addHooks() ===' );
         add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         add_action( 'admin_init', [ $this, 'registerSettings' ] );
     }
