@@ -41,7 +41,7 @@ abstract class Module implements ModuleInterface
 			->getSettingsManager()
 			->getEnabledPostTypeSlugsByModule()[ $this->getSlug() ] ?? [];
 
-		error_log( 'enabledSlugs: ' . print_r($enabledSlugs,true) );
+		//error_log( 'enabledSlugs: ' . print_r($enabledSlugs,true) );
 
 		foreach ( $this->getPostTypeHandlerClasses() as $handlerClass ) {
 			if ( ! class_exists( $handlerClass ) ) {
@@ -57,6 +57,7 @@ abstract class Module implements ModuleInterface
 			}
 
 			if ( ! in_array( $handler->getSlug(), $enabledSlugs, true ) ) {
+				error_log( 'slug: ' . $handler->getSlug() . 'is not in the enabledSlugs array: ' . print_r($enabledSlugs,true) );
 				continue; // Skip if not enabled for this module
 			}
 
