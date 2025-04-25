@@ -57,11 +57,15 @@ abstract class Module implements ModuleInterface
 			}
 
 			if ( ! in_array( $handler->getSlug(), $enabledSlugs, true ) ) {
-				error_log( 'slug: ' . $handler->getSlug() . 'is not in the enabledSlugs array: ' . print_r($enabledSlugs,true) );
+				//error_log( 'slug: ' . $handler->getSlug() . ' is not in the enabledSlugs array: ' . print_r($enabledSlugs,true) );
 				continue; // Skip if not enabled for this module
 			}
 
 			error_log( 'About to attempt handler boot() for PostType handlerClass: ' . $handlerClass . '===' );
+			if ( ! method_exists( $handler, 'boot' ) ) {
+				error_log( "Handler class $handlerClass missing boot()" );
+				continue;
+			}
 			$handler->boot();
 		}
 
