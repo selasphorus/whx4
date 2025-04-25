@@ -16,6 +16,10 @@ abstract class Module implements ModuleInterface
     public function boot(): void
     {
         $this->registerDefaultViewRoot();
+
+        foreach ( $this->getPostTypeHandlers() as $handler ) {
+			$handler->boot();
+		}
     }
 
 	public function getSlug(): string

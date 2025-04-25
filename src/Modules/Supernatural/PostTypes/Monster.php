@@ -18,14 +18,19 @@ class Monster extends PostTypeHandler
 		];
 
 		parent::__construct($config, 'post_type', $post);
+	}
+
+	public function boot(): void
+	{
+	    parent::boot(); // Optional if you add shared logic later
 
 		$this->applyTitleArgs( $this->getSlug(), [
-            'line_breaks'    => true,
-            'show_subtitle'  => true,
-            'hlevel_sub'     => 4,
-            'called_by'      => 'Monster::boot',
-            'append'         => 'TESTTF',
-        ]);
+			'line_breaks'    => true,
+			'show_subtitle'  => true,
+			'hlevel_sub'     => 4,
+			'called_by'      => 'Monster::boot',
+			'append'         => 'TESTTF',
+		]);
 	}
 
     /*

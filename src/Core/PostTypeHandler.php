@@ -19,6 +19,11 @@ abstract class PostTypeHandler extends BaseHandler
         $this->post = $post;
     }
 
+    public function boot(): void
+	{
+		// Optional: common setup logic for all post types can go here
+	}
+
     public function getSupports(): array {
         return $this->getConfig()['supports'] ?? [ 'title', 'editor' ];
     }
