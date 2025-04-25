@@ -21,7 +21,7 @@ class TitleFilter
 
     public static function filterTitle( string $title, $postId ): string
     {
-        error_log("=== filterTitle ===");
+        //error_log("=== filterTitle ===");
         if ( is_admin() ) { return $title; }
 
         $result = self::normalizeTitleArgs( [ 'post' => $postId ] );

@@ -34,7 +34,7 @@ abstract class Module implements ModuleInterface
 
     public function boot(): void
     {
-		error_log( '=== Module class boot() for module: ' . $this->getSlug() . '===' );
+		//error_log( '=== Module class boot() for module: ' . $this->getSlug() . '===' );
         $this->registerDefaultViewRoot();
 
         $enabledSlugs = $this->plugin
