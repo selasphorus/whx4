@@ -22,7 +22,6 @@ class Monster extends PostTypeHandler
 
 	public function boot(): void
 	{
-	    error_log( '=== Monster class boot() ===' );
 	    parent::boot(); // Optional if you add shared logic later
 
 		$this->applyTitleArgs( $this->getSlug(), [

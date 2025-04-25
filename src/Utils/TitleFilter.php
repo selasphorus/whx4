@@ -9,7 +9,6 @@ class TitleFilter
 
     public static function boot(): void
     {
-        error_log("=== TitleFilter: boot() ===");
         add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
     }
 
@@ -21,7 +20,6 @@ class TitleFilter
 
     public static function filterTitle( string $title, $postId ): string
     {
-        //error_log("=== filterTitle ===");
         if ( is_admin() ) { return $title; }
 
         $result = self::normalizeTitleArgs( [ 'post' => $postId ] );

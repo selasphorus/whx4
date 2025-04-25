@@ -24,7 +24,6 @@ class Person extends PostTypeHandler
 
 	public function boot(): void
 	{
-	    error_log( '=== Person class boot() ===' );
 	    parent::boot(); // Optional if you add shared logic later
 
 		$this->applyTitleArgs( $this->getSlug(), [
