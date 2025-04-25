@@ -12,7 +12,9 @@ class Module extends BaseModule
     public function boot(): void
     {
     	$this->registerDefaultViewRoot();
-    	//ViewLoader::registerModuleViewRoot( 'people', __DIR__ . '/views' );
+
+    	parent::boot();
+
     	/*$this->applyTitleArgs( 'people', [
             'line_breaks'    => true,
             'show_subtitle'  => true,

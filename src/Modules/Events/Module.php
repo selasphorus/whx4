@@ -12,6 +12,7 @@ class Module extends BaseModule
     public function boot(): void
     {
         $this->registerDefaultViewRoot();
+        parent::boot();
     }
 
     public function getPostTypeHandlerClasses(): array
