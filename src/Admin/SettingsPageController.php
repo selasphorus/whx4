@@ -25,7 +25,7 @@ class SettingsPageController
 
     public function addSettingsPage(): void
     {
-        //error_log( '=== SettingsManager->addSettingsPage() ===' );
+        error_log( '=== SettingsManager->addSettingsPage() ===' );
         add_options_page(
             'WHx4 v2 Plugin Settings', // page_title
             'WHx4 v2 Settings', // menu_title
