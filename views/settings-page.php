@@ -56,7 +56,7 @@
                                             value="<?php echo esc_attr( $slug ); ?>"
                                             <?php checked( $isEnabled ); ?>
                                         />
-                                        Enable <code><?php echo esc_html( $slug ); ?></code>: <?php echo esc_html( $label ); ?> [<?php echo "key: ".esc_html( $key ); ?>]
+                                        Enable <code><?php echo esc_html( $slug ); ?></code>: <?php echo esc_html( $label ); ?> <?php //echo "[key: " . esc_html( $key ) . ']'; ?>
                                     </label>
                                 <?php endforeach; ?>
                             </td>
