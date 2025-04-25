@@ -34,7 +34,7 @@ abstract class Module implements ModuleInterface
 
     public function boot(): void
     {
-		//error_log( '=== Module class boot() ===' );
+		error_log( '=== Module class boot() for module: ' . $this->getSlug() . '===' );
         $this->registerDefaultViewRoot();
 
         $enabledSlugs = $this->plugin
@@ -58,6 +58,7 @@ abstract class Module implements ModuleInterface
 				continue; // Skip if not enabled for this module
 			}
 
+			error_log( 'About to attempt handler boot() for handlerClass: ' . $handlerClass . '===' );
 			$handler->boot();
 		}
 
