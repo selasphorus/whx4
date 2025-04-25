@@ -33,7 +33,7 @@
                                     value="<?php echo esc_attr( $key ); ?>"
                                     <?php checked( $isActive ); ?>
                                 />
-                                <?php echo esc_html( $key ); ?>
+                                <?php echo esc_html( ucfirst($key) ); // TODO: use module getName instead? ?>
                             </label>
                         </th>
                         <td></td>
