@@ -13,7 +13,7 @@ class Module extends BaseModule
     {
     	$this->registerDefaultViewRoot();
 
-    	//parent::boot(); // Register default view root first
+    	parent::boot();
 
     	//ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' ); // default
     	// Override with custom path
