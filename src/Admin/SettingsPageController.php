@@ -57,7 +57,8 @@ class SettingsPageController
         $this->plugin->renderView( 'settings-page', [
             'availableModules' => $this->plugin->getAvailableModules(),
             'activeModules'    => $this->plugin->getSettingsManager()->getActiveModuleSlugs(),
-            'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugs(),
+            'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugsByModule(),
+            //'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugs(),
         ]);
     }
 
