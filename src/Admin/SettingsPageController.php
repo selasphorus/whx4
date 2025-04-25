@@ -12,7 +12,6 @@ class SettingsPageController
     {
         error_log( '=== SettingsPageController __construct() ===' );
         $this->plugin = $plugin;
-        $this->addHooks();
 
         //add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         //add_action( 'admin_init', [ $this, 'registerSettings' ] );

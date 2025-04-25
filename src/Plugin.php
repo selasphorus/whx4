@@ -11,6 +11,8 @@ use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
 use atc\WHx4\Core\ViewLoader;
 //
+use atc\WHx4\Admin\SettingsPageController;
+//
 use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
 use atc\WHx4\ACF\BlockRegistrar;
@@ -106,6 +108,12 @@ final class Plugin
     	// Load modules and config
         $modules = apply_filters( 'whx4_register_modules', [] );
         $this->setAvailableModules( $modules );
+        //
+        if ( is_admin() ) {
+			( new SettingsPageController( $this ) )->addHooks();
+		}
+
+		//
         $this->loadActiveModules();
         $this->bootModules();
 
