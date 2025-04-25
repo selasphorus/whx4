@@ -317,19 +317,17 @@ final class Plugin
      */
     public function registerPostTypes(): void
 	{
-		error_log( '=== registerPostTypes() ===' );
+		//error_log( '=== registerPostTypes() ===' );
 
 		$activePostTypes = $this->getActivePostTypes();
+		//error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
 
-		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
-
-		if( empty( $activePostTypes ) ) {
+		if ( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );
 			return;
 		}
 
 		$this->postTypeRegistrar->registerMany( $activePostTypes );
-    	//$this->postTypeRegistrar->registerMany( $this->getActivePostTypes() );
 	}
 
     public function registerFieldGroups(): void
