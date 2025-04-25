@@ -293,10 +293,10 @@ final class Plugin
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
 					//$className = $handler->getLabels()['singular_name'];
-					if (in_array( $postTypeSlug, $enabled, true )) {
+					if  (in_array( $postTypeSlug, $enabled, true )) {
 						$postTypeClasses[] = $postTypeHandlerClass; //$className;
 					} else {
-						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
+						//error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
 				}
 			} catch( \Throwable $e ) {
