@@ -10,6 +10,7 @@ use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
 use atc\WHx4\Core\ViewLoader;
+use atc\WHx4\Utils\TitleFilter;
 //
 use atc\WHx4\Admin\SettingsPageController;
 //
@@ -85,6 +86,7 @@ final class Plugin
 
         // Step 2 -- on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ] );
+        TitleFilter::boot();
 
         // Step 3 -- on 'acf/init': Register ACF fields
 		//JsonPaths::register();

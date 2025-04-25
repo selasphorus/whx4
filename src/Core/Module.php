@@ -61,7 +61,7 @@ abstract class Module implements ModuleInterface
 				continue; // Skip if not enabled for this module
 			}
 
-			error_log( 'About to attempt handler boot() for PostType handlerClass: ' . $handlerClass . '===' );
+			//error_log( 'About to attempt handler boot() for PostType handlerClass: ' . $handlerClass . '===' );
 			if ( ! method_exists( $handler, 'boot' ) ) {
 				error_log( "Handler class $handlerClass missing boot()" );
 				continue;
