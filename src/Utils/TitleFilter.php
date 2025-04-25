@@ -32,8 +32,8 @@ class TitleFilter
             return $title;
         }
 
-        if ( isset( self::$contextArgs[ $post_id ] ) ) {
-            $args = array_merge( $args, self::$contextArgs[ $post_id ] );
+        if ( isset( self::$contextArgs[ $postId ] ) ) {
+            $args = array_merge( $args, self::$contextArgs[ $postId ] );
         }
 
         $args = array_merge(
