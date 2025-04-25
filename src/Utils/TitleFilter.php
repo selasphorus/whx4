@@ -78,7 +78,7 @@ class TitleFilter
      * Returns default arguments for post title rendering,
      * based on post type (if provided).
      */
-    protected function getDefaultTitleArgs( ?string $postType = null ): array
+    protected static function getDefaultTitleArgs( ?string $postType = null ): array
     {
         $defaults = [
             'line_breaks'    => false,
