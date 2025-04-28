@@ -55,14 +55,14 @@ class FieldGroupLoader
                 $postType = strtolower( str_replace( 'Fields', '', $basename ) );
                 error_log( 'basename: ' . $basename . '; postType: ' . $postType );
 
-                if ( in_array( $postType, $activePostTypes, true ) ) {
+                if ( array_key_exists( $postType, $activePostTypes, true ) ) {
                     error_log( 'About to attempt className::register() for PostType class: ' . $className );
                     $className::register();
                 } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
                     error_log( 'About to attempt className::register() for Module class: ' . $className );
                     $className::register();
                 } else {
-                    error_log( 'className: ' . $className . ' is not a valid Fields class' );
+                    error_log( 'className: ' . $className . ' is not a valid Fields class or the postType: ' . $postType . ' is not active.' );
                 }
             }
         }
