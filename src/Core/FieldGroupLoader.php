@@ -32,6 +32,7 @@ class FieldGroupLoader
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
+        error_log( 'fieldsDir: ' . $fieldsDir );
 
         if ( !is_dir( $fieldsDir ) ) {
             return;
@@ -43,6 +44,7 @@ class FieldGroupLoader
             require_once $file;
 
             $className = $this->getFullyQualifiedClassName( $file );
+            error_log( 'className: ' . $className );
 
             if (
                 class_exists( $className ) &&
@@ -50,7 +52,7 @@ class FieldGroupLoader
             ) {
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $postType = strtolower( str_replace( 'Fields', '', $basename ) );
-                error_log( '=== basename: ' . $basename . '; postType: ' . $postType . ' ===' );
+                error_log( 'basename: ' . $basename . '; postType: ' . $postType );
 
                 if ( in_array( $postType, $activePostTypes, true ) ) {
                     $className::register();
