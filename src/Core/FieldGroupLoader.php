@@ -77,7 +77,7 @@ class FieldGroupLoader
         $relativePath = str_replace( dirname( __DIR__, 2 ) . '/', '', $file ); // Go up two levels from FieldGroupLoader.php
         $relativePath = str_replace( ['/', '.php'], ['\\', ''], $relativePath );
 
-        return 'atc\\Whx4\\' . $relativePath;
+        return 'atc\\WHx4\\' . $relativePath;
     }
 
     /*protected function getFullyQualifiedClassName( string $filePath ): string
