@@ -82,16 +82,6 @@ class FieldGroupLoader
         return 'atc\\WHx4\\' . $relativePath;
     }
 
-
-    /*protected function getFullyQualifiedClassName( string $filePath ): string
-    {
-        // Assumes PSR-4 autoloading and class name = file name
-        $relativePath = str_replace( realpath( dirname( __DIR__, 2 ) ) . '/', '', realpath( $filePath ) );
-        $parts = explode( '/', $relativePath );
-        $parts = array_map( fn( $p ) => str_replace( '.php', '', $p ), $parts );
-        return 'atc\whx4\\' . implode( '\\', $parts );
-    }*/
-
     /*
     public static function registerAll(): void {
         $basePath = __DIR__ . '/../Modules/';
