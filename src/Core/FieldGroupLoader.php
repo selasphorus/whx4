@@ -11,7 +11,7 @@ use atc\WHx4\Core\Contracts\FieldGroupInterface;
 
 class FieldGroupLoader
 {
-	protected Plugin $plugin;
+    protected Plugin $plugin;
 
     public function __construct( Plugin $plugin )
     {
@@ -25,36 +25,37 @@ class FieldGroupLoader
         }
     }
 
-	protected function registerFieldsForModule( string $moduleClass ): void
-	{
-		$ref = new \ReflectionClass( $moduleClass );
-		$moduleDir = dirname( $ref->getFileName() );
-		$fieldsDir = $moduleDir . '/Fields';
-	
-		if ( !is_dir( $fieldsDir ) ) {
-			return;
-		}
-	
-		$activePostTypes = $this->plugin->getActivePostTypes();
-	
-		foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
-			require_once $file;
-	
-			$className = $this->getFullyQualifiedClassName( $file );
-	
-			if (
-				class_exists( $className ) &&
-				is_subclass_of( $className, FieldGroupInterface::class )
-			) {
-				$basename = basename( $file, '.php' ); // e.g. "MonsterFields"
-				$postType = strtolower( str_replace( 'Fields', '', $basename ) );
-	
-				if ( in_array( $postType, $activePostTypes, true ) ) {
-					$className::register();
-				}
-			}
-		}
-	}
+    protected function registerFieldsForModule( string $moduleClass ): void
+    {
+        error_log( '=== registerFieldsForModule for moduleClass: $moduleClass ===' );
+        $ref = new \ReflectionClass( $moduleClass );
+        $moduleDir = dirname( $ref->getFileName() );
+        $fieldsDir = $moduleDir . '/Fields';
+
+        if ( !is_dir( $fieldsDir ) ) {
+            return;
+        }
+
+        $activePostTypes = $this->plugin->getActivePostTypes();
+
+        foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
+            require_once $file;
+
+            $className = $this->getFullyQualifiedClassName( $file );
+
+            if (
+                class_exists( $className ) &&
+                is_subclass_of( $className, FieldGroupInterface::class )
+            ) {
+                $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
+                $postType = strtolower( str_replace( 'Fields', '', $basename ) );
+
+                if ( in_array( $postType, $activePostTypes, true ) ) {
+                    $className::register();
+                }
+            }
+        }
+    }
 
     protected function getFullyQualifiedClassName( string $filePath ): string
     {
@@ -64,8 +65,8 @@ class FieldGroupLoader
         $parts = array_map( fn( $p ) => str_replace( '.php', '', $p ), $parts );
         return 'YourPlugin\\' . implode( '\\', $parts );
     }
-    
-	/*
+
+    /*
     public static function registerAll(): void {
         $basePath = __DIR__ . '/../Modules/';
         $baseNamespace = 'atc\WHx4\\Modules\\';
