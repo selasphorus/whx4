@@ -20,8 +20,9 @@ class FieldGroupLoader
 
     public function registerAll(): void
     {
-        foreach( $this->plugin->getActiveModules() as $module ) {
-            $this->registerFieldsForModule( $module );
+        error_log( '=== registerAll field groups ===' );
+        foreach( $this->plugin->getActiveModules() as $moduleClass ) {
+            $this->registerFieldsForModule( $moduleClass );
         }
     }
 
