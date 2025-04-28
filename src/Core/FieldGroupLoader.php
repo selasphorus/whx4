@@ -32,7 +32,7 @@ class FieldGroupLoader
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
-        error_log( 'fieldsDir: ' . $fieldsDir );
+        //error_log( 'fieldsDir: ' . $fieldsDir );
 
         if ( !is_dir( $fieldsDir ) ) {
             return;
@@ -71,14 +71,23 @@ class FieldGroupLoader
         return $basename === $expectedName;
     }
 
-    protected function getFullyQualifiedClassName( string $filePath ): string
+    protected function getFullyQualifiedClassName( string $file ): string
+    {
+        // Assume your "src" is your base namespace root
+        $relativePath = str_replace( dirname( __DIR__, 2 ) . '/', '', $file ); // Go up two levels from FieldGroupLoader.php
+        $relativePath = str_replace( ['/', '.php'], ['\\', ''], $relativePath );
+
+        return 'atc\\Whx4\\' . $relativePath;
+    }
+
+    /*protected function getFullyQualifiedClassName( string $filePath ): string
     {
         // Assumes PSR-4 autoloading and class name = file name
         $relativePath = str_replace( realpath( dirname( __DIR__, 2 ) ) . '/', '', realpath( $filePath ) );
         $parts = explode( '/', $relativePath );
         $parts = array_map( fn( $p ) => str_replace( '.php', '', $p ), $parts );
-        return 'whx4\\' . implode( '\\', $parts );
-    }
+        return 'atc\whx4\\' . implode( '\\', $parts );
+    }*/
 
     /*
     public static function registerAll(): void {
