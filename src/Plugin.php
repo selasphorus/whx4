@@ -88,7 +88,8 @@ final class Plugin
     protected function registerPublicHooks(): void
     {
         // on 'init': Register post types, taxonomies, shortcodes
-        add_action( 'init', [ $this, 'registerPostTypes' ] );
+        add_action( 'init', [ $this, 'registerPostTypes' ], 10 );
+        add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
     }
 
@@ -324,6 +325,7 @@ final class Plugin
 
     public function registerFieldGroups(): void
     {
+        error_log( '=== registerFieldGroups ===' );
         $this->fieldGroupLoader->registerAll();
     }
 

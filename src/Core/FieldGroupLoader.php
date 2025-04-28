@@ -53,9 +53,19 @@ class FieldGroupLoader
 
                 if ( in_array( $postType, $activePostTypes, true ) ) {
                     $className::register();
+                } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
+                    $className::register();
                 }
             }
         }
+    }
+
+    protected function isModuleFieldGroup( string $basename, string $moduleClass ): bool
+    {
+        $moduleBaseName = ( new \ReflectionClass( $moduleClass ) )->getShortName();
+        $expectedName = $moduleBaseName . 'Fields';
+
+        return $basename === $expectedName;
     }
 
     protected function getFullyQualifiedClassName( string $filePath ): string
