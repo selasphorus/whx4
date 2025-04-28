@@ -55,10 +55,13 @@ class FieldGroupLoader
                 error_log( 'basename: ' . $basename . '; postType: ' . $postType );
 
                 if ( in_array( $postType, $activePostTypes, true ) ) {
-                    error_log( 'About to attempt className::register() for class: ' . $className );
+                    error_log( 'About to attempt className::register() for PostType class: ' . $className );
                     $className::register();
                 } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
+                    error_log( 'About to attempt className::register() for Module class: ' . $className );
                     $className::register();
+                } else {
+                    error_log( 'className: ' . $className . ' is not a valid Fields class' );
                 }
             }
         }
