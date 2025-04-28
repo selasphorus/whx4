@@ -73,11 +73,17 @@ class FieldGroupLoader
 
     protected function getFullyQualifiedClassName( string $file ): string
     {
-        $srcPath = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, dirname( __DIR__, 2 ) . '/' );
-        $file = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, $file );
-        error_log( 'srcPath: ' . $srcPath );
+        // Get path for "src" dir
+        $srcPath = dirname( __DIR__, 2 ) . '/src/';
 
+        // Normalize slashes
+        $file = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, $file );
+        $srcPath = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, $srcPath );
+
+        // Remove everything before "src/"
         $relativePath = str_replace( $srcPath, '', $file );
+
+        // Replace directory separators with backslashes and strip ".php"
         $relativePath = str_replace( [DIRECTORY_SEPARATOR, '.php'], ['\\', ''], $relativePath );
 
         return 'atc\\WHx4\\' . $relativePath;
