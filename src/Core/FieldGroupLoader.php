@@ -73,12 +73,15 @@ class FieldGroupLoader
 
     protected function getFullyQualifiedClassName( string $file ): string
     {
-        // Assume your "src" is your base namespace root
-        $relativePath = str_replace( dirname( __DIR__, 2 ) . '/', '', $file ); // Go up two levels from FieldGroupLoader.php
-        $relativePath = str_replace( ['/', '.php'], ['\\', ''], $relativePath );
+        $srcPath = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, dirname( __DIR__, 2 ) . '/' );
+        $file = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, $file );
+
+        $relativePath = str_replace( $srcPath, '', $file );
+        $relativePath = str_replace( [DIRECTORY_SEPARATOR, '.php'], ['\\', ''], $relativePath );
 
         return 'atc\\WHx4\\' . $relativePath;
     }
+
 
     /*protected function getFullyQualifiedClassName( string $filePath ): string
     {
