@@ -39,6 +39,7 @@ class FieldGroupLoader
         }
 
         $activePostTypes = $this->plugin->getActivePostTypes();
+        error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
 
         foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
             require_once $file;
