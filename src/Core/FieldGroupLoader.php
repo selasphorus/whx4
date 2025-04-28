@@ -28,7 +28,7 @@ class FieldGroupLoader
 
     protected function registerFieldsForModule( string $moduleClass ): void
     {
-        error_log( '=== registerFieldsForModule for moduleClass: $moduleClass ===' );
+        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
@@ -50,6 +50,7 @@ class FieldGroupLoader
             ) {
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $postType = strtolower( str_replace( 'Fields', '', $basename ) );
+                error_log( '=== basename: ' . $basename . '; postType: ' . $postType . ' ===' );
 
                 if ( in_array( $postType, $activePostTypes, true ) ) {
                     $className::register();
