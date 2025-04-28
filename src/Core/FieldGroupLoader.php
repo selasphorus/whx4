@@ -77,7 +77,7 @@ class FieldGroupLoader
         $relativePath = str_replace( realpath( dirname( __DIR__, 2 ) ) . '/', '', realpath( $filePath ) );
         $parts = explode( '/', $relativePath );
         $parts = array_map( fn( $p ) => str_replace( '.php', '', $p ), $parts );
-        return 'YourPlugin\\' . implode( '\\', $parts );
+        return 'whx4\\' . implode( '\\', $parts );
     }
 
     /*
