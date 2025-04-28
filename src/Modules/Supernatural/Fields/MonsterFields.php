@@ -8,7 +8,8 @@ class MonsterFields implements FieldGroupInterface
 {
     public static function register(): void
     {
-        if( !function_exists('acf_add_local_field_group') ) return;
+        error_log( '=== MonsterFields: register()) ===' );
+        if ( !function_exists('acf_add_local_field_group') ) return;
 
         acf_add_local_field_group([
             'key' => 'group_monster_details',
