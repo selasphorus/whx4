@@ -55,7 +55,7 @@ class FieldGroupLoader
                 $postType = strtolower( str_replace( 'Fields', '', $basename ) );
                 error_log( 'basename: ' . $basename . '; postType: ' . $postType );
 
-                if ( array_key_exists( $postType, $activePostTypes, true ) ) {
+                if ( array_key_exists( $postType, $activePostTypes ) ) {
                     error_log( 'About to attempt className::register() for PostType class: ' . $className );
                     $className::register();
                 } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
