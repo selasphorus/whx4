@@ -75,6 +75,7 @@ class FieldGroupLoader
     {
         $srcPath = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, dirname( __DIR__, 2 ) . '/' );
         $file = str_replace( ['\\', '/'], DIRECTORY_SEPARATOR, $file );
+        error_log( 'srcPath: ' . $srcPath );
 
         $relativePath = str_replace( $srcPath, '', $file );
         $relativePath = str_replace( [DIRECTORY_SEPARATOR, '.php'], ['\\', ''], $relativePath );
