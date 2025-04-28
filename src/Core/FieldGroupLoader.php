@@ -44,7 +44,7 @@ class FieldGroupLoader
             require_once $file;
 
             $className = $this->getFullyQualifiedClassName( $file );
-            error_log( 'className: ' . $className );
+            //error_log( 'className: ' . $className );
 
             if (
                 class_exists( $className ) &&
@@ -55,6 +55,7 @@ class FieldGroupLoader
                 error_log( 'basename: ' . $basename . '; postType: ' . $postType );
 
                 if ( in_array( $postType, $activePostTypes, true ) ) {
+                    error_log( 'About to attempt className::register() for class: ' . $className );
                     $className::register();
                 } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
                     $className::register();
