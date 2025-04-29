@@ -51,6 +51,24 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
     ]);
 });
 
+add_filter( 'whx4_registered_field_keys', function() {
+    if ( ! function_exists( 'acf_get_local_fields' ) ) {
+        return [];
+    }
+
+    $fields = acf_get_local_fields();
+    $keys = [];
+
+    foreach ( $fields as $field ) {
+        if ( isset( $field['key'] ) ) {
+            $keys[] = $field['key'];
+        }
+    }
+
+    return $keys;
+});
+
+
 // Once plugins are loaded, boot everything up
 add_action( 'plugins_loaded', function() {
     Plugin::getInstance()->boot();
@@ -69,7 +87,7 @@ register_deactivation_hook( __FILE__, function() {
     $plugin->removePostTypeCapabilities();
 });
 
-    
+
 /* ***** TODO: Move most or all of the following away into classes ***** */
 
 // Function to check for main dev/admin user
@@ -94,14 +112,14 @@ function whx4_redirect() {
 	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
 	// /music/the-sunday-recital-series/upcoming-sunday-recital/
 	//$current_url = home_url( add_query_arg( array(), $wp->request ) );
-	
+
 	if ( $wp->request == "/events" && get_query_var('limit') == "1") {
-        
+
         // Run EM search based on query vars
         // Redirect to next single event record matching scope etc.
-        
-        //wp_redirect( site_url('/de/') ); 
-        //exit; 
+
+        //wp_redirect( site_url('/de/') );
+        //exit;
     }
 }
 
