@@ -10,16 +10,12 @@ class SettingsPageController
 
     public function __construct( Plugin $plugin )
     {
-        //error_log( '=== SettingsPageController __construct() ===' );
         $this->plugin = $plugin;
-
-        //add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
-        //add_action( 'admin_init', [ $this, 'registerSettings' ] );
     }
 
     public function addHooks(): void
     {
-        //error_log( '=== addHooks() ===' );
+        //error_log( '=== SettingsPageController: addHooks() ===' );
         add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         add_action( 'admin_init', [ $this, 'registerSettings' ] );
     }
@@ -31,7 +27,7 @@ class SettingsPageController
             'WHx4 v2 Plugin Settings', // page_title
             'WHx4 v2 Settings', // menu_title
             'manage_options', // capability
-            'whx4_settings', // menu_slug
+            'whx4-settings', // menu_slug
             [ $this, 'renderSettingsPage' ] // callback
         );
     }
