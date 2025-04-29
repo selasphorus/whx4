@@ -11,6 +11,8 @@ use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
 use atc\WHx4\Admin\SettingsPageController;
+use atc\WHx4\Admin\FieldKeyAuditPageController;
+
 ///use atc\WHx4\Core\ViewLoader;
 ///use atc\WHx4\Utils\TitleFilter;
 //
@@ -81,6 +83,7 @@ final class Plugin
     {
         if ( is_admin() ) {
             ( new SettingsPageController( $this ) )->addHooks();
+            ( new FieldKeyAuditPageController( $this ) )->addHooks();
             add_action( 'admin_enqueue_scripts', [ $this, 'enqueueAdminAssets' ] );
         }
     }
