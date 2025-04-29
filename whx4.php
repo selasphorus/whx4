@@ -123,3 +123,34 @@ function whx4_redirect() {
     }
 }
 
+// Temporary duplicate field key checker
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['check_whx4_keys'] ) ) {
+    add_action( 'acf/init', function() {
+        if ( ! function_exists( 'acf_get_local_fields' ) ) {
+            return;
+        }
+
+        $fields = acf_get_local_fields();
+        $seenKeys = [];
+        $duplicates = [];
+
+        foreach ( $fields as $field ) {
+            if ( isset( $field['key'] ) ) {
+                $key = $field['key'];
+
+                if ( isset( $seenKeys[ $key ] ) ) {
+                    $duplicates[] = $key;
+                } else {
+                    $seenKeys[ $key ] = true;
+                }
+            }
+        }
+
+        if ( ! empty( $duplicates ) ) {
+            error_log( '⚠️ Duplicate ACF Field Keys found: ' . implode( ', ', $duplicates ) );
+        } else {
+            error_log( '✅ No duplicate ACF Field Keys detected.' );
+        }
+    } );
+}
+
