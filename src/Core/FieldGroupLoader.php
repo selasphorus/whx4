@@ -103,6 +103,7 @@ class FieldGroupLoader
                 foreach ( $slugMap as $slug => $expectedName ) {
                     if ( strtolower( $shortName ) === strtolower( $expectedName ) ) {
                         if ( array_key_exists( $slug, $activePostTypes ) ) {
+                            error_log( 'about to register (via slugMap): ' . $className );
                             $className::register();
                             $matched = true;
                             break;
@@ -111,6 +112,7 @@ class FieldGroupLoader
                 }
 
                 if ( !$matched && $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
+                    error_log( 'about to register (via slugMap): ' . $className );
                     $className::register();
                 }
             }
