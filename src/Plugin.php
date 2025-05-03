@@ -252,12 +252,12 @@ final class Plugin
     }*/
     public function getActivePostTypes(): array
 	{
-    	error_log( '=== START getActivePostTypes() ===' );
+    	//error_log( '=== START getActivePostTypes() ===' );
 
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
 
-		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
+		//error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
@@ -288,7 +288,7 @@ final class Plugin
 				//error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
-				error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
+				//error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
 				foreach ( $definedPostTypes as $postTypeHandlerClass ) {
@@ -296,7 +296,7 @@ final class Plugin
 					$postTypeSlug = $handler->getSlug();
 					//$className = $handler->getLabels()['singular_name'];
 					if  (in_array( $postTypeSlug, $enabled, true )) {
-					    error_log("Post type '$postTypeSlug' from module '$moduleSlug' is now enabled (class: '$postTypeHandlerClass' ).");
+					    //error_log("Post type '$postTypeSlug' from module '$moduleSlug' is now enabled (class: '$postTypeHandlerClass' ).");
 						$postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass; //$className;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
@@ -307,8 +307,8 @@ final class Plugin
 			}
 		}
 
-		error_log( '=== END getActivePostTypes() ===' );
-		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		//error_log( '=== END getActivePostTypes() ===' );
+		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}
