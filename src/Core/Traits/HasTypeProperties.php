@@ -10,7 +10,7 @@ trait HasTypeProperties
 
     public function getSlug(): string
     {
-        error_log( 'HasTypeProperties::getSlug() config: ' . print_r( $this->getConfig(), true ) );
+        //error_log( 'HasTypeProperties::getSlug() config: ' . print_r( $this->getConfig(), true ) );
         return $this->getConfig()['slug'] ?? strtolower( basename( str_replace( '\\', '/', static::class ) ) );
     }
 
