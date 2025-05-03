@@ -7,7 +7,7 @@ use atc\WHx4\Modules\Events\PostTypes\Event;
 //use atc\WHx4\Modules\Events\PostTypes\RecurringEvent;
 //use atc\WHx4\Modules\Events\PostTypes\EventSeries;
 
-class Module extends BaseModule
+final class EventsModule extends BaseModule
 {
     public function boot(): void
     {
