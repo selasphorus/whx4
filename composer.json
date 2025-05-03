@@ -2,7 +2,7 @@
     "name": "atc/whx4",
     "type": "wordpress-plugin",
     "description": "A WordPress plugin for managing People, Places, and Events (Who/What/Where/When). Also serves as a core plugin with functionality shared by SDG, MLib, and others.",
-  	"keywords": ["wordpress", "plugin", "people", "places", "events"],
+    "keywords": ["wordpress", "plugin", "people", "places", "events"],
     "authors": [
         {
             "name": "atc",
@@ -10,10 +10,12 @@
             "homepage": "https://birdhive.com/"
         }
     ],
-	"require": {
-		"php": ">=7.0",
-        "composer/installers": "^1.10"
-	},
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "^1.10",
+        "rlanvin/php-rrule": "^2.3",
+        "php-mime-mail-parser/php-mime-mail-parser": "^7.0"
+    },
     "autoload": {
         "psr-4": {
             "atc\\WHx4\\": "src/"
