@@ -43,6 +43,7 @@ use atc\WHx4\Modules\Events\EventsModule as Events;
 
 // Init
 add_filter( 'whx4_register_modules', function( array $modules ) {
+    error_log( 'whx4_register_modules fired' );
     return array_merge( $modules, [
         'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
         'people'		=> People::class,
