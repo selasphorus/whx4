@@ -6,33 +6,27 @@ use atc\WHx4\Core\PostTypeHandler;
 
 class Event extends PostTypeHandler
 {
-
-    public function __construct(WP_Post|null $post = null) {
+    public function __construct(WP_Post|null $post = null)
+    {
 		$config = [
 			'slug'        => 'event',
-			//'plural_slug' => 'monsters',
-			/*'labels'      => [
-				'add_new_item' => 'Summon New Monster',
-				'not_found'    => 'No monsters lurking nearby',
-			],*/
-			//'menu_icon'   => 'dashicons-palmtree',
+            'supports'    => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
+			//'taxonomies' => [ 'event_category', 'event_tag', 'admin_tag' ],
 		];
 
 		parent::__construct($config, 'post_type', $post);
 	}
 
-	/*
-	//public $event_id;
-	public $post_id;
-	public $event_parent;
-	public $event_slug;
-	public $event_owner;
-	public $event_name;
-	*/
+	public function boot(): void
+	{
+	    parent::boot(); // Optional if you add shared logic later
 
-	public function getCPTContent() {
-
-		$post_id = $this->get_post_id();
-
+		$this->applyTitleArgs( $this->getSlug(), [
+			'line_breaks'    => true,
+			'show_subtitle'  => true,
+			'hlevel_sub'     => 4,
+			'called_by'      => 'Event::boot',
+			//'append'         => 'TEST: ',
+		]);
 	}
 }

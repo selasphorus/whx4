@@ -6,7 +6,8 @@ use atc\WHx4\Core\PostTypeHandler;
 
 class Person extends PostTypeHandler
 {
-    public function __construct(WP_Post|null $post = null) {
+    public function __construct(WP_Post|null $post = null)
+    {
 		$config = [
 			'slug'        => 'person',
 			'plural_slug' => 'people',
@@ -34,5 +35,10 @@ class Person extends PostTypeHandler
 			//'append'         => 'TESTTF',
 		]);
 	}
+
+	/*public function getCPTContent()
+	{
+		$post_id = $this->get_post_id();
+	}*/
 }
 
