@@ -11,7 +11,7 @@ class Event extends PostTypeHandler
 		$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
 
 		$config = [
-			'slug'        => 'whx4_event',
+			'slug'        => $slug,
 			'labels'      => [
 				'name' => 'WHx4 Events',
 				'singular_name' => 'WHx4 Event',
