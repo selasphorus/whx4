@@ -166,6 +166,7 @@ final class Plugin
 	public function setAvailableModules( array $modules ): void
 	{
         error_log( '=== Plugin::setAvailableModules() ===' );
+		error_log( 'modules: '.print_r($modules, true) );
 		foreach( $modules as $slug => $class ) {
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
