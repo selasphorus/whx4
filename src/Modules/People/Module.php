@@ -7,7 +7,7 @@ use atc\WHx4\Modules\People\PostTypes\Person;
 //use atc\WHx4\Modules\People\PostTypes\GroupEntity;
 //use atc\WHx4\Modules\People\PostTypes\Identity;
 
-class Module extends BaseModule
+final class PeopleModule extends BaseModule
 {
     public function boot(): void
     {

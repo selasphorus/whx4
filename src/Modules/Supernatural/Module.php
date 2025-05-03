@@ -7,7 +7,7 @@ use atc\WHx4\Modules\Supernatural\PostTypes\Monster;
 use atc\WHx4\Modules\Supernatural\PostTypes\Enchanter;
 use atc\WHx4\Modules\Supernatural\PostTypes\Spell;
 
-class Module extends BaseModule
+final class SupernaturalModule extends BaseModule
 {
     public function boot(): void
     {
