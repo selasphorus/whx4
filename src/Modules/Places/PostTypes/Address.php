@@ -19,7 +19,7 @@ class Address extends PostTypeHandler
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
 
-		parent::__construct($config, 'post_type', $post);
+		parent::__construct( $config, $post );
 	}
 
 }

@@ -20,7 +20,7 @@ class Event extends PostTypeHandler
 			//'taxonomies' => [ 'event_category', 'event_tag', 'admin_tag' ],
 		];
 
-		parent::__construct($config, 'post_type', $post);
+		parent::__construct( $config, $post );
 	}
 
 	public function boot(): void

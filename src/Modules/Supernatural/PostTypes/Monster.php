@@ -17,7 +17,7 @@ class Monster extends PostTypeHandler
 			'menu_icon'   => 'dashicons-palmtree',
 		];
 
-		parent::__construct($config, 'post_type', $post);
+		parent::__construct( $config, $post );
 	}
 
 	public function boot(): void

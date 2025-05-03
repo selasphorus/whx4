@@ -19,7 +19,7 @@ class Venue extends PostTypeHandler
 			'taxonomies' => ['venue_category', 'admin_tag'],
 		];
 
-		parent::__construct($config, 'post_type', $post);
+		parent::__construct( $config, $post );
 	}
 
 }
