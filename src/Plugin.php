@@ -168,10 +168,13 @@ final class Plugin
         error_log( '=== Plugin::setAvailableModules() ===' );
 		error_log( 'modules: '.print_r($modules, true) );
 		foreach( $modules as $slug => $class ) {
+			if ( !class_exists( $class ) ) {
+			     error_log( 'The class: ' .$class . ' does not exist.' );
+			}
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
 			} else {
-			    error_log( 'module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface' );
+			    error_log( 'module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface.' );
 			}
 		}
 	}
