@@ -81,6 +81,12 @@ register_activation_hook( __FILE__, function() {
     $plugin->assignPostTypeCapabilities();
 });
 
+// Activate the following after EM events have been migrated and the EM plugin has been deactivated
+/*
+add_filter( 'whx4_events_post_type_slug', function() {
+    return 'event';
+});
+*/
 // Deactivation
 register_deactivation_hook( __FILE__, function() {
     $plugin = Plugin::getInstance();
