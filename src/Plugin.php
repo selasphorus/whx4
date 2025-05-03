@@ -170,6 +170,8 @@ final class Plugin
 		foreach( $modules as $slug => $class ) {
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
+			} else {
+			    error_log( 'module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface' );
 			}
 		}
 	}
