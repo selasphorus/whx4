@@ -15,14 +15,14 @@ class SettingsPageController
 
     public function addHooks(): void
     {
-        //error_log( '=== SettingsPageController: addHooks() ===' );
+        error_log( '=== SettingsPageController::addHooks() ===' );
         add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
         add_action( 'admin_init', [ $this, 'registerSettings' ] );
     }
 
     public function addSettingsPage(): void
     {
-        //error_log( '=== SettingsManager->addSettingsPage() ===' );
+        error_log( '=== SettingsPageController::addSettingsPage() ===' );
         add_options_page(
             'WHx4 v2 Plugin Settings', // page_title
             'WHx4 v2 Settings', // menu_title
@@ -34,6 +34,7 @@ class SettingsPageController
 
     public function registerSettings(): void
     {
+        error_log( '=== SettingsPageController::registerSettings() ===' );
         register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
 
         add_settings_section(
@@ -50,6 +51,7 @@ class SettingsPageController
 
     public function renderSettingsPage(): void
     {
+        error_log( '=== SettingsPageController::renderSettingsPage() ===' );
         $this->plugin->renderView( 'settings-page', [
             'availableModules' => $this->plugin->getAvailableModules(),
             'activeModules'    => $this->plugin->getSettingsManager()->getActiveModuleSlugs(),
