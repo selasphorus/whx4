@@ -44,7 +44,7 @@ class FieldGroupLoader
         $slugMap = [];
 
         if ( method_exists( $moduleClass, 'getPostTypeHandlerClasses' ) ) {
-            foreach ( $moduleClass::getPostTypeHandlerClasses() as $handlerClass ) {
+            foreach ( $module->getPostTypeHandlerClasses() as $handlerClass ) {
                 if ( !class_exists( $handlerClass ) ) {
                     continue;
                 }
