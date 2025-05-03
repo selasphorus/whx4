@@ -34,8 +34,8 @@ final class FieldKeyAuditPageController
             'ACF Field Audit',
             'manage_options',
             'whx4-field-audit',
-            //[ self::class, 'renderPage' ]
-            [ $this, 'renderPage' ] // callback
+            [ self::class, 'renderPage' ]
+            //[ $this, 'renderPage' ] // callback
         );
     }
 
@@ -145,5 +145,48 @@ final class FieldKeyAuditPageController
                 echo '<div class="notice notice-warning is-dismissible"><p>No orphaned keys were deleted.</p></div>';
             }
         }
+    }
+
+    private static function checkDuplicateKeys(): void
+    {
+        if ( ! function_exists( 'acf_get_local_fields' ) ) {
+            echo '<div class="notice notice-error"><p>ACF not loaded yet.</p></div>';
+            return;
+        }
+
+        $fields = acf_get_local_fields();
+        $seenKeys = [];
+        $duplicates = [];
+
+        foreach ( $fields as $field ) {
+            if ( isset( $field['key'] ) ) {
+                $key = $field['key'];
+
+                if ( isset( $seenKeys[ $key ] ) ) {
+                    $duplicates[] = $key;
+                } else {
+                    $seenKeys[ $key ] = true;
+                }
+            }
+        }
+
+        ?>
+        <div class="wrap">
+            <h1>Check for Duplicate ACF Field Keys</h1>
+
+            <?php if ( ! empty( $duplicates ) ) : ?>
+                <div class="notice notice-error"><p>
+                    ⚠️ <strong>Duplicate ACF Field Keys found:</strong><br>
+                    <?php echo esc_html( implode( ', ', $duplicates ) ); ?>
+                </p></div>
+            <?php else : ?>
+                <div class="notice notice-success"><p>
+                    ✅ No duplicate ACF Field Keys detected.
+                </p></div>
+            <?php endif; ?>
+
+            <p><a href="<?php echo esc_url( admin_url( 'admin.php?page=rex-field-audit' ) ); ?>" class="button">Back to Audit</a></p>
+        </div>
+        <?php
     }
 }

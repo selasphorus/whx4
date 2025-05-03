@@ -124,7 +124,7 @@ function whx4_redirect() {
 }
 
 // Temporary duplicate field key checker
-if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['check_whx4_keys'] ) ) {
+/*if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['check_whx4_keys'] ) ) {
     add_action( 'acf/init', function() {
         if ( ! function_exists( 'acf_get_local_fields' ) ) {
             return;
@@ -152,5 +152,5 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['check_whx4_keys'] ) ) {
             error_log( '✅ No duplicate ACF Field Keys detected.' );
         }
     } );
-}
+}*/
 
