@@ -1,8 +1,8 @@
 <?php
 // Assume these are passed into scope before including this file:
-//$availableModules   = $availableModules ?? [];
-//$activeModules      = $activeModules ?? [];
-//$enabledPostTypes   = $enabledPostTypes ?? [];
+$availableModules   = $availableModules ?? [];
+$activeModules      = $activeModules ?? [];
+$enabledPostTypes   = $enabledPostTypes ?? [];
 ?>
 
 <div class="wrap">
