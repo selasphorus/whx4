@@ -165,8 +165,8 @@ final class Plugin
 
 	public function setAvailableModules( array $modules ): void
 	{
-        error_log( '=== Plugin::setAvailableModules() ===' );
-		error_log( 'modules: '.print_r($modules, true) );
+        //error_log( '=== Plugin::setAvailableModules() ===' );
+		//error_log( 'modules: '.print_r($modules, true) );
 		foreach( $modules as $slug => $class ) {
 			if ( !class_exists( $class ) ) {
 			     error_log( 'The class: ' .$class . ' does not exist.' );
@@ -252,12 +252,12 @@ final class Plugin
     }*/
     public function getActivePostTypes(): array
 	{
-    	//error_log( '=== START getActivePostTypes() ===' );
+    	error_log( '=== START getActivePostTypes() ===' );
 
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
 
-		//error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
+		error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
@@ -307,8 +307,8 @@ final class Plugin
 			}
 		}
 
-		//error_log( '=== END getActivePostTypes() ===' );
-		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		error_log( '=== END getActivePostTypes() ===' );
+		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}
