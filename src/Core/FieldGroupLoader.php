@@ -96,7 +96,7 @@ class FieldGroupLoader
             ) {
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $shortName = str_replace( 'Fields', '', $basename ); // e.g. "Monster"
-                error_log( 'basename: ' . $basename . '; postType: ' . $postType );
+                error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
 
                 $matched = false;
 
