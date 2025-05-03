@@ -36,10 +36,10 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 use atc\WHx4\Plugin;
 use atc\WHx4\Core\PostUtils;
 // TBD whether there's a way to streamline the following
-use atc\WHx4\Modules\Supernatural\Module as Supernatural;
-use atc\WHx4\Modules\People\Module as People;
-use atc\WHx4\Modules\Places\Module as Places;
-use atc\WHx4\Modules\Events\Module as Events;
+use atc\WHx4\Modules\Supernatural\SupernaturalModule as Supernatural;
+use atc\WHx4\Modules\People\PeopleModule as People;
+use atc\WHx4\Modules\Places\PlacesModule as Places;
+use atc\WHx4\Modules\Events\EventsModule as Events;
 
 // Init
 add_filter( 'whx4_register_modules', function( array $modules ) {
@@ -67,7 +67,6 @@ add_filter( 'whx4_registered_field_keys', function() {
 
     return $keys;
 });
-
 
 // Once plugins are loaded, boot everything up
 add_action( 'plugins_loaded', function() {
