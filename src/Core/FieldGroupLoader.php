@@ -43,6 +43,9 @@ class FieldGroupLoader
         // === Build a map of postType slug => short class name (e.g. rex_event => Event)
         $slugMap = [];
 
+        // Instantiate the module class
+        $module = new $moduleClass();
+
         if ( method_exists( $moduleClass, 'getPostTypeHandlerClasses' ) ) {
             foreach ( $module->getPostTypeHandlerClasses() as $handlerClass ) {
                 if ( !class_exists( $handlerClass ) ) {
