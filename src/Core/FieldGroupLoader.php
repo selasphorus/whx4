@@ -20,13 +20,101 @@ class FieldGroupLoader
 
     public function registerAll(): void
     {
-        error_log( '=== registerAll field groups ===' );
+        //error_log( '=== registerAll field groups ===' );
         foreach( $this->plugin->getActiveModules() as $moduleClass ) {
             $this->registerFieldsForModule( $moduleClass );
         }
     }
 
     protected function registerFieldsForModule( string $moduleClass ): void
+    {
+        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
+        $ref = new \ReflectionClass( $moduleClass );
+        $moduleDir = dirname( $ref->getFileName() );
+        $fieldsDir = $moduleDir . '/Fields';
+
+        if ( !is_dir( $fieldsDir ) ) {
+            return;
+        }
+
+        $activePostTypes = $this->plugin->getActivePostTypes();
+        //error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
+
+        // === Build a map of postType slug => short class name (e.g. rex_event => Event)
+        $slugMap = [];
+
+        if ( method_exists( $moduleClass, 'getPostTypeHandlerClasses' ) ) {
+            foreach ( $moduleClass::getPostTypeHandlerClasses() as $handlerClass ) {
+                if ( !class_exists( $handlerClass ) ) {
+                    continue;
+                }
+
+                // Try to read static $config without instantiating
+                $handlerSlug = null;
+
+                try {
+                    $reflection = new \ReflectionClass( $handlerClass );
+                    $props = $reflection->getDefaultProperties();
+
+                    if ( isset( $props['config']['slug'] ) ) {
+                        $handlerSlug = $props['config']['slug'];
+                    }
+                } catch ( \ReflectionException ) {
+                    // fall back below
+                }
+
+                // Fallback: instantiate handler only if needed
+                if ( !$handlerSlug ) {
+                    try {
+                        $handler = new $handlerClass();
+                        $handlerSlug = $handler->getSlug();
+                    } catch ( \Throwable ) {
+                        continue;
+                    }
+                }
+
+                if ( $handlerSlug ) {
+                    $shortName = basename( str_replace( '\\', '/', $handlerClass ) );
+                    $slugMap[ $handlerSlug ] = $shortName;
+                }
+            }
+        }
+
+        // === Scan for field files
+        foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
+            require_once $file;
+
+            $className = $this->getFullyQualifiedClassName( $file );
+            //error_log( 'className: ' . $className );
+
+            if (
+                class_exists( $className ) &&
+                is_subclass_of( $className, FieldGroupInterface::class )
+            ) {
+                $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
+                $shortName = str_replace( 'Fields', '', $basename ); // e.g. "Monster"
+                error_log( 'basename: ' . $basename . '; postType: ' . $postType );
+
+                $matched = false;
+
+                foreach ( $slugMap as $slug => $expectedName ) {
+                    if ( strtolower( $shortName ) === strtolower( $expectedName ) ) {
+                        if ( array_key_exists( $slug, $activePostTypes ) ) {
+                            $className::register();
+                            $matched = true;
+                            break;
+                        }
+                    }
+                }
+
+                if ( !$matched && $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
+                    $className::register();
+                }
+            }
+        }
+    }
+
+    /*protected function registerFieldsForModule( string $moduleClass ): void
     {
         error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
         $ref = new \ReflectionClass( $moduleClass );
@@ -66,7 +154,7 @@ class FieldGroupLoader
                 }
             }
         }
-    }
+    }*/
 
     protected function isModuleFieldGroup( string $basename, string $moduleClass ): bool
     {
