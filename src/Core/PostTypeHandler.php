@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Core;
 
+use WP_Post;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
 
