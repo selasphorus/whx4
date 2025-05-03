@@ -13,7 +13,7 @@ use atc\WHx4\Core\SettingsManager;
 use atc\WHx4\Admin\SettingsPageController;
 use atc\WHx4\Admin\FieldKeyAuditPageController;
 
-///use atc\WHx4\Core\ViewLoader;
+use atc\WHx4\Core\ViewLoader;
 ///use atc\WHx4\Utils\TitleFilter;
 //
 use atc\WHx4\ACF\JsonPaths;
