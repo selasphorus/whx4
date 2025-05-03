@@ -12,6 +12,10 @@ class Event extends PostTypeHandler
 
 		$config = [
 			'slug'        => 'whx4_event',
+			'labels'      => [
+				'name' => 'WHx4 Events',
+				'singular_name' => 'WHx4 Event',
+			],
             'supports'    => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
 			//'taxonomies' => [ 'event_category', 'event_tag', 'admin_tag' ],
 		];
