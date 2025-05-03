@@ -14,10 +14,15 @@ abstract class PostTypeHandler extends BaseHandler
     protected $post; // better private?
 
     // Constructor to set the post object
-    public function __construct($post)
+    /*public function __construct($post)
     {
         // Store the post object in a class property
         $this->post = $post;
+    }*/
+
+    public function __construct( array $config = [], WP_Post|null $post = null )
+    {
+        parent::__construct( $config, $post );
     }
 
     public function boot(): void

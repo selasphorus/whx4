@@ -14,18 +14,11 @@ abstract class BaseHandler
     protected const TYPE = 'post_type';
     protected WP_Post|WP_Term|null $object = null;
 
-    /*public function __construct(array $config = [], ?string $type = null, WP_Post|WP_Term|null $object = null) {
-        $this->config = $config;
-        $this->type   = $type ?? 'post_type';
-        $this->object = $object;
-    }*/
-    public function __construct(WP_Post|WP_Term|null $object = null)
-    {
-        $this->config = $this->getConfig();
-        //$this->config = $this->defineConfig();
-        //$this->type   = $this->defineType();
-        $this->object = $object;
-    }
+    public function __construct( array $config = [], WP_Post|WP_Term|null $object = null )
+	{
+		$this->config = $config;
+		$this->object = $object;
+	}
 
     public function getType(): string {
 		return static::TYPE;
