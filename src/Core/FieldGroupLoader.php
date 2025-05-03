@@ -49,7 +49,7 @@ class FieldGroupLoader
                     continue;
                 }
 
-                // Try to read static $config without instantiating
+                // Try to reflect default config
                 $handlerSlug = null;
 
                 try {
@@ -60,7 +60,7 @@ class FieldGroupLoader
                         $handlerSlug = $props['config']['slug'];
                     }
                 } catch ( \ReflectionException ) {
-                    // fall back below
+                    // fall back to instantiation
                 }
 
                 // Fallback: instantiate handler only if needed
