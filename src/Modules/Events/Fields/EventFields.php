@@ -114,12 +114,14 @@ class EventFields implements FieldGroupInterface
                         'operator' => '==',
                         'value'    => 'event',
                     ],
+                ],
+                [
                     [
                         'param'    => 'post_type',
                         'operator' => '==',
                         'value'    => 'whx4_event',
                     ],
-                ],
+                ]
             ],
         ]);
     }
