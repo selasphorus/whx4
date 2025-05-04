@@ -119,48 +119,6 @@ class FieldGroupLoader
         }
     }
 
-    /*protected function registerFieldsForModule( string $moduleClass ): void
-    {
-        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
-        $ref = new \ReflectionClass( $moduleClass );
-        $moduleDir = dirname( $ref->getFileName() );
-        $fieldsDir = $moduleDir . '/Fields';
-        //error_log( 'fieldsDir: ' . $fieldsDir );
-
-        if ( !is_dir( $fieldsDir ) ) {
-            return;
-        }
-
-        $activePostTypes = $this->plugin->getActivePostTypes();
-        error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
-
-        foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
-            require_once $file;
-
-            $className = $this->getFullyQualifiedClassName( $file );
-            //error_log( 'className: ' . $className );
-
-            if (
-                class_exists( $className ) &&
-                is_subclass_of( $className, FieldGroupInterface::class )
-            ) {
-                $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
-                $postType = strtolower( str_replace( 'Fields', '', $basename ) );
-                error_log( 'basename: ' . $basename . '; postType: ' . $postType );
-
-                if ( array_key_exists( $postType, $activePostTypes ) ) {
-                    error_log( 'About to attempt className::register() for PostType class: ' . $className );
-                    $className::register();
-                } elseif ( $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
-                    error_log( 'About to attempt className::register() for Module class: ' . $className );
-                    $className::register();
-                } else {
-                    error_log( 'className: ' . $className . ' is not a valid Fields class or the postType: ' . $postType . ' is not active.' );
-                }
-            }
-        }
-    }*/
-
     protected function isModuleFieldGroup( string $basename, string $moduleClass ): bool
     {
         $moduleBaseName = ( new \ReflectionClass( $moduleClass ) )->getShortName();
