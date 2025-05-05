@@ -132,6 +132,7 @@ $options = get_option( 'whx4_settings' );
 //if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
 error_log( 'whx4_active_modules: ' . print_r( $active_modules, true ) );
+// Loop through active modules and do file includes
 foreach ( $active_modules as $module ) {
 
     $sub_modules = array();
