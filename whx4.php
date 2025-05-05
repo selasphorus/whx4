@@ -131,9 +131,12 @@ function whx4_scripts_method() {
 $options = get_option( 'whx4_settings' );
 //if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
 if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
-error_log( 'whx4_active_modules: ' . print_r( $active_modules, true ) );
+//error_log( 'whx4_active_modules: ' . print_r( $active_modules, true ) );
+if ( empty($active_modules) ) { error_log( 'No whx4 modules are active.' ); }
 // Loop through active modules and do file includes
 foreach ( $active_modules as $module ) {
+
+    error_log( 'whx4 module: ' . $module );
 
     $sub_modules = array();
     // Add module options page for adding featured image, page-top content, &c.
