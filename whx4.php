@@ -127,67 +127,77 @@ function whx4_scripts_method() {
 
 /* +~+~+ Optional Modules +~+~+ */
 
-// Get plugin options -- WIP
-$options = get_option( 'whx4_settings' );
-//if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
-if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
-//error_log( 'whx4_active_modules: ' . print_r( $active_modules, true ) );
-if ( empty($active_modules) ) { error_log( 'No whx4 modules are active.' ); }
-// Loop through active modules and do file includes
-foreach ( $active_modules as $module ) {
+/**
+ * Check if ACF PRO is active and function exists
+ */
+if ( function_exists( 'acf_add_options_page' ) ) {
+	add_action( 'acf/init', 'whx4_activate_modules' );
+}
 
-    error_log( 'whx4 module: ' . $module );
+function whx4_activate_modules()
+{
+	// Get plugin options -- WIP
+	$options = get_option( 'whx4_settings' );
+	if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+	//if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
+	//error_log( 'whx4_active_modules: ' . print_r( $active_modules, true ) );
+	if ( empty($active_modules) ) { error_log( 'No whx4 modules are active.' ); }
+	// Loop through active modules and do file includes
+	foreach ( $active_modules as $module ) {
 
-    $sub_modules = array();
-    // Add module options page for adding featured image, page-top content, &c.
-    $cpt_names = array(); // array because some modules include multiple post types
+		error_log( 'whx4 module: ' . $module );
 
-	// Which post types are associated with this module? Build array
-	// Deal w/ modules whose names don't perfectly match their CPT names
-	if ( $module == "people" ) {
-		$sub_modules[] = "people";
-		$sub_modules[] = "groups";
-		$primary_cpt = "person";
-		$cpt_names[] = "person";
-		//$cpt_names[] = "group";
-	} else if ( $module == "places" ) {
-		$sub_modules[] = "venues";
-		$primary_cpt = "location";
-		$cpt_names[] = "location";
-		//$cpt_names[] = "building"; // address
-	} else if ( $module == "events" ) {
-		$sub_modules[] = "events";
-		$primary_cpt = "event";
-		$cpt_names[] = "event";
-		$cpt_names[] = "event_series";
-	} else {
-		$sub_modules[] = $module;
-		$cpt_name = $module;
-		// Make it singular -- remove trailing "s"
-		if ( substr($cpt_name, -1) == "s" && $cpt_name != "press" ) { $cpt_name = substr($cpt_name, 0, -1); }
-		$primary_cpt = $cpt_name;
-		$cpt_names[] = $cpt_name;
-	}
+		$sub_modules = array();
+		// Add module options page for adding featured image, page-top content, &c.
+		$cpt_names = array(); // array because some modules include multiple post types
 
-	// Load associated functions file, if any
-	foreach ( $sub_modules as $sub_module ) {
-		$filepath = WHX4_PLUGIN_DIR.'/modules/'.$sub_module.'.php';
-		$arr_exclusions = array ( 'addresses', 'buildings', 'organizations', 'ensembles' );
-		if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
-			if ( file_exists($filepath) ) { require( $filepath ); } else { echo "WHx4 module file $filepath not found"; }
+		// Which post types are associated with this module? Build array
+		// Deal w/ modules whose names don't perfectly match their CPT names
+		if ( $module == "people" ) {
+			$sub_modules[] = "people";
+			$sub_modules[] = "groups";
+			$primary_cpt = "person";
+			$cpt_names[] = "person";
+			//$cpt_names[] = "group";
+		} else if ( $module == "places" ) {
+			$sub_modules[] = "venues";
+			$primary_cpt = "location";
+			$cpt_names[] = "location";
+			//$cpt_names[] = "building"; // address
+		} else if ( $module == "events" ) {
+			$sub_modules[] = "events";
+			$primary_cpt = "event";
+			$cpt_names[] = "event";
+			$cpt_names[] = "event_series";
+		} else {
+			$sub_modules[] = $module;
+			$cpt_name = $module;
+			// Make it singular -- remove trailing "s"
+			if ( substr($cpt_name, -1) == "s" && $cpt_name != "press" ) { $cpt_name = substr($cpt_name, 0, -1); }
+			$primary_cpt = $cpt_name;
+			$cpt_names[] = $cpt_name;
 		}
-    }
 
-	if ( function_exists('acf_add_options_page') ) {
-		// Add module options page
-    	acf_add_options_sub_page(array(
-			'page_title'	=> ucfirst($module).' Module Options',
-			'menu_title'    => ucfirst($module).' Module Options',//'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
-			'menu_slug' 	=> $module.'-module-options',
-			'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
-		));
+		// Load associated functions file, if any
+		foreach ( $sub_modules as $sub_module ) {
+			$filepath = WHX4_PLUGIN_DIR.'/modules/'.$sub_module.'.php';
+			$arr_exclusions = array ( 'addresses', 'buildings', 'organizations', 'ensembles' );
+			if ( !in_array( $module, $arr_exclusions) ) { // skip modules w/ no associated function files
+				if ( file_exists($filepath) ) { require( $filepath ); } else { echo "WHx4 module file $filepath not found"; }
+			}
+		}
+
+		if ( function_exists('acf_add_options_page') ) {
+			// Add module options page
+			acf_add_options_sub_page(array(
+				'page_title'	=> ucfirst($module).' Module Options',
+				'menu_title'    => ucfirst($module).' Module Options',//'menu_title'    => 'Archive Options', //ucfirst($cpt_name).
+				'menu_slug' 	=> $module.'-module-options',
+				'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
+			));
+		}
+
 	}
-
 }
 
 /* +~+~+ Misc Functions +~+~+ */
