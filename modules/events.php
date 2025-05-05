@@ -3614,6 +3614,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
             // Custom excerpt exists — allow basic HTML
             $replace = wp_kses_post( $post->post_excerpt );
         }
+        $replace = "<!-- #EVENTEXCERPT -->" . $replace . "<!-- /#EVENTEXCERPT -->";
 
     } else if ( $result == '#_EVENTNAME' ) {
 
