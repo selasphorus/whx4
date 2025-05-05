@@ -3603,7 +3603,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         $replace = $EM_Event->output(get_option('dbem_event_list_item_format'));
 
-    } else if ( $result == '#_EVENTEXCERPT' ) {
+    } else if ( $result == '#_EVENTEXCERPT' || $result == '#_EVENTEXCERPT{55}' ) {
 
         $replace = wp_kses_post( get_the_excerpt( $post_id ) );
 
