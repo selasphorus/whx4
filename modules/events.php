@@ -3564,7 +3564,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
     // Init vars
     $ts_info = "";
     if ($EM_Event instanceof EM_Event) {
-    	$post_id = $EM_Event->post_id;
+        $post_id = $EM_Event->post_id;
 	} else {
 		sdg_log( "EM_Event var NOT an instanceof EM_Event", $do_log );
 		$post_id = null;
@@ -3604,8 +3604,14 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
         $replace = $EM_Event->output(get_option('dbem_event_list_item_format'));
 
     } else if ( $result == '#_EVENTEXCERPT' || $result == '#_EVENTEXCERPT{55}' ) {
-
-        $replace = wp_kses_post( get_the_excerpt( $post_id ) );
+        $post = get_post( $EM_Event->post_id );
+        if ( ! $post ) {
+            return $replace;
+        }
+        if ( ! empty( $post->post_excerpt ) ) {
+            // Custom excerpt exists — allow basic HTML
+            $replace = wp_kses_post( $post->post_excerpt );
+        }
 
     } else if ( $result == '#_EVENTNAME' ) {
 
