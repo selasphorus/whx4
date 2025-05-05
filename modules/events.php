@@ -3555,7 +3555,7 @@ function display_webcast_events() {
 // Function to modify default #_XXX placeholders
 //add_filter( 'em_event_output_placeholder', 'whx4_placeholders', 99, 3 );
 //add_filter( 'em_event_output_condition', 'whx4_placeholders', 1, 3 );
-add_filter( 'em_event_output_placeholder','whx4_placeholders', 1, 3 );
+add_filter( 'em_event_output_placeholder', 'whx4_placeholders', 1, 3 );
 function whx4_placeholders( $replace, $EM_Event, $result ) {
 
     // TS/logging setup
