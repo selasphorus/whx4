@@ -3605,7 +3605,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
     } else if ( $result == '#_EVENTEXCERPT' ) {
 
-        $replace = wp_kses_post( $replace );
+        $replace = wp_kses_post( get_the_excerpt( $post_id ) );
 
     } else if ( $result == '#_EVENTNAME' ) {
 
