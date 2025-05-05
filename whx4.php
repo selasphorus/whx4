@@ -90,7 +90,7 @@ require 'includes/acf-restrict-access.php';
 
 // Display and template helpers
 require 'includes/template-tags.php';
-	
+
 // Load ACF field groups hard-coded as PHP
 require 'includes/acf-field-groups.php';
 
@@ -108,35 +108,35 @@ require 'includes/cpts.php';
  */
 add_action( 'wp_enqueue_scripts', 'whx4_scripts_method' );
 function whx4_scripts_method() {
-    
+
     //global $current_user;
     //$current_user = wp_get_current_user();
-    
+
     $fpath = WP_PLUGIN_DIR . '/whx4/css/whx4.css';
-    if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }  
+    if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }
     wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
-    
+
     /*$fpath = WP_PLUGIN_DIR . '/whx4/js/whx4.js';
     if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = date('Ymd.hi'); }
     wp_enqueue_script( 'whx4', plugins_url( 'js/whx4.js', __FILE__ ), array( 'jquery-ui-dialog' ), $ver  );
     wp_localize_script( 'whx4', 'theUser', array (
         'username' => $current_user->user_login,
     ) );*/
-    
+
 }
 
 /* +~+~+ Optional Modules +~+~+ */
 
 // Get plugin options -- WIP
 $options = get_option( 'whx4_settings' );
-if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
-//if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
+//if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+if ( isset($options['whx4_active_modules']) ) { $active_modules = $options['whx4_active_modules']; } else { $active_modules = array(); }
 foreach ( $active_modules as $module ) {
-    
+
     $sub_modules = array();
     // Add module options page for adding featured image, page-top content, &c.
     $cpt_names = array(); // array because some modules include multiple post types
-	
+
 	// Which post types are associated with this module? Build array
 	// Deal w/ modules whose names don't perfectly match their CPT names
 	if ( $module == "people" ) {
@@ -163,7 +163,7 @@ foreach ( $active_modules as $module ) {
 		$primary_cpt = $cpt_name;
 		$cpt_names[] = $cpt_name;
 	}
-	
+
 	// Load associated functions file, if any
 	foreach ( $sub_modules as $sub_module ) {
 		$filepath = WHX4_PLUGIN_DIR.'/modules/'.$sub_module.'.php';
@@ -172,7 +172,7 @@ foreach ( $active_modules as $module ) {
 			if ( file_exists($filepath) ) { require( $filepath ); } else { echo "WHx4 module file $filepath not found"; }
 		}
     }
-    
+
 	if ( function_exists('acf_add_options_page') ) {
 		// Add module options page
     	acf_add_options_sub_page(array(
@@ -194,19 +194,19 @@ function whx4_redirect() {
 	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
 	// /music/the-sunday-recital-series/upcoming-sunday-recital/
 	//$current_url = home_url( add_query_arg( array(), $wp->request ) );
-	
+
 	if ( $wp->request == "/events" && get_query_var('limit') == "1") {
-        
+
         // Run EM search based on query vars
         // Redirect to next single event record matching scope etc.
-        
-        //wp_redirect( site_url('/de/') ); 
-        //exit; 
+
+        //wp_redirect( site_url('/de/') );
+        //exit;
     }
-    
+
     /*if (get_query_var('lang') == "de") {
-        wp_redirect( site_url('/de/') ); 
-        exit; 
+        wp_redirect( site_url('/de/') );
+        exit;
     }*/
 }
 
