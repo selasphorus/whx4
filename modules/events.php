@@ -3567,10 +3567,10 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
     $ts_info = "";
     if ($EM_Event instanceof EM_Event) {
         $post_id = $EM_Event->post_id;
-	} else {
-		sdg_log( "EM_Event var NOT an instanceof EM_Event", $do_log );
-		$post_id = null;
-	}
+    } else {
+        sdg_log( "EM_Event var NOT an instanceof EM_Event", $do_log );
+        $post_id = null;
+    }
     //$event_id = $EM_Event->ID;
     //$ts_info .= "[sdgp] EM  $result for post_id: $post_id<br />"; // breaks layout?
     //$ts_info .= "EM result: $result<br />";
@@ -3605,7 +3605,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         $replace = $EM_Event->output(get_option('dbem_event_list_item_format'));
 
-    } else if ( $result == '#_EVENTEXCERPT' || strpos( $result, '#_EVENTEXCERPT{' ) === 0 ) {
+    } else if ( $result == '#_EVENTEXCERPT' || strpos( $result, '#_EVENTEXCERPT' ) === 0 ) {
         error_log( 'custom_placeholders triggered for event ID: ' . $EM_Event->post_id );
         $post = get_post( $EM_Event->post_id );
         if ( ! $post ) {
@@ -3616,7 +3616,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
             // Custom excerpt exists — allow basic HTML
             $replace = wp_kses_post( $post->post_excerpt );
         }
-        $replace = "<!-- #EVENTEXCERPT -->" . $replace . "<!-- /#EVENTEXCERPT -->";
+        //$replace = "<!-- #EVENTEXCERPT -->" . $replace . "<!-- /#EVENTEXCERPT -->";
 
     } else if ( $result == '#_EVENTNAME' ) {
 
