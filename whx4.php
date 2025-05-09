@@ -198,6 +198,10 @@ function whx4_activate_modules()
 		}
 
 	}
+
+	if ( in_array('events', $active_modules ) ) {
+	    register_taxonomy_for_object_type( 'event_category', 'event_series' );
+	}
 }
 
 /* +~+~+ Misc Functions +~+~+ */

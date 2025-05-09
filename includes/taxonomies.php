@@ -293,11 +293,6 @@ if ( in_array('events', $active_modules ) ) {
     }
     add_action( 'init', 'register_taxonomy_program_label' );
 
-    add_action( 'init', function() {
-        register_taxonomy_for_object_type( 'event_category', 'event_series' );
-    } );
-
-
 }
 
 ?>
