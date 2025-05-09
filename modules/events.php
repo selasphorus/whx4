@@ -3816,7 +3816,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
             // Get series categories
             $terms = get_the_terms( $series_id, 'event-categories' );
             if ( $terms ) {
-                $info .= '<ul class="event-categories">';
+                $info .= '<ul class="event-categories whx4">';
                 foreach ( $terms as $term ) {
                     $term_link = get_term_link( $term );
                     $info .= '<li><a href="' . $term_link . '">' . __( $term->name ) . '</a></li>';
