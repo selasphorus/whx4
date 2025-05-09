@@ -3808,7 +3808,7 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         $event_series = get_post_meta( $post_id, 'event_series', true );
         if ( isset($event_series['ID']) ) {
-            $info = "";
+            $info = "TEST";
             $series_id = $event_series['ID'];
             //$series_title = get_the_title( $series_id );
             // Get series categories
