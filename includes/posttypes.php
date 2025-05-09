@@ -482,7 +482,7 @@ if ( in_array('events', $active_modules ) ) {
             //'menu_icon'            => 'dashicons-book',
             'menu_position'        => null,
             'supports'             => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ),
-            'taxonomies'        => array( 'admin_tag', 'event_category' ),
+            'taxonomies'        => array( 'admin_tag', 'event-categories' ), // 'event_category'
             'show_in_rest'        => false,
         );
 
