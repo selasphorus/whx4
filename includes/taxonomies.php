@@ -52,7 +52,7 @@ if ( in_array('people', $active_modules ) ) {
                 'delete_terms'  =>   'delete_'.$cap.'_terms',
                 'assign_terms'  =>   'assign_'.$cap.'_terms',
             );
-        }*/    
+        }*/
         register_taxonomy( 'person_category', [ 'person' ], $args ); //register_taxonomy( 'test_tax', array( 0 => 'person' ), $args ),
     }
     add_action( 'init', 'register_taxonomy_person_category' );
@@ -98,7 +98,7 @@ if ( in_array('people', $active_modules ) ) {
         register_taxonomy( 'person_role', [ 'person' ], $args ); //register_taxonomy( 'person_role', [ 'event', 'event_program' ], $args );
     }
     add_action( 'init', 'register_taxonomy_person_role' );
-    
+
     // Custom Taxonomy: Person Title
     // TODO: phase out this taxonomy -- currently in use only for nycago -- replace with affiliations via person_role
     function register_taxonomy_person_title() {
@@ -129,7 +129,7 @@ if ( in_array('people', $active_modules ) ) {
         register_taxonomy( 'person_title', [ 'person' ], $args );
     }
     add_action( 'init', 'register_taxonomy_person_title' );
-    
+
     // Custom Taxonomy: Person Tag
     function register_taxonomy_person_tag() {
         $labels = array(
@@ -198,7 +198,7 @@ if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_module
                 'delete_terms'  =>   'delete_'.$cap.'_terms',
                 'assign_terms'  =>   'assign_'.$cap.'_terms',
             );
-        }*/    
+        }*/
         register_taxonomy( 'group_category', [ 'group', 'organization', 'ensemble' ], $args );
     }
     add_action( 'init', 'register_taxonomy_group_category' );
@@ -292,6 +292,11 @@ if ( in_array('events', $active_modules ) ) {
         register_taxonomy( 'program_label', [ 'event', 'event_program' ], $args );
     }
     add_action( 'init', 'register_taxonomy_program_label' );
+
+    add_action( 'init', function() {
+        register_taxonomy_for_object_type( 'event_category', 'event_series' );
+    } );
+
 
 }
 
