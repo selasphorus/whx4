@@ -3804,11 +3804,12 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         $replace = $info;
 
-    } else if ( $result == '#_SERIESCATEGORIES' ) {
-        $info = "";
+    } else if ( $result == '#_EVENTCATEGORIES' ) {
+    //} else if ( $result == '#_SERIESCATEGORIES' ) {
+        // Modify to show series category, if any are found, in lieu of the individual event's categories
         $event_series = get_post_meta( $post_id, 'event_series', true );
         if ( $event_series ) {
-
+            $info = "";
             $series_id = $event_series[0];
             //$series_id = $event_series['ID'];
             //$series_title = get_the_title( $series_id );
@@ -3823,10 +3824,8 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
                 }
                 $info .= '</ul>';
             }
-        } else {
-            //info .= "event_series: " . print_r( $event_series, true );
+            $replace = $info;
         }
-        $replace = $info;
 
     } else {
 
