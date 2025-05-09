@@ -199,7 +199,7 @@ function whx4_activate_modules()
 
 	}
 
-	if ( in_array('events', $active_modules ) ) {
+	/*if ( in_array('events', $active_modules ) ) {
 	    if ( register_taxonomy_for_object_type( 'event_category', 'event_series' ) ) {
 	        error_log( 'Success! Registered taxonomy event_category for cpt event_series!' );
 	    } else {
@@ -207,8 +207,24 @@ function whx4_activate_modules()
 	    }
 	} else {
 	    error_log( 'Events module is not active.' );
-	}
+	}*/
 }
+
+add_action( 'plugins_loaded', function() {
+    add_action( 'acf/init', function() {
+    	// Get plugin options -- WIP
+    	$options = get_option( 'whx4_settings' );
+    	if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field('whx4_active_modules', 'option'); } else { $active_modules = array(); }
+        if ( in_array('events', $active_modules ) && taxonomy_exists( 'event-categories' ) ) {
+            if ( register_taxonomy_for_object_type( 'event_category', 'event_series' ) ) {
+				error_log( 'Success! Registered taxonomy event_category for cpt event_series!' );
+			} else {
+				error_log( 'Problem! Failed to register taxonomy event_category for cpt event_series!' );
+			}
+        }
+    } );
+} );
+
 
 /* +~+~+ Misc Functions +~+~+ */
 
