@@ -3804,6 +3804,26 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         $replace = $info;
 
+    } else if ( $result == '#_SERIESCATEGORIES' ) {
+
+        $event_series = get_post_meta( $post_id, 'event_series', true );
+        if ( isset($event_series['ID']) ) {
+            $info = "";
+            $series_id = $event_series['ID'];
+            //$series_title = get_the_title( $series_id );
+            // Get series categories
+            $terms = get_the_terms( $series_id, 'event-categories' );
+            if ( $terms ) {
+                $info .= '<ul class="event-categories">';
+                foreach ( $terms as $term ) {
+                    $term_link = get_term_link( $term );
+                    $info .= '<li><a href="' . $term_link . '">' . __( $term->name ) . '</a></li>';
+                }
+                $info .= '</ul>';
+            }
+        }
+        $replace = $info;
+
     } else {
 
         //$replace .= "result: ".print_r($result,true)."<br />";
