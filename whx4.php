@@ -200,7 +200,13 @@ function whx4_activate_modules()
 	}
 
 	if ( in_array('events', $active_modules ) ) {
-	    register_taxonomy_for_object_type( 'event_category', 'event_series' );
+	    if ( register_taxonomy_for_object_type( 'event_category', 'event_series' ) ) {
+	        error_log( 'Success! Registered taxonomy event_category for cpt event_series!' );
+	    } else {
+	        error_log( 'Problem! Failed to register taxonomy event_category for cpt event_series!' );
+	    }
+	} else {
+	    error_log( 'Events module is not active.' );
 	}
 }
 
