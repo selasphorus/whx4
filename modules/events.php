@@ -3805,10 +3805,10 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
         $replace = $info;
 
     } else if ( $result == '#_SERIESCATEGORIES' ) {
-
+        $info = "TEST";
         $event_series = get_post_meta( $post_id, 'event_series', true );
         if ( isset($event_series['ID']) ) {
-            $info = "TEST";
+
             $series_id = $event_series['ID'];
             //$series_title = get_the_title( $series_id );
             // Get series categories
@@ -3821,6 +3821,8 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
                 }
                 $info .= '</ul>';
             }
+        } else {
+            $info .= "event_series: " . print_r( $event_series, true );
         }
         $replace = $info;
 
