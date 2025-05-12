@@ -145,7 +145,7 @@ function whx4_activate_modules()
 	// Loop through active modules and do file includes
 	foreach ( $active_modules as $module ) {
 
-		error_log( 'whx4 module: ' . $module );
+		//error_log( 'whx4 module: ' . $module );
 
 		$sub_modules = array();
 		// Add module options page for adding featured image, page-top content, &c.

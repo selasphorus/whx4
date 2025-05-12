@@ -3605,13 +3605,13 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
         $replace = $EM_Event->output(get_option('dbem_event_list_item_format'));
 
     } else if ( $result == '#_EVENTEXCERPT' || strpos( $result, '#_EVENTEXCERPT' ) === 0 ) {
-        error_log( 'custom_placeholders triggered for event ID: ' . $EM_Event->post_id );
+        //error_log( 'custom_placeholders triggered for event ID: ' . $EM_Event->post_id );
         $post = get_post( $EM_Event->post_id );
         if ( ! $post ) {
             return $replace;
         }
         if ( ! empty( $post->post_excerpt ) ) {
-            error_log( 'Raw excerpt: ' . $post->post_excerpt );
+            //error_log( 'Raw excerpt: ' . $post->post_excerpt );
             // Custom excerpt exists — allow basic HTML
             $replace = wp_kses_post( $post->post_excerpt );
         }
