@@ -36,8 +36,8 @@ class Event extends PostTypeHandler
 		]);
 
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
-		add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
-
+		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
+		add_filter( 'acf/prepare_field/name=whx4_events_recurrence_rule', [ $this, 'addRecurrencePreview' ] );
 	}
 
 	public function generateRruleFromFields( $post_id ): void
