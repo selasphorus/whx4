@@ -79,6 +79,11 @@ class EventFields implements FieldGroupInterface
                                 'YEARLY'  => 'Yearly',
                             ],
                             'required' => 1,
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                         [
                             'key' => 'field_whx4_events_interval',
@@ -87,6 +92,11 @@ class EventFields implements FieldGroupInterface
                             'type' => 'number',
                             'default_value' => 1,
                             'min' => 1,
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                         [
                             'key' => 'field_whx4_events_byday',
@@ -110,6 +120,11 @@ class EventFields implements FieldGroupInterface
                                         'value' => 'WEEKLY',
                                     ]
                                 ]
+                            ],
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
                             ],
                         ],
                         [
@@ -140,6 +155,11 @@ class EventFields implements FieldGroupInterface
                                     ]
                                 ]
                             ],
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                         [
                             'key' => 'field_whx4_events_count',
@@ -147,6 +167,11 @@ class EventFields implements FieldGroupInterface
                             'name' => 'count',
                             'type' => 'number',
                             'min' => 1,
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                         [
                             'key' => 'field_whx4_events_until',
@@ -155,6 +180,11 @@ class EventFields implements FieldGroupInterface
                             'type' => 'date_picker',
                             'display_format' => 'Y-m-d',
                             'return_format'  => 'Y-m-d',
+                            'wrapper' => [
+                                'width' => '20',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                     ],
                 ],
