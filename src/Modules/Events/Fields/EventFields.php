@@ -21,9 +21,15 @@ class EventFields implements FieldGroupInterface
                     'label' => 'Start Date & Time',
                     'name'  => 'whx4_events_start_datetime',
                     'type'  => 'date_time_picker',
-                    'required' => 1,
                     'display_format' => 'Y-m-d H:i',
                     'return_format'  => 'Y-m-d\TH:i:s',
+                    'required' => 1,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '20',
+                        'class' => '',
+                        'id' => '',
+                    ],
                 ],
                 [
                     'key'   => 'field_whx4_events_end_datetime',
@@ -33,6 +39,12 @@ class EventFields implements FieldGroupInterface
                     'required' => 0,
                     'display_format' => 'Y-m-d H:i',
                     'return_format'  => 'Y-m-d\TH:i:s',
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '20',
+                        'class' => '',
+                        'id' => '',
+                    ],
                 ],
                 [
                     'key'   => 'field_whx4_events_recurrence_rule',
@@ -41,7 +53,112 @@ class EventFields implements FieldGroupInterface
                     'type'  => 'text',
                     'instructions' => 'iCal RRULE format (e.g. FREQ=WEEKLY;BYDAY=MO,WE)',
                     'required' => 0,
+                    'wrapper' => [
+                        'width' => '20',
+                        'class' => '',
+                        'id' => '',
+                    ],
                 ],
+                // START recurrence rules WIP
+                [
+                    'key' => 'field_whx4_events_recurrence_human',
+                    'label' => 'Repeats',
+                    'name' => 'whx4_events_recurrence_human',
+                    'type' => 'group',
+                    'layout' => 'block',
+                    'sub_fields' => [
+                        [
+                            'key' => 'field_whx4_events_freq',
+                            'label' => 'Frequency',
+                            'name' => 'freq',
+                            'type' => 'select',
+                            'choices' => [
+                                'DAILY'   => 'Daily',
+                                'WEEKLY'  => 'Weekly',
+                                'MONTHLY' => 'Monthly',
+                                'YEARLY'  => 'Yearly',
+                            ],
+                            'required' => 1,
+                        ],
+                        [
+                            'key' => 'field_whx4_events_interval',
+                            'label' => 'Interval',
+                            'name' => 'interval',
+                            'type' => 'number',
+                            'default_value' => 1,
+                            'min' => 1,
+                        ],
+                        [
+                            'key' => 'field_whx4_events_byday',
+                            'label' => 'Days of the Week',
+                            'name' => 'byday',
+                            'type' => 'checkbox',
+                            'choices' => [
+                                'MO' => 'Monday',
+                                'TU' => 'Tuesday',
+                                'WE' => 'Wednesday',
+                                'TH' => 'Thursday',
+                                'FR' => 'Friday',
+                                'SA' => 'Saturday',
+                                'SU' => 'Sunday',
+                            ],
+                            'conditional_logic' => [
+                                [
+                                    [
+                                        'field' => 'field_whx4_events_freq',
+                                        'operator' => '==',
+                                        'value' => 'WEEKLY',
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'key' => 'field_whx4_events_bymonth',
+                            'label' => 'Months',
+                            'name' => 'bymonth',
+                            'type' => 'checkbox',
+                            'choices' => [
+                                '1' => 'January',
+                                '2' => 'February',
+                                '3' => 'March',
+                                '4' => 'April',
+                                '5' => 'May',
+                                '6' => 'June',
+                                '7' => 'July',
+                                '8' => 'August',
+                                '9' => 'September',
+                                '10' => 'October',
+                                '11' => 'November',
+                                '12' => 'December',
+                            ],
+                            'conditional_logic' => [
+                                [
+                                    [
+                                        'field' => 'field_whx4_events_freq',
+                                        'operator' => '==',
+                                        'value' => 'YEARLY',
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'key' => 'field_whx4_events_count',
+                            'label' => 'Number of occurrences',
+                            'name' => 'count',
+                            'type' => 'number',
+                            'min' => 1,
+                        ],
+                        [
+                            'key' => 'field_whx4_events_until',
+                            'label' => 'Repeat until',
+                            'name' => 'until',
+                            'type' => 'date_picker',
+                            'display_format' => 'Y-m-d',
+                            'return_format'  => 'Y-m-d',
+                        ],
+                    ],
+                ],
+                // END recurrence rules WIP
                 [
                     'key'           => 'field_whx4_events_excluded_datetimes',
                     'label'         => 'Excluded Dates',
