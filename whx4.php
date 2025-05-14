@@ -159,4 +159,3 @@ function whx4_redirect() {
         }
     } );
 }*/
-
