@@ -34,5 +34,84 @@ class Event extends PostTypeHandler
 			'called_by'      => 'Event::boot',
 			//'append'         => 'TEST: ',
 		]);
+
+		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
+		add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
+
 	}
+
+	public function generateRruleFromFields( $post_id ): void
+	{
+		if ( get_post_type( $post_id ) !== 'whx4_event' ) {
+			return;
+		}
+
+		$input = get_field( 'whx4_events_recurrence_human', $post_id );
+
+		if ( !$input || !is_array( $input ) || empty( $input['freq'] ) ) {
+			// If no new input, but rrule already exists, preserve it
+			if ( !get_post_meta( $post_id, 'whx4_events_recurrence_rule', true ) ) {
+				update_post_meta( $post_id, 'whx4_events_recurrence_rule', '' );
+			}
+			return;
+		}
+
+
+		$rule = [ 'FREQ' => strtoupper( $input['freq'] ) ];
+
+		if ( !empty( $input['interval'] ) && intval( $input['interval'] ) > 1 ) {
+			$rule['INTERVAL'] = intval( $input['interval'] );
+		}
+
+		if ( !empty( $input['byday'] ) && is_array( $input['byday'] ) ) {
+			$rule['BYDAY'] = implode( ',', array_map( 'strtoupper', $input['byday'] ) );
+		}
+
+		if ( !empty( $input['bymonth'] ) && is_array( $input['bymonth'] ) ) {
+			$rule['BYMONTH'] = implode( ',', array_map( 'intval', $input['bymonth'] ) );
+		}
+
+		if ( !empty( $input['count'] ) ) {
+			$rule['COUNT'] = intval( $input['count'] );
+		}
+
+		if ( !empty( $input['until'] ) ) {
+			$rule['UNTIL'] = date( 'Ymd\THis\Z', strtotime( $input['until'] ) );
+		}
+
+		$parts = [];
+		foreach ( $rule as $k => $v ) {
+			$parts[] = "{$k}={$v}";
+		}
+
+		$rrule = implode( ';', $parts );
+		update_post_meta( $post_id, 'whx4_events_recurrence_rule', $rrule );
+	}
+
+	public function addRecurrencePreview( $field )
+	{
+		if ( !function_exists( 'get_current_screen' ) ) {
+			return $field;
+		}
+
+		$post_id = get_the_ID();
+		$rrule   = get_post_meta( $post_id, 'whx4_events_recurrence_rule', true );
+
+		if ( !$rrule ) {
+			return $field;
+		}
+
+		try {
+			$summary = new \atc\WHx4\Utils\Recurrence\RecurrenceSummaryBuilder( $rrule );
+			$text = $summary->getText();
+
+			$field['instructions'] .= '<br><strong>Preview:</strong> ' . esc_html( $text );
+		} catch ( \Throwable $e ) {
+			// optionally log or ignore
+		}
+
+		return $field;
+	}
+
+
 }
