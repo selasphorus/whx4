@@ -136,7 +136,8 @@ class DateHelper {
      * @param bool   $asDateObject
      * @return string|DateTimeImmutable
      */
-    public static function parseFlexibleDate( string $input, bool $asDateObject = false ): string|DateTimeImmutable {
+    public static function parseFlexibleDate( string $input, bool $asDateObject = false ): string|DateTimeImmutable
+    {
         try {
             $dt = new DateTimeImmutable( $input );
             return $asDateObject ? $dt : $dt->format( 'Y-m-d' );
@@ -173,7 +174,8 @@ class DateHelper {
      * @param int $year
      * @return DateTimeImmutable
      */
-    public static function calculateEasterDate( int $year ): DateTimeImmutable {
+    public static function calculateEasterDate( int $year ): DateTimeImmutable
+    {
         $timestamp = easter_date( $year );
         return ( new DateTimeImmutable() )->setTimestamp( $timestamp );
     }
