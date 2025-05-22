@@ -53,6 +53,7 @@ class EventFields implements FieldGroupInterface
                     'type'  => 'text',
                     'instructions' => 'iCal RRULE format (e.g. FREQ=WEEKLY;BYDAY=MO,WE)',
                     'required' => 0,
+                    'readonly' => 1,
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
@@ -207,7 +208,7 @@ class EventFields implements FieldGroupInterface
                         ],
                     ],
                 ],
-                [
+                /*[
                     'key'           => 'field_whx4_events_instance_overrides',
                     'label'         => 'Modified Instances',
                     'name'          => 'whx4_events_instance_overrides',
@@ -241,7 +242,7 @@ class EventFields implements FieldGroupInterface
                             'required'      => 0,
                         ],
                     ],
-                ],
+                ],*/
                 // END recurrence rules WIP
                 [
                     'key'   => 'field_whx4_events_legacy_em_event_id',
