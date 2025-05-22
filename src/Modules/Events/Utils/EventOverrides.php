@@ -27,15 +27,21 @@ class EventOverrides
 
     public static function renderMetaBox( WP_Post $post ): void
     {
-        $excluded = get_post_meta( $post->ID, 'whx4_events_excluded_dates', true ) ?: [];
+        //$excluded = get_post_meta( $post->ID, 'whx4_events_excluded_dates', true ) ?: [];
+        $excluded_rows = get_field( 'whx4_events_excluded_dates', $post->ID ) ?: [];
 
-        if ( empty( $excluded ) ) {
+        if ( empty( $excluded_rows ) ) {
             echo '<p>No excluded dates.</p>';
             return;
         }
 
         echo '<ul>';
-        foreach ( $excluded as $date ) {
+        foreach ( $excluded_rows as $row ) {
+            if ( ! empty( $row['whx4_events_exdate_date'] ) ) {
+                $date = $row['whx4_events_exdate_date'];
+            } else {
+                next;
+            }
             if ( self::replacementExists( $post->ID, $date ) ) {
                 echo '<li>' . esc_html( $date ) . ' <em>Replacement created</em></li>';
             } else {
