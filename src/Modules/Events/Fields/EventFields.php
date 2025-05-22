@@ -208,7 +208,7 @@ class EventFields implements FieldGroupInterface
                         ],
                     ],
                     'wrapper' => [
-                        'width' => '25',
+                        'width' => '40',
                         'class' => '',
                         'id' => '',
                     ],
@@ -256,7 +256,7 @@ class EventFields implements FieldGroupInterface
                     'type'  => 'number',
                     'readonly' => 1,
                     'wrapper' => [
-                        'width' => '50',
+                        'width' => '20',
                     ],
                 ],
             ],
