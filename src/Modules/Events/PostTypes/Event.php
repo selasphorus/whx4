@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Utils\Recurrence\InstanceGenerator;
 
 class Event extends PostTypeHandler
 {
@@ -112,6 +113,40 @@ class Event extends PostTypeHandler
 
 		return $field;
 	}
+
+	/*
+	// WIP: generate instances for display in calendar
+
+
+
+		$start = get_post_meta( $post->ID, 'whx4_events_start_datetime', true );
+		$rrule = get_post_meta( $post->ID, 'whx4_events_recurrence_rule', true );
+
+		$exdates = [];
+		foreach ( get_field( 'whx4_events_excluded_datetimes', $post->ID ) ?: [] as $row ) {
+			if ( !empty( $row['datetime'] ) ) {
+				$exdates[] = ( new DateTimeImmutable( $row['datetime'] ) )->format( 'Y-m-d\TH:i:s' );
+			}
+		}
+
+		$overrides = [];
+		foreach ( get_field( 'whx4_events_instance_overrides', $post->ID ) ?: [] as $row ) {
+			if ( !empty( $row['original'] ) && !empty( $row['replacement'] ) ) {
+				$key = ( new DateTimeImmutable( $row['original'] ) )->format( 'Y-m-d\TH:i:s' );
+				$overrides[ $key ] = new DateTimeImmutable( $row['replacement'] );
+			}
+		}
+
+		$generator = new InstanceGenerator([
+			'start'     => $start,
+			'rrule'     => $rrule,
+			'exdates'   => $exdates,
+			'overrides' => $overrides,
+		]);
+
+		$instances = $generator->generate( 50 );
+
+	*/
 
 
 }
