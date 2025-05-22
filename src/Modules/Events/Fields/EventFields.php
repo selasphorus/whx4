@@ -190,10 +190,8 @@ class EventFields implements FieldGroupInterface
                 ],
                 [
                     'key'           => 'field_whx4_events_excluded_dates',
-                    //'key'           => 'field_whx4_events_excluded_datetimes',
                     'label'         => 'Excluded Dates',
                     'name'          => 'whx4_events_excluded_dates',
-                    //'name'          => 'whx4_events_excluded_datetimes',
                     'type'          => 'repeater',
                     'instructions'  => 'Dates to skip in this recurrence series.',
                     'min'           => 0,
@@ -201,16 +199,11 @@ class EventFields implements FieldGroupInterface
                     'sub_fields'    => [
                         [
                             'key'           => 'field_whx4_events_exdate_date',
-                            //'key'           => 'field_whx4_events_exdate_datetime',
                             'label'         => 'Date to Exclude',
-                            'name'          => 'whx4_events_exclude_date',
-                            //'name'          => 'datetime',
+                            'name'          => 'whx4_events_exdate_date',
                             'type'          => 'date_picker',
-                            //'type'          => 'date_time_picker',
                             'display_format'=> 'Y-m-d',
-                            //'display_format'=> 'Y-m-d H:i',
                             'return_format' => 'Y-m-d',
-                            //'return_format' => 'Y-m-d\TH:i:s',
                         ],
                     ],
                 ],
