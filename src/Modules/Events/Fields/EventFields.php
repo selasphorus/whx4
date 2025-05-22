@@ -46,20 +46,6 @@ class EventFields implements FieldGroupInterface
                         'id' => '',
                     ],
                 ],
-                [
-                    'key'   => 'field_whx4_events_recurrence_rule',
-                    'label' => 'Recurrence Rule',
-                    'name'  => 'whx4_events_recurrence_rule',
-                    'type'  => 'text',
-                    'instructions' => 'iCal RRULE format (e.g. FREQ=WEEKLY;BYDAY=MO,WE)',
-                    'required' => 0,
-                    'readonly' => 1,
-                    'wrapper' => [
-                        'width' => '20',
-                        'class' => '',
-                        'id' => '',
-                    ],
-                ],
                 // START recurrence rules WIP
                 [
                     'key' => 'field_whx4_events_recurrence_human',
@@ -205,6 +191,11 @@ class EventFields implements FieldGroupInterface
                             'type'          => 'date_picker',
                             'display_format'=> 'Y-m-d',
                             'return_format' => 'Y-m-d',
+                            'wrapper' => [
+                                'width' => '50',
+                                'class' => '',
+                                'id' => '',
+                            ],
                         ],
                     ],
                     'wrapper' => [
@@ -248,6 +239,20 @@ class EventFields implements FieldGroupInterface
                         ],
                     ],
                 ],*/
+                [
+                    'key'   => 'field_whx4_events_recurrence_rule',
+                    'label' => 'Recurrence Rule',
+                    'name'  => 'whx4_events_recurrence_rule',
+                    'type'  => 'text',
+                    'instructions' => 'iCal RRULE format (e.g. FREQ=WEEKLY;BYDAY=MO,WE)',
+                    'required' => 0,
+                    'readonly' => 1,
+                    'wrapper' => [
+                        'width' => '20',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                ],
                 // END recurrence rules WIP
                 [
                     'key'   => 'field_whx4_events_legacy_em_event_id',
