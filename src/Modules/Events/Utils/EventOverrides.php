@@ -113,10 +113,19 @@ class EventOverrides
         ]);
 
         $meta = get_post_meta( $event_id );
+
         foreach ( $meta as $key => $values ) {
-            if ( in_array( $key, [ 'whx4_events_rrule', 'whx4_events_excluded_dates' ], true ) ) {
+            if (
+                str_starts_with( $key, 'whx4_events_rrule' )
+                || str_starts_with( $key, 'whx4_events_recurrence' )
+                || str_starts_with( $key, 'whx4_events_excluded_dates' )
+                ) {
                 continue;
             }
+            /*if ( in_array( $key, [ 'whx4_events_rrule', 'whx4_events_excluded_dates' ], true ) ) {
+                continue;
+            }*/
+
             foreach ( $values as $val ) {
                 update_post_meta( $clone_id, $key, maybe_unserialize( $val ) );
             }
