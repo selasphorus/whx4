@@ -113,7 +113,6 @@ class EventOverrides
         ]);
 
         $meta = get_post_meta( $event_id );
-
         foreach ( $meta as $key => $values ) {
             if (
                 str_starts_with( $key, 'whx4_events_rrule' )
@@ -131,9 +130,15 @@ class EventOverrides
             }
         }
 
+        // Update date to exclusion date
         update_post_meta( $clone_id, 'whx4_events_start_date', $date );
+
+        // Mark this as a detached instance
         update_post_meta( $clone_id, 'whx4_events_detached_from', $event_id );
         update_post_meta( $clone_id, 'whx4_events_detached_date', $date );
+
+        // Ensure it's not treated as recurring
+        update_post_meta( $clone_id, 'rex_events_is_recurring', 0 );
 
         wp_safe_redirect( get_edit_post_link( $clone_id, '' ) );
         exit;
