@@ -12,6 +12,7 @@ class EventOverrides
         add_action( 'add_meta_boxes', [self::class, 'addMetaBox'] );
         add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
         add_action( 'edit_form_top', [self::class, 'maybeAddDetachedNotice'] );
+        add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
     }
 
     public static function addMetaBox(): void
@@ -52,9 +53,20 @@ class EventOverrides
                     '_wpnonce' => wp_create_nonce( 'whx4_create_detached_event' ),
                 ], admin_url( 'edit.php?post_type=event' ) );
 
-                echo '<li>' . esc_html( $date ) . ' ';
-                echo '<a class="button button-small" href="' . esc_url( $url ) . '">Create replacement</a>';
+                /*echo '<li data-exclusion-date="' . esc_attr( $date ) . '">';
+                echo esc_html( $date ) . ' ';
+                echo '<a class="button button-small whx4-create-replacement-btn" href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">Create replacement</a>';
+                echo '</li>';*/
+                echo '<li data-exclusion-date="' . esc_attr( $date ) . '">';
+                echo esc_html( $date ) . ' ';
+                echo '<a class="button button-small whx4-create-replacement-btn"
+                           href="' . esc_url( $url ) . '"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           data-event-id="' . esc_attr( $post->ID ) . '"
+                           data-date="' . esc_attr( $date ) . '">Create replacement</a>';
                 echo '</li>';
+
             }
         }
         echo '</ul>';
@@ -185,5 +197,35 @@ class EventOverrides
         echo 'View original: <a href="' . esc_url( $url ) . '">Event #' . esc_html( $original_id ) . '</a>';
         echo '</p></div>';
     }
+
+    public static function enqueueAdminAssets(): void
+    {
+        global $post;
+
+        if ( ! $post || get_post_type( $post ) !== 'event' ) {
+            return;
+        }
+
+        wp_enqueue_script(
+            'whx4-event-overrides',
+            plugins_url( '/assets/js/event-overrides.js', dirname( __DIR__, 2 ) ), // adjust if needed
+            [ 'jquery' ],
+            null,
+            true
+        );
+    }
+
+    // TODO: eventually move this to AjaxHandler class?
+    add_action( 'wp_ajax_rex_check_replacement', function() {
+        $parent_id = (int) $_POST['event_id'];
+        $date = sanitize_text_field( $_POST['date'] );
+
+        if ( ! current_user_can( 'edit_post', $parent_id ) ) {
+            wp_send_json_error( 'Permission denied', 403 );
+        }
+
+        $exists = \atc\WHx4\Events\Utils\EventOverrides::replacementExists( $parent_id, $date );
+        wp_send_json_success([ 'exists' => $exists ]);
+    });
 
 }
