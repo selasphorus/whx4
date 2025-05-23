@@ -46,6 +46,13 @@ class EventFields implements FieldGroupInterface
                         'id' => '',
                     ],
                 ],
+                [
+                    'key' => 'field_whx4_events_is_recurring',
+                    'label' => 'Recurring Event?',
+                    'name' => 'whx4_events_is_recurring',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                ],
                 // START recurrence rules WIP
                 [
                     'key' => 'field_whx4_events_recurrence_human',
@@ -174,6 +181,15 @@ class EventFields implements FieldGroupInterface
                             ],
                         ],
                     ],
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_whx4_events_is_recurring',
+                                'operator' => '==',
+                                'value' => '1',
+                            ]
+                        ]
+                    ],
                 ],
                 [
                     'key'           => 'field_whx4_events_excluded_dates',
@@ -202,6 +218,15 @@ class EventFields implements FieldGroupInterface
                         'width' => '40',
                         'class' => '',
                         'id' => '',
+                    ],
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_whx4_events_is_recurring',
+                                'operator' => '==',
+                                'value' => '1',
+                            ]
+                        ]
                     ],
                 ],
                 /*[
@@ -240,9 +265,9 @@ class EventFields implements FieldGroupInterface
                     ],
                 ],*/
                 [
-                    'key'   => 'field_whx4_events_recurrence_rule',
+                    'key'   => 'field_whx4_events_rrule',
                     'label' => 'Recurrence Rule',
-                    'name'  => 'whx4_events_recurrence_rule',
+                    'name'  => 'whx4_events_rrule',
                     'type'  => 'text',
                     'instructions' => 'iCal RRULE format (e.g. FREQ=WEEKLY;BYDAY=MO,WE)',
                     'required' => 0,
@@ -251,6 +276,15 @@ class EventFields implements FieldGroupInterface
                         'width' => '20',
                         'class' => '',
                         'id' => '',
+                    ],
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_whx4_events_is_recurring',
+                                'operator' => '==',
+                                'value' => '1',
+                            ]
+                        ]
                     ],
                 ],
                 // END recurrence rules WIP
