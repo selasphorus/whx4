@@ -38,7 +38,7 @@ class EventFields implements FieldGroupInterface
                     'type'  => 'time_picker',
                     'display_format' => 'H:i',
                     'return_format'  => 'H:i:s',
-                    'required' => 1,
+                    'required' => 0,
                     'conditional_logic' => 0,
                     'wrapper' => [
                         'width' => '20',
