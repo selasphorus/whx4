@@ -138,7 +138,7 @@ class EventOverrides
         update_post_meta( $clone_id, 'whx4_events_detached_date', $date );
 
         // Ensure it's not treated as recurring
-        update_post_meta( $clone_id, 'rex_events_is_recurring', 0 );
+        update_post_meta( $clone_id, 'whx4_events_is_recurring', 0 );
 
         wp_safe_redirect( get_edit_post_link( $clone_id, '' ) );
         exit;
