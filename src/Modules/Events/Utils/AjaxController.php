@@ -1,8 +1,8 @@
 <?php
 
-namespace atc\Whx4\Modules\Events\Utils;
+namespace atc\WHx4\Modules\Events\Utils;
 
-use atc\Whx4\Modules\Events\Utils\EventOverrides;
+use atc\WHx4\Modules\Events\Utils\EventOverrides;
 
 class AjaxController
 {

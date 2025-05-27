@@ -1,6 +1,6 @@
 <?php
 
-namespace atc\Whx4\Modules\Events\Utils;
+namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Post;
 use WP_Query;
