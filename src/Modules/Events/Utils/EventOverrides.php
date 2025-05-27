@@ -13,6 +13,8 @@ class EventOverrides
         add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
         add_action( 'edit_form_top', [self::class, 'maybeAddDetachedNotice'] );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
+        add_action( 'wp_ajax_whx4_check_replacement', [ self::class, 'ajaxCheckReplacement' ] );
+        //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventOverrides::class, 'ajaxCheckReplacement' ] );
     }
 
     public static function addMetaBox(): void
@@ -214,18 +216,5 @@ class EventOverrides
             true
         );
     }
-
-    // TODO: eventually move this to AjaxHandler class?
-    add_action( 'wp_ajax_rex_check_replacement', function() {
-        $parent_id = (int) $_POST['event_id'];
-        $date = sanitize_text_field( $_POST['date'] );
-
-        if ( ! current_user_can( 'edit_post', $parent_id ) ) {
-            wp_send_json_error( 'Permission denied', 403 );
-        }
-
-        $exists = \atc\WHx4\Events\Utils\EventOverrides::replacementExists( $parent_id, $date );
-        wp_send_json_success([ 'exists' => $exists ]);
-    });
 
 }
