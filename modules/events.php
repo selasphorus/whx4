@@ -3753,14 +3753,14 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
 
         //$replace = "day_title for".$EM_Event->start_date; // tft
         $atts = array('the_date'=>$EM_Event->start_date);
-        $replace = get_day_title($atts);
+        $replace = getDayTitle($atts);
 
     } else if( preg_match('/^#_DAYTITLE\{?/', $result) ){
 
         //$replace = "day_title for".$EM_Event->start_date; // tft
         $args = explode(',', preg_replace('/#_DAYTITLE\{(.+)\}/', '$1', $result));
         $atts = array('the_date'=>$EM_Event->start_date);
-        $replace = get_day_title($atts);
+        $replace = getDayTitle($atts);
 
     } else if ( $result == '#_BOOKINGINFO' ) {
 
