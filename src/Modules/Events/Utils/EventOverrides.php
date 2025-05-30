@@ -12,6 +12,9 @@ class EventOverrides
         add_action( 'add_meta_boxes', [self::class, 'addMetaBox'] );
         add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
         add_action( 'edit_form_top', [self::class, 'maybeAddDetachedNotice'] );
+        add_action( 'admin_notices', [self::class, 'maybeShowDetachedCleanupNotice'] );
+        add_action( 'admin_init', [self::class, 'handleDetachedCleanupRequest'] );
+        add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
         add_action( 'wp_ajax_whx4_check_replacement', [ self::class, 'ajaxCheckReplacement' ] );
         //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventOverrides::class, 'ajaxCheckReplacement' ] );
@@ -199,6 +202,113 @@ class EventOverrides
         echo 'View original: <a href="' . esc_url( $url ) . '">Event #' . esc_html( $original_id ) . '</a>';
         echo '</p></div>';
     }
+
+    public static function handleExcludedDateRemovals( $post_id ): void
+    {
+        if ( get_post_type( $post_id ) !== 'whx4_event' ) {
+            return;
+        }
+
+        $field_name = 'whx4_events_excluded_dates';
+        $subfield_key = 'whx4_events_exdate_date';
+
+        $new_rows = get_field( $field_name, $post_id ) ?: [];
+        $new_dates = array_filter( array_column( $new_rows, $subfield_key ) );
+
+        $old_rows = get_field( $field_name, $post_id, false );
+        $old_dates = [];
+
+        if ( is_array( $old_rows ) ) {
+            foreach ( $old_rows as $row ) {
+                if ( isset( $row[ $subfield_key ] ) ) {
+                    $old_dates[] = $row[ $subfield_key ];
+                }
+            }
+        }
+
+        $removed = array_diff( $old_dates, $new_dates );
+        $pending = [];
+
+        foreach ( $removed as $date ) {
+            if ( self::replacementExists( $post_id, $date ) ) {
+                $pending[] = $date;
+            }
+        }
+
+        if ( $pending ) {
+            set_transient( "whx4_events_cleanup_{$post_id}", $pending, 600 );
+        }
+    }
+
+    public static function maybeShowDetachedCleanupNotice(): void
+    {
+        global $post;
+
+        if ( ! $post || get_post_type( $post ) !== 'event' ) {
+            return;
+        }
+
+        $dates = get_transient( "whx4_events_cleanup_{$post->ID}" );
+        if ( ! $dates ) {
+            return;
+        }
+
+        delete_transient( "whx4_events_cleanup_{$post->ID}" );
+
+        echo '<div class="notice notice-warning is-dismissible">';
+        echo '<p><strong>Detached replacement events exist for removed exclusions:</strong></p><ul>';
+
+        foreach ( $dates as $date ) {
+            $trash_url = wp_nonce_url( add_query_arg([
+                'whx4_trash_detached' => 1,
+                'event_id' => $post->ID,
+                'date' => $date,
+            ]), 'whx4_trash_detached_event', '_wpnonce' );
+
+            echo '<li>' . esc_html( $date ) . ' ';
+            echo '<a href="' . esc_url( $trash_url ) . '" class="button button-small">Trash Replacement</a>';
+            echo '</li>';
+        }
+
+        echo '</ul></div>';
+    }
+
+    public static function handleDetachedCleanupRequest(): void
+    {
+        if (
+            ! isset( $_GET['whx4_trash_detached'], $_GET['event_id'], $_GET['date'], $_GET['_wpnonce'] ) ||
+            ! wp_verify_nonce( $_GET['_wpnonce'], 'whx4_trash_detached_event' )
+        ) {
+            return;
+        }
+
+        $event_id = (int) $_GET['event_id'];
+        $date = sanitize_text_field( $_GET['date'] );
+
+        $query = new \WP_Query([
+            'post_type' => 'event',
+            'post_status' => [ 'publish', 'draft', 'pending' ],
+            'meta_query' => [
+                [
+                    'key' => 'whx4_events_detached_from',
+                    'value' => $event_id,
+                ],
+                [
+                    'key' => 'whx4_events_detached_date',
+                    'value' => $date,
+                ],
+            ],
+            'fields' => 'ids',
+        ]);
+
+        foreach ( $query->posts as $post_id ) {
+            wp_trash_post( $post_id );
+        }
+
+        wp_safe_redirect( admin_url( 'post.php?post=' . $event_id . '&action=edit' ) );
+        exit;
+    }
+
 
     public static function enqueueAdminAssets(): void
     {
