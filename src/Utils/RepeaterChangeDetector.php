@@ -37,14 +37,17 @@ class RepeaterChangeDetector
         $field_key = 'field_'.$repeater_field_name;
         $subfield_key = 'field_'.$subfield_name;
         error_log( '_POST[acf][field_key]: ' . print_r($_POST['acf'][$field_key],true) );
+        error_log( 'subfield_key: ' . $subfield_key );
 
-        foreach ( $_POST['acf'][$field_key] as $key => $value ) {
-            if ( is_array( $value ) ) {
-                foreach ( $value as $row ) {
-                    if ( is_array( $row ) && isset( $row[ $subfield_key ] ) ) {
+        foreach ( $_POST['acf'][$field_key] as $i => $row ) {
+            if ( is_array( $row ) ) {
+                //foreach ( $value as $row ) {
+                    error_log( 'row: ' . print_r($row,true) );
+                    if ( isset( $row[ $subfield_key ] ) {
+                    //if ( is_array( $row ) && isset( $row[ $subfield_key ] ) ) {
                         $new_values[] = $row[ $subfield_key ];
                     }
-                }
+                //}
             }
         }
         error_log( 'new_values: ' . print_r($new_values,true) );
