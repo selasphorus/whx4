@@ -205,6 +205,8 @@ class EventOverrides
 
     public static function handleExcludedDateRemovals( $post_id ): void
     {
+        error_log( '=== class: EventOverrides; method: handleExcludedDateRemovals ===' );
+
         if ( get_post_type( $post_id ) !== 'whx4_event' ) {
             return;
         }
