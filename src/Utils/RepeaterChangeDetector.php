@@ -30,7 +30,7 @@ class RepeaterChangeDetector
             }
         }
         error_log( 'old_values: ' . print_r($old_values,true) );
-        error_log( '_POST[acf]: ' . print_r($_POST['acf'],true) );
+        //error_log( '_POST[acf]: ' . print_r($_POST['acf'],true) );
 
         $new_values = [];
 
@@ -43,6 +43,7 @@ class RepeaterChangeDetector
                 }
             }
         }
+        error_log( 'new_values: ' . print_r($new_values,true) );
 
         return array_diff( $old_values, $new_values );
     }
