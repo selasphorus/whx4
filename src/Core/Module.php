@@ -133,7 +133,7 @@ abstract class Module implements ModuleInterface
 			}
 		}
 
-		error_log("postTypes: " . print_r($postTypes, true));
+		//error_log("postTypes: " . print_r($postTypes, true));
 
 		return $postTypes;
 	}

@@ -335,7 +335,7 @@ final class Plugin
 
     public function registerFieldGroups(): void
     {
-        error_log( '=== registerFieldGroups ===' );
+        //error_log( '=== registerFieldGroups ===' );
         $this->fieldGroupLoader->registerAll();
     }
 

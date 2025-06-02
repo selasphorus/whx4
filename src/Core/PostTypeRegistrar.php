@@ -76,7 +76,7 @@ class PostTypeRegistrar {
 	// TODO:  move this to the PostTypeHandler where default labels etc are defined?
 	protected function generateDefaultCapabilities(PostTypeHandler $handler): array {
 
-        error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
+        //error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
 
         $slug = $handler->getSlug();
 

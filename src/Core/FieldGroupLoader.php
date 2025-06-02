@@ -28,7 +28,7 @@ class FieldGroupLoader
 
     protected function registerFieldsForModule( string $moduleClass ): void
     {
-        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
+        //error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
@@ -96,14 +96,14 @@ class FieldGroupLoader
             ) {
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $shortName = str_replace( 'Fields', '', $basename ); // e.g. "Monster"
-                error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
+                //error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
 
                 $matched = false;
 
                 foreach ( $slugMap as $slug => $expectedName ) {
                     if ( strtolower( $shortName ) === strtolower( $expectedName ) ) {
                         if ( array_key_exists( $slug, $activePostTypes ) ) {
-                            error_log( 'about to register (via slugMap): ' . $className );
+                            //error_log( 'about to register (via slugMap): ' . $className );
                             $className::register();
                             $matched = true;
                             break;
@@ -112,7 +112,7 @@ class FieldGroupLoader
                 }
 
                 if ( !$matched && $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
-                    error_log( 'about to register (via slugMap): ' . $className );
+                    //error_log( 'about to register (via slugMap): ' . $className );
                     $className::register();
                 }
             }
