@@ -231,11 +231,14 @@ class EventOverrides
         $removed = array_diff( $old_dates, $new_dates );
         $pending = [];
 
+        error_log( ' removed: ' . print_r($removed,true) );
+
         foreach ( $removed as $date ) {
             if ( self::replacementExists( $post_id, $date ) ) {
                 $pending[] = $date;
             }
         }
+        error_log( ' pending: ' . print_r($pending,true) );
 
         if ( $pending ) {
             set_transient( "whx4_events_cleanup_{$post_id}", $pending, 600 );
