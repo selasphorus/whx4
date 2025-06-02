@@ -35,6 +35,7 @@ class RepeaterChangeDetector
         $new_values = [];
 
         $field_key = 'field_'.$repeater_field_name;
+        error_log( '_POST[acf][field_key]: ' . print_r($_POST['acf'][$field_key],true) );
 
         foreach ( $_POST['acf'][$field_key] as $key => $value ) {
             if ( is_array( $value ) ) {
