@@ -18,7 +18,6 @@ class RepeaterChangeDetector
         error_log( 'post_id: '. $post_id . '; repeater_field_name: '.$repeater_field_name . '; subfield_name: '.$subfield_name );
 
         $old_rows = get_field( $repeater_field_name, $post_id ) ?: []; //$old_rows = get_post_meta( $post_id, $repeater_field_name, true ) ?: [];
-        error_log( 'old_rows: ' . print_r($old_rows,true) );
 
         $old_values = [];
 
@@ -30,18 +29,14 @@ class RepeaterChangeDetector
             }
         }
         error_log( 'old_values: ' . print_r($old_values,true) );
-        //error_log( '_POST[acf]: ' . print_r($_POST['acf'],true) );
 
         $new_values = [];
 
         $field_key = 'field_'.$repeater_field_name;
         $subfield_key = 'field_'.$subfield_name;
-        //error_log( '_POST[acf][field_key]: ' . print_r($_POST['acf'][$field_key],true) );
-        //error_log( 'subfield_key: ' . $subfield_key );
 
         foreach ( $_POST['acf'][$field_key] as $i => $row ) {
             if ( is_array( $row ) ) {
-                //error_log( 'row: ' . print_r($row,true) );
                 if ( isset( $row[ $subfield_key ] ) ) {
                     $new_values[] = $row[ $subfield_key ];
                 }

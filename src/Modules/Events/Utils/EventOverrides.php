@@ -237,7 +237,7 @@ class EventOverrides
     {
         global $post;
 
-        if ( ! $post || get_post_type( $post ) !== 'event' ) {
+        if ( ! $post || get_post_type( $post ) !== 'whx4_event' ) {
             return;
         }
 
