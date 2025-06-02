@@ -43,7 +43,7 @@ class RepeaterChangeDetector
             if ( is_array( $row ) ) {
                 //foreach ( $value as $row ) {
                     error_log( 'row: ' . print_r($row,true) );
-                    if ( isset( $row[ $subfield_key ] ) {
+                    if ( isset( $row[ $subfield_key ] ) ) {
                     //if ( is_array( $row ) && isset( $row[ $subfield_key ] ) ) {
                         $new_values[] = $row[ $subfield_key ];
                     }
