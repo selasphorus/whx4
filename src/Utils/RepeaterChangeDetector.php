@@ -14,14 +14,19 @@ class RepeaterChangeDetector
      */
     public static function detectRemovedValues( int $post_id, string $repeater_field_name, string $subfield_name ): array
     {
+        error_log( '=== class: RepeaterChangeDetector; method: detectRemovedValues ===' );
         $old_rows = get_post_meta( $post_id, $repeater_field_name, true ) ?: [];
         $old_values = [];
 
-        foreach ( $old_rows as $row ) {
-            if ( isset( $row[ $subfield_name ] ) ) {
-                $old_values[] = $row[ $subfield_name ];
+        if ( is_array( $old_rows ) ) {
+            foreach ( $old_rows as $row ) {
+                if ( isset( $row[ $subfield_name ] ) ) {
+                    $old_values[] = $row[ $subfield_name ];
+                }
             }
         }
+        error_log( 'old_values: ' . print_r($old_values,true) );
+        error_log( '_POST[acf]: ' . print_r($_POST['acf'],true) );
 
         $new_values = [];
 
