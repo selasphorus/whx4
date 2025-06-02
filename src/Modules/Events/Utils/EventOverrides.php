@@ -211,31 +211,14 @@ class EventOverrides
             return;
         }
 
-        $field_name = 'whx4_events_excluded_dates';
-        $subfield_key = 'whx4_events_exdate_date';
-
-        $new_rows = get_field( $field_name, $post_id ) ?: [];
-        $new_dates = array_filter( array_column( $new_rows, $subfield_key ) );
-
-        error_log( 'new_rows: ' . print_r($new_rows,true) );
-
-        $old_rows = get_field( $field_name, $post_id, false );
-        $old_dates = [];
-
-        error_log( 'old_rows: ' . print_r($old_rows,true) );
-
-        if ( is_array( $old_rows ) ) {
-            foreach ( $old_rows as $row ) {
-                if ( isset( $row[ $subfield_key ] ) ) {
-                    $old_dates[] = $row[ $subfield_key ];
-                }
-            }
-        }
-
-        $removed = array_diff( $old_dates, $new_dates );
-        $pending = [];
-
+        $removed = RepeaterChangeDetector::detectRemovedValues(
+            $post_id,
+            'whx4_events_excluded_dates',
+            'whx4_events_exdate_date'
+        );
         error_log( 'removed: ' . print_r($removed,true) );
+
+        $pending = [];
 
         foreach ( $removed as $date ) {
             if ( self::replacementExists( $post_id, $date ) ) {
