@@ -217,8 +217,12 @@ class EventOverrides
         $new_rows = get_field( $field_name, $post_id ) ?: [];
         $new_dates = array_filter( array_column( $new_rows, $subfield_key ) );
 
+        error_log( 'new_rows: ' . print_r($new_rows,true) );
+
         $old_rows = get_field( $field_name, $post_id, false );
         $old_dates = [];
+
+        error_log( 'old_rows: ' . print_r($old_rows,true) );
 
         if ( is_array( $old_rows ) ) {
             foreach ( $old_rows as $row ) {
@@ -231,14 +235,14 @@ class EventOverrides
         $removed = array_diff( $old_dates, $new_dates );
         $pending = [];
 
-        error_log( ' removed: ' . print_r($removed,true) );
+        error_log( 'removed: ' . print_r($removed,true) );
 
         foreach ( $removed as $date ) {
             if ( self::replacementExists( $post_id, $date ) ) {
                 $pending[] = $date;
             }
         }
-        error_log( ' pending: ' . print_r($pending,true) );
+        error_log( 'pending: ' . print_r($pending,true) );
 
         if ( $pending ) {
             set_transient( "whx4_events_cleanup_{$post_id}", $pending, 600 );
