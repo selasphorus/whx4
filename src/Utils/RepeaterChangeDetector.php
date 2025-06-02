@@ -15,7 +15,11 @@ class RepeaterChangeDetector
     public static function detectRemovedValues( int $post_id, string $repeater_field_name, string $subfield_name ): array
     {
         error_log( '=== class: RepeaterChangeDetector; method: detectRemovedValues ===' );
+        error_log( 'post_id: '. $post_id . '; repeater_field_name: '.$repeater_field_name . '; subfield_name: '.$subfield_name );
+
         $old_rows = get_post_meta( $post_id, $repeater_field_name, true ) ?: [];
+        error_log( 'old_rows: ' . print_r($old_rows,true) );
+
         $old_values = [];
 
         if ( is_array( $old_rows ) ) {
