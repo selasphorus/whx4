@@ -4,7 +4,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Post;
 use WP_Query;
-use atc\WHx4\Utils/RepeaterChangeDetector;
+use atc\WHx4\Utils\RepeaterChangeDetector;
 
 class EventOverrides
 {
