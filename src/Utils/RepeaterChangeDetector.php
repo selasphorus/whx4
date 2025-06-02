@@ -17,7 +17,7 @@ class RepeaterChangeDetector
         error_log( '=== class: RepeaterChangeDetector; method: detectRemovedValues ===' );
         error_log( 'post_id: '. $post_id . '; repeater_field_name: '.$repeater_field_name . '; subfield_name: '.$subfield_name );
 
-        $old_rows = get_post_meta( $post_id, $repeater_field_name ) ?: []; //$old_rows = get_post_meta( $post_id, $repeater_field_name, true ) ?: [];
+        $old_rows = get_field( $repeater_field_name, $post_id ) ?: []; //$old_rows = get_post_meta( $post_id, $repeater_field_name, true ) ?: [];
         error_log( 'old_rows: ' . print_r($old_rows,true) );
 
         $old_values = [];
