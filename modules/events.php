@@ -4019,7 +4019,7 @@ function whx4_custom_em_query_args ( $args ) {
     }
     // Exclude unlisted events according to tag
     if ( isset($args['category']) ) {
-        sdg_log( "[cca] args['category']: ".$args['category'], $do_log );
+        sdg_log( "[cca] args['category']: ".print_r($args['category'],true), $do_log );
     }
 
     // Exclude unlisted events
