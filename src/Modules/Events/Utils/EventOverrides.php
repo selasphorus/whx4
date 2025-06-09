@@ -5,6 +5,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 use WP_Post;
 use WP_Query;
 use atc\WHx4\Utils\RepeaterChangeDetector;
+use atc\WHx4\Helpers\PluginPaths;
 
 class EventOverrides
 {
@@ -34,71 +35,39 @@ class EventOverrides
 
     public static function renderMetaBox( WP_Post $post ): void
     {
-        //$excluded = get_post_meta( $post->ID, 'whx4_events_excluded_dates', true ) ?: [];
-        $excluded_rows = get_field( 'whx4_events_excluded_dates', $post->ID ) ?: [];
+        $post_id = $post->ID;
+        $dates = InstanceGenerator::generateInstanceDates( $post_id );
 
-        if ( empty( $excluded_rows ) ) {
-            echo '<p>No excluded dates.</p>';
-            return;
-        }
+        $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
 
-        echo '<ul>';
-        foreach ( $excluded_rows as $row ) {
-            if ( ! empty( $row['whx4_events_exdate_date'] ) ) {
-                $date = $row['whx4_events_exdate_date'];
+        echo '<table class="widefat">';
+        echo '<thead><tr><th>Date</th><th>Actions</th></tr></thead><tbody>';
+
+        foreach ( $dates as $date ) {
+            $date_str = $date->format( 'Y-m-d' );
+            $label = $date->format( 'M j, Y' );
+
+            $is_excluded = in_array( $date_str, $excluded, true );
+            $replacement_id = self::getReplacementPostId( $post_id, $date_str );
+
+            echo '<tr>';
+            echo '<td>' . esc_html( $label ) . '</td>';
+            echo '<td>';
+
+            if ( $replacement_id ) {
+                echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
+            } elseif ( $is_excluded ) {
+                echo '<span class="button disabled">Excluded</span> ';
+                echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
             } else {
-                next;
+                echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
+                echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Create replacement</button>';
             }
-            if ( self::replacementExists( $post->ID, $date ) ) {
-                echo '<li>' . esc_html( $date ) . ' <em>Replacement created</em></li>';
-            } else {
-                $url = add_query_arg([
-                    'whx4_create_detached_event' => 1,
-                    'event_id' => $post->ID,
-                    'date' => $date,
-                    '_wpnonce' => wp_create_nonce( 'whx4_create_detached_event' ),
-                ], admin_url( 'edit.php?post_type=event' ) );
 
-                /*echo '<li data-exclusion-date="' . esc_attr( $date ) . '">';
-                echo esc_html( $date ) . ' ';
-                echo '<a class="button button-small whx4-create-replacement-btn" href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">Create replacement</a>';
-                echo '</li>';*/
-                echo '<li data-exclusion-date="' . esc_attr( $date ) . '">';
-                echo esc_html( $date ) . ' ';
-                echo '<a class="button button-small whx4-create-replacement-btn"
-                           href="' . esc_url( $url ) . '"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           data-event-id="' . esc_attr( $post->ID ) . '"
-                           data-date="' . esc_attr( $date ) . '">Create replacement</a>';
-                echo '</li>';
-
-            }
+            echo '</td></tr>';
         }
-        echo '</ul>';
 
-        $replacements = new WP_Query([
-            'post_type' => 'whx4_event', //'event',
-            'post_status' => [ 'publish', 'draft', 'pending' ],
-            'meta_key' => 'whx4_events_detached_from',
-            'meta_value' => $post->ID,
-            'posts_per_page' => -1,
-            'orderby' => 'meta_value',
-            'order' => 'ASC',
-        ]);
-
-        if ( $replacements->have_posts() ) {
-            echo '<hr><strong>Detached replacements:</strong><ul>';
-            foreach ( $replacements->posts as $replacement ) {
-                $detached_date = get_post_meta( $replacement->ID, 'whx4_events_detached_date', true );
-                $edit_url = get_edit_post_link( $replacement->ID );
-                echo '<li>';
-                echo esc_html( $detached_date ) . ' – ';
-                echo '<a href="' . esc_url( $edit_url ) . '">' . esc_html( get_the_title( $replacement ) ) . '</a>';
-                echo '</li>';
-            }
-            echo '</ul>';
-        }
+        echo '</tbody></table>';
     }
 
     public static function handleCreateRequest(): void
@@ -307,17 +276,32 @@ class EventOverrides
     {
         global $post;
 
-        if ( ! $post || get_post_type( $post ) !== 'event' ) {
+        if ( ! $post || get_post_type( $post ) !== 'whx4_event' ) {
             return;
         }
 
         wp_enqueue_script(
             'whx4-event-overrides',
-            plugins_url( '/assets/js/event-overrides.js', dirname( __DIR__, 2 ) ), // adjust if needed
+            PluginPaths::url( 'src/Modules/Events/Assets/event-overrides.js' ),
+            //plugins_url( '/assets/js/event-overrides.js', dirname( __DIR__, 2 ) ), // adjust if needed
             [ 'jquery' ],
             null,
             true
         );
+
+        wp_enqueue_script(
+            'whx4-events-admin',
+            PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.js' ),
+            //plugins_url( '/assets/js/whx4-events-admin.js', __FILE__ ),
+            [],
+            '1.0',
+            true
+        );
+
+        wp_localize_script( 'whx4-events-admin', 'whx4EventsAjax', [
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonce'    => wp_create_nonce( 'whx4_events_nonce' ),
+        ]);
     }
 
 }
