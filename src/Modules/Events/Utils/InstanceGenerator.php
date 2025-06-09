@@ -25,7 +25,7 @@ class InstanceGenerator
         $this->overrides = $config['overrides'] ?? [];
     }
 
-    public function generate( int $limit = 100, ?\DateTimeInterface $until = null ): array
+    public function generateInstanceDates( int $limit = 100, ?\DateTimeInterface $until = null ): array
     {
         if ( !$this->start || !$this->rrule ) {
             return [];
