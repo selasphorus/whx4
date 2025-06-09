@@ -3,7 +3,7 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Utils\Recurrence\InstanceGenerator;
+use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class Event extends PostTypeHandler
 {
