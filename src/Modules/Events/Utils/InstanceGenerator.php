@@ -82,6 +82,9 @@ class InstanceGenerator
         }
 
         $exdates = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
+        if ( !is_array( $exdates ) ) {
+            return [];
+        }
         $exdates = array_map(
             fn( $date ) => is_string( $date ) ? ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ) : $date,
             $exdates
