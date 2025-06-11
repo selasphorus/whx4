@@ -51,7 +51,7 @@ class EventInstances
             $date_str = $date->format( 'Y-m-d' );
             $label = $date->format( 'M j, Y' );
 
-            $is_excluded = in_array( $date_str, $excluded, true );
+            if ( is_array( $excluded ) ) { $is_excluded = in_array( $date_str, $excluded, true ); } else { $is_excluded = false; }
             $replacement_id = self::getReplacementPostId( $post_id, $date_str );
 
             echo '<tr>';
