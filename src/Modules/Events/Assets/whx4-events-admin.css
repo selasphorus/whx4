@@ -1,4 +1,4 @@
-.whx4-event-instances-grid {
+.postbox .whx4-event-instances-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;
