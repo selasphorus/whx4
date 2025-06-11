@@ -37,7 +37,7 @@ class InstanceGenerator
             'DTSTART' => $start,
             'RRULE'   => $rrule,
         ]);*/
-        $rule = new RRule('DTSTART=' . $this->start->format('Ymd\THis\Z') . "\nRRULE:" . $this->rrule);
+        $rule = new RRule('DTSTART=' . $start->format('Ymd\THis\Z') . "\nRRULE:" . $rrule);
 
         $results = [];
 
