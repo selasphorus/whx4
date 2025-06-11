@@ -2,38 +2,39 @@
 
 namespace atc\WHx4\Modules\Events\Utils;
 
-use DateTimeImmutable;
-use RRule\RRule;
+use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
+use DateTimeInterface; // See chat: "An interface: implemented by both DateTime and DateTimeImmutable"
+//use DateTimeImmutable; // See chat: "A concrete class: creates new objects when modified"
+use atc\WHx4\Modules\Events\EventOverrides;
 
 class InstanceGenerator
 {
-    protected ?DateTimeImmutable $start = null;
-    protected ?string $rrule = null;
-    protected array $exdates = [];
-    protected array $overrides = [];
-
-    public function __construct( array $config )
-    {
-        if ( !empty( $config['start'] ) ) {
-            $this->start = $config['start'] instanceof \DateTimeInterface
-                ? DateTimeImmutable::createFromInterface( $config['start'] )
-                : new DateTimeImmutable( $config['start'] );
-        }
-
-        $this->rrule     = $config['rrule']     ?? null;
-        $this->exdates   = $config['exdates']   ?? [];
-        $this->overrides = $config['overrides'] ?? [];
-    }
-
-    public static function generateInstanceDates( int $limit = 100, ?\DateTimeInterface $until = null ): array
-    {
-        if ( !$this->start || !$this->rrule ) {
+    /**
+     * Generate instance dates based on RRULE, exclusions, and overrides.
+     *
+     * @param  DateTimeInterface  $start
+     * @param  string             $rrule
+     * @param  array              $exdates  ISO-formatted datetimes to exclude
+     * @param  array              $overrides keyed by ISO datetime => DateTimeInterface
+     * @param  int                $limit
+     * @param  DateTimeInterface|null $until
+     * @return DateTimeInterface[]
+     */
+    public static function generateInstanceDates(
+        DateTimeInterface $start,
+        string $rrule,
+        array $exdates = [],
+        array $overrides = [],
+        int $limit = 100,
+        ?DateTimeInterface $until = null
+    ): array {
+        if ( ! $start || ! $rrule ) {
             return [];
         }
 
         $rule = new RRule([
-            'DTSTART' => $this->start,
-            'RRULE'   => $this->rrule,
+            'DTSTART' => $start,
+            'RRULE'   => $rrule,
         ]);
 
         $results = [];
@@ -45,12 +46,12 @@ class InstanceGenerator
                 break;
             }
 
-            if ( in_array( $iso, $this->exdates, true ) ) {
+            if ( in_array( $iso, $exdates, true ) ) {
                 continue;
             }
 
-            if ( isset( $this->overrides[ $iso ] ) && $this->overrides[ $iso ] instanceof \DateTimeInterface ) {
-                $dt = $this->overrides[ $iso ];
+            if ( isset( $overrides[ $iso ] ) && $overrides[ $iso ] instanceof DateTimeInterface ) {
+                $dt = $overrides[ $iso ];
             }
 
             $results[] = $dt;
@@ -61,5 +62,40 @@ class InstanceGenerator
         }
 
         return $results;
+    }
+
+    /**
+     * Generate instance dates using a post ID (convenience wrapper).
+     *
+     * @param  int                $post_id
+     * @param  int                $limit
+     * @param  DateTimeInterface|null $until
+     * @return DateTimeInterface[]
+     */
+    public static function fromPostId( int $post_id, int $limit = 100, ?DateTimeInterface $until = null ): array
+    {
+        $start = get_field( 'rex_events_start_datetime', $post_id );
+        $rrule = get_field( 'rex_events_rrule', $post_id );
+
+        if ( ! $start || ! $rrule ) {
+            return [];
+        }
+
+        $exdates = get_post_meta( $post_id, 'rex_events_excluded_dates', true ) ?: [];
+        $exdates = array_map(
+            fn( $date ) => is_string( $date ) ? ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ) : $date,
+            $exdates
+        );
+
+        $overrides = EventOverrides::getOverrideDates( $post_id );
+
+        return self::generateInstanceDates(
+            $start,
+            $rrule,
+            $exdates,
+            $overrides,
+            $limit,
+            $until
+        );
     }
 }
