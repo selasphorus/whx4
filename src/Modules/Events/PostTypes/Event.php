@@ -51,8 +51,8 @@ class Event extends PostTypeHandler
 
 		if ( !$input || !is_array( $input ) || empty( $input['freq'] ) ) {
 			// If no new input, but rrule already exists, preserve it
-			if ( !get_post_meta( $post_id, 'whx4_events_recurrence_rule', true ) ) {
-				update_post_meta( $post_id, 'whx4_events_recurrence_rule', '' );
+			if ( !get_post_meta( $post_id, 'whx4_events_rrule', true ) ) {
+				update_post_meta( $post_id, 'whx4_events_rrule', '' );
 			}
 			return;
 		}
@@ -86,7 +86,7 @@ class Event extends PostTypeHandler
 		}
 
 		$rrule = implode( ';', $parts );
-		update_post_meta( $post_id, 'whx4_events_recurrence_rule', $rrule );
+		update_post_meta( $post_id, 'whx4_events_rrule', $rrule );
 	}
 
 	public function addRecurrencePreview( $field )
