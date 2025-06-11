@@ -44,7 +44,7 @@ class EventInstances
 
         //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
 
-        echo '<style>.whx4-instance-cell { background: pink !important; }</style>';
+        //echo '<style>.whx4-instance-cell { background: pink !important; }</style>'; //tft
 
         echo '<div class="whx4-event-instances-grid">';
 
