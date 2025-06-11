@@ -306,7 +306,7 @@ class EventInstances
                 get_post_meta( $post_id, 'whx4_events_start_time', true )
             );
 
-            if ( $original && $start instanceof \DateTimeInterface ) {
+            if ( $original && $startDT instanceof \DateTimeInterface ) {
                 $map[ $original ] = [
                     'datetime' => $startDT,
                     'post_id'  => $post_id,
