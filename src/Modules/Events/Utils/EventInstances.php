@@ -52,7 +52,7 @@ class EventInstances
             $label = $date->format( 'M j, Y' );
 
             if ( is_array( $excluded ) ) { $is_excluded = in_array( $date_str, $excluded, true ); } else { $is_excluded = false; }
-            $replacement_id = self::getReplacementPostId( $post_id, $date_str );
+            $replacement_id = self::getDetachedPostId( $post_id, $date_str );
 
             echo '<tr>';
             echo '<td>' . esc_html( $label ) . '</td>';
@@ -315,6 +315,29 @@ class EventInstances
         }
 
         return $map;
+    }
+
+    public static function getDetachedPostId( int $parent_id, string $date_str ): ?int {
+        $query = new \WP_Query([
+            'post_type'      => 'whx4_event',
+            'post_status'    => 'any',
+            'posts_per_page' => 1,
+            'meta_query'     => [
+                [
+                    'key'   => 'whx4_events_detached_from', //'whx4_events_parent_event',
+                    'value' => $parent_id,
+                    'compare' => '='
+                ],
+                [
+                    'key'   => 'whx4_events_detached_date',
+                    'value' => $date_str,
+                    'compare' => '='
+                ],
+            ],
+            'fields' => 'ids',
+        ]);
+
+        return $query->have_posts() ? (int) $query->posts[0] : null;
     }
 
 
