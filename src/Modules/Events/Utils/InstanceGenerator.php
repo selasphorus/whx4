@@ -74,7 +74,7 @@ class InstanceGenerator
      */
     public static function fromPostId( int $post_id, int $limit = 100, ?DateTimeInterface $until = null ): array
     {
-        $start = get_field( 'whx4_events_start_datetime', $post_id );
+        $start = get_field( 'whx4_events_start_date', $post_id );
         $rrule = get_field( 'whx4_events_rrule', $post_id );
 
         if ( ! $start || ! $rrule ) {
