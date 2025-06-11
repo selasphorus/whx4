@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Helpers\FieldDisplayHelpers;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class Event extends PostTypeHandler
@@ -39,6 +40,9 @@ class Event extends PostTypeHandler
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
 		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
 		add_filter( 'acf/prepare_field/name=whx4_events_recurrence_rule', [ $this, 'addRecurrencePreview' ] );
+		add_filter( 'acf/load_value/name=whx4_events_excluded_dates', function( $value ) {
+			return FieldDisplayHelpers::formatArrayForDisplay( $value );
+		}, 10 );
 	}
 
 	public function generateRruleFromFields( $post_id ): void

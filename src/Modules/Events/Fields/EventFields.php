@@ -223,6 +223,40 @@ class EventFields implements FieldGroupInterface
                 ],
                 [
                     'key'           => 'field_whx4_events_excluded_dates',
+                    'label'         => 'Excluded Dates (Read-only)',
+                    'name'          => 'whx4_events_excluded_dates',
+                    'type'          => 'textarea',
+                    'instructions'  => 'Automatically updated from the instance list.',
+                    'readonly'      => 1,
+                    'rows'          => 3,
+                    'wrapper'       => [
+                        'width' => '40',
+                    ],
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_whx4_events_is_recurring',
+                                'operator' => '==',
+                                'value' => '1',
+                            ]
+                        ]
+                    ],
+                ],
+                /*
+                [
+                    'key'           => 'field_whx4_events_excluded_dates',
+                    'label'         => 'Excluded Dates',
+                    'name'          => 'whx4_events_excluded_dates',
+                    'type'          => 'text',
+                    'instructions'  => 'Managed automatically.',
+                    'readonly'      => 1,
+                    'disabled'      => 1,
+                    'wrapper'       => [
+                        'width' => '40',
+                    ],
+                ],
+                [
+                    'key'           => 'field_whx4_events_excluded_dates',
                     'label'         => 'Excluded Dates',
                     'name'          => 'whx4_events_excluded_dates',
                     'type'          => 'repeater',
@@ -259,6 +293,7 @@ class EventFields implements FieldGroupInterface
                         ]
                     ],
                 ],
+                */
                 /*[
                     'key'           => 'field_whx4_events_instance_overrides',
                     'label'         => 'Modified Instances',
