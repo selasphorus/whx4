@@ -344,7 +344,8 @@ class EventInstances
         return $map;
     }
 
-    public static function getDetachedPostId( int $parent_id, string $date_str ): ?int {
+    public static function getDetachedPostId( int $parent_id, string $date_str ): ?int
+    {
         $query = new \WP_Query([
             'post_type'      => 'whx4_event',
             'post_status'    => 'any',
@@ -377,7 +378,7 @@ class EventInstances
         }
 
         wp_enqueue_style(
-            'whx4-event-overrides',
+            'whx4-event-admin-styles',
             PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ),
             [],
             null,
