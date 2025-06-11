@@ -1,5 +1,32 @@
-#whx4_event_exclusions_box .inside .whx4-event-instances-grid,
-.postbox .whx4-event-instances-grid {
+.whx4-event-instances-columns {
+    column-width: 300px;
+    column-gap: 2rem;
+    padding-top: 1rem;
+    border-left: 1px solid #ccd0d4;
+}
+
+.whx4-instance-block {
+    break-inside: avoid;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e4e7;
+    border-left: 1px solid #ccd0d4;
+    margin-bottom: 1rem;
+    background: #fff;
+}
+
+.whx4-instance-date {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.whx4-instance-actions .button {
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+
+
+.whx4-event-instances-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;

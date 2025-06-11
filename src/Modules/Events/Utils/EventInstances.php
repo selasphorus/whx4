@@ -44,9 +44,36 @@ class EventInstances
 
         //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
 
-        //echo '<style>.whx4-instance-cell { background: pink !important; }</style>'; //tft
+        echo '<div class="whx4-event-instances-columns">';
 
-        echo '<div class="whx4-event-instances-grid">';
+        foreach ( $instances as $date ) {
+            $date_str = $date->format( 'Y-m-d' );
+            $label = $date->format( 'M j, Y' );
+
+            $is_excluded = is_array( $excluded ) && in_array( $date_str, $excluded, true );
+            $replacement_id = self::getDetachedPostId( $post_id, $date_str );
+
+            echo '<div class="whx4-instance-block">';
+            echo '<div class="whx4-instance-date">' . esc_html( $label ) . '</div>';
+            echo '<div class="whx4-instance-actions">';
+
+            if ( $replacement_id ) {
+                echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
+            } elseif ( $is_excluded ) {
+                echo '<span class="button disabled">Excluded</span> ';
+                echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
+            } else {
+                echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
+                echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Create replacement</button>';
+            }
+
+            echo '</div></div>'; // close .whx4-instance-actions, .whx4-instance-block
+        }
+
+        echo '</div>'; // close .whx4-event-instances-columns
+
+
+        /*echo '<div class="whx4-event-instances-grid">';
 
         foreach ( $instances as $date ) {
             $date_str = $date->format( 'Y-m-d' );
@@ -72,7 +99,7 @@ class EventInstances
         }
 
         echo '</div>'; // close .whx4-event-instances-grid
-
+        */
         /*echo '<table class="widefat">';
         echo '<thead><tr><th>Date</th><th>Actions</th></tr></thead><tbody>';
         foreach ( $instances as $date ) {
