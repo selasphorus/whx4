@@ -33,11 +33,8 @@ class InstanceGenerator
             return [];
         }
 
-        /*$rule = new RRule([
-            'DTSTART' => $start,
-            'RRULE'   => $rrule,
-        ]);*/
-        $rule = new RRule('DTSTART=' . $start->format('Ymd\THis\Z') . "\nRRULE:" . $rrule);
+        $rrule_string = "DTSTART:" . $start->format( 'Ymd\THis\Z' ) . "\nRRULE:" . $rrule;
+        $rule = new RRule( $rrule_string );
 
         $results = [];
 
