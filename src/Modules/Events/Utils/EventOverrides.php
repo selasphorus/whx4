@@ -36,14 +36,15 @@ class EventOverrides
     public static function renderMetaBox( WP_Post $post ): void
     {
         $post_id = $post->ID;
-        $dates = InstanceGenerator::generateInstanceDates( $post_id );
+        $instances = InstanceGenerator::fromPostId( $post->ID, 50 );
+        //$dates = InstanceGenerator::generateInstanceDates( $post_id );
 
         $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
 
         echo '<table class="widefat">';
         echo '<thead><tr><th>Date</th><th>Actions</th></tr></thead><tbody>';
 
-        foreach ( $dates as $date ) {
+        foreach ( $instances as $date ) {
             $date_str = $date->format( 'Y-m-d' );
             $label = $date->format( 'M j, Y' );
 
