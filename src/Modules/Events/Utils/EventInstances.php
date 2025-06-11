@@ -274,6 +274,44 @@ class EventInstances
         exit;
     }
 
+    public static function getOverrideDates( int $parent_id ): array
+    {
+        $args = [
+            'post_type'      => 'whx4_event',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'meta_query'     => [
+                [
+                    'key'     => 'whx4_events_detached_from',
+                    'value'   => $parent_id,
+                    'compare' => '=',
+                ],
+                [
+                    'key'     => 'whx4_events_detached_date',
+                    'compare' => 'EXISTS',
+                ],
+            ],
+            'fields' => 'ids',
+        ];
+
+        $replacements = get_posts( $args );
+        $map = [];
+
+        foreach ( $replacements as $post_id ) {
+            $original = get_post_meta( $post_id, 'whx4_events_detached_date', true );
+            $start    = get_field( 'whx4_events_start_date', $post_id );
+
+            if ( $original && $start instanceof \DateTimeInterface ) {
+                $map[ $original ] = [
+                    'datetime' => $start,
+                    'post_id'  => $post_id,
+                ];
+            }
+        }
+
+        return $map;
+    }
+
 
     public static function enqueueAdminAssets(): void
     {
