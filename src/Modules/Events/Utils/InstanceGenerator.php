@@ -74,14 +74,14 @@ class InstanceGenerator
      */
     public static function fromPostId( int $post_id, int $limit = 100, ?DateTimeInterface $until = null ): array
     {
-        $start = get_field( 'rex_events_start_datetime', $post_id );
-        $rrule = get_field( 'rex_events_rrule', $post_id );
+        $start = get_field( 'whx4_events_start_datetime', $post_id );
+        $rrule = get_field( 'whx4_events_rrule', $post_id );
 
         if ( ! $start || ! $rrule ) {
             return [];
         }
 
-        $exdates = get_post_meta( $post_id, 'rex_events_excluded_dates', true ) ?: [];
+        $exdates = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
         $exdates = array_map(
             fn( $date ) => is_string( $date ) ? ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ) : $date,
             $exdates
