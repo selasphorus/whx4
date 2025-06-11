@@ -81,12 +81,13 @@ class InstanceGenerator
             return [];
         }
 
-        $exdates = get_post_meta( $post_id, 'whx4_events_excluded_dates' ) ?: [];
-        if ( !is_array( $exdates ) ) {
-            $exdates = []; // default to empty array
+        $exdates_raw = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
+        if ( !is_array( $exdates_raw ) ) {
+            $exdates_raw = []; // default to empty array
         }
+        $exdates = array_filter( (array) $exdates_raw, fn( $date ) => is_string( $date ) && strtotime( $date ) !== false );
         $exdates = array_map(
-            fn( $date ) => is_string( $date ) ? ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ) : $date,
+            fn( $date ) => ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ),
             $exdates
         );
 
