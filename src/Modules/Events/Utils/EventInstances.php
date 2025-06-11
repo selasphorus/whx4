@@ -4,6 +4,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Post;
 use WP_Query;
+use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Utils\RepeaterChangeDetector;
 use atc\WHx4\Helpers\PluginPaths;
 
@@ -299,11 +300,15 @@ class EventInstances
 
         foreach ( $replacements as $post_id ) {
             $original = get_post_meta( $post_id, 'whx4_events_detached_date', true );
-            $start    = get_field( 'whx4_events_start_date', $post_id );
+            //$start    = get_field( 'whx4_events_start_date', $post_id );
+            $startDT = DateHelper::combineDateAndTime(
+                get_post_meta( $post_id, 'whx4_events_start_date', true ),
+                get_post_meta( $post_id, 'whx4_events_start_time', true )
+            );
 
             if ( $original && $start instanceof \DateTimeInterface ) {
                 $map[ $original ] = [
-                    'datetime' => $start,
+                    'datetime' => $startDT,
                     'post_id'  => $post_id,
                 ];
             }

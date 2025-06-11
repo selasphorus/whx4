@@ -169,6 +169,28 @@ class DateHelper {
     }
 
     /**
+     * Combine a date and optional time string into a DateTimeImmutable object.
+     *
+     * @param string|null $date A date string (e.g. '2025-06-21')
+     * @param string|null $time A time string (e.g. '14:30') — optional
+     * @return \DateTimeImmutable|null
+     */
+    public static function combineDateAndTime( ?string $date, ?string $time = null ): ?\DateTimeImmutable
+    {
+        if ( ! $date ) {
+            return null;
+        }
+
+        $datetime_string = trim( $date . ' ' . ( $time ?? '' ) );
+
+        try {
+            return new \DateTimeImmutable( $datetime_string );
+        } catch ( \Exception $e ) {
+            return null;
+        }
+    }
+
+    /**
      * Calculate Easter Sunday for a given year.
      *
      * @param int $year

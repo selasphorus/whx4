@@ -5,6 +5,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
 use DateTimeInterface; // See chat: "An interface: implemented by both DateTime and DateTimeImmutable"
 //use DateTimeImmutable; // See chat: "A concrete class: creates new objects when modified"
+use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class InstanceGenerator
@@ -74,10 +75,14 @@ class InstanceGenerator
      */
     public static function fromPostId( int $post_id, int $limit = 100, ?DateTimeInterface $until = null ): array
     {
-        $start = get_field( 'whx4_events_start_date', $post_id );
+        //$start = get_field( 'whx4_events_start_date', $post_id );
+        $startDT = DateHelper::combineDateAndTime(
+            get_post_meta( $post_id, 'whx4_events_start_date', true ),
+            get_post_meta( $post_id, 'whx4_events_start_time', true )
+        );
         $rrule = get_field( 'whx4_events_rrule', $post_id );
 
-        if ( ! $start || ! $rrule ) {
+        if ( ! $startDT || ! $rrule ) {
             return [];
         }
 
@@ -94,7 +99,7 @@ class InstanceGenerator
         $overrides = EventInstances::getOverrideDates( $post_id );
 
         return self::generateInstanceDates(
-            $start,
+            $startDT,
             $rrule,
             $exdates,
             $overrides,
