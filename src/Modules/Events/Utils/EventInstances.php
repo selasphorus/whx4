@@ -381,8 +381,7 @@ class EventInstances
             'whx4-event-admin-styles',
             PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ),
             [],
-            null,
-            true
+            filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
         );
 
         wp_enqueue_script(
