@@ -11,6 +11,10 @@ class ComposerStaticInit79e97093d8a36b936357e12844d9102a
         array (
             'atc\\WHx4\\' => 9,
         ),
+        'R' => 
+        array (
+            'RRule\\' => 6,
+        ),
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
@@ -21,6 +25,10 @@ class ComposerStaticInit79e97093d8a36b936357e12844d9102a
         'atc\\WHx4\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'RRule\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rlanvin/php-rrule/src',
         ),
         'Composer\\Installers\\' => 
         array (
