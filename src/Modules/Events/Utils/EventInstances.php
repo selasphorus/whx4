@@ -7,7 +7,7 @@ use WP_Query;
 use atc\WHx4\Utils\RepeaterChangeDetector;
 use atc\WHx4\Helpers\PluginPaths;
 
-class EventOverrides
+class EventInstances
 {
     public static function register(): void
     {
@@ -19,7 +19,7 @@ class EventOverrides
         add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
         add_action( 'wp_ajax_whx4_check_replacement', [ self::class, 'ajaxCheckReplacement' ] );
-        //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventOverrides::class, 'ajaxCheckReplacement' ] );
+        //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventInstances::class, 'ajaxCheckReplacement' ] );
     }
 
     public static function addMetaBox(): void
@@ -178,7 +178,7 @@ class EventOverrides
 
     public static function handleExcludedDateRemovals( $post_id ): void
     {
-        error_log( '=== class: EventOverrides; method: handleExcludedDateRemovals ===' );
+        error_log( '=== class: EventInstances; method: handleExcludedDateRemovals ===' );
 
         if ( get_post_type( $post_id ) !== 'whx4_event' ) {
             return;

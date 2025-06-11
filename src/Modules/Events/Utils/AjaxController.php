@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\Utils;
 
-use atc\WHx4\Modules\Events\Utils\EventOverrides;
+use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class AjaxController
 {
@@ -61,7 +61,7 @@ class AjaxController
             wp_send_json_error( 'Permission denied', 403 );
         }
 
-        $exists = EventOverrides::replacementExists( $parent_id, $date );
+        $exists = EventInstances::replacementExists( $parent_id, $date );
         wp_send_json_success([ 'exists' => $exists ]);
     }
 }

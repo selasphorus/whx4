@@ -5,7 +5,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
 use DateTimeInterface; // See chat: "An interface: implemented by both DateTime and DateTimeImmutable"
 //use DateTimeImmutable; // See chat: "A concrete class: creates new objects when modified"
-use atc\WHx4\Modules\Events\EventOverrides;
+use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class InstanceGenerator
 {
@@ -91,7 +91,7 @@ class InstanceGenerator
             $exdates
         );
 
-        $overrides = EventOverrides::getOverrideDates( $post_id );
+        $overrides = EventInstances::getOverrideDates( $post_id );
 
         return self::generateInstanceDates(
             $start,

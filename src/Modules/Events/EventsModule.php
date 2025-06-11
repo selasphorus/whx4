@@ -6,7 +6,7 @@ use atc\WHx4\Core\Module as BaseModule;
 use atc\WHx4\Modules\Events\PostTypes\Event;
 //use atc\WHx4\Modules\Events\PostTypes\RecurringEvent;
 //use atc\WHx4\Modules\Events\PostTypes\EventSeries;
-use atc\WHx4\Modules\Events\Utils\EventOverrides;
+use atc\WHx4\Modules\Events\Utils\EventInstances;
 use atc\WHx4\Modules\Events\Utils\AjaxController;
 
 final class EventsModule extends BaseModule
@@ -15,7 +15,7 @@ final class EventsModule extends BaseModule
     {
         $this->registerDefaultViewRoot();
         parent::boot();
-        EventOverrides::register();
+        EventInstances::register();
         AjaxController::register();
     }
 
