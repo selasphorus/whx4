@@ -41,6 +41,7 @@ class EventOverrides
 
         $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
 
+        echo "instances: <pre>" . print_r($instances, true) . "</pre>";
         echo '<table class="widefat">';
         echo '<thead><tr><th>Date</th><th>Actions</th></tr></thead><tbody>';
 
