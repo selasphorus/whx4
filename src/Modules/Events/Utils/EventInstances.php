@@ -44,6 +44,8 @@ class EventInstances
 
         //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
 
+        echo '<style>.whx4-instance-cell { background: pink !important; }</style>';
+
         echo '<div class="whx4-event-instances-grid">';
 
         foreach ( $instances as $date ) {
@@ -52,7 +54,6 @@ class EventInstances
 
             $is_excluded = is_array( $excluded ) && in_array( $date_str, $excluded, true );
             $replacement_id = self::getDetachedPostId( $post_id, $date_str );
-
             echo '<div class="whx4-instance-cell">';
             echo '<div class="whx4-instance-date">' . esc_html( $label ) . '</div>';
             echo '<div class="whx4-instance-actions">';
