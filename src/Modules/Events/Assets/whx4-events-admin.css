@@ -18,6 +18,12 @@
 .whx4-instance-date {
     font-weight: bold;
     margin-bottom: 0.5rem;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.whx4-instance-actions {
+    display: inline-block;
 }
 
 .whx4-instance-actions .button {
