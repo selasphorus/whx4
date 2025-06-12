@@ -231,6 +231,7 @@ class EventInstances
         echo '</p></div>';
     }
 
+    // Revise or remove -- no longer using repeater rows for exclusions
     public static function handleExcludedDateRemovals( $post_id ): void
     {
         error_log( '=== class: EventInstances; method: handleExcludedDateRemovals ===' );
