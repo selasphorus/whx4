@@ -2,6 +2,7 @@
 /* CSS Document */
 
 button.icon-button,
+.button.icon-button,
 .icon-button {
     border: none;
     height: 22px;
@@ -13,6 +14,7 @@ button.icon-button,
 }
 
 button.icon-button img,
+.button.icon-button img,
 .icon-button img {
     height: inherit;
     width: inherit;
