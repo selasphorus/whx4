@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         alert(response.data?.message || 'Error');
         button.disabled = false;
-        button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude';
+        button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
       }
     });
   }
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click', e => {
       const date = btn.dataset.date;
       const postId = btn.dataset.postId;
+      alert('postId:'+postId+': date: '+date);
       sendAjax('whx4_exclude_date', postId, date, btn);
     });
   });
