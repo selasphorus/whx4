@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
+button.icon-button,
 .icon-button {
     border: none;
     height: 22px;
@@ -11,6 +12,7 @@
     background: transparent;
 }
 
+button.icon-button img,
 .icon-button img {
     height: inherit;
     width: inherit;
