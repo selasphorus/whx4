@@ -53,7 +53,7 @@ class EventInstances
 
             //
             $is_excluded = in_array( $date_str, $excluded ); //is_array( $excluded ) &&
-            if ( $is_excluded ) { echo "The date '$date_str' is_excluded<br />"; } else { echo "The date '$date_str' is NOT excluded<br />"; }
+            //if ( $is_excluded ) { echo "The date '$date_str' is_excluded<br />"; } //else { echo "The date '$date_str' is NOT excluded<br />"; }
             //
             $replacement_id = self::getDetachedPostId( $post_id, $date_str );
 
