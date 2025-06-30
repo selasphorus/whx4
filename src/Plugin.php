@@ -53,7 +53,8 @@ final class Plugin
     /**
      * Prevent cloning of the instance.
      */
-    private function __clone() {}
+    private function __clone()
+    {}
 
     /**
      * Prevent unserializing of the instance.
