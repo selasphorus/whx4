@@ -62,10 +62,10 @@ class EventInstances
             } elseif ( $is_excluded ) {
                 echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
                 //echo '<span class="button disabled">Excluded</span> ';
-                echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/unexclude.png" alt="Exclude"></button>';
+                echo '<button type="button" class="button icon-button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/unexclude.png" alt="Exclude"></button>';
             } else {
-                echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/exclude.png" alt="Exclude"></button> ';
-                echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/detach.png" alt="Create Replacement Event"></button>';
+                echo '<button type="button" class="button icon-button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/exclude.png" alt="Exclude"></button> ';
+                echo '<button type="button" class="button icon-button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/detach.png" alt="Create Replacement Event"></button>';
             }
 
             echo '</div></div>'; // close .whx4-instance-actions, .whx4-instance-block
