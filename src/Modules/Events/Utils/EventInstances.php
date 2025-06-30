@@ -60,11 +60,11 @@ class EventInstances
             if ( $replacement_id ) {
                 echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
             } elseif ( $is_excluded ) {
-                echo '<span class="button disabled"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/excluded.png" alt="Excluded" style="height:1rem; vertical-align:middle;"></span>&nbsp;';
+                echo '<span class="button disabled"><img src="'.WHX4_PLUGIN_DIR.'/assets/graphics/excluded.png" alt="Excluded" style="height:1rem; vertical-align:middle;"></span>&nbsp;';
                 //echo '<span class="button disabled">Excluded</span> ';
                 echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
             } else {
-                echo '<span class="button disabled"><img src="'.WHX4_PLUGIN_URL.'/assets/graphics/exclude.png" alt="Excluded" style="height:1rem; vertical-align:middle;"></span>&nbsp;';
+                echo '<span class="button disabled"><img src="'.WHX4_PLUGIN_DIR.'/assets/graphics/exclude.png" alt="Excluded" style="height:1rem; vertical-align:middle;"></span>&nbsp;';
                 //echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
                 echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Create replacement</button>';
             }
