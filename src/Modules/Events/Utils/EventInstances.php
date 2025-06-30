@@ -41,7 +41,7 @@ class EventInstances
         //$dates = InstanceGenerator::generateInstanceDates( $post_id );
 
         $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
-
+        $excluded = maybe_unserialize($excluded);
         //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
 
         echo '<div class="whx4-event-instances-columns">';
