@@ -43,7 +43,7 @@ class EventInstances
 
         $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
         $excluded = maybe_unserialize($excluded);
-        echo "excluded: <pre>" . print_r($excluded, true) . "</pre>";
+        //echo "excluded: <pre>" . print_r($excluded, true) . "</pre>";
 
         echo '<div class="whx4-event-instances-columns">';
 
@@ -52,8 +52,7 @@ class EventInstances
             $label = $date->format( 'l, M d, Y' );
 
             //
-            $is_excluded = in_array( $date_str, $excluded ); //is_array( $excluded ) &&
-            //if ( $is_excluded ) { echo "The date '$date_str' is_excluded<br />"; } //else { echo "The date '$date_str' is NOT excluded<br />"; }
+            $is_excluded = in_array( $date_str, $excluded );
             //
             $replacement_id = self::getDetachedPostId( $post_id, $date_str );
 
