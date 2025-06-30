@@ -51,8 +51,9 @@ class EventInstances
             $date_str = $date->format( 'Y-m-d' );
             $label = $date->format( 'l, M d, Y' );
 
-            $is_excluded = is_array( $excluded ) && in_array( $date_str, $excluded, true );
+            $is_excluded = in_array( $date_str, $excluded ); //is_array( $excluded ) &&
             $replacement_id = self::getDetachedPostId( $post_id, $date_str );
+            if ( $is_excluded ) { echo "The date '$date_str' is_excluded<br />"; }
 
             echo '<div class="whx4-instance-block">';
             echo '<div class="whx4-instance-date">' . esc_html( $label ) . '</div>';
