@@ -18,7 +18,7 @@
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
@@ -75,3 +75,23 @@ body:not(.search-results) article:not(.sticky) .pub_date.inline .posted-on {
 	display: inline-block;
 }
 
+
+
+/*** Buttons ***/
+button.icon-button,
+.icon-button {
+    border: none;
+    height: 22px;
+    width: 22px;
+    padding: 1px;
+    margin: 0;
+    vertical-align: middle;
+    background: transparent;
+}
+
+button.icon-button img,
+.icon-button img {
+    height: inherit;
+    width: inherit;
+    vertical-align: middle;
+}
