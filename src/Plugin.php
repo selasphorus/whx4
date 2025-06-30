@@ -151,8 +151,9 @@ final class Plugin
             'whx4-admin-style',
             WHX4_PLUGIN_URL . 'assets/css/whx4-admin.css',
             [],
-            $ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
-            true
+            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4-admin.css'
+            //$ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
+            //true
         );
 	}
 
@@ -160,8 +161,17 @@ final class Plugin
     {
         $fpath = WHX4_PLUGIN_URL . 'assets/css/whx4.css';
     	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }
-    	wp_enqueue_style( 'whx4-style', $fpath, $ver );
+    	//wp_enqueue_style( 'whx4-style', $fpath, $ver );
     	//wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
+
+    	wp_enqueue_style(
+            'whx4-style',
+            WHX4_PLUGIN_URL . 'assets/css/whx4.css',
+            [],
+            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4.css'
+            //$ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
+            //true
+        );
     }
 
 	public function maybeLoadSettingsManager(): void
