@@ -66,25 +66,25 @@ class InstanceGenerator
     /**
      * Generate instance dates using a post ID (convenience wrapper).
      *
-     * @param  int                $post_id
+     * @param  int                $postID
      * @param  int                $limit
      * @param  DateTimeInterface|null $until
      * @return DateTimeInterface[]
      */
-    public static function fromPostId( int $post_id, int $limit = 100, ?DateTimeInterface $until = null ): array
+    public static function fromPostId( int $postID, int $limit = 100, bool $includeExcluded = false, ?DateTimeInterface $until = null ): array
     {
-        //$start = get_field( 'whx4_events_start_date', $post_id );
+        //$start = get_field( 'whx4_events_start_date', $postID );
         $startDT = DateHelper::combineDateAndTime(
-            get_post_meta( $post_id, 'whx4_events_start_date', true ),
-            get_post_meta( $post_id, 'whx4_events_start_time', true )
+            get_post_meta( $postID, 'whx4_events_start_date', true ),
+            get_post_meta( $postID, 'whx4_events_start_time', true )
         );
-        $rrule = get_field( 'whx4_events_rrule', $post_id );
+        $rrule = get_field( 'whx4_events_rrule', $postID );
 
         if ( ! $startDT || ! $rrule ) {
             return [];
         }
 
-        $exdates_raw = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
+        /*$exdates_raw = get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ?: [];
         if ( !is_array( $exdates_raw ) ) {
             $exdates_raw = []; // default to empty array
         }
@@ -92,9 +92,23 @@ class InstanceGenerator
         $exdates = array_map(
             fn( $date ) => ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ),
             $exdates
-        );
+        );*/
+        $exdates = [];
 
-        $overrides = EventInstances::getOverrideDates( $post_id );
+        if ( ! $includeExcluded ) {
+            $exdates_raw = get_post_meta( $postID, 'rex_events_excluded_dates', true ) ?: [];
+            if ( !is_array( $exdates_raw ) ) {
+                $exdates_raw = [];
+            }
+
+            $exdates = array_filter( (array) $exdates_raw, fn( $date ) => is_string( $date ) && strtotime( $date ) !== false );
+            $exdates = array_map(
+                fn( $date ) => ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ),
+                $exdates
+            );
+        }
+
+        $overrides = EventInstances::getOverrideDates( $postID );
 
         return self::generateInstanceDates(
             $startDT,

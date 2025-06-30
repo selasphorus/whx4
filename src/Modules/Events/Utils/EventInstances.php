@@ -37,7 +37,7 @@ class EventInstances
     public static function renderMetaBox( WP_Post $post ): void
     {
         $post_id = $post->ID;
-        $instances = InstanceGenerator::fromPostId( $post->ID, 50 );
+        $instances = InstanceGenerator::fromPostId( $post->ID, 50, true );
         //$dates = InstanceGenerator::generateInstanceDates( $post_id );
         //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
 
