@@ -151,9 +151,7 @@ final class Plugin
             'whx4-admin-style',
             WHX4_PLUGIN_URL . 'assets/css/whx4-admin.css',
             [],
-            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4-admin.css'
-            //$ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
-            //true
+            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4-admin.css' )
         );
 	}
 
@@ -168,7 +166,7 @@ final class Plugin
             'whx4-style',
             WHX4_PLUGIN_URL . 'assets/css/whx4.css',
             [],
-            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4.css'
+            filemtime( WHX4_PLUGIN_DIR . 'assets/css/whx4.css' )
             //$ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
             //true
         );
