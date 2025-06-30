@@ -25,6 +25,7 @@ class AjaxController
         }
 
         $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
+        $excluded = maybe_unserialize($excluded);
         if ( ! is_array( $excluded ) ) { $excluded = []; } // Make absolutely sure it's an array!
 
         if ( ! in_array( $date, $excluded, true ) ) {
