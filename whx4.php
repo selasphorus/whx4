@@ -20,6 +20,11 @@
 
 if ( !defined( 'ABSPATH' ) ) exit;
 
+define( 'WHX4_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+//define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
+define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
+
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
