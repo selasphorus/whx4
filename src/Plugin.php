@@ -77,7 +77,19 @@ final class Plugin
         $this->defineConstants();
         $this->registerAdminHooks();
         $this->registerPublicHooks();
-        $this->initializeCore();
+        //$this->initializeCore();
+
+        if ( $this->booted ) {
+        return;
+		}
+
+		// Allow others to register modules early
+		do_action( 'whx4_pre_boot' );
+
+		$this->initializeCore(); //$this->registerModules();
+
+		// Continue with the rest of the boot process
+		$this->booted = true;
     }
 
     protected function registerAdminHooks(): void

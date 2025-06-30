@@ -72,7 +72,7 @@ add_filter( 'whx4_registered_field_keys', function() {
 // Once plugins are loaded, boot everything up
 add_action( 'plugins_loaded', function() {
     Plugin::getInstance()->boot();
-});
+}, 20 ); // Use a priority high enough to allow addons to hook before it runs
 
 // On activation, set up post types and capabilities
 register_activation_hook( __FILE__, function() {
