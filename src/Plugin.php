@@ -131,7 +131,7 @@ final class Plugin
 
 		wp_enqueue_script(
 			'whx4-settings',
-			WHX4_PLUGIN_DIR . '/assets/js/settings.js',
+			WHX4_PLUGIN_URL . 'assets/js/settings.js',
 			[],
 			'1.0',
 			true
@@ -144,12 +144,12 @@ final class Plugin
 			'1.0'
 		);*/
 
-		$fpath = WHX4_PLUGIN_DIR . '/assets/css/whx4-admin.css';
+		$fpath = WHX4_PLUGIN_URL . 'assets/css/whx4-admin.css';
     	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "250630"; }
     	//wp_enqueue_style( 'whx4-admin-style', plugins_url( 'css/whx4-admin.css', __FILE__ ), $ver );
     	wp_enqueue_style(
             'whx4-admin-style',
-            WHX4_PLUGIN_DIR . '/assets/css/whx4-admin.css',
+            WHX4_PLUGIN_URL . 'assets/css/whx4-admin.css',
             [],
             $ver, //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
             true
@@ -158,7 +158,7 @@ final class Plugin
 
     public function enqueuePublicAssets(): void
     {
-        $fpath = WHX4_PLUGIN_URL . '/assets/css/whx4.css';
+        $fpath = WHX4_PLUGIN_URL . 'assets/css/whx4.css';
     	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }
     	wp_enqueue_style( 'whx4-style', $fpath, $ver );
     	//wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
