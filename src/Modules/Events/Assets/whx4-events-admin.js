@@ -1,37 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
   const nonce = whx4EventsAjax.nonce;
 
-  function sendAjax(action, postId, date, button) {
-    button.disabled = true;
-    button.textContent = '...';
+    function sendAjax(action, postId, date, button) {
 
-    fetch(whx4EventsAjax.ajax_url, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: new URLSearchParams({
-        action,
-        nonce,
-        post_id: postId,
-        date
-      })
-    })
-    .then(r => r.json())
-    .then(response => {
-      if (response.success) {
-        window.location.reload(); // Simple solution; or you could replace just the row
-      } else {
-        alert(response.data?.message || 'Error');
-        button.disabled = false;
-        button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
-      }
-    });
-  }
+        alert('action:'+action+'postId:'+postId+': date: '+date+': button: '+button);
+
+        button.disabled = true;
+        button.textContent = '...';
+
+        fetch(whx4EventsAjax.ajax_url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: new URLSearchParams({
+                action,
+                nonce,
+                post_id: postId,
+                date
+            })
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response.success) {
+                window.location.reload(); // Simple solution; or you could replace just the row
+            } else {
+                alert(response.data?.message || 'Error');
+                button.disabled = false;
+                button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
+            }
+        });
+    }
 
   document.querySelectorAll('.whx4-exclude-date').forEach(btn => {
     btn.addEventListener('click', e => {
       const date = btn.dataset.date;
       const postId = btn.dataset.postId;
-      alert('postId:'+postId+': date: '+date);
+      //alert('postId:'+postId+': date: '+date);
       sendAjax('whx4_exclude_date', postId, date, btn);
     });
   });
