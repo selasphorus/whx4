@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function sendAjax(action, postId, date, button) {
 
-        alert('action:'+action+'postId:'+postId+': date: '+date+': button: '+button);
+        alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
 
         button.disabled = true;
         button.textContent = '...';
