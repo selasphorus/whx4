@@ -23,6 +23,7 @@ use atc\WHx4\ACF\BlockRegistrar;
 final class Plugin
 {
     private static ?self $instance = null;
+    protected bool $booted = false;
 
 	// NB: Set the actual modules array via boot (whx4.php) -- this way, Plugin class contains logic only, and other plugins or themes can register additional modules dynamically
 	protected array $availableModules = [];
@@ -74,19 +75,17 @@ final class Plugin
 
     public function boot(): void
     {
-        $this->defineConstants();
-        $this->registerAdminHooks();
-        $this->registerPublicHooks();
-        //$this->initializeCore();
-
         if ( $this->booted ) {
-        return;
+            return;
 		}
 
 		// Allow others to register modules early
 		do_action( 'whx4_pre_boot' );
 
-		$this->initializeCore(); //$this->registerModules();
+        $this->defineConstants();
+        $this->registerAdminHooks();
+        $this->registerPublicHooks();
+        $this->initializeCore();
 
 		// Continue with the rest of the boot process
 		$this->booted = true;
