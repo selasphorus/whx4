@@ -143,6 +143,10 @@ final class Plugin
 			[],
 			'1.0'
 		);*/
+
+		$fpath = WHX4_PLUGIN_DIR . '/assets/css/whx4-admin.css';
+    	if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "250630"; }
+    	wp_enqueue_style( 'whx4-admin-style', plugins_url( 'css/whx4.-admincss', __FILE__ ), $ver );
 	}
 
     public function enqueuePublicAssets(): void
