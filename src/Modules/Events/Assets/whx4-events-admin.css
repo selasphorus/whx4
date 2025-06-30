@@ -7,7 +7,7 @@
 
 .whx4-instance-block {
     break-inside: avoid;
-    padding: 0.75rem 1rem;
+    padding: 0 1rem;
     border-bottom: 1px solid #e2e4e7;
     border-left: 1px solid #ccd0d4;
     border-right: 5px solid black;
