@@ -60,7 +60,8 @@ class EventInstances
             if ( $replacement_id ) {
                 echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
             } elseif ( $is_excluded ) {
-                echo '<span class="button disabled">Excluded</span> ';
+                echo '<span class="button disabled"><img src="/src/assets/graphics/exclude.png" alt="Excluded" style="height:1em; vertical-align:middle;"></span> ';
+                //echo '<span class="button disabled">Excluded</span> ';
                 echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
             } else {
                 echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
