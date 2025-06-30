@@ -48,7 +48,7 @@ class EventInstances
 
         foreach ( $instances as $date ) {
             $date_str = $date->format( 'Y-m-d' );
-            $label = $date->format( 'M j, Y' );
+            $label = $date->format( 'w, M j, Y' );
 
             $is_excluded = is_array( $excluded ) && in_array( $date_str, $excluded, true );
             $replacement_id = self::getDetachedPostId( $post_id, $date_str );
