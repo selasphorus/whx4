@@ -13,42 +13,54 @@ class AjaxController
         add_action( 'wp_ajax_whx4_unexclude_date', [ self::class, 'unexcludeDate' ] );
     }
 
-    public static function excludeDate(): void {
+    public static function excludeDate(): void
+    {
+        self::handleExcludeToggle( true );
+    }
+
+    public static function unexcludeDate(): void
+    {
+        self::handleExcludeToggle( false );
+    }
+
+    private static function handleExcludeToggle( bool $exclude ): void
+    {
         check_ajax_referer( 'whx4_events_nonce', 'nonce' );
 
-        $post_id = absint( $_POST['post_id'] ?? 0 );
-        $date = sanitize_text_field( $_POST['date'] ?? '' );
+        $post_id  = absint( $_POST['post_id'] ?? 0 );
+        $date_str = sanitize_text_field( $_POST['date'] ?? '' );
 
-        if ( ! $post_id || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
+        if ( ! $post_id || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date_str ) ) {
             wp_send_json_error( [ 'message' => 'Invalid request' ] );
         }
 
-        $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
-        $excluded = maybe_unserialize($excluded);
-        if ( ! is_array( $excluded ) ) { $excluded = []; } // Make absolutely sure it's an array!
+        $excluded = maybe_unserialize( get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [] );
 
-        if ( ! in_array( $date, $excluded, true ) ) {
-            $excluded[] = $date;
-            sort( $excluded );
-            update_post_meta( $post_id, 'whx4_events_excluded_dates', $excluded );
+        if ( ! is_array( $excluded ) ) {
+            $excluded = [];
         }
 
-        wp_send_json_success();
-    }
+        if ( $exclude ) {
+            if ( ! in_array( $date_str, $excluded, true ) ) {
+                $excluded[] = $date_str;
+                sort( $excluded );
+            }
+        } else {
+            $excluded = array_filter( $excluded, fn( $d ) => $d !== $date_str );
+        }
 
-    public static function unexcludeDate(): void {
-        check_ajax_referer( 'whx4_events_nonce', 'nonce' );
+        update_post_meta( $post_id, 'whx4_events_excluded_dates', $excluded );
 
-        $post_id = absint( $_POST['post_id'] ?? 0 );
-        $date = sanitize_text_field( $_POST['date'] ?? '' );
+        $replacement_id = EventInstances::getDetachedPostId( $post_id, $date_str ); // maybe better to handle replacements as array insted of this approach
 
-        $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
+        $html = ViewLoader::renderToString( 'event-instance-div', [
+            'post_id'        => $post_id,
+            'date_str'       => $date_str,
+            'excluded'       => in_array( $date_str, $excluded, true ),
+            'replacement_id' => $replacement_id,
+        ], 'events' );
 
-        $new = array_filter( $excluded, fn( $d ) => $d !== $date );
-
-        update_post_meta( $post_id, 'whx4_events_excluded_dates', $new );
-
-        wp_send_json_success();
+        wp_send_json_success( [ 'html' => $html ] );
     }
 
     public static function checkReplacement(): void

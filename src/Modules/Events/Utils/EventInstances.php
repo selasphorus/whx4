@@ -7,6 +7,7 @@ use WP_Query;
 use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Utils\RepeaterChangeDetector;
 use atc\WHx4\Helpers\PluginPaths;
+use atc\Whx4\Core\ViewLoader;
 
 class EventInstances
 {
@@ -34,103 +35,46 @@ class EventInstances
         );
     }
 
-    public static function renderMetaBox( WP_Post $post ): void
+    public function renderMetaBox( \WP_Post $post ): void
     {
-        $post_id = $post->ID;
-        $instances = InstanceGenerator::fromPostId( $post->ID, 50, true );
-        //$dates = InstanceGenerator::generateInstanceDates( $post_id );
-        //echo "instances: <pre>" . print_r($instances, true) . "</pre>";
+        /*$instances = self::getInstancesForPost( $post->ID );
+        $excluded = self::getExcludedDates( $post->ID );
+        $replacements = self::getReplacementMap( $post->ID );*/
 
-        $excluded = get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [];
-        $excluded = maybe_unserialize($excluded);
-        //echo "excluded: <pre>" . print_r($excluded, true) . "</pre>";
+        $postID = $post->ID;
+        $instances = InstanceGenerator::fromPostId( $postID, 50, true ); // set limit higher than 50?
+        $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ?: []; );
+        //$replacements = maybe_unserialize( get_post_meta( $postID, 'whx4_events_replaced_dates', true ) ?: []; );
 
-        echo '<div class="whx4-event-instances-columns">';
-
-        foreach ( $instances as $date ) {
-            $date_str = $date->format( 'Y-m-d' );
-            $label = $date->format( 'l, M d, Y' );
-
-            //
-            $is_excluded = in_array( $date_str, $excluded );
-            //
-            $replacement_id = self::getDetachedPostId( $post_id, $date_str );
-
-            echo '<div class="whx4-instance-block">';
-            echo '<div class="whx4-instance-date">' . esc_html( $label ) . '</div>';
-            echo '<div class="whx4-instance-actions">';
-
-            if ( $replacement_id ) {
-                echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
-            } elseif ( $is_excluded ) {
-                echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
-                //echo '<span class="button disabled">Excluded</span> ';
-                echo '<button type="button" class="button icon-button whx4-unexclude-date" data-action="unexclude_date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="Exclude"></button>';
-            } else {
-                echo '<button type="button" class="button icon-button whx4-exclude-date" data-action="exclude_date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/exclude.png" alt="Exclude"></button> ';
-                echo '<button type="button" class="button icon-button whx4-create-replacement" data-action="create_replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/detach.png" alt="Create Replacement Event"></button>';
-            }
-
-            echo '</div></div>'; // close .whx4-instance-actions, .whx4-instance-block
-        }
-
-        echo '</div>'; // close .whx4-event-instances-columns
-
-
-        /*echo '<div class="whx4-event-instances-grid">';
-
-        foreach ( $instances as $date ) {
-            $date_str = $date->format( 'Y-m-d' );
-            $label = $date->format( 'M j, Y' );
-
-            $is_excluded = is_array( $excluded ) && in_array( $date_str, $excluded, true );
-            $replacement_id = self::getDetachedPostId( $post_id, $date_str );
-            echo '<div class="whx4-instance-cell">';
-            echo '<div class="whx4-instance-date">' . esc_html( $label ) . '</div>';
-            echo '<div class="whx4-instance-actions">';
-
-            if ( $replacement_id ) {
-                echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
-            } elseif ( $is_excluded ) {
-                echo '<span class="button disabled">Excluded</span> ';
-                echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
-            } else {
-                echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
-                echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Create replacement</button>';
-            }
-
-            echo '</div></div>'; // close .whx4-instance-actions, .whx4-instance-cell
-        }
-
-        echo '</div>'; // close .whx4-event-instances-grid
-        */
-        /*echo '<table class="widefat">';
-        echo '<thead><tr><th>Date</th><th>Actions</th></tr></thead><tbody>';
-        foreach ( $instances as $date ) {
-            $date_str = $date->format( 'Y-m-d' );
-            $label = $date->format( 'M j, Y' );
-
-            if ( is_array( $excluded ) ) { $is_excluded = in_array( $date_str, $excluded, true ); } else { $is_excluded = false; }
-            $replacement_id = self::getDetachedPostId( $post_id, $date_str );
-
-            echo '<tr>';
-            echo '<td>' . esc_html( $label ) . '</td>';
-            echo '<td>';
-
-            if ( $replacement_id ) {
-                echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
-            } elseif ( $is_excluded ) {
-                echo '<span class="button disabled">Excluded</span> ';
-                echo '<button type="button" class="button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Un-exclude</button>';
-            } else {
-                echo '<button type="button" class="button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Exclude</button> ';
-                echo '<button type="button" class="button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '">Create replacement</button>';
-            }
-
-            echo '</td></tr>';
-        }
-        echo '</tbody></table>';*/
+        ViewLoader::render( 'event-instances-columnar-list', [
+            'post_id'     => $postID,
+            'instances'   => $instances,
+            'excluded'    => $excluded,
+            //'replacements'=> $replacements,
+        ], 'events' );
     }
+
+    public static function getInstanceDivHtml( int $post_id, string $date ): string {
+        ob_start();
+
+        // You can reuse a template part or include logic here directly.
+        // Example: template partial to render a single instance row
+        $context = [
+            'post_id' => $post_id,
+            'date'    => $date,
+            'actions' => self::getAvailableActions( $post_id, $date ), // if needed
+        ];
+
+        ViewLoader::render( 'event-instance-div', [
+            'post_id'     => $postID,
+            'instances'   => $instances,
+            'excluded'    => $excluded,
+            //'replacements'=> $replacements,
+        ], 'events' );
+
+        return ob_get_clean();
+    }
+
 
     // WIP 06-30-25 -- todo: compare/merge handleCreateReplacement with handleCreateRequest
     public static function handleCreateReplacement(): void

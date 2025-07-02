@@ -25,12 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(r => r.json())
         .then(response => {
             if (response.success) {
-                window.location.reload(); // Simple solution; or you could replace just the row
+                const row = button.closest('.whx4-instance-block');
+                if (row && response.data?.html) {
+                    row.outerHTML = response.data.html;
+                } else {
+                    console.warn('Missing HTML in AJAX response.');
+                }
+                //window.location.reload(); // Simple solution; or you could replace just the row
             } else {
                 alert(response.data?.message || 'Error');
                 button.disabled = false;
                 button.innerHTML = originalText;
             }
+        })
+        .catch(error => {
+            console.error('AJAX error:', error);
+            alert('Unexpected error occurred.');
+            button.disabled = false;
+            button.innerHTML = originalText;
         });
     }
 
