@@ -11,11 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         //
         button.disabled = true;
 
-        //const originalText = button.textContent;
-        //button.textContent = '...';
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '\u23F3'; // ⏳ Hourglass emoji
-
         fetch(whx4EventsAjax.ajax_url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -33,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 alert(response.data?.message || 'Error');
                 button.disabled = false;
-                button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
+                //button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
             }
         });
     }
