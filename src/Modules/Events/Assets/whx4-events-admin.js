@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        sendAjax('whx4_${action}', postId, date, btn);
+        sendAjax(`whx4_${action}`, postId, date, btn);
 
         // Prevent double-click
         //btn.disabled = true;
