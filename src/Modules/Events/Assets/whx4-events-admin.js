@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
      * Send a generic AJAX request to the backend with event instance data.
      */
     function sendAjax(action, postId, date, button) {
-        if ( action == 'whx4_create_replacement' ) {
+        //if ( action == 'whx4_create_replacement' ) {
             alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
-        }
+        //}
         //
         button.disabled = true;
 
@@ -79,24 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const postId = btn.dataset.postId;
             //alert('postId:'+postId+': date: '+date);
             sendAjax('whx4_exclude_date', postId, date, btn);
-        });
-    });
-
-    // Attach handlers for un-excluding a date
-    document.querySelectorAll('.whx4-unexclude-date').forEach(btn => {
-        btn.addEventListener('click', e => {
-            const date = btn.dataset.date;
-            const postId = btn.dataset.postId;
-            sendAjax('whx4_unexclude_date', postId, date, btn);
-        });
-    });
-
-    // Attach handler for creating a detached replacement
-    document.querySelectorAll('.whx4-create-replacement').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const date = btn.dataset.date;
-            const postId = btn.dataset.postId;
-            sendAjax('whx4_create_replacement', postId, date, btn);
         });
     });
     */
