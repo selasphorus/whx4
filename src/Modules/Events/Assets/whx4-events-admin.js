@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 alert(response.data?.message || 'Error');
                 button.disabled = false;
-                button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
+                //button.textContent = action === 'whx4_exclude_date' ? 'Exclude' : 'Un-exclude'; // TODO: replace text with img file links -- see EventInstances.php
             }
         });
     }
@@ -54,19 +54,21 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        sendAjax('whx4_${action}', postId, date, btn);
+
         // Prevent double-click
-        btn.disabled = true;
+        //btn.disabled = true;
 
         // Optional: show loading state
         //const originalText = btn.innerHTML;
         //btn.innerHTML = '\u23F3'; // ⏳ Hourglass emoji
 
-        sendAjax(`whx4_${action}`, postId, date, btn)
+        /*sendAjax(`whx4_${action}`, postId, date, btn)
             .finally(() => {
                 // Restore button state
                 btn.disabled = false;
                 //btn.innerHTML = originalText;
-            });
+            });*/
     });
 
     /*
