@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Optional: show loading state
         const originalText = btn.innerHTML;
-        btn.innerHTML = '⏳';
+        btn.innerHTML = '\u23F3'; // ⏳ Hourglass emoji
 
         sendAjax(`whx4_${action}`, postId, date, btn)
             .finally(() => {
