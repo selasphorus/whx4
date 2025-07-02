@@ -35,7 +35,7 @@ class EventInstances
         );
     }
 
-    public function renderMetaBox( \WP_Post $post ): void
+    public static function renderMetaBox( \WP_Post $post ): void
     {
         /*$instances = self::getInstancesForPost( $post->ID );
         $excluded = self::getExcludedDates( $post->ID );
