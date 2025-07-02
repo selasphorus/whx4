@@ -12,7 +12,7 @@ class ViewLoader
     }
 
     /**
-     * Register a module-specific view directory (e.g., src/Modules/Supernatural/views)
+     * Register a module-specific view directory (e.g., src/Modules/Supernatural/Views)
      */
     public static function registerModuleViewRoot( string $moduleSlug, string $absolutePath ): void
     {
@@ -32,39 +32,32 @@ class ViewLoader
      */
     public static function renderToString( string $view, array $vars = [], string $module = '' ): string
     {
-        $paths = [];
-        $moduleDir = $module ? strtolower( $module ) : '';
+        $path = self::getViewPath( $view, $module );
 
-        // 1. Theme override: /themes/my-theme/rex/{module}/view.php
-        if ( $module ) {
-            $paths[] = get_stylesheet_directory() . '/rex/' . $moduleDir . '/' . $view . '.php';
-        }
-
-        // 2. Module-specific root (e.g., src/Modules/Supernatural/views/view.php)
-        if ( $module && isset( self::$moduleViewRoots[ $module ] ) ) {
-            $paths[] = self::$moduleViewRoots[ $module ] . '/' . $view . '.php';
-        }
-
-        // 3. Plugin-level fallback: views/modules/{module}/view.php
-        if ( $module ) {
-            $paths[] = WHX4_PLUGIN_DIR . 'views/modules/' . $moduleDir . '/' . $view . '.php';
-        }
-
-        // 4. Plugin-level fallback: views/view.php (shared/global)
-        $paths[] = WHX4_PLUGIN_DIR . 'views/' . $view . '.php';
-
-        foreach ( $paths as $path ) {
-            if ( file_exists( $path ) ) {
-                ob_start();
-                extract( $vars, EXTR_SKIP );
-                include $path;
-                return ob_get_clean();
-            }
+        if ( $path ) {
+            ob_start();
+            extract( $vars, EXTR_SKIP );
+            include $path;
+            return ob_get_clean();
         }
 
         return '<div class="notice notice-error"><p>' .
-               esc_html( "View not found: $view (module: $moduleDir)" ) .
-               '</p></div>';
+            esc_html( "View not found: $view (module: " . strtolower( $module ) . ")" ) .
+            '</p></div>';
+    }
+
+    /**
+     * Get the resolved full path to a view (first match), or null if not found.
+     */
+    public static function getViewPath( string $view, string $module = '' ): ?string
+    {
+        foreach ( self::generateSearchPaths( $view, $module ) as $path ) {
+            if ( file_exists( $path ) ) {
+                return $path;
+            }
+        }
+
+        return null;
     }
     /* Usage examples:
     From a module:
@@ -77,34 +70,29 @@ class ViewLoader
     */
 
     /**
-     * Get the resolved full path to a view (first match), or null if not found.
+     * Generate an ordered list of candidate view paths based on view name and module.
      */
-    public static function getViewPath( string $view, string $module = '' ): ?string
+    protected static function generateSearchPaths( string $view, string $module = '' ): array
     {
         $paths = [];
-        $moduleDir = $module ? strtolower( $module ) : '';
+        $moduleSlug = strtolower( $module );
 
-        if ( $module ) {
-            $paths[] = get_stylesheet_directory() . '/whx4/' . $moduleDir . '/' . $view . '.php';
-        }
+        if ( $moduleSlug ) {
+            // 1. Theme override: /themes/my-theme/whx4/{module}/view.php
+            $paths[] = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
 
-        if ( $module && isset( self::$moduleViewRoots[ $module ] ) ) {
-            $paths[] = self::$moduleViewRoots[ $module ] . '/' . $view . '.php';
-        }
-
-        if ( $module ) {
-            $paths[] = WHX4_PLUGIN_DIR . 'views/modules/' . $moduleDir . '/' . $view . '.php';
-        }
-
-        $paths[] = WHX4_PLUGIN_DIR . 'views/' . $view . '.php';
-
-        foreach ( $paths as $path ) {
-            if ( file_exists( $path ) ) {
-                return $path;
+            // 2. Module-registered path: src/Modules/Supernatural/Views/view.php)
+            if ( isset( self::$moduleViewRoots[ $module ] ) ) {
+                $paths[] = self::$moduleViewRoots[ $module ] . "/{$view}.php";
             }
+
+            // 3. Plugin-level module fallback: views/modules/{module}/view.php
+            $paths[] = WHX4_PLUGIN_DIR . "views/modules/{$moduleSlug}/{$view}.php";
         }
 
-        return null;
-    }
+        // 4. Plugin-level global fallback: views/view.php (shared/global)
+        $paths[] = WHX4_PLUGIN_DIR . "views/{$view}.php";
 
+        return $paths;
+    }
 }
