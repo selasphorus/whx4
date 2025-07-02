@@ -42,7 +42,7 @@ class ViewLoader
         }
 
         return '<div class="notice notice-error"><p>' .
-            esc_html( "View not found: $view (module: " . strtolower( $module ) . ")" ) .
+            esc_html( "View not found: $view (module: " . $module . ") at path: " . $path ) .
             '</p></div>';
     }
 
