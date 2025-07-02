@@ -34,11 +34,7 @@ class AjaxController
             wp_send_json_error( [ 'message' => 'Invalid request' ] );
         }
 
-        $excluded = maybe_unserialize( get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ?: [] );
-
-        if ( ! is_array( $excluded ) ) {
-            $excluded = [];
-        }
+        $excluded = maybe_unserialize( get_post_meta( $post_id, 'whx4_events_excluded_dates', true ) ) ?: [];
 
         if ( $exclude ) {
             if ( ! in_array( $date_str, $excluded, true ) ) {
