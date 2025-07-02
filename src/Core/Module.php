@@ -92,7 +92,7 @@ abstract class Module implements ModuleInterface
 		$slug = $this->detectModuleSlugFromNamespace();
 
 		if ( ! ViewLoader::hasViewRoot( $slug ) ) {
-			ViewLoader::registerModuleViewRoot( $slug, __DIR__ . '/views' );
+			ViewLoader::registerModuleViewRoot( $slug, __DIR__ . '/Views' );
 		}
 	}
 
