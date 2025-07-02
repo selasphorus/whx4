@@ -10,8 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         //
         button.disabled = true;
-        const originalText = button.textContent;
-        button.textContent = '...';
+
+        //const originalText = button.textContent;
+        //button.textContent = '...';
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '\u23F3'; // ⏳ Hourglass emoji
 
         fetch(whx4EventsAjax.ajax_url, {
             method: 'POST',
