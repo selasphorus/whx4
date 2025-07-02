@@ -8,10 +8,9 @@ class AjaxController
 {
     public static function register(): void
     {
-        //add_action( 'wp_ajax_whx4_check_replacement', [self::class, 'checkReplacement'] );
-        add_action( 'wp_ajax_whx4_exclude_date', [ AjaxController::class, 'excludeDate' ] );
-        add_action( 'wp_ajax_whx4_unexclude_date', [ AjaxController::class, 'unexcludeDate' ] );
-
+        add_action( 'wp_ajax_whx4_check_replacement', [self::class, 'checkReplacement'] );
+        add_action( 'wp_ajax_whx4_exclude_date', [ self::class, 'excludeDate' ] );
+        add_action( 'wp_ajax_whx4_unexclude_date', [ self::class, 'unexcludeDate' ] );
     }
 
     public static function excludeDate(): void {

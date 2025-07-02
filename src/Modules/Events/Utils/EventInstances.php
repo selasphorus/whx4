@@ -13,13 +13,13 @@ class EventInstances
     public static function register(): void
     {
         add_action( 'add_meta_boxes', [self::class, 'addMetaBox'] );
-        add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
         add_action( 'edit_form_top', [self::class, 'maybeAddDetachedNotice'] );
         add_action( 'admin_notices', [self::class, 'maybeShowDetachedCleanupNotice'] );
         add_action( 'admin_init', [self::class, 'handleDetachedCleanupRequest'] );
-        add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
+        //add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
-        add_action( 'wp_ajax_whx4_check_replacement', [ self::class, 'ajaxCheckReplacement' ] );
+        //add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
+        add_action( 'wp_ajax_whx4_create_replacement', [ self::class, 'handleCreateReplacement' ] );
         //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventInstances::class, 'ajaxCheckReplacement' ] );
     }
 
@@ -65,10 +65,10 @@ class EventInstances
             } elseif ( $is_excluded ) {
                 echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
                 //echo '<span class="button disabled">Excluded</span> ';
-                echo '<button type="button" class="button icon-button whx4-unexclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="Exclude"></button>';
+                echo '<button type="button" class="button icon-button whx4-unexclude-date" data-action="unexclude_date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="Exclude"></button>';
             } else {
-                echo '<button type="button" class="button icon-button whx4-exclude-date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/exclude.png" alt="Exclude"></button> ';
-                echo '<button type="button" class="button icon-button whx4-create-replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/detach.png" alt="Create Replacement Event"></button>';
+                echo '<button type="button" class="button icon-button whx4-exclude-date" data-action="exclude_date" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/exclude.png" alt="Exclude"></button> ';
+                echo '<button type="button" class="button icon-button whx4-create-replacement" data-action="create_replacement" data-date="' . esc_attr( $date_str ) . '" data-post-id="' . esc_attr( $post_id ) . '"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/detach.png" alt="Create Replacement Event"></button>';
             }
 
             echo '</div></div>'; // close .whx4-instance-actions, .whx4-instance-block
@@ -130,6 +130,37 @@ class EventInstances
             echo '</td></tr>';
         }
         echo '</tbody></table>';*/
+    }
+
+    // WIP 06-30-25 -- todo: compare/merge handleCreateReplacement with handleCreateRequest
+    public static function handleCreateReplacement(): void
+    {
+        check_ajax_referer( 'whx4_events_nonce', 'nonce' );
+
+        $post_id = absint( $_POST['post_id'] ?? 0 );
+        $date = sanitize_text_field( $_POST['date'] ?? '' );
+
+        if ( ! $post_id || ! $date ) {
+            wp_send_json_error( [ 'message' => 'Missing data' ] );
+        }
+
+        // Create replacement if it doesn’t exist already
+        $replacement_id = self::getDetachedPostId( $post_id, $date );
+        if ( $replacement_id ) {
+            $url = get_edit_post_link( $replacement_id );
+            wp_send_json_success( [ 'exists' => true, 'edit_url' => $url ] );
+        }
+
+        $new_id = self::createDetachedReplacement( $post_id, $date );
+        if ( is_wp_error( $new_id ) || ! $new_id ) {
+            wp_send_json_error( [ 'message' => 'Failed to create replacement.' ] );
+        }
+
+        wp_send_json_success( [
+            'exists'    => false,
+            'created'   => true,
+            'edit_url'  => get_edit_post_link( $new_id )
+        ] );
     }
 
     public static function handleCreateRequest(): void

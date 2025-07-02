@@ -96,7 +96,7 @@ class InstanceGenerator
         $exdates = [];
 
         if ( ! $includeExcluded ) {
-            $exdates_raw = get_post_meta( $postID, 'rex_events_excluded_dates', true ) ?: [];
+            $exdates_raw = get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ?: [];
             if ( !is_array( $exdates_raw ) ) {
                 $exdates_raw = [];
             }

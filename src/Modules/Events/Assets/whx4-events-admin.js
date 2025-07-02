@@ -1,16 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
   const nonce = whx4EventsAjax.nonce;
 
+    /**
+     * Send a generic AJAX request to the backend with event instance data.
+     */
     function sendAjax(action, postId, date, button) {
-
-        alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
-
+        if ( action == 'whx4_create_replacement' ) {
+            alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
+        }
+        //
         button.disabled = true;
+        const originalText = button.textContent;
         button.textContent = '...';
 
         fetch(whx4EventsAjax.ajax_url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
                 action,
                 nonce,
@@ -30,20 +35,64 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-  document.querySelectorAll('.whx4-exclude-date').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const date = btn.dataset.date;
-      const postId = btn.dataset.postId;
-      //alert('postId:'+postId+': date: '+date);
-      sendAjax('whx4_exclude_date', postId, date, btn);
-    });
-  });
+    document.addEventListener('click', function(event) {
+        const btn = event.target.closest('button');
 
-  document.querySelectorAll('.whx4-unexclude-date').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const date = btn.dataset.date;
-      const postId = btn.dataset.postId;
-      sendAjax('whx4_unexclude_date', postId, date, btn);
+        // Only respond if the button is inside a .rex-instance-actions container
+        if (!btn || !btn.closest('.whx4-instance-actions')) {
+            return;
+        }
+
+        const action = btn.dataset.action;
+        const date = btn.dataset.date;
+        const postId = btn.dataset.postId;
+
+        if (!action || !date || !postId) {
+            return;
+        }
+
+        // Prevent double-click
+        btn.disabled = true;
+
+        // Optional: show loading state
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '⏳';
+
+        sendAjax(`whx4_${action}`, postId, date, btn)
+            .finally(() => {
+                // Restore button state
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
     });
-  });
+
+    /*
+    // Attach handlers for excluding a date
+    document.querySelectorAll('.whx4-exclude-date').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const date = btn.dataset.date;
+            const postId = btn.dataset.postId;
+            //alert('postId:'+postId+': date: '+date);
+            sendAjax('whx4_exclude_date', postId, date, btn);
+        });
+    });
+
+    // Attach handlers for un-excluding a date
+    document.querySelectorAll('.whx4-unexclude-date').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const date = btn.dataset.date;
+            const postId = btn.dataset.postId;
+            sendAjax('whx4_unexclude_date', postId, date, btn);
+        });
+    });
+
+    // Attach handler for creating a detached replacement
+    document.querySelectorAll('.whx4-create-replacement').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const date = btn.dataset.date;
+            const postId = btn.dataset.postId;
+            sendAjax('whx4_create_replacement', postId, date, btn);
+        });
+    });
+    */
 });
