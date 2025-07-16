@@ -4,6 +4,7 @@ namespace atc\WHx4\Modules\Events\Fields;
 
 use atc\WHx4\Core\Contracts\FieldGroupInterface;
 
+// TODO: make this final class?
 class EventFields implements FieldGroupInterface
 {
     public static function register(): void

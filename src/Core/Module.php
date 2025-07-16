@@ -6,6 +6,7 @@ use atc\WHx4\Plugin;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
 
+// TODO: make this final class?
 abstract class Module implements ModuleInterface
 {
     protected Plugin $plugin;
