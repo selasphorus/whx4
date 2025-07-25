@@ -92,7 +92,7 @@ class ViewLoader
             }
 
             // 3. Plugin-level module fallback: Modules/{module}/Views/view.php -- could also add views/modules/{module}/view.php
-            $pluginViewPath = WHX4_PLUGIN_DIR . "Modules/{$module}/Views/{$view}.php";
+            $pluginViewPath = WHX4_PLUGIN_DIR . "src/Modules/{$module}/Views/{$view}.php";
             error_log( '=== pluginViewPath: ' . $pluginViewPath . '===' );
             $paths[] = $pluginViewPath;
         }

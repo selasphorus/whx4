@@ -93,7 +93,9 @@ abstract class Module implements ModuleInterface
 		$slug = $this->detectModuleSlugFromNamespace();
 
 		if ( ! ViewLoader::hasViewRoot( $slug ) ) {
-			ViewLoader::registerModuleViewRoot( $slug, __DIR__ . '/Views' );
+			$reflector = new \ReflectionClass( $this );
+			$moduleDir = dirname( $reflector->getFileName() );
+			ViewLoader::registerModuleViewRoot( $slug, $moduleDir . '/Views' );
 		}
 	}
 
