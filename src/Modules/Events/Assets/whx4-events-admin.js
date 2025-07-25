@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * Send a generic AJAX request to the backend with event instance data.
      */
     function sendAjax(action, postId, date, button) {
-        //alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
+        alert('action: '+action+'; postId: '+postId+'; date: '+date+'; button: '+button);
         //
         button.disabled = true;
 
