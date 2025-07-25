@@ -8,7 +8,7 @@ foreach ( $instances as $date ):
         'post_id'    => $post_id,
         'date_str'   => $date_str,
         'excluded'   => in_array( $date_str, $excluded, true ), //in_array( $date->format( 'Y-m-d' ), $excluded, true ),
-        'replacement_id' => $replacement_id, //$replacements[ $date_str ] ?? null,
+        'replacement_id' => $replacements[ $date_str ] ?? null,
     ], 'events' );
 
 endforeach;

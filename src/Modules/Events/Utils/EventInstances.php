@@ -45,18 +45,23 @@ class EventInstances
         $instances = InstanceGenerator::fromPostId( $postID, 50, true ); // set limit higher than 50?
         $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
         //$replacements = maybe_unserialize( get_post_meta( $postID, 'whx4_events_replaced_dates', true ) ?: []; );
-        $replacementID = self::getDetachedPostId( $post_id, $date_str );
+        $replacements = [];
+
+        foreach ( $instances as $date ) {
+            $date_str = $date->format( 'Y-m-d' );
+            $replacements[ $date_str ] = self::getDetachedPostId( $postID, $date_str );
+        }
 
         ViewLoader::render( 'event-instances-columnar-list', [
             'post_id'     => $postID,
-            'replacement_id' => $replacementID,
             'instances'   => $instances,
             'excluded'    => $excluded,
-            //'replacements'=> $replacements,
+            'replacements'=> $replacements,
         ], 'events' );
     }
 
-    public static function getInstanceDivHtml( int $post_id, string $date ): string {
+    public static function getInstanceDivHtml( int $post_id, string $date ): string
+    {
         ob_start();
 
         // You can reuse a template part or include logic here directly.
@@ -376,7 +381,6 @@ class EventInstances
 
         return $query->have_posts() ? (int) $query->posts[0] : null;
     }
-
 
     public static function enqueueAdminAssets(): void
     {
