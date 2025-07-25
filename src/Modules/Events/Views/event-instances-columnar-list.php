@@ -18,7 +18,7 @@ foreach ( $instances as $date ):
 
     <?php
     if ( $replacement_id ) {
-        echo '<a href="' . esc_url( get_edit_post_link( $replacement_id ) ) . '" target="_blank" class="button">Edit replacement</a>';
+        echo '<a href="' . esc_url( get_edit_post_link( $replacements[ $date_str ] ) ) . '" target="_blank" class="button">Edit replacement</a>';
     } elseif ( $excluded ) {
         echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
         //echo '<span class="button disabled">Excluded</span> ';
