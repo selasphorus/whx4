@@ -1,8 +1,9 @@
+
 <div class="whx4-event-instances-columns">
 <?php
 foreach ( $instances as $date ):
     $date_str = $date->format( 'Y-m-d' );
-    $replacement_id = self::getDetachedPostId( $post_id, $date_str );
+    $replacement_id = EventInstances::getDetachedPostId( $post_id, $date_str );
 
     echo ViewLoader::renderToString( 'event-instance-div', [
         'post_id'    => $post_id,
