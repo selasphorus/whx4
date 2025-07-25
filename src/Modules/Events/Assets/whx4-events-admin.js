@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const block = btn.closest('.whx4-instance-block');
+        if (!block) {
+            console.error('Could not find .whx4-instance-block for button:', btn);
+        }
+
         const date = block?.dataset.date;
         const postId = block?.dataset.postId;
         const action = btn.dataset.action;
