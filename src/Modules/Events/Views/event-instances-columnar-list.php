@@ -22,10 +22,10 @@ foreach ( $instances as $date ):
     } elseif ( $excluded ) {
         echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
         //echo '<span class="button disabled">Excluded</span> ';
-        echo '<button type="button" class="button icon-button whx4-unexclude-date" data-action="unexclude_date""><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="Exclude"></button>';
+        echo '<button type="button" class="button icon-button whx4-unexclude-date" data-action="unexclude_date"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="UN-exclude"></button>';
     } else {
-        echo '<button type="button" class="button icon-button whx4-exclude-date" data-action="exclude_date""><img src="'.WHX4_PLUGIN_URL.'assets/graphics/exclude.png" alt="Exclude"></button> ';
-        echo '<button type="button" class="button icon-button whx4-create-replacement" data-action="create_replacement""><img src="'.WHX4_PLUGIN_URL.'assets/graphics/detach.png" alt="Create Replacement Event"></button>';
+        echo '<button type="button" class="button icon-button whx4-exclude-date" data-action="exclude_date"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/exclude.png" alt="Exclude"></button> ';
+        echo '<button type="button" class="button icon-button whx4-create-replacement" data-action="create_replacement"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/detach.png" alt="Create Replacement Event"></button>';
     }
     ?>
     </div> <!-- close .whx4-instance-actions -->
