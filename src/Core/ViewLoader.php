@@ -55,6 +55,7 @@ class ViewLoader
             if ( file_exists( $path ) ) {
                 return $path;
             }
+            error_log( '=== No file_exists at path: ' . $path . '===' );
         }
 
         return null;
