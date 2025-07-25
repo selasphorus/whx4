@@ -3,7 +3,7 @@
 foreach ( $instances as $date ):
     $label = $date->format( 'M j, Y' );
     $date_str = $date->format( 'Y-m-d' );
-    $excluded = in_array( $date_str, $excluded, true );
+    $is_excluded = in_array( $date_str, $excluded, true );
     /*echo ViewLoader::renderToString( 'event-instance-div', [
         'post_id'    => $post_id,
         'date_str'   => $date_str,
@@ -19,7 +19,7 @@ foreach ( $instances as $date ):
     <?php
     if ( $replacements[ $date_str ] ) {
         echo '<a href="' . esc_url( get_edit_post_link( $replacements[ $date_str ] ) ) . '" target="_blank" class="button">Edit replacement</a>';
-    } elseif ( $excluded ) {
+    } elseif ( $is_excluded ) {
         echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
         //echo '<span class="button disabled">Excluded</span> ';
         echo '<button type="button" class="button icon-button whx4-unexclude-date" data-action="unexclude_date"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/unexclude.png" alt="UN-exclude"></button>';
