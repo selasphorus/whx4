@@ -80,15 +80,21 @@ class ViewLoader
 
         if ( $moduleSlug ) {
             // 1. Theme override: /themes/my-theme/whx4/{module}/view.php
-            $paths[] = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
+            $themeOverride = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
+            error_log( '=== themeOverride path: ' . $themeOverride . '===' );
+            $paths[] = $themeOverride;
 
             // 2. Module-registered path: src/Modules/Supernatural/Views/view.php)
             if ( isset( self::$moduleViewRoots[ $module ] ) ) {
-                $paths[] = self::$moduleViewRoots[ $module ] . "/{$view}.php";
+                $moduleViewPath = self::$moduleViewRoots[ $module ] . "/{$view}.php";
+                error_log( '=== moduleViewPath: ' . $moduleViewPath . '===' );
+                $paths[] = $moduleViewPath;
             }
 
-            // 3. Plugin-level module fallback: views/modules/{module}/view.php
-            $paths[] = WHX4_PLUGIN_DIR . "views/modules/{$moduleSlug}/{$view}.php";
+            // 3. Plugin-level module fallback: Modules/{module}/Views/view.php -- could also add views/modules/{module}/view.php
+            $pluginViewPath = WHX4_PLUGIN_DIR . "Modules/{$module}/Views/{$view}.php";
+            error_log( '=== pluginViewPath: ' . $pluginViewPath . '===' );
+            $paths[] = $pluginViewPath;
         }
 
         // 4. Plugin-level global fallback: views/view.php (shared/global)
