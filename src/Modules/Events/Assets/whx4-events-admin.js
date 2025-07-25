@@ -49,16 +49,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function(event) {
         const btn = event.target.closest('button');
 
-        // Only respond if the button is inside a .rex-instance-actions container
         if (!btn || !btn.closest('.whx4-instance-actions')) {
             return;
         }
 
+        const block = btn.closest('.whx4-instance-block');
+        const date = block?.dataset.date;
+        const postId = block?.dataset.postId;
         const action = btn.dataset.action;
-        const date = btn.dataset.date;
-        const postId = btn.dataset.postId;
 
         if (!action || !date || !postId) {
+            console.warn('Missing action/date/postId', { action, date, postId });
             return;
         }
 
