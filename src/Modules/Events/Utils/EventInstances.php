@@ -48,8 +48,8 @@ class EventInstances
         $replacements = [];
 
         foreach ( $instances as $date ) {
-            $date_str = $date->format( 'Y-m-d' );
-            $replacements[ $date_str ] = self::getDetachedPostId( $postID, $date_str );
+            $dateStr = $date->format( 'Y-m-d' );
+            $replacements[ $dateStr ] = self::getDetachedPostId( $postID, $dateStr );
         }
 
         ViewLoader::render( 'event-instances-columnar-list', [
@@ -60,16 +60,16 @@ class EventInstances
         ], 'events' );
     }
 
-    public static function getInstanceDivHtml( int $post_id, string $date ): string
+    public static function getInstanceDivHtml( int $postID, string $date ): string
     {
         ob_start();
 
         // You can reuse a template part or include logic here directly.
         // Example: template partial to render a single instance row
         $context = [
-            'post_id' => $post_id,
+            'post_id' => $postID,
             'date'    => $date,
-            'actions' => self::getAvailableActions( $post_id, $date ), // if needed
+            'actions' => self::getAvailableActions( $postID, $date ), // if needed
         ];
 
         ViewLoader::render( 'event-instance-div', [
@@ -88,21 +88,21 @@ class EventInstances
     {
         check_ajax_referer( 'whx4_events_nonce', 'nonce' );
 
-        $post_id = absint( $_POST['post_id'] ?? 0 );
+        $postID = absint( $_POST['post_id'] ?? 0 );
         $date = sanitize_text_field( $_POST['date'] ?? '' );
 
-        if ( ! $post_id || ! $date ) {
+        if ( ! $postID || ! $date ) {
             wp_send_json_error( [ 'message' => 'Missing data' ] );
         }
 
         // Create replacement if it doesn’t exist already
-        $replacement_id = self::getDetachedPostId( $post_id, $date );
+        $replacement_id = self::getDetachedPostId( $postID, $date );
         if ( $replacement_id ) {
             $url = get_edit_post_link( $replacement_id );
             wp_send_json_success( [ 'exists' => true, 'edit_url' => $url ] );
         }
 
-        $new_id = self::createDetachedReplacement( $post_id, $date );
+        $new_id = self::createDetachedReplacement( $postID, $date );
         if ( is_wp_error( $new_id ) || ! $new_id ) {
             wp_send_json_error( [ 'message' => 'Failed to create replacement.' ] );
         }
@@ -218,16 +218,16 @@ class EventInstances
     }
 
     // Revise or remove -- no longer using repeater rows for exclusions
-    public static function handleExcludedDateRemovals( $post_id ): void
+    public static function handleExcludedDateRemovals( $postID ): void
     {
         error_log( '=== class: EventInstances; method: handleExcludedDateRemovals ===' );
 
-        if ( get_post_type( $post_id ) !== 'whx4_event' ) {
+        if ( get_post_type( $postID ) !== 'whx4_event' ) {
             return;
         }
 
         $removed = RepeaterChangeDetector::detectRemovedValues(
-            $post_id,
+            $postID,
             'whx4_events_excluded_dates',
             'whx4_events_exdate_date'
         );
@@ -236,14 +236,14 @@ class EventInstances
         $pending = [];
 
         foreach ( $removed as $date ) {
-            if ( self::replacementExists( $post_id, $date ) ) {
+            if ( self::replacementExists( $postID, $date ) ) {
                 $pending[] = $date;
             }
         }
         error_log( 'pending: ' . print_r($pending,true) );
 
         if ( $pending ) {
-            set_transient( "whx4_events_cleanup_{$post_id}", $pending, 600 );
+            set_transient( "whx4_events_cleanup_{$postID}", $pending, 600 );
         }
     }
 
@@ -308,8 +308,8 @@ class EventInstances
             'fields' => 'ids',
         ]);
 
-        foreach ( $query->posts as $post_id ) {
-            wp_trash_post( $post_id );
+        foreach ( $query->posts as $postID ) {
+            wp_trash_post( $postID );
         }
 
         wp_safe_redirect( admin_url( 'post.php?post=' . $event_id . '&action=edit' ) );
@@ -339,18 +339,18 @@ class EventInstances
         $replacements = get_posts( $args );
         $map = [];
 
-        foreach ( $replacements as $post_id ) {
-            $original = get_post_meta( $post_id, 'whx4_events_detached_date', true );
-            //$start    = get_field( 'whx4_events_start_date', $post_id );
+        foreach ( $replacements as $postID ) {
+            $original = get_post_meta( $postID, 'whx4_events_detached_date', true );
+            //$start    = get_field( 'whx4_events_start_date', $postID );
             $startDT = DateHelper::combineDateAndTime(
-                get_post_meta( $post_id, 'whx4_events_start_date', true ),
-                get_post_meta( $post_id, 'whx4_events_start_time', true )
+                get_post_meta( $postID, 'whx4_events_start_date', true ),
+                get_post_meta( $postID, 'whx4_events_start_time', true )
             );
 
             if ( $original && $startDT instanceof \DateTimeInterface ) {
                 $map[ $original ] = [
                     'datetime' => $startDT,
-                    'post_id'  => $post_id,
+                    'post_id'  => $postID,
                 ];
             }
         }
@@ -358,7 +358,7 @@ class EventInstances
         return $map;
     }
 
-    public static function getDetachedPostId( int $parent_id, string $date_str ): ?int
+    public static function getDetachedPostId( int $parent_id, string $dateStr ): ?int
     {
         $query = new \WP_Query([
             'post_type'      => 'whx4_event',
@@ -372,7 +372,7 @@ class EventInstances
                 ],
                 [
                     'key'   => 'whx4_events_detached_date',
-                    'value' => $date_str,
+                    'value' => $dateStr,
                     'compare' => '='
                 ],
             ],
