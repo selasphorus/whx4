@@ -2,6 +2,7 @@
 $date  = strtotime($date_str);
 //$label = $date->format( 'M j, Y' );
 $label = $date_str; // tft
+var_dump($date);
 ?>
 
 <div class="whx4-instance-block" data-date="<?php echo esc_attr( $date_str ); ?>" data-post-id="<?php echo esc_attr( $post_id ); ?>">
