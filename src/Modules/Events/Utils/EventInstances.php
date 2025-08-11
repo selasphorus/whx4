@@ -20,7 +20,7 @@ class EventInstances
         //add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
         //add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
-        add_action( 'wp_ajax_whx4_create_replacement', [ self::class, 'handleCreateReplacement' ] );
+        //add_action( 'wp_ajax_whx4_create_replacement', [ self::class, 'handleCreateReplacement' ] );
         //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventInstances::class, 'ajaxCheckReplacement' ] );
     }
 
@@ -83,37 +83,6 @@ class EventInstances
     }
 
 
-    // WIP 06-30-25 -- todo: compare/merge handleCreateReplacement with handleCreateRequest
-    public static function handleCreateReplacement(): void
-    {
-        check_ajax_referer( 'whx4_events_nonce', 'nonce' );
-
-        $postID = absint( $_POST['post_id'] ?? 0 );
-        $date = sanitize_text_field( $_POST['date'] ?? '' );
-
-        if ( ! $postID || ! $date ) {
-            wp_send_json_error( [ 'message' => 'Missing data' ] );
-        }
-
-        // Create replacement if it doesn’t exist already
-        $replacement_id = self::getDetachedPostId( $postID, $date );
-        if ( $replacement_id ) {
-            $url = get_edit_post_link( $replacement_id );
-            wp_send_json_success( [ 'exists' => true, 'edit_url' => $url ] );
-        }
-
-        $new_id = self::createDetachedReplacement( $postID, $date );
-        if ( is_wp_error( $new_id ) || ! $new_id ) {
-            wp_send_json_error( [ 'message' => 'Failed to create replacement.' ] );
-        }
-
-        wp_send_json_success( [
-            'exists'    => false,
-            'created'   => true,
-            'edit_url'  => get_edit_post_link( $new_id )
-        ] );
-    }
-
     public static function handleCreateRequest(): void
     {
         if (
@@ -175,7 +144,8 @@ class EventInstances
         exit;
     }
 
-    protected static function replacementExists( int $parent_id, string $date ): bool
+    //public static function getDetachedPostId( int $parent_id, string $dateStr ): ?int
+    protected static function replacementExists( int $parent_id, string $dateStr ): bool
     {
         $query = new WP_Query([
             'post_type' => 'whx4_event', //'event',
@@ -184,16 +154,19 @@ class EventInstances
                 [
                     'key' => 'whx4_events_detached_from',
                     'value' => $parent_id,
+                    //'compare' => '='
                 ],
                 [
                     'key' => 'whx4_events_detached_date',
-                    'value' => $date,
+                    'value' => $dateStr,
+                    //'compare' => '='
                 ],
             ],
             'fields' => 'ids',
         ]);
 
         return ! empty( $query->posts );
+        //return $query->have_posts() ? (int) $query->posts[0] : null;
     }
 
     public static function maybeAddDetachedNotice( WP_Post $post ): void
@@ -356,30 +329,6 @@ class EventInstances
         }
 
         return $map;
-    }
-
-    public static function getDetachedPostId( int $parent_id, string $dateStr ): ?int
-    {
-        $query = new \WP_Query([
-            'post_type'      => 'whx4_event',
-            'post_status'    => 'any',
-            'posts_per_page' => 1,
-            'meta_query'     => [
-                [
-                    'key'   => 'whx4_events_detached_from', //'whx4_events_parent_event',
-                    'value' => $parent_id,
-                    'compare' => '='
-                ],
-                [
-                    'key'   => 'whx4_events_detached_date',
-                    'value' => $dateStr,
-                    'compare' => '='
-                ],
-            ],
-            'fields' => 'ids',
-        ]);
-
-        return $query->have_posts() ? (int) $query->posts[0] : null;
     }
 
     public static function enqueueAdminAssets(): void

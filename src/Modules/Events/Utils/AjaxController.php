@@ -9,7 +9,8 @@ class AjaxController
 {
     public static function register(): void
     {
-        add_action( 'wp_ajax_whx4_check_replacement', [self::class, 'checkReplacement'] );
+        add_action( 'wp_ajax_whx4_create_replacement', [ self::class, 'handleCreateReplacement' ] );
+        //add_action( 'wp_ajax_whx4_check_replacement', [self::class, 'checkReplacement'] );
         add_action( 'wp_ajax_whx4_exclude_date', [ self::class, 'excludeDate' ] );
         add_action( 'wp_ajax_whx4_unexclude_date', [ self::class, 'unexcludeDate' ] );
     }
@@ -60,18 +61,50 @@ class AjaxController
         wp_send_json_success( [ 'html' => $html ] );
     }
 
-    public static function checkReplacement(): void
+    private static function handleCreateReplacement(): void
     {
-        check_ajax_referer( 'whx4_create_detached_event', '_wpnonce' );
+        check_ajax_referer( 'whx4_events_nonce', 'nonce' );
+        //check_ajax_referer( 'whx4_create_detached_event', '_wpnonce' );
 
-        $parent_id = (int) $_POST['event_id'];
-        $date = sanitize_text_field( $_POST['date'] );
+        $postID  = absint( $_POST['post_id'] ?? 0 );
+        //$parent_id = (int) $_POST['event_id'];
+        $dateStr = sanitize_text_field( $_POST['date'] ?? '' );
 
-        if ( ! current_user_can( 'edit_post', $parent_id ) ) {
+        if ( ! $postID || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $dateStr ) ) {
+            wp_send_json_error( [ 'message' => 'Invalid request' ] );
+        }
+
+        if ( ! current_user_can( 'edit_post', $postID ) ) {
             wp_send_json_error( 'Permission denied', 403 );
         }
 
+
+        // Create replacement if it doesn’t exist already
+        $replacement_id = self::getDetachedPostId( $postID, $date );
+        if ( $replacement_id ) {
+            $url = get_edit_post_link( $replacement_id );
+            wp_send_json_success( [ 'exists' => true, 'edit_url' => $url ] );
+        }
+
+        $new_id = self::handleCreateRequest( $postID, $date );
+        //$new_id = self::createDetachedReplacement( $postID, $date );
+        if ( is_wp_error( $new_id ) || ! $new_id ) {
+            wp_send_json_error( [ 'message' => 'Failed to create replacement.' ] );
+        }
+
+        wp_send_json_success( [
+            'exists'    => false,
+            'created'   => true,
+            'edit_url'  => get_edit_post_link( $new_id )
+        ] );
+
+
+        // Check to see if replacement event already exists for the date in question
         $exists = EventInstances::replacementExists( $parent_id, $date );
-        wp_send_json_success([ 'exists' => $exists ]);
+        //wp_send_json_success([ 'exists' => $exists ]);
+
+        // If no replacement exists, then insert a new post
+
+
     }
 }
