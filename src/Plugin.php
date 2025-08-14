@@ -117,10 +117,14 @@ final class Plugin
         $this->setAvailableModules( $modules );
 
         $this->loadActiveModules();
-        $this->bootModules();
+        //$this->bootModules();
 
-        $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
-        $this->fieldGroupLoader   = new FieldGroupLoader( $this );
+        // If one or more Modules have been booted successfully, then proceed with registering post types and field groups
+        if ( $this->bootModules() > 0 ) {
+            $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
+            $this->fieldGroupLoader   = new FieldGroupLoader( $this );
+            $this->assignPostTypeCapabilities();
+        }
     }
 
 	public function enqueueAdminAssets(string $hook): void
@@ -231,33 +235,46 @@ final class Plugin
         return $this->activeModules;
     }
 
-    public function bootModules(): void
+    //public function bootModules(): void
+    public function bootModules(): int
     {
+        $this->bootedModules = [];
         //error_log( '=== Plugin: bootModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
             //error_log( 'About to attempt instantiation for moduleClass: ' . $moduleClass );
         	$module = new $moduleClass();
-        	if ( $module instanceof ModuleInterface ) {
-				$module->setPlugin( $this );
+        	if (!$module instanceof ModuleInterface) {
+				error_log('Module does not implement ModuleInterface: '.$moduleClass);
+				continue;
 			}
-			//error_log( 'About to attempt module boot() for moduleClass: ' . $moduleClass );
-            if ( method_exists( $module, 'boot' ) ) {
-                $module->boot();
-            } else {
-            	error_log( 'boot() method missing for moduleClass: ' . $moduleClass );
-            }
+        	$module->setPlugin($this);
+
+        	//error_log( 'About to attempt module boot() for moduleClass: ' . $moduleClass );
+        	try {
+				if (method_exists($module, 'boot')) {
+					$module->boot();
+					$this->bootedModules[] = $moduleClass;
+				} else {
+					error_log('boot() method missing for moduleClass: '.$moduleClass);
+				}
+			} catch (\Throwable $e) {
+				error_log('Error booting module '.$moduleClass.': '.$e->getMessage());
+			}
         }
+        $count = count($this->bootedModules);
+		//$this->modulesBooted = $count > 0;
+
+		/**
+		 * Fires after modules have attempted to boot.
+		 *
+		 * @param self     $plugin
+		 * @param string[] $bootedModules
+		 */
+		//do_action('whx4_modules_booted', $this, $this->bootedModules);
+
+		return $count;
     }
-/*
-    protected function bootModules(): void
-    {
-        foreach ( $this->activeModules as $module ) {
-            if ( method_exists( $module, 'boot' ) ) {
-                $module->boot();
-            }
-        }
-    }
-*/
+
     /**
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
@@ -336,10 +353,10 @@ final class Plugin
      */
     public function registerPostTypes(): void
 	{
-		//error_log( '=== registerPostTypes() ===' );
+		error_log( '=== registerPostTypes() ===' );
 
 		$activePostTypes = $this->getActivePostTypes();
-		//error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
+		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
 
 		if ( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );

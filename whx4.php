@@ -83,7 +83,7 @@ add_action( 'plugins_loaded', function() {
 register_activation_hook( __FILE__, function() {
     $plugin = Plugin::getInstance();
     $plugin->boot();
-    $plugin->assignPostTypeCapabilities();
+    //$plugin->assignPostTypeCapabilities(); // wrong place for this -- see Plugin.php
 });
 
 // Activate the following after EM events have been migrated and the EM plugin has been deactivated
