@@ -126,9 +126,11 @@ final class Plugin
         $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
         $this->fieldGroupLoader   = new FieldGroupLoader( $this );
         //
-        if ( $this->bootModules() > 0 ) {
-            $this->assignPostTypeCapabilities();
-        }
+        $this->bootModules();
+
+        /*if ( $this->bootModules() > 0 ) {
+            $this->assignPostTypeCapabilities(); // tmp disabled -- 250814 -- must find correct place to call this method
+        }*/
     }
 
 	public function enqueueAdminAssets(string $hook): void
