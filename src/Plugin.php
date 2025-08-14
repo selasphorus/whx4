@@ -29,6 +29,8 @@ final class Plugin
 	protected array $availableModules = [];
     protected array $activeModules = [];
     protected bool $modulesLoaded = false;
+    /** @var list<class-string<ModuleInterface>> */
+    protected array $bootedModules = [];
 
     protected PostTypeRegistrar $postTypeRegistrar;
     //protected TaxonomyRegistrar $taxonomyRegistrar;
