@@ -265,6 +265,7 @@ final class Plugin
         }
         $count = count($this->bootedModules);
 		//$this->modulesBooted = $count > 0;
+		error_log($count . 'Modules booted');
 
 		/**
 		 * Fires after modules have attempted to boot.
