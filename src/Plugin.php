@@ -32,7 +32,8 @@ final class Plugin
 
     protected PostTypeRegistrar $postTypeRegistrar;
     //protected TaxonomyRegistrar $taxonomyRegistrar;
-    protected FieldGroupLoader $fieldGroupLoader;
+    //protected FieldGroupLoader $fieldGroupLoader;
+    protected ?FieldGroupLoader $fieldGroupLoader = null;
     protected SettingsManager $settingsManager;
 
     /**
@@ -84,8 +85,8 @@ final class Plugin
 
         $this->defineConstants();
         $this->registerAdminHooks();
-        $this->initializeCore();
         $this->registerPublicHooks();
+        $this->initializeCore();
 
 		// Continue with the rest of the boot process
 		$this->booted = true;
@@ -120,9 +121,10 @@ final class Plugin
         //$this->bootModules();
 
         // If one or more Modules have been booted successfully, then proceed with registering post types and field groups
+        $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
+        $this->fieldGroupLoader   = new FieldGroupLoader( $this );
+        //
         if ( $this->bootModules() > 0 ) {
-            $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
-            $this->fieldGroupLoader   = new FieldGroupLoader( $this );
             $this->assignPostTypeCapabilities();
         }
     }
