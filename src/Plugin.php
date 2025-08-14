@@ -84,8 +84,8 @@ final class Plugin
 
         $this->defineConstants();
         $this->registerAdminHooks();
-        $this->registerPublicHooks();
         $this->initializeCore();
+        $this->registerPublicHooks();
 
 		// Continue with the rest of the boot process
 		$this->booted = true;
