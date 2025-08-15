@@ -112,6 +112,7 @@ final class Plugin
 
     protected function registerAdminHooks(): void
     {
+        error_log( '=== Plugin::registerAdminHooks() ===' );
         if ( is_admin() ) {
             ( new SettingsPageController( $this ) )->addHooks();
             ( new FieldKeyAuditPageController( $this ) )->addHooks();
@@ -121,6 +122,7 @@ final class Plugin
 
     protected function registerPublicHooks(): void
     {
+        error_log( '=== Plugin::registerPublicHooks() ===' );
         // on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ], 10 );
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
