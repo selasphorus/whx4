@@ -366,7 +366,7 @@ final class Plugin
     }*/
     public function getActivePostTypes(): array
 	{
-    	//error_log( '=== START getActivePostTypes() ===' );
+    	error_log( '=== Plugin::getActivePostTypes() ===' );
 
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
