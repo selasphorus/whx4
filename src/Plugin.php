@@ -79,6 +79,7 @@ final class Plugin
 
     public function boot(): void
     {
+        error_log( '=== Plugin::boot() ===' );
         if ( $this->booted ) {
             return;
 		}
@@ -100,6 +101,8 @@ final class Plugin
 
     public function finishBoot(): void
 	{
+	    error_log( '=== Plugin::finishBoot() ===' );
+
 		// Make modules discoverable
 		$this->initializeCore(); // sets available modules, seeds defaults if needed, loads/boots
 
@@ -135,6 +138,8 @@ final class Plugin
 
     protected function initializeCore(): void
     {
+        error_log( '=== Plugin::initializeCore() ===' );
+
         CoreServices::boot();
 
         // Load modules and config
@@ -215,7 +220,7 @@ final class Plugin
 
 	public function setAvailableModules( array $modules ): void
 	{
-        //error_log( '=== Plugin::setAvailableModules() ===' );
+        error_log( '=== Plugin::setAvailableModules() ===' );
 		//error_log( 'modules: '.print_r($modules, true) );
 		foreach( $modules as $slug => $class ) {
 			if ( !class_exists( $class ) ) {
@@ -249,6 +254,7 @@ final class Plugin
 	/** @return string[] */
 	protected function getDefaultActiveModules(): array
 	{
+	    error_log( '=== Plugin::getDefaultActiveModules() ===' );
 		// Default = “all discovered modules”, overrideable via filter
 		// Keys must match what you use in getAvailableModules(), e.g., slugs or FQCNs
 		$all = array_keys($this->getAvailableModules());
