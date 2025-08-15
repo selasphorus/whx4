@@ -242,6 +242,7 @@ final class Plugin
 
 	protected function ensureActiveModulesOptionSeeded(): void
 	{
+		error_log( '=== Plugin::ensureActiveModulesOptionSeeded() ===' );
 		$saved = get_option('whx4_active_modules');
 
 		// Only seed when the option is missing or empty
@@ -299,6 +300,7 @@ final class Plugin
     //public function bootModules(): void
     public function bootActiveModules(): int
     {
+        error_log( '=== Plugin::bootActiveModules() ===' );
         $this->bootedModules = [];
         //error_log( '=== Plugin: bootActiveModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
