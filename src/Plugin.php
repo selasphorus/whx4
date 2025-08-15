@@ -129,6 +129,7 @@ final class Plugin
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
 
 		// WIP
+		error_log( '=== about to add_action: whx4_modules_booted ===' );
 		// After modules boot, assign capabilities based on handlers
         add_action('whx4_modules_booted', function(Plugin $plugin) {
 			$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getActivePostTypeHandlers();
