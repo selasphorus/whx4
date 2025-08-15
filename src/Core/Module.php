@@ -44,6 +44,7 @@ abstract class Module implements ModuleInterface
 
 		//error_log( 'enabledSlugs: ' . print_r($enabledSlugs,true) );
 
+		// Get all the post type handlers for this module
 		foreach ( $this->getPostTypeHandlerClasses() as $handlerClass ) {
 			if ( ! class_exists( $handlerClass ) ) {
 				error_log( "Missing post type handler: $handlerClass" );
@@ -122,7 +123,7 @@ abstract class Module implements ModuleInterface
 	// ?? obsolete/redundant
 	public function getPostTypes(): array
 	{
-		error_log( '=== \Core\Module -- getPostTypes() ===' );
+		//error_log( '=== \Core\Module -- getPostTypes() ===' );
 		$postTypes = [];
 
 		foreach( $this->getPostTypeHandlerClasses() as $class ) {

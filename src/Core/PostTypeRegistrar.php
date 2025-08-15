@@ -91,23 +91,24 @@ class PostTypeRegistrar {
         ];
     }
 
-    public function assignPostTypeCapabilities(): void {
-		$roles = [ 'administrator', 'editor' ]; // Add others as needed
+	public function assignPostTypeCapabilities(array $handlers): void
+	{
+		$roles = ['administrator', 'editor'];
 
-		foreach ( $this->getPostTypeHandlers() as $handler ) {
+		foreach ($handlers as $handler) {
 			$caps = $handler->getCapabilities();
 
-			foreach ( $roles as $role_name ) {
-				$role = get_role( $role_name );
-
-				if ( $role ) {
-					foreach ( $caps as $cap ) {
-						$role->add_cap( $cap );
+			foreach ($roles as $roleName) {
+				$role = get_role($roleName);
+				if ($role) {
+					foreach ($caps as $cap) {
+						$role->add_cap($cap);
 					}
 				}
 			}
 		}
 	}
+
 
 	public function removePostTypeCapabilities(): void {
 		$roles = [ 'administrator', 'editor' ]; // Adjust as needed

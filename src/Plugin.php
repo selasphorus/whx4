@@ -26,16 +26,17 @@ final class Plugin
     protected bool $booted = false;
 
 	// NB: Set the actual modules array via boot (whx4.php) -- this way, Plugin class contains logic only, and other plugins or themes can register additional modules dynamically
+	// WIP clean this up and simplify
 	protected array $availableModules = [];
     protected array $activeModules = [];
     protected bool $modulesLoaded = false;
+    protected bool $modulesBooted = false;
     /** @var list<class-string<ModuleInterface>> */
     protected array $bootedModules = [];
-
-    protected PostTypeRegistrar $postTypeRegistrar;
-    //protected TaxonomyRegistrar $taxonomyRegistrar;
-    //protected FieldGroupLoader $fieldGroupLoader;
+    // Make these nullable if they’re typed elsewhere
+    protected ?PostTypeRegistrar $postTypeRegistrar = null;
     protected ?FieldGroupLoader $fieldGroupLoader = null;
+    //protected TaxonomyRegistrar $taxonomyRegistrar;
     protected SettingsManager $settingsManager;
 
     /**
@@ -88,11 +89,23 @@ final class Plugin
         $this->defineConstants();
         $this->registerAdminHooks();
         $this->registerPublicHooks();
-        $this->initializeCore();
+        //$this->initializeCore();
+
+        // Defer core initialization until other plugins finished loading modules via filters
+        add_action('plugins_loaded', [$this, 'finishBoot'], 20);
 
 		// Continue with the rest of the boot process
 		$this->booted = true;
     }
+
+    public function finishBoot(): void
+	{
+		// Make modules discoverable
+		$this->initializeCore(); // sets available modules, seeds defaults if needed, loads/boots
+
+		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
+		do_action('whx4_modules_booted', $this, $this->bootedModules);
+	}
 
     protected function registerAdminHooks(): void
     {
@@ -109,6 +122,15 @@ final class Plugin
         add_action( 'init', [ $this, 'registerPostTypes' ], 10 );
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
+
+		// WIP
+		// After modules boot, assign capabilities based on handlers
+        add_action('whx4_modules_booted', function(Plugin $plugin) {
+			$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getActivePostTypeHandlers();
+			if ($handlers) {
+				$plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
+			}
+		}, 20, 1);
     }
 
     protected function initializeCore(): void
@@ -116,21 +138,23 @@ final class Plugin
         CoreServices::boot();
 
         // Load modules and config
+
+        // 1) Discover all modules registered by core + add‑ons
         $modules = apply_filters( 'whx4_register_modules', [] );
         $this->setAvailableModules( $modules );
 
+        // 2) First‑run initializer: if no selection saved, enable defaults
+        $this->ensureActiveModulesOptionSeeded();
+
+        // 3) Load saved (or just‑seeded) active modules
         $this->loadActiveModules();
-        //$this->bootModules();
 
-        // If one or more Modules have been booted successfully, then proceed with registering post types and field groups
-        $this->postTypeRegistrar  = new PostTypeRegistrar( $this );
-        $this->fieldGroupLoader   = new FieldGroupLoader( $this );
-        //
-        $this->bootModules();
+        // 4) Lazily build services
+        $this->postTypeRegistrar = $this->postTypeRegistrar ?? new PostTypeRegistrar($this);
+        $this->fieldGroupLoader  = $this->fieldGroupLoader  ?? new FieldGroupLoader($this);
 
-        /*if ( $this->bootModules() > 0 ) {
-            $this->assignPostTypeCapabilities(); // tmp disabled -- 250814 -- must find correct place to call this method
-        }*/
+        // 5) Boot active modules and remember which ones succeeded
+        $this->bootActiveModules();
     }
 
 	public function enqueueAdminAssets(string $hook): void
@@ -200,7 +224,7 @@ final class Plugin
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
 			} else {
-			    error_log( 'module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface.' );
+			    error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface.' );
 			}
 		}
 	}
@@ -208,6 +232,30 @@ final class Plugin
 	public function getAvailableModules(): array
 	{
 		return $this->availableModules;
+	}
+
+
+	protected function ensureActiveModulesOptionSeeded(): void
+	{
+		$saved = get_option('whx4_active_modules');
+
+		// Only seed when the option is missing or empty
+		if (!is_array($saved) || $saved === []) {
+			update_option('whx4_active_modules', $this->getDefaultActiveModules());
+			update_option('whx4_initialized', 1);
+		}
+	}
+
+	/** @return string[] */
+	protected function getDefaultActiveModules(): array
+	{
+		// Default = “all discovered modules”, overrideable via filter
+		// Keys must match what you use in getAvailableModules(), e.g., slugs or FQCNs
+		$all = array_keys($this->getAvailableModules());
+
+		/** @var string[] */
+		$defaults = apply_filters('whx4_default_active_modules', $all);
+		return $defaults;
 	}
 
     protected function loadActiveModules(): void
@@ -241,11 +289,12 @@ final class Plugin
         return $this->activeModules;
     }
 
+
     //public function bootModules(): void
-    public function bootModules(): int
+    public function bootActiveModules(): int
     {
         $this->bootedModules = [];
-        //error_log( '=== Plugin: bootModules() ===' );
+        //error_log( '=== Plugin: bootActiveModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
             //error_log( 'About to attempt instantiation for moduleClass: ' . $moduleClass );
         	$module = new $moduleClass();
@@ -268,7 +317,7 @@ final class Plugin
 			}
         }
         $count = count($this->bootedModules);
-		//$this->modulesBooted = $count > 0;
+		$this->modulesBooted = $count > 0;
 		error_log($count . 'Modules booted');
 
 		/**
@@ -277,10 +326,25 @@ final class Plugin
 		 * @param self     $plugin
 		 * @param string[] $bootedModules
 		 */
-		//do_action('whx4_modules_booted', $this, $this->bootedModules);
+		do_action('whx4_modules_booted', $this, $this->bootedModules);
 
 		return $count;
     }
+
+
+/*public function getActivePostTypeHandlers(): array
+{
+    $handlers = [];
+    foreach ($this->getBootedModules() as $moduleClass) {
+        // @var ModuleInterface $module
+        $module = new $moduleClass();
+        $module->setPlugin($this);
+        foreach ($module->getPostTypeHandlers() as $handler) {
+            $handlers[] = $handler;
+        }
+    }
+    return $handlers;
+}*/
 
     /**
      * Returns all enabled post types across active modules,
@@ -362,6 +426,12 @@ final class Plugin
 	{
 		error_log( '=== registerPostTypes() ===' );
 
+		// Abort if no modules have been booted
+		if ( !$this->modulesBooted() ) {
+			return;
+		}
+		//$this->postTypeRegistrar?->registerAll($this);
+
 		$activePostTypes = $this->getActivePostTypes();
 		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
 
@@ -370,14 +440,25 @@ final class Plugin
 			return;
 		}
 
-		$this->postTypeRegistrar->registerMany( $activePostTypes );
+		$this->postTypeRegistrar?->registerMany( $activePostTypes );
+		// WIP:
+		//$this->postTypeRegistrar?->registerAll($this);
 	}
+
+
 
     public function registerFieldGroups(): void
     {
         //error_log( '=== registerFieldGroups ===' );
-        $this->fieldGroupLoader->registerAll();
+
+        // Abort if no modules have been booted
+		if ( !$this->modulesBooted() ) {
+			return;
+		}
+
+        $this->fieldGroupLoader?->registerAll();
     }
+
 
     protected function registerTaxonomies(): void
     {
