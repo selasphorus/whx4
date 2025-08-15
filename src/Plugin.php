@@ -427,7 +427,7 @@ final class Plugin
 		error_log( '=== registerPostTypes() ===' );
 
 		// Abort if no modules have been booted
-		if ( !$this->modulesBooted() ) {
+		if ( !$this->modulesBooted ) {
 			return;
 		}
 		//$this->postTypeRegistrar?->registerAll($this);
@@ -452,7 +452,7 @@ final class Plugin
         //error_log( '=== registerFieldGroups ===' );
 
         // Abort if no modules have been booted
-		if ( !$this->modulesBooted() ) {
+		if ( !$this->modulesBooted ) {
 			return;
 		}
 
