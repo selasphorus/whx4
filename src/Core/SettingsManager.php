@@ -38,6 +38,7 @@ final class SettingsManager
      */
     public function ensureInitialized(array $availableModules): void //, array $allPostTypesByModule
     {
+        error_log( '=== SettingsManager::ensureInitialized() ===' );
         $opt = $this->getOption();
 
         $needsSeeding =
@@ -49,6 +50,7 @@ final class SettingsManager
         }
 
         $defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
+        error_log( 'defaultModules:' . print_r($defaultModules, true) );
 
         // Enable all known post types for each active module
         $enabled = [];
@@ -78,6 +80,7 @@ final class SettingsManager
      */
     public function getDefaultActiveModules(array $allModuleSlugs): array
     {
+        error_log( '=== SettingsManager::getDefaultActiveModules() ===' );
         /** @var string[] */
         $defaults = apply_filters('whx4_default_active_modules', $allModuleSlugs);
         return array_values(array_unique(array_filter($defaults, 'is_string')));
