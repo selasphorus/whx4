@@ -141,15 +141,15 @@ final class Plugin
 		//error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
 		// TMP disabled for TS -- handlers not of correct type
-		/*add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
+		add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
 			if ($booted) {
 				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
 				if ($handlers) {
 				    error_log( '== handlers: ' . print_r($handlers). ' ==' );
-					$plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
+					//$plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
 				}
 			}
-		}, 20, 2);*/
+		}, 20, 2);
     }
 
     protected function initializeCore(): void
