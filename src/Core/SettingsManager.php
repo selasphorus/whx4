@@ -56,6 +56,7 @@ final class SettingsManager
         foreach( $defaultModules as $moduleSlug => $moduleClass ) {
             $module = class_exists( $moduleClass ) ? new $moduleClass() : null;
             $postTypes = $module ? $module->getPostTypes() : [];
+            error_log( 'postTypes for moduleSlug: ' . $moduleSlug . ':' . print_r($postTypes, true) );
             //foreach ( $postTypes as $slug => $label ) :
             $enabled[$moduleSlug] = array_keys($postTypes);
             //$enabled[$moduleSlug] = array_values($allPostTypesByModule[$moduleSlug] ?? []);
