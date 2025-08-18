@@ -99,7 +99,7 @@ class PostTypeRegistrar {
 
 		foreach ($handlers as $handler) {
 			// Make sure the handler is of correct type
-			error_log( '== handler: ' . print_r($handler). ' ==' );
+			//error_log( '== handler: ' . print_r($handler). ' ==' );
 			/*$caps = $handler->getCapabilities();
 
 			foreach ($roles as $roleName) {
