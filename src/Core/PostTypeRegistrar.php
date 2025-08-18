@@ -64,10 +64,10 @@ class PostTypeRegistrar {
     //
     public function registerMany( array $postTypeClasses ): void
     {
-    	//error_log( '=== PostTypeRegistrar->registerMany() ===' );
+    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
     	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $handlerClass ) {
-        	//error_log( 'attempting to register handlerClass: '.$handlerClass );
+        	error_log( 'attempting to register handlerClass: '.$handlerClass );
         	$handler = new $handlerClass();
             $this->registerCPT( $handler );
         }

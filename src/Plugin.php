@@ -362,12 +362,12 @@ final class Plugin
 
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
-		error_log("enabledPostTypesByModule: " . print_r($enabledPostTypesByModule, true));
+		//error_log("enabledPostTypesByModule: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
-			error_log("moduleSlug: " . print_r($moduleSlug, true));
+			//error_log("moduleSlug: " . print_r($moduleSlug, true));
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
@@ -425,7 +425,7 @@ final class Plugin
      */
     public function registerPostTypes(): void
 	{
-		error_log( '=== registerPostTypes() ===' );
+		error_log( '=== Plugin::registerPostTypes() ===' );
 
 		// Abort if no modules have been booted
 		if ( !$this->modulesBooted ) {
@@ -435,7 +435,7 @@ final class Plugin
 		//$this->postTypeRegistrar?->registerAll($this);
 
 		$activePostTypes = $this->getActivePostTypes();
-		error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
+		error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
 
 		if ( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );
