@@ -58,7 +58,9 @@ final class SettingsManager
         //$defaultModules = $this->getDefaultActiveModules($availableModules);
         //$defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
         $defaultModules = $availableModules;
+        $defaultSlugs = array_keys($availableModules);
         error_log( 'defaultModules:' . print_r($defaultModules, true) );
+        error_log( 'defaultSlugs:' . print_r($defaultSlugs, true) );
 
         // Enable all known post types for each active module
         $enabled = [];
@@ -74,7 +76,7 @@ final class SettingsManager
 
         $this->save([
             'initialized' => 1,
-            'active_modules'     => $defaultActive,
+            'active_modules'     => $defaultSlugs,
             'enabled_post_types' => $enabled,
         ]);
 
