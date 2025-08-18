@@ -93,7 +93,15 @@ final class Plugin
         //$this->initializeCore();
 
         // Defer core initialization until other plugins finished loading modules via filters
-        add_action('plugins_loaded', [$this, 'finishBoot'], 20);
+        // This version doesn't work because boot() itself is likely being called on plugins_loaded (or after it). If you hook after an action has already fired, it never runs.
+        //add_action('plugins_loaded', [$this, 'finishBoot'], 20);
+
+        // Run as early as possible on init so modules are ready before init:10 work.
+		if (did_action('init')) {
+			$this->finishBoot(); // if we're already past init (rare), just run now
+		} else {
+			add_action('init', [$this, 'finishBoot'], 0);
+		}
 
 		// Continue with the rest of the boot process
 		$this->booted = true;
@@ -131,13 +139,15 @@ final class Plugin
 		// WIP
 		error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
-        add_action('whx4_modules_booted', function(Plugin $plugin) {
-			$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getActivePostTypeHandlers();
-			if ($handlers) {
-				error_log( '== handlers: ' . print_r($handlers). ' ==' );
-				$plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
+		add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
+			if ($booted) {
+				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
+				if ($handlers) {
+				    error_log( '== handlers: ' . print_r($handlers). ' ==' );
+					$plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
+				}
 			}
-		}, 20, 1);
+		}, 20, 2);
     }
 
     protected function initializeCore(): void
@@ -440,6 +450,7 @@ final class Plugin
 
 		// Abort if no modules have been booted
 		if ( !$this->modulesBooted ) {
+		    error_log( '=== no modules booted yet => abort ===' );
 			return;
 		}
 		//$this->postTypeRegistrar?->registerAll($this);
@@ -461,10 +472,11 @@ final class Plugin
 
     public function registerFieldGroups(): void
     {
-        //error_log( '=== registerFieldGroups ===' );
+        error_log( '=== registerFieldGroups ===' );
 
         // Abort if no modules have been booted
 		if ( !$this->modulesBooted ) {
+		    error_log( '=== no modules booted yet => abort ===' );
 			return;
 		}
 
