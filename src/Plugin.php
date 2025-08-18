@@ -361,13 +361,12 @@ final class Plugin
 
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
-
-		//error_log("Loaded enabled post types: " . print_r($enabledPostTypesByModule, true));
+		error_log("enabledPostTypesByModule: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
-			//error_log("moduleSlug: " . print_r($moduleSlug, true));
+			error_log("moduleSlug: " . print_r($moduleSlug, true));
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
@@ -413,7 +412,7 @@ final class Plugin
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
-		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}
