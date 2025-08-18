@@ -37,7 +37,8 @@ final class Plugin
     protected ?PostTypeRegistrar $postTypeRegistrar = null;
     protected ?FieldGroupLoader $fieldGroupLoader = null;
     //protected TaxonomyRegistrar $taxonomyRegistrar;
-    protected SettingsManager $settingsManager;
+    //protected SettingsManager $settingsManager;
+    protected ?SettingsManager $settings = null;
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -158,21 +159,25 @@ final class Plugin
 
         // Load modules and config
 
-        // 1) Discover all modules registered by core + add‑ons
+        // Discover all modules registered by core + add‑ons
         $modules = apply_filters( 'whx4_register_modules', [] );
         $this->setAvailableModules( $modules );
 
-        // 2) First‑run initializer: if no selection saved, enable defaults
-        $this->ensureActiveModulesOptionSeeded();
+        // Settings
+        $this->settings = $this->settings ?? new SettingsManager(); // redundant w/ _construct -- WIP
 
-        // 3) Load saved (or just‑seeded) active modules
+        // First‑run initializer: if no selection saved, enable defaults
+        //$this->ensureActiveModulesOptionSeeded();
+        $this->settings->ensureInitialized($this->getAvailableModules());
+
+        // Load saved (or just‑seeded) active modules
         $this->loadActiveModules();
 
-        // 4) Lazily build services
+        // Lazily build services
         $this->postTypeRegistrar = $this->postTypeRegistrar ?? new PostTypeRegistrar($this);
         $this->fieldGroupLoader  = $this->fieldGroupLoader  ?? new FieldGroupLoader($this);
 
-        // 5) Boot active modules and remember which ones succeeded
+        // Boot active modules and remember which ones succeeded
         $this->bootActiveModules();
     }
 
