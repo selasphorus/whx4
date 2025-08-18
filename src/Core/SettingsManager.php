@@ -14,6 +14,7 @@ final class SettingsManager
         //$saved = get_option( 'whx4_plugin_settings', [] );
         //
         $defaults = [
+            'initialized'     => 0,
             'active_modules'     => [],
             'enabled_post_types' => [],
             'enabled_taxonomies' => [],
@@ -43,8 +44,9 @@ final class SettingsManager
 
         $needsSeeding =
             (empty($opt['active_modules'])
-            && empty($opt['enabled_post_types']))
-            && empty($opt['whx4_initialized']));
+            && empty($opt['enabled_post_types'])
+            && empty($opt['initialized'])
+            );
             //&& get_option('whx4_initialized', 0) !== 1;
 
         if (!$needsSeeding) {
