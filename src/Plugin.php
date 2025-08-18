@@ -137,7 +137,7 @@ final class Plugin
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
 
 		// WIP
-		error_log( '= about to add_action: whx4_modules_booted =' );
+		//error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
 		add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
 			if ($booted) {
@@ -235,7 +235,8 @@ final class Plugin
 	public function setAvailableModules( array $modules ): void
 	{
         error_log( '=== Plugin::setAvailableModules() ===' );
-		//error_log( 'modules: '.print_r($modules, true) );
+		error_log( 'modules: '.print_r($modules, true) );
+		//
 		foreach( $modules as $slug => $class ) {
 			if ( !class_exists( $class ) ) {
 			     error_log( 'The class: ' .$class . ' does not exist.' );
@@ -261,8 +262,11 @@ final class Plugin
 
 		// Only seed when the option is missing or empty
 		if (!is_array($saved) || $saved === []) {
+		    error_log( 'No whx4_active_modules yet saved; set it to default.' );
 			update_option('whx4_active_modules', $this->getDefaultActiveModules());
 			update_option('whx4_initialized', 1);
+		} else {
+		    error_log( 'saved: '.print_r($saved, true) );
 		}
 	}
 
@@ -340,7 +344,7 @@ final class Plugin
         }
         $count = count($this->bootedModules);
 		$this->modulesBooted = $count > 0;
-		error_log($count . 'Modules booted');
+		error_log($count . ' Modules booted');
 
 		/**
 		 * Fires after modules have attempted to boot.
