@@ -45,11 +45,12 @@ final class SettingsManager
         $needsSeeding =
             (empty($opt['active_modules'])
             && empty($opt['enabled_post_types'])
-            && empty($opt['initialized'])
+            && $opt['initialized'] !== 1
             );
             //&& get_option('whx4_initialized', 0) !== 1;
 
         if (!$needsSeeding) {
+            error_log( 'NOT needsSeeding' );
             return;
         }
 
