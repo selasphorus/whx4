@@ -98,7 +98,9 @@ class PostTypeRegistrar {
 		$roles = ['administrator', 'editor'];
 
 		foreach ($handlers as $handler) {
-			$caps = $handler->getCapabilities();
+			// Make sure the handler is of correct type
+			error_log( '== handler: ' . print_r($handler). ' ==' );
+			/*$caps = $handler->getCapabilities();
 
 			foreach ($roles as $roleName) {
 				$role = get_role($roleName);
@@ -107,7 +109,7 @@ class PostTypeRegistrar {
 						$role->add_cap($cap);
 					}
 				}
-			}
+			}*/
 		}
 	}
 

@@ -145,8 +145,7 @@ final class Plugin
 			if ($booted) {
 				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
 				if ($handlers) {
-				    error_log( '== handlers: ' . print_r($handlers). ' ==' );
-					//$plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
+				    $plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
 				}
 			}
 		}, 20, 2);
