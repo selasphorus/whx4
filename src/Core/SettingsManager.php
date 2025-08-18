@@ -42,8 +42,10 @@ final class SettingsManager
         $opt = $this->getOption();
 
         $needsSeeding =
-            (empty($opt['active_modules']) && empty($opt['enabled_post_types'])) &&
-            get_option('whx4_initialized', 0) !== 1;
+            (empty($opt['active_modules'])
+            && empty($opt['enabled_post_types']))
+            && empty($opt['whx4_initialized']));
+            //&& get_option('whx4_initialized', 0) !== 1;
 
         if (!$needsSeeding) {
             return;
@@ -65,11 +67,12 @@ final class SettingsManager
         }
 
         $this->save([
+            'initialized' => 1,
             'active_modules'     => $defaultActive,
             'enabled_post_types' => $enabled,
         ]);
 
-        update_option('whx4_initialized', 1);
+        //update_option('whx4_initialized', 1);
     }
 
     /**
@@ -83,8 +86,20 @@ final class SettingsManager
         error_log( '=== SettingsManager::getDefaultActiveModules() ===' );
         /** @var string[] */
         $defaults = apply_filters('whx4_default_active_modules', $allModuleSlugs);
-        return array_values(array_unique(array_filter($defaults, 'is_string')));
+        //return array_values(array_unique(array_filter($defaults, 'is_string')));
+        return $defaults;
     }
+    /*
+    protected function getDefaultActiveModules(): array
+    {
+        error_log( '=== Plugin::getDefaultActiveModules() ===' );
+        // Default = “all discovered modules”, overrideable via filter
+        // Keys must match what you use in getAvailableModules(), e.g., slugs or FQCNs
+        $all = array_keys($this->getAvailableModules());
+        $defaults = apply_filters('whx4_default_active_modules', $all);
+        return $defaults;
+    }
+    */
 
     //
     public function getActiveModuleSlugs(): array

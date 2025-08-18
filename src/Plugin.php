@@ -258,35 +258,6 @@ final class Plugin
 		return $this->availableModules;
 	}
 
-
-	protected function ensureActiveModulesOptionSeeded(): void
-	{
-		error_log( '=== Plugin::ensureActiveModulesOptionSeeded() ===' );
-		$saved = get_option('whx4_active_modules');
-
-		// Only seed when the option is missing or empty
-		if (!is_array($saved) || $saved === []) {
-		    error_log( 'No whx4_active_modules yet saved; set it to default.' );
-			update_option('whx4_active_modules', $this->getDefaultActiveModules());
-			update_option('whx4_initialized', 1);
-		} else {
-		    error_log( 'saved: '.print_r($saved, true) );
-		}
-	}
-
-	/** @return string[] */
-	protected function getDefaultActiveModules(): array
-	{
-	    error_log( '=== Plugin::getDefaultActiveModules() ===' );
-		// Default = “all discovered modules”, overrideable via filter
-		// Keys must match what you use in getAvailableModules(), e.g., slugs or FQCNs
-		$all = array_keys($this->getAvailableModules());
-
-		/** @var string[] */
-		$defaults = apply_filters('whx4_default_active_modules', $all);
-		return $defaults;
-	}
-
     protected function loadActiveModules(): void
     {
         if ( $this->modulesLoaded ) {
