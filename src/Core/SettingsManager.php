@@ -83,10 +83,12 @@ final class SettingsManager
         return array_values(array_unique(array_filter($defaults, 'is_string')));
     }
 
-    /** @return string[] */
+    //
     public function getActiveModuleSlugs(): array
     {
-        return $this->getOption()['active_modules'];
+        //return $this->getOption()['active_modules'];
+        $option = $this->getOption()['active_modules'] ?? [];
+        return is_array($option) ? $option : [];
     }
 
     /** @return array<string,string[]> moduleSlug => [postTypeSlug,...] */
