@@ -53,7 +53,10 @@ final class SettingsManager
             return;
         }
 
-        $defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
+        // WIP -- allow for filtering of default modules
+        //$defaultModules = $this->getDefaultActiveModules($availableModules);
+        //$defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
+        $defaultModules = $availableModules;
         error_log( 'defaultModules:' . print_r($defaultModules, true) );
 
         // Enable all known post types for each active module
@@ -80,14 +83,12 @@ final class SettingsManager
     /**
      * Filterable default: “all discovered modules” unless overridden.
      *
-     * @param string[] $allModuleSlugs
-     * @return string[]
      */
-    public function getDefaultActiveModules(array $allModuleSlugs): array
+    public function getDefaultActiveModules(array $allModules): array
     {
         error_log( '=== SettingsManager::getDefaultActiveModules() ===' );
-        /** @var string[] */
-        $defaults = apply_filters('whx4_default_active_modules', $allModuleSlugs);
+        $allModuleSlugs = array_keys($allModules);
+        $defaultSlugs = apply_filters('whx4_default_active_modules', $allModuleSlugs);
         //return array_values(array_unique(array_filter($defaults, 'is_string')));
         return $defaults;
     }
