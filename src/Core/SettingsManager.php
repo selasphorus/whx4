@@ -30,28 +30,40 @@ final class SettingsManager
     }
 
     /**
-     * Seed first-run defaults once: activate modules by default.
+     * Seed first-run defaults once: activate modules and enable all their post types.
      * Call this AFTER all modules have been registered via filters.
      *
      * @param array<string,class-string> $availableModules keyed e.g. by slug => FQCN
+     * @param array<string,string[]>     $allPostTypesByModule moduleSlug => [postTypeSlug,...]
      */
-    public function ensureInitialized(array $availableModules): void
+    public function ensureInitialized(array $availableModules, array $allPostTypesByModule): void
     {
         $opt = $this->getOption();
 
         $needsSeeding =
-            empty($opt['active_modules']) &&
+            (empty($opt['active_modules']) && empty($opt['enabled_post_types'])) &&
             get_option('whx4_initialized', 0) !== 1;
 
         if (!$needsSeeding) {
             return;
         }
 
-        $defaultActive = $this->computeDefaultActiveModules(array_keys($availableModules));
+        $defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
+
+        // Enable all known post types for each active module
+        $enabled = [];
+        //foreach ($defaultActive as $moduleSlug) {
+        foreach( $defaultModules as $moduleSlug => $moduleClass ) {
+            $module = class_exists( $moduleClass ) ? new $moduleClass() : null;
+            $postTypes = $module ? $module->getPostTypes() : [];
+            //foreach ( $postTypes as $slug => $label ) :
+            $enabled[$moduleSlug] = array_keys($postTypes);
+            //$enabled[$moduleSlug] = array_values($allPostTypesByModule[$moduleSlug] ?? []);
+        }
 
         $this->save([
-            'active_modules' => $defaultActive,
-            // leave enabled_post_types empty so it falls back to “all”
+            'active_modules'     => $defaultActive,
+            'enabled_post_types' => $enabled,
         ]);
 
         update_option('whx4_initialized', 1);
@@ -63,7 +75,7 @@ final class SettingsManager
      * @param string[] $allModuleSlugs
      * @return string[]
      */
-    public function computeDefaultActiveModules(array $allModuleSlugs): array
+    public function getDefaultActiveModules(array $allModuleSlugs): array
     {
         /** @var string[] */
         $defaults = apply_filters('whx4_default_active_modules', $allModuleSlugs);

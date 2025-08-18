@@ -22,8 +22,8 @@ $enabledPostTypes   = $enabledPostTypes ?? [];
 
         <table class="form-table" id="whx4-settings-table">
             <tbody>
-                <?php foreach ( $availableModules as $key => $moduleClass ) :
-                    $isActive  = in_array( $key, $activeModules, true );
+                <?php foreach ( $availableModules as $moduleSlug => $moduleClass ) :
+                    $isActive  = in_array( $moduleSlug, $activeModules, true );
                     $module    = class_exists( $moduleClass ) ? new $moduleClass() : null;
                     $postTypes = $module ? $module->getPostTypes() : [];
                 ?>
@@ -34,10 +34,10 @@ $enabledPostTypes   = $enabledPostTypes ?? [];
                                     type="checkbox"
                                     class="module-toggle"
                                     name="whx4_plugin_settings[active_modules][]"
-                                    value="<?php echo esc_attr( $key ); ?>"
+                                    value="<?php echo esc_attr( $moduleSlug ); ?>"
                                     <?php checked( $isActive ); ?>
                                 />
-                                <?php echo esc_html( ucfirst($key) ); // TODO: use module getName instead? ?>
+                                <?php echo esc_html( ucfirst($moduleSlug) ); // TODO: use module getName instead? ?>
                             </label>
                         </th>
                         <td></td>
@@ -48,19 +48,19 @@ $enabledPostTypes   = $enabledPostTypes ?? [];
                             <td colspan="2">Missing class: <?php echo esc_html( $moduleClass ); ?></td>
                         </tr>
                     <?php else : ?>
-                        <tr id="post-types-<?php echo esc_attr( $key ); ?>" class="post-type-row" <?php if ( ! $isActive ) echo 'style="display:none;"'; ?>>
+                        <tr id="post-types-<?php echo esc_attr( $moduleSlug ); ?>" class="post-type-row" <?php if ( ! $isActive ) echo 'style="display:none;"'; ?>>
                             <td colspan="2" style="padding-left: 30px;">
                                 <?php foreach ( $postTypes as $slug => $label ) :
-                                    $isEnabled = isset( $enabledPostTypes[ $key ] ) && in_array( $slug, $enabledPostTypes[ $key ], true );
+                                    $isEnabled = isset( $enabledPostTypes[ $moduleSlug ] ) && in_array( $slug, $enabledPostTypes[ $moduleSlug ], true );
                                 ?>
                                     <label style="display:block;">
                                         <input
                                             type="checkbox"
-                                            name="whx4_plugin_settings[enabled_post_types][<?php echo esc_attr( $key ); ?>][]"
+                                            name="whx4_plugin_settings[enabled_post_types][<?php echo esc_attr( $moduleSlug ); ?>][]"
                                             value="<?php echo esc_attr( $slug ); ?>"
                                             <?php checked( $isEnabled ); ?>
                                         />
-                                        Enable <code><?php echo esc_html( $slug ); ?></code>: <?php echo esc_html( $label ); ?> <?php //echo "[key: " . esc_html( $key ) . ']'; ?>
+                                        Enable <code><?php echo esc_html( $slug ); ?></code>: <?php echo esc_html( $label ); ?> <?php //echo "[key: " . esc_html( $moduleSlug ) . ']'; ?>
                                     </label>
                                 <?php endforeach; ?>
                             </td>

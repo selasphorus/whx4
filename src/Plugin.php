@@ -167,7 +167,6 @@ final class Plugin
         $this->settings = $this->settings ?? new SettingsManager(); // redundant w/ _construct -- WIP
 
         // First‑run initializer: if no selection saved, enable defaults
-        //$this->ensureActiveModulesOptionSeeded();
         $this->settings->ensureInitialized($this->getAvailableModules());
 
         // Load saved (or just‑seeded) active modules
