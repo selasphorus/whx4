@@ -90,6 +90,7 @@ final class SettingsManager
         $allModuleSlugs = array_keys($allModules);
         $defaultSlugs = apply_filters('whx4_default_active_modules', $allModuleSlugs);
         //return array_values(array_unique(array_filter($defaults, 'is_string')));
+        // WIP -- need return multidimensional array, not just slugs
         return $defaults;
     }
     /*
