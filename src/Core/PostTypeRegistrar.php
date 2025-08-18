@@ -7,7 +7,8 @@ use atc\WHx4\Core\PostTypeHandler;
 class PostTypeRegistrar {
 
 	// Registers a custom post type using a PostTypeHandler
-    public function registerCPT(PostTypeHandler $handler): void {
+    public function registerCPT(PostTypeHandler $handler): void
+    {
 
     	//error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
@@ -74,7 +75,8 @@ class PostTypeRegistrar {
 
     // Capabilities
 	// TODO:  move this to the PostTypeHandler where default labels etc are defined?
-	protected function generateDefaultCapabilities(PostTypeHandler $handler): array {
+	protected function generateDefaultCapabilities(PostTypeHandler $handler): array
+	{
 
         //error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
 
@@ -110,7 +112,8 @@ class PostTypeRegistrar {
 	}
 
 
-	public function removePostTypeCapabilities(): void {
+	public function removePostTypeCapabilities(): void
+	{
 		$roles = [ 'administrator', 'editor' ]; // Adjust as needed
 
 		foreach ( $this->getPostTypeHandlers() as $handler ) {
