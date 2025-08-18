@@ -123,7 +123,7 @@ abstract class Module implements ModuleInterface
 	// ?? obsolete/redundant
 	public function getPostTypes(): array
 	{
-		//error_log( '=== \Core\Module -- getPostTypes() ===' );
+		error_log( '=== \Core\Module -- getPostTypes() ===' );
 		$postTypes = [];
 
 		foreach( $this->getPostTypeHandlerClasses() as $class ) {

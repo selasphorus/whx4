@@ -36,7 +36,7 @@ final class SettingsManager
      * @param array<string,class-string> $availableModules keyed e.g. by slug => FQCN
      * @param array<string,string[]>     $allPostTypesByModule moduleSlug => [postTypeSlug,...]
      */
-    public function ensureInitialized(array $availableModules, array $allPostTypesByModule): void
+    public function ensureInitialized(array $availableModules): void //, array $allPostTypesByModule
     {
         $opt = $this->getOption();
 
