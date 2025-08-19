@@ -477,7 +477,7 @@ final class Plugin
             }
 
             $handlers = $plugin->getActivePostTypes();
-            error_log( 'handlers: ' . print_r( $handlers, true ) );
+            //error_log( 'handlers: ' . print_r( $handlers, true ) );
 
             if (empty($handlers)) {
                 error_log('No active post type handlers found; skipping.');
@@ -507,7 +507,7 @@ final class Plugin
             );*/
         }
     }
-
+// WIP 08/18/25
     /*private static function log(string $msg): void
     {
         // Prefer CLI output when available
