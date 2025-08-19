@@ -100,16 +100,19 @@ class PostTypeRegistrar {
 		foreach ($handlers as $handler) {
 			// Make sure the handler is of correct type
 			//error_log( '== handler: ' . print_r($handler). ' ==' );
-			/*$caps = $handler->getCapabilities();
+			if ( $handler instanceof PostTypeHandler ) {
+				$caps = $handler->getCapabilities();
 
-			foreach ($roles as $roleName) {
-				$role = get_role($roleName);
-				if ($role) {
-					foreach ($caps as $cap) {
-						$role->add_cap($cap);
+				foreach ($roles as $roleName) {
+					$role = get_role($roleName);
+					if ($role) {
+						foreach ($caps as $cap) {
+							$role->add_cap($cap);
+						}
 					}
 				}
-			}*/
+			}
+
 		}
 	}
 
