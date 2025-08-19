@@ -67,7 +67,7 @@ class SettingsPageController
     }
 
     // WIP 08/19/25
-    public function sanitizeOptions(array $input): array
+    /*public function sanitizeOptions(array $input): array
     {
         $saved    = $this->getOption();
         $allowed  = array_keys($this->plugin->getAvailableModules());
@@ -83,7 +83,5 @@ class SettingsPageController
         // Merge other fields with appropriate sanitization...
 
         return $saved;
-    }
-
-
+    }*/
 }
