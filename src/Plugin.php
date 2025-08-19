@@ -477,6 +477,7 @@ final class Plugin
             }
 
             $handlers = $plugin->getActivePostTypes();
+            error_log( 'handlers: ' . print_r( $handlers, true ) );
 
             if (empty($handlers)) {
                 error_log('No active post type handlers found; skipping.');
@@ -519,13 +520,13 @@ final class Plugin
         error_log('[Rex] ' . $msg);
     }*/
 
-	public function assignPostTypeCapabilities(): void {
+	/*public function assignPostTypeCapabilities(): void {
 		$this->postTypeRegistrar->assignPostTypeCapabilities();
 	}
 
 	public function removePostTypeCapabilities(): void {
 		$this->postTypeRegistrar->removePostTypeCapabilities();
-	}
+	}*/
 
 	//
     protected function use_custom_caps() {
