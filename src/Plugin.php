@@ -92,7 +92,6 @@ final class Plugin
         $this->defineConstants();
         $this->registerAdminHooks();
         $this->registerPublicHooks();
-        //$this->initializeCore();
 
         // Defer core initialization until other plugins finished loading modules via filters
         // This version doesn't work because boot() itself is likely being called on plugins_loaded (or after it). If you hook after an action has already fired, it never runs.
@@ -108,17 +107,6 @@ final class Plugin
 		// Continue with the rest of the boot process
 		$this->booted = true;
     }
-
-    public function finishBoot(): void
-	{
-	    error_log( '=== Plugin::finishBoot() ===' );
-
-		// Make modules discoverable
-		$this->initializeCore(); // sets available modules, seeds defaults if needed, loads/boots
-
-		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
-		do_action('whx4_modules_booted', $this, $this->bootedModules);
-	}
 
     protected function registerAdminHooks(): void
     {
@@ -141,6 +129,17 @@ final class Plugin
 		// After modules boot, assign capabilities based on handlers
 		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 );
     }
+
+    public function finishBoot(): void
+	{
+	    error_log( '=== Plugin::finishBoot() ===' );
+
+		// Make modules discoverable
+		$this->initializeCore(); // sets available modules, seeds defaults if needed, loads/boots
+
+		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
+		do_action('whx4_modules_booted', $this, $this->bootedModules);
+	}
 
     protected function initializeCore(): void
     {
@@ -230,7 +229,7 @@ final class Plugin
 	public function setAvailableModules( array $modules ): void
 	{
         error_log( '=== Plugin::setAvailableModules() ===' );
-		//error_log( 'modules: '.print_r($modules, true) );
+		error_log( 'modules: '.print_r($modules, true) );
 
 		// Validate classes -- make sure they implement ModuleInterface
 		foreach( $modules as $slug => $class ) {
@@ -406,7 +405,7 @@ final class Plugin
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
-		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}

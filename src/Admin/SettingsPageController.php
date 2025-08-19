@@ -35,13 +35,13 @@ class SettingsPageController
     public function registerSettings(): void
     {
         //error_log( '=== SettingsPageController::registerSettings() ===' );
-        //register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
-        register_setting(
+        register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
+        // WIP 08/19/25
+        /*register_setting(
             'whx4_plugin_settings_group',
             'whx4_plugin_settings',
             ['type' => 'array', 'sanitize_callback' => [$this, 'sanitizeOptions']]
-        );
-
+        );*/
 
         add_settings_section(
             'whx4_main_settings',
