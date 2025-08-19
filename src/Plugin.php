@@ -465,7 +465,6 @@ final class Plugin
 		// Register Custom Taxonomies for active modules
     }
 
-
 	/// WIP
 	public static function assignPostTypeCaps(Plugin $plugin, array $bootedModules): void
     {
