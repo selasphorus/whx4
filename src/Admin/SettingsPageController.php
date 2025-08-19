@@ -35,7 +35,13 @@ class SettingsPageController
     public function registerSettings(): void
     {
         //error_log( '=== SettingsPageController::registerSettings() ===' );
-        register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
+        //register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
+        register_setting(
+            'whx4_plugin_settings_group',
+            'whx4_plugin_settings',
+            ['type' => 'array', 'sanitize_callback' => [$this, 'sanitizeOptions']]
+        );
+
 
         add_settings_section(
             'whx4_main_settings',
@@ -59,5 +65,25 @@ class SettingsPageController
             //'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugs(),
         ]);
     }
+
+    // WIP 08/19/25
+    public function sanitizeOptions(array $input): array
+    {
+        $saved    = $this->getOption();
+        $allowed  = array_keys($this->plugin->getAvailableModules());
+
+        $active = array_values(array_intersect(
+            $input['active_modules'] ?? [],
+            $allowed
+        ));
+
+        $saved['active_modules'] = $active;
+
+        // Keep whatever else you store (enabled_post_types, etc.)
+        // Merge other fields with appropriate sanitization...
+
+        return $saved;
+    }
+
 
 }
