@@ -86,7 +86,8 @@ final class Plugin
 		}
 
 		// Allow others to register modules early
-		do_action( 'whx4_pre_boot' );
+		//do_action( 'whx4_pre_boot' );
+		do_action( 'whx4_pre_boot', $this );
 
         $this->defineConstants();
         $this->registerAdminHooks();
@@ -98,7 +99,7 @@ final class Plugin
         //add_action('plugins_loaded', [$this, 'finishBoot'], 20);
 
         // Run as early as possible on init so modules are ready before init:10 work.
-		if (did_action('init')) {
+		if ( did_action('init') ) {
 			$this->finishBoot(); // if we're already past init (rare), just run now
 		} else {
 			add_action('init', [$this, 'finishBoot'], 0);
@@ -230,13 +231,15 @@ final class Plugin
 	{
         error_log( '=== Plugin::setAvailableModules() ===' );
 		//error_log( 'modules: '.print_r($modules, true) );
-		//
+
+		// Validate classes -- make sure they implement ModuleInterface
 		foreach( $modules as $slug => $class ) {
 			if ( !class_exists( $class ) ) {
 			     error_log( 'The class: ' .$class . ' does not exist.' );
 			}
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
+				error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' has been added to availableModules.' );
 			} else {
 			    error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface.' );
 			}
