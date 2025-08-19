@@ -300,6 +300,7 @@ final class Plugin
 				if (method_exists($module, 'boot')) {
 					$module->boot();
 					$this->bootedModules[] = $moduleClass;
+					error_log('Module booted! moduleClass: '.$moduleClass);
 				} else {
 					error_log('boot() method missing for moduleClass: '.$moduleClass);
 				}
