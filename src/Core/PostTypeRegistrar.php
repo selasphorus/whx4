@@ -9,8 +9,7 @@ class PostTypeRegistrar {
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void
     {
-
-    	error_log( '=== PostTypeRegistrar->registerCPT() ===' );
+        //error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
     	$slug = $handler->getSlug();
     	//error_log('slug: '.$slug);
@@ -58,7 +57,6 @@ class PostTypeRegistrar {
 			//'menu_position'		=> null,
 			//'delete_with_user' 	=> false,
         ]);
-
 	}
 
     //
