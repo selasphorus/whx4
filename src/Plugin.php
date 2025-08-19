@@ -140,7 +140,7 @@ final class Plugin
 		// WIP
 		//error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
-		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20 );
+		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 );
 		/*add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
 			if ($booted) {
 				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
@@ -467,10 +467,10 @@ final class Plugin
 
 
 	/// WIP
-	public static function assignPostTypeCaps(Plugin $plugin, array $booted): void
+	public static function assignPostTypeCaps(Plugin $plugin, array $bootedModules): void
     {
         try {
-            if (!$booted) {
+            if (!$bootedModules) {
                 error_log( 'No modules were booted; skipping.' );
                 //self::log('No modules were booted; skipping.');
                 return;
