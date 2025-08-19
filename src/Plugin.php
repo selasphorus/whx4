@@ -140,15 +140,15 @@ final class Plugin
 		// WIP
 		//error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
-		// TMP disabled for TS -- handlers not of correct type
-		add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
+		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20 );
+		/*add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
 			if ($booted) {
 				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
 				if ($handlers) {
 				    $plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
 				}
 			}
-		}, 20, 2);
+		}, 20, 2);*/
     }
 
     protected function initializeCore(): void
@@ -446,8 +446,6 @@ final class Plugin
 		//$this->postTypeRegistrar?->registerAll($this);
 	}
 
-
-
     public function registerFieldGroups(): void
     {
         error_log( '=== registerFieldGroups ===' );
@@ -469,6 +467,57 @@ final class Plugin
 
 
 	/// WIP
+	public static function assignPostTypeCaps(Plugin $plugin, array $booted): void
+    {
+        try {
+            if (!$booted) {
+                error_log( 'No modules were booted; skipping.' );
+                //self::log('No modules were booted; skipping.');
+                return;
+            }
+
+            $handlers = $plugin->getActivePostTypes();
+
+            if (empty($handlers)) {
+                error_log('No active post type handlers found; skipping.');
+                //self::log('No active post type handlers found; skipping.');
+                return;
+            }
+
+            if (!$plugin->postTypeRegistrar) {
+                error_log('postTypeRegistrar is null; cannot assign capabilities.');
+                //self::log('postTypeRegistrar is null; cannot assign capabilities.');
+                return;
+            }
+
+            $count = is_countable($handlers) ? count($handlers) : 0;
+            error_log("Assigning capabilities for {$count} handler(s).");
+            //self::log("Assigning capabilities for {$count} handler(s).");
+
+            $plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
+
+            error_log('Capabilities assigned successfully.');
+            //self::log('Capabilities assigned successfully.');
+        } catch (\Throwable $e) {
+            error_log('Error in assignPostTypeCaps: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine() );
+            /*self::log(
+                'Error in assignPostTypeCaps: ' . $e->getMessage() .
+                ' @ ' . $e->getFile() . ':' . $e->getLine()
+            );*/
+        }
+    }
+
+    /*private static function log(string $msg): void
+    {
+        // Prefer CLI output when available
+        if (defined('WP_CLI') && \WP_CLI) {
+            \WP_CLI::debug($msg, 'rex');
+            return;
+        }
+
+        // Otherwise log to php/wp debug.log
+        error_log('[Rex] ' . $msg);
+    }*/
 
 	public function assignPostTypeCapabilities(): void {
 		$this->postTypeRegistrar->assignPostTypeCapabilities();
