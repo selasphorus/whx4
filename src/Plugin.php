@@ -137,18 +137,8 @@ final class Plugin
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
 
-		// WIP
-		//error_log( '= about to add_action: whx4_modules_booted =' );
 		// After modules boot, assign capabilities based on handlers
 		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 );
-		/*add_action('whx4_modules_booted', function (Plugin $plugin, array $booted): void {
-			if ($booted) {
-				$handlers = $plugin->getActivePostTypes(); //$handlers = $plugin->getAllPostTypeHandlers(); //$handlers = $plugin->getActivePostTypeHandlers();
-				if ($handlers) {
-				    $plugin->postTypeRegistrar?->assignPostTypeCapabilities($handlers);
-				}
-			}
-		}, 20, 2);*/
     }
 
     protected function initializeCore(): void
@@ -412,7 +402,7 @@ final class Plugin
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
-		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}
