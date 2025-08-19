@@ -95,11 +95,12 @@ class PostTypeRegistrar {
 
 	public function assignPostTypeCapabilities(array $handlers): void
 	{
+		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
 		$roles = ['administrator', 'editor'];
 
 		foreach ($handlers as $handler) {
 			// Make sure the handler is of correct type
-			//error_log( '== handler: ' . print_r($handler). ' ==' );
+			error_log( '== handler: ' . print_r($handler). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
 
@@ -111,6 +112,8 @@ class PostTypeRegistrar {
 						}
 					}
 				}
+			} else {
+			    error_log('handler is not a PostTypeHandler.');
 			}
 
 		}
