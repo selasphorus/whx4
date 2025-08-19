@@ -100,7 +100,7 @@ class PostTypeRegistrar {
 
 		foreach ($handlers as $handler) {
 			// Make sure the handler is of correct type
-			error_log( '== handler: ' . print_r($handler). ' ==' );
+			//error_log( '== handler: ' . print_r($handler). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
 
