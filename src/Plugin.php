@@ -421,10 +421,9 @@ final class Plugin
 		    error_log( '=== no modules booted yet => abort ===' );
 			return;
 		}
-		//$this->postTypeRegistrar?->registerAll($this);
 
 		$activePostTypes = $this->getActivePostTypes();
-		error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
+		//error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
 
 		if ( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );
@@ -432,8 +431,6 @@ final class Plugin
 		}
 
 		$this->postTypeRegistrar?->registerMany( $activePostTypes );
-		// WIP:
-		//$this->postTypeRegistrar?->registerAll($this);
 	}
 
     public function registerFieldGroups(): void
