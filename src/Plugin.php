@@ -483,7 +483,7 @@ final class Plugin
             $count = is_countable($handlers) ? count($handlers) : 0;
             error_log("Assigning capabilities for {$count} handler(s).");
             //self::log("Assigning capabilities for {$count} handler(s).");
-            error_log( 'handlers: ' . print_r( $handlers, true ) );
+            //error_log( 'handlers: ' . print_r( $handlers, true ) );
 
             $plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
 
