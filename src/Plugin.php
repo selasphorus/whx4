@@ -37,7 +37,7 @@ final class Plugin
     protected ?PostTypeRegistrar $postTypeRegistrar = null;
     protected ?FieldGroupLoader $fieldGroupLoader = null;
     //protected TaxonomyRegistrar $taxonomyRegistrar;
-    //protected SettingsManager $settingsManager;
+    protected SettingsManager $settingsManager;
     protected ?SettingsManager $settings = null;
 
     /**
