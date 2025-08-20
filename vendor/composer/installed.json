@@ -207,6 +207,6 @@
             "install-path": "../rlanvin/php-rrule"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
