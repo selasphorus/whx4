@@ -132,6 +132,8 @@ class FieldGroupLoader
         return $basename === $expectedName;
     }
 
+    /*
+    // V1 -- works for WHx4 but not add-on modules
     protected function getFullyQualifiedClassName( string $file ): string
     {
         // Get path for "src" dir
@@ -148,7 +150,73 @@ class FieldGroupLoader
         $relativePath = str_replace( [DIRECTORY_SEPARATOR, '.php'], ['\\', ''], $relativePath );
 
         return 'atc\\WHx4\\' . $relativePath;
+    }*/
+
+    protected function getFullyQualifiedClassName(string $file): string
+    {
+        // 1) Prefer the declared namespace in the file (works for external add-on modules)
+        $namespace = $this->extractNamespaceFromFile($file);
+        $className = pathinfo($file, PATHINFO_FILENAME);
+
+        if ($namespace) {
+            return $namespace . '\\' . $className;
+        }
+
+        // 2) Fallback: derive from path relative to this plugin's src/
+        $srcPath = rtrim(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, dirname(__DIR__, 2) . '/src/'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $normalizedFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $file);
+
+        $relativePath = str_starts_with($normalizedFile, $srcPath)
+            ? substr($normalizedFile, strlen($srcPath))
+            : $normalizedFile; // last-resort
+
+        $relativePath = str_replace(DIRECTORY_SEPARATOR, '\\', $relativePath);
+        $relativePath = preg_replace('/\.php$/', '', $relativePath);
+
+        // Keep old behavior for backward compatibility
+        return 'atc\\WHx4\\' . $relativePath;
     }
+
+    /**
+     * Robustly extract the declared namespace from a PHP file.
+     * Returns null if none is found.
+     */
+    private function extractNamespaceFromFile(string $file): ?string
+    {
+        $code = @file_get_contents($file);
+        if ($code === false || $code === '') {
+            return null;
+        }
+
+        // Use tokens for reliability across formatting styles.
+        $tokens = token_get_all($code);
+
+        $collect = false;
+        $namespace = '';
+
+        foreach ($tokens as $token) {
+            if (is_array($token)) {
+                if ($token[0] === T_NAMESPACE) {
+                    $collect = true;
+                    $namespace = '';
+                    continue;
+                }
+
+                if ($collect && ($token[0] === T_STRING || $token[0] === T_NS_SEPARATOR || (defined('T_NAME_QUALIFIED') && $token[0] === T_NAME_QUALIFIED))) {
+                    $namespace .= $token[1];
+                    continue;
+                }
+            } else {
+                // End of namespace declaration
+                if ($collect && $token === ';') {
+                    return $namespace !== '' ? $namespace : null;
+                }
+            }
+        }
+
+        return null;
+    }
+
 
     /*
     public static function registerAll(): void {
