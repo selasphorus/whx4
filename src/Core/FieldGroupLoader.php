@@ -80,6 +80,7 @@ class FieldGroupLoader
                 if ( $handlerSlug ) {
                     $shortName = basename( str_replace( '\\', '/', $handlerClass ) );
                     $slugMap[ $handlerSlug ] = $shortName;
+                    error_log( 'handlerSlug: ' . $handlerSlug . '; shortName: ' . $shortName );
                 }
             }
         }
@@ -89,7 +90,7 @@ class FieldGroupLoader
             require_once $file;
 
             $className = $this->getFullyQualifiedClassName( $file );
-            error_log( 'className: ' . $className );
+            error_log( 'Fields file className: ' . $className );
 
             if (
                 class_exists( $className ) &&
