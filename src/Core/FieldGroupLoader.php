@@ -117,6 +117,9 @@ class FieldGroupLoader
                     error_log( 'about to register (via slugMap): ' . $className );
                     $className::register();
                 }
+            } else {
+                // Something's wrong. Do some logging.
+                if ( !class_exists( $className ) ) { error_log( 'class: ' . $className . 'DNE' ); } else if ( !is_subclass_of( $className, FieldGroupInterface::class ) ) { error_log( 'class: ' . $className . ' is not subclass of FieldGroupInterface' ); }
             }
         }
     }
