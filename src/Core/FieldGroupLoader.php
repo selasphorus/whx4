@@ -34,6 +34,7 @@ class FieldGroupLoader
         $fieldsDir = $moduleDir . '/Fields';
 
         if ( !is_dir( $fieldsDir ) ) {
+            error_log( 'fieldsDir: ' . $fieldsDir . 'not found. Aborting registration.' );
             return;
         }
 
