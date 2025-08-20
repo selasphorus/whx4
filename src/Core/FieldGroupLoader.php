@@ -80,7 +80,7 @@ class FieldGroupLoader
                 if ( $handlerSlug ) {
                     $shortName = basename( str_replace( '\\', '/', $handlerClass ) );
                     $slugMap[ $handlerSlug ] = $shortName;
-                    error_log( 'handlerSlug: ' . $handlerSlug . '; shortName: ' . $shortName );
+                    //error_log( 'handlerSlug: ' . $handlerSlug . '; shortName: ' . $shortName );
                 }
             }
         }
@@ -90,7 +90,7 @@ class FieldGroupLoader
             require_once $file;
 
             $className = $this->getFullyQualifiedClassName( $file );
-            error_log( 'Fields file className: ' . $className );
+            //error_log( 'Fields file className: ' . $className );
 
             if (
                 class_exists( $className ) &&
@@ -98,14 +98,14 @@ class FieldGroupLoader
             ) {
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $shortName = str_replace( 'Fields', '', $basename ); // e.g. "Monster"
-                error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
+                //error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
 
                 $matched = false;
 
                 foreach ( $slugMap as $slug => $expectedName ) {
                     if ( strtolower( $shortName ) === strtolower( $expectedName ) ) {
                         if ( array_key_exists( $slug, $activePostTypes ) ) {
-                            error_log( 'about to register (via slugMap): ' . $className );
+                            //error_log( 'about to register (via slugMap): ' . $className );
                             $className::register();
                             $matched = true;
                             break;
@@ -114,7 +114,7 @@ class FieldGroupLoader
                 }
 
                 if ( !$matched && $this->isModuleFieldGroup( $basename, $moduleClass ) ) {
-                    error_log( 'about to register (via slugMap): ' . $className );
+                    //error_log( 'about to register (via slugMap): ' . $className );
                     $className::register();
                 }
             } else {
