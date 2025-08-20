@@ -405,7 +405,7 @@ final class Plugin
 		}
 
 		//error_log( '=== END getActivePostTypes() ===' );
-		error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
 		return array_unique($postTypeClasses);
 	}

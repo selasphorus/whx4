@@ -20,7 +20,7 @@ class FieldGroupLoader
 
     public function registerAll(): void
     {
-        //error_log( '=== registerAll field groups ===' );
+        error_log( '=== registerAll field groups ===' );
         foreach( $this->plugin->getActiveModules() as $moduleClass ) {
             $this->registerFieldsForModule( $moduleClass );
         }
@@ -28,7 +28,7 @@ class FieldGroupLoader
 
     protected function registerFieldsForModule( string $moduleClass ): void
     {
-        //error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
+        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
