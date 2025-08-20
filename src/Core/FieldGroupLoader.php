@@ -34,7 +34,7 @@ class FieldGroupLoader
         $fieldsDir = $moduleDir . '/Fields';
 
         if ( !is_dir( $fieldsDir ) ) {
-            error_log( 'fieldsDir: ' . $fieldsDir . 'not found. Aborting registration.' );
+            error_log( '*** fieldsDir: ' . $fieldsDir . ' not found. Aborting registration.' );
             return;
         }
 
@@ -119,7 +119,7 @@ class FieldGroupLoader
                 }
             } else {
                 // Something's wrong. Do some logging.
-                if ( !class_exists( $className ) ) { error_log( 'class: ' . $className . 'DNE' ); } else if ( !is_subclass_of( $className, FieldGroupInterface::class ) ) { error_log( 'class: ' . $className . ' is not subclass of FieldGroupInterface' ); }
+                if ( !class_exists( $className ) ) { error_log( '*** class: ' . $className . ' DNE' ); } else if ( !is_subclass_of( $className, FieldGroupInterface::class ) ) { error_log( '*** class: ' . $className . ' is not subclass of FieldGroupInterface' ); }
             }
         }
     }
