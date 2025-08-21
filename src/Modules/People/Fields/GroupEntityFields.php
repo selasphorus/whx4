@@ -13,7 +13,28 @@ final class GroupEntityFields implements FieldGroupInterface
         acf_add_local_field_group( [
             'key' => 'group_whx4_groupentity', //'key' => 'group_624775b57f8df',
             'title' => 'WHx4 Group: Additional Fields',
-            'fields' => [],
+            'fields' => [
+                [
+                    'key' => 'field_whx4_665a0045f05e9',
+                    //'key' => 'field_whx4_group_website',
+                    //'key' => 'field_665a0045f05e9',
+                    'label' => 'Primary Website',
+                    'name' => 'website',
+                    'aria-label' => '',
+                    'type' => 'url',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'relevanssi_exclude' => 0,
+                    'default_value' => '',
+                    'placeholder' => '',
+                ],
+            ],
             'location' => [
                 [
                     [
