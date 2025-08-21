@@ -15,7 +15,7 @@ class GroupEntity extends PostTypeHandler
 				'add_new_item' => 'Gather a new Group',
 				//'not_found'    => 'No groups have yet come together',
 			],
-			//'menu_icon'   => 'dashicons-palmtree',
+			'menu_icon'   => 'dashicons-networking',
 			//'supports' => ['title', 'editor'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
