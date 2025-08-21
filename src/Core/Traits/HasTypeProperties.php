@@ -98,11 +98,5 @@ trait HasTypeProperties
 		return $this->getConfig()['hierarchical'] ?? $default;
 	}
 
-	public function getIcon(): string
-    {
-        //error_log( 'HasTypeProperties::getIcon() config: ' . print_r( $this->getConfig(), true ) );
-        return $this->getConfig()['menu_icon'] ?? 'dashicons-superhero';
-    }
-
 }
 

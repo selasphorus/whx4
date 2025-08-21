@@ -34,7 +34,7 @@ abstract class PostTypeHandler extends BaseHandler
     }
 
     public function getMenuIcon(): ?string {
-        return $this->getConfig()['menu_icon'] ?? null;
+        return $this->getConfig()['menu_icon'] ?? 'dashicons-superhero';
     }
 
     ////

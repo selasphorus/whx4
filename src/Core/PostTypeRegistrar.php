@@ -52,7 +52,7 @@ class PostTypeRegistrar {
             'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,
-            'menu_icon' => $menu_icon,
+            'menu_icon' => $icon,
 			'hierarchical'		=> false,
 			//'menu_position'		=> null,
 			//'delete_with_user' 	=> false,
