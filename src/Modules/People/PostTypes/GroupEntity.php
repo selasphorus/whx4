@@ -6,13 +6,14 @@ use atc\WHx4\Core\PostTypeHandler;
 
 class GroupEntity extends PostTypeHandler
 {
-    public function __construct(WP_Post|null $post = null) {
+    public function __construct(WP_Post|null $post = null)
+    {
 		$config = [
 			'slug'        => 'group',
 			//'plural_slug' => 'groups',
 			'labels'      => [
 				'add_new_item' => 'Gather a new Group',
-				//'not_found'    => 'No monsters lurking nearby',
+				//'not_found'    => 'No groups have yet come together',
 			],
 			//'menu_icon'   => 'dashicons-palmtree',
 			//'supports' => ['title', 'editor'],
@@ -20,6 +21,19 @@ class GroupEntity extends PostTypeHandler
 		];
 
 		parent::__construct( $config, $post );
+	}
+
+	public function boot(): void
+	{
+	    parent::boot(); // Optional if you add shared logic later
+
+		/*$this->applyTitleArgs( $this->getSlug(), [
+			'line_breaks'    => true,
+			'show_subtitle'  => true,
+			'hlevel_sub'     => 4,
+			'called_by'      => 'GroupEntity::boot',
+			//'append'         => 'TESTTF',
+		]);*/
 	}
 
 	public function getCPTContent()
@@ -32,7 +46,6 @@ class GroupEntity extends PostTypeHandler
 	// Display the titles and personnel for a given subgroup or groups
 	protected function display_group_personnel ( $args = array() )
 	{
-
 		// TS/logging setup
 		$do_ts = devmode_active( array("whx4", "people") );
 		$do_log = false;
@@ -188,11 +201,9 @@ class GroupEntity extends PostTypeHandler
 
 	} // END function display_group_personnel ( $args = array() )
 
-
 	//add_shortcode('group_personnel', 'whx4_group_personnel');
 	protected function whx4_group_personnel ( $atts = array() )
 	{
-
 		// TS/logging setup
 		$do_ts = devmode_active( array("whx4", "people") );
 
