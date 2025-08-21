@@ -11,11 +11,11 @@ final class PeopleModule extends BaseModule
 {
     public function boot(): void
     {
-    	$this->registerDefaultViewRoot();
+        $this->registerDefaultViewRoot();
 
-    	parent::boot();
+        parent::boot();
 
-    	/*$this->applyTitleArgs( 'people', [
+        /*$this->applyTitleArgs( 'people', [
             'line_breaks'    => true,
             'show_subtitle'  => true,
             'hlevel_sub'     => 4,
@@ -26,7 +26,7 @@ final class PeopleModule extends BaseModule
     {
         return [
             Person::class,
-            //GroupEntity::class,
+            GroupEntity::class,
             //Identity::class,
         ];
     }
