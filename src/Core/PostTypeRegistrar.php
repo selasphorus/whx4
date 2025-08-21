@@ -35,7 +35,6 @@ class PostTypeRegistrar {
 
         // Register the post type
         register_post_type($slug, [
-
             'public'       => true,
 			'publicly_queryable'=> true,
 			'show_ui' 			=> true,
@@ -46,13 +45,14 @@ class PostTypeRegistrar {
             'capabilities' => $capabilities,
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,
-
+            //
             'supports'     => $supports, //['title', 'editor'],
             //'supports'		=> [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
 			//'taxonomies'	=> [ 'category', 'tag' ],
             'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,
+            'menu_icon' => $menu_icon,
 			'hierarchical'		=> false,
 			//'menu_position'		=> null,
 			//'delete_with_user' 	=> false,
