@@ -4,8 +4,7 @@ namespace atc\WHx4\Modules\Supernatural\Fields;
 
 use atc\WHx4\Core\Contracts\FieldGroupInterface;
 
-// TODO: make this final class?
-class MonsterFields implements FieldGroupInterface
+final class MonsterFields implements FieldGroupInterface
 {
     public static function register(): void
     {

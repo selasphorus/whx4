@@ -4,13 +4,11 @@ namespace atc\WHx4\Modules\Events\Fields;
 
 use atc\WHx4\Core\Contracts\FieldGroupInterface;
 
-// TODO: make this final class?
-class EventFields implements FieldGroupInterface
+final class EventFields implements FieldGroupInterface
 {
     public static function register(): void
     {
         //error_log( 'EventFields::register' );
-
         if ( !function_exists('acf_add_local_field_group') ) return;
 
         acf_add_local_field_group([

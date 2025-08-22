@@ -8,6 +8,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 use atc\WHx4\Core\Contracts\FieldGroupInterface;
+use atc\WHx4\Core\Contracts\SubtypeFieldGroupInterface;
 
 class FieldGroupLoader
 {
@@ -32,6 +33,7 @@ class FieldGroupLoader
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
+        $subtypesDir  = $fieldsDir . '/Subtypes'; // maybe don't need this -- just put everything in fieldsDir, clearly named
 
         if ( !is_dir( $fieldsDir ) ) {
             error_log( '*** fieldsDir: ' . $fieldsDir . ' not found. Aborting registration.' );
@@ -85,8 +87,14 @@ class FieldGroupLoader
             }
         }
 
-        // === Scan for field files
-        foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
+        // === Scan for field files (includes optional Fields/Subtypes)
+        $fieldFiles = array_merge(
+            glob( $fieldsDir . '/*Fields.php' ) ?: [],
+            is_dir( $subtypesDir ) ? ( glob( $subtypesDir . '/*Fields.php' ) ?: [] ) : []
+        );
+
+        //foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
+        foreach ( $fieldFiles as $file ) {
             require_once $file;
 
             $className = $this->getFullyQualifiedClassName( $file );
@@ -96,6 +104,18 @@ class FieldGroupLoader
                 class_exists( $className ) &&
                 is_subclass_of( $className, FieldGroupInterface::class )
             ) {
+                // === NEW: handle Subtype field groups first
+                if ( is_subclass_of( $className, SubtypeFieldGroupInterface::class ) ) {
+                    try {
+                        $instance = new $className();
+                        $pt = $instance->getPostType();
+                        if ( array_key_exists( $pt, $activePostTypes ) ) {
+                            $className::register();
+                            continue;
+                        }
+                    } catch ( \Throwable $e ) { /* ignore and fall through */ }
+                }
+
                 $basename = basename( $file, '.php' ); // e.g. "MonsterFields"
                 $shortName = str_replace( 'Fields', '', $basename ); // e.g. "Monster"
                 //error_log( 'basename: ' . $basename . '; shortName: ' . $shortName );
