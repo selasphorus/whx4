@@ -2,15 +2,25 @@
 
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\Contracts\SubtypeInterface;
 
 // WIP 08/22/25
-final class SubtypeRegistry
 //final class SubtypeRegistrar
+final class SubtypeRegistry
 {
+    private bool $registered = false;
+
     /** @var array<string, array{label:string, args:array}> */
     /** @var array<string, array<string, array{label:string, args:array}>> */
     protected static array $subtypes = [];
+
+    public function register(): void
+    {
+        if ( $this->registered ) return;
+        add_action('init', [$this, 'collect'], BootOrder::CPT);
+        $this->registered = true;
+    }
 
     public static function collect(): void
     {

@@ -2,9 +2,43 @@
 
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Core\Contracts\PluginContext;
+use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeHandler;
 
-class PostTypeRegistrar {
+class PostTypeRegistrar
+{
+    private bool $registered = false;
+    public function __construct(private PluginContext $ctx) {}
+
+    public function register(): void
+    {
+        if ( $this->registered ) return;
+        add_action( 'init', [$this, 'bootstrap'], BootOrder::CPTS );
+        $this->registered = true;
+    }
+
+    public function bootstrap(): void
+    {
+        error_log( '=== PostTypeRegistrar::bootstrap() ===' );
+
+        // Abort if no modules have been booted
+		if ( !$this->ctx->modulesBooted ) { //if ( !$this->ctx->modulesBooted() ) return;
+		    error_log( '=== no modules booted yet => abort ===' );
+			return;
+		}
+
+        $activePostTypes = $this->ctx->getActivePostTypes();
+        if ( empty( $activePostTypes ) ) {
+			error_log( 'No active post types found. Skipping registration.' );
+			return;
+		}
+		//error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
+
+		$this->registerMany( $activePostTypes );
+
+		//add_filter('rex_active_post_types', fn(array $c) => array_keys($active), 10, 1);
+    }
 
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void
@@ -62,7 +96,7 @@ class PostTypeRegistrar {
     //
     public function registerMany( array $postTypeClasses ): void
     {
-    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
+    	//error_log( '=== PostTypeRegistrar->registerMany() ===' );
     	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $handlerClass ) {
         	//error_log( 'attempting to register handlerClass: '.$handlerClass );
@@ -93,7 +127,7 @@ class PostTypeRegistrar {
 
 	public function assignPostTypeCapabilities(array $handlers): void
 	{
-		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
+		//error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
 		$roles = ['administrator', 'editor'];
 
 		foreach ( $handlers as $slug => $fqcn ) {

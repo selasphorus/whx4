@@ -5,10 +5,12 @@
 namespace atc\WHx4;
 
 use atc\WHx4\Core\CoreServices;
+use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeRegistrar;
 use atc\WHx4\Core\SubtypeRegistry;
 use atc\WHx4\Core\TaxonomyRegistrar;
 use atc\WHx4\Core\FieldGroupLoader;
+//use atc\WHx4\Core\SubtypeTermSeeder;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
 use atc\WHx4\Admin\SettingsPageController;
@@ -34,11 +36,10 @@ final class Plugin
     protected bool $modulesBooted = false;
     /** @var list<class-string<ModuleInterface>> */
     protected array $bootedModules = [];
+
     // Make these nullable if they’re typed elsewhere
     protected ?PostTypeRegistrar $postTypeRegistrar = null;
-    protected ?SubtypeRegistry $subtypeRegistry = null;
     protected ?FieldGroupLoader $fieldGroupLoader = null;
-    protected TaxonomyRegistrar $taxonomyRegistrar;
     protected SettingsManager $settingsManager;
     protected ?SettingsManager $settings = null;
 
@@ -88,16 +89,10 @@ final class Plugin
 		}
 
 		// Allow others to register modules early
-		//do_action( 'whx4_pre_boot' );
 		do_action( 'whx4_pre_boot', $this );
 
         $this->defineConstants();
         $this->registerAdminHooks();
-        $this->registerPublicHooks();
-
-        // Defer core initialization until other plugins finished loading modules via filters
-        // This version doesn't work because boot() itself is likely being called on plugins_loaded (or after it). If you hook after an action has already fired, it never runs.
-        //add_action('plugins_loaded', [$this, 'finishBoot'], 20);
 
         // Run as early as possible on init so modules are ready before init:10 work.
 		if ( did_action('init') ) {
@@ -106,7 +101,6 @@ final class Plugin
 			add_action('init', [$this, 'finishBoot'], 0);
 		}
 
-		// Continue with the rest of the boot process
 		$this->booted = true;
     }
 
@@ -120,32 +114,88 @@ final class Plugin
         }
     }
 
-    protected function registerPublicHooks(): void
+    /*protected function registerPublicHooks(): void
     {
         error_log( '=== Plugin::registerPublicHooks() ===' );
         // on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ], 10 );
         add_action( 'init', [ $this, 'collectSubtypes' ], 11 );
-        //SubtypeRegistry::collect()
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
 
 		// After modules boot, assign capabilities based on handlers
 		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 );
-    }
+    }*/
 
     public function finishBoot(): void
 	{
-	    error_log( '=== Plugin::finishBoot() ===' );
+	    error_log('=== Plugin::finishBoot() @ init:0 ===');
 
-		// Make modules discoverable
-		$this->initializeCore(); // sets available modules, seeds defaults if needed, loads/boots
+		// Boot core services -- TODO: make sure this is still useful...
+		CoreServices::boot();
+
+        // Load modules and config
+
+        // Discover all modules registered by core + add‑ons
+        $modules = apply_filters( 'whx4_register_modules', [] );
+        $this->setAvailableModules( $modules );
+
+        // Settings
+        $this->settings = $this->settings ?? new SettingsManager(); // redundant w/ _construct -- WIP
+
+        // First‑run initializer: if no selection saved, enable defaults
+        $this->settings->ensureInitialized($this->getAvailableModules());
+
+        // Load saved (or just‑seeded) active modules
+        $this->loadActiveModules();
+
+        // Boot active modules and remember which ones succeeded
+        $this->bootActiveModules();
 
 		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
 		do_action('whx4_modules_booted', $this, $this->bootedModules);
+
+		// Ensure the active CPTs filter is added AFTER CPTs (10) and BEFORE Taxonomies (12)
+		// WIP 08/23/25
+		add_action('init', function (): void {
+			add_filter('whx4_active_post_types', function (array $cpts): array {
+				// Return slugs of currently active CPTs
+				return array_keys($this->getActivePostTypes());
+			}, 10, 1);
+		}, BootOrder::SUBTYPE_COLLECT); // 11
+
+		// Register systems in the same order that they will run, though prioritied enforce the actual order on 'init' or 'acf/init'
+
+		// Register Custom Post Types
+		//(new \smith\Rex\Core\PostTypeRegistrar($this))->register(); // init:10
+        $this->postTypeRegistrar = new PostTypeRegistrar($this); // instance-based (needs plugin state)
+        $this->postTypeRegistrar->register();                    // add_action('init', ..., BootOrder::CPT)
+
+        // Collect Subtypes
+        SubtypeRegistry::register();                             // add_action('init', collect, BootOrder::SUBTYPE_COLLECT)
+
+        // Register Custom Taxonomies for active modules
+        TaxonomyRegistrar::register();                           // add_action('init', bootstrap, BootOrder::TAXONOMY)
+
+        // Seed subtype terms
+        //SubtypeTermSeeder::register();                           // add_action('init', seed, BootOrder::TERM_SEED)
+
+        // Register field groups (admin‑centric, depends on plugin state)
+        $this->fieldGroupLoader = new FieldGroupLoader($this);
+        $this->fieldGroupLoader->register();                     // add_action('acf/init', ..., BootOrder::ACF_FIELDS)
+
+        // front-end assets (separate hook family)
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] ); // wip
+        //\smith\Rex\Core\Assets::register();                      // add_action('wp_enqueue_scripts', ..., BootOrder::ENQUEUE_ASSETS)
+
+        // caps (your custom signal)
+        // After modules boot, assign capabilities based on handlers
+		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 ); // wip
+        //\smith\Rex\Core\CapabilitiesAssigner::register();        // add_action('whx4_modules_booted', ..., BootOrder::CAPS_ASSIGN)
+
 	}
 
-    protected function initializeCore(): void
+    /*protected function initializeCore(): void
     {
         error_log( '=== Plugin::initializeCore() ===' );
 
@@ -173,8 +223,9 @@ final class Plugin
 
         // Boot active modules and remember which ones succeeded
         $this->bootActiveModules();
-    }
+    }*/
 
+    // TODO: move this to core Assets class?
 	public function enqueueAdminAssets(string $hook): void
 	{
 		//if ( $hook !== 'settings_page_whx4-settings' ) { return; }
@@ -224,7 +275,7 @@ final class Plugin
 		return isset( $_GET['page'] ) && $_GET['page'] === 'whx4_settings';
 	}
 
-    protected function defineConstants(): void //private function defineConstants()
+    protected function defineConstants(): void
     {
     	define( 'WHX4_TEXTDOMAIN', 'whx4' );
     	define( 'WHX4_VERSION', '2.0.0' );
@@ -417,10 +468,8 @@ final class Plugin
 
 	//getEnabledTaxonomies
 
-    /**
-     * Loop through each module and register its post types.
-     */
-    public function registerPostTypes(): void
+    // Loop through each module and register its post types.
+    /*public function registerPostTypes(): void
 	{
 		error_log( '=== Plugin::registerPostTypes() ===' );
 
@@ -439,28 +488,7 @@ final class Plugin
 		}
 
 		$this->postTypeRegistrar?->registerMany( $activePostTypes );
-	}
-
-	public function collectSubtypes(): void
-	{
-		error_log( '=== Plugin::collectSubtypes() ===' );
-
-		// Abort if no modules have been booted
-		if ( !$this->modulesBooted ) {
-		    error_log( '=== no modules booted yet => abort ===' );
-			return;
-		}
-
-		$activePostTypes = $this->getActivePostTypes();
-		//error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
-
-		if ( empty( $activePostTypes ) ) {
-			error_log( 'No active post types found. Skipping registration.' );
-			return;
-		}
-
-		$this->subtypeRegistry?->collect();
-	}
+	}*/
 
     public function registerFieldGroups(): void
     {
@@ -473,12 +501,6 @@ final class Plugin
 		}
 
         $this->fieldGroupLoader?->registerAll();
-    }
-
-
-    protected function registerTaxonomies(): void
-    {
-		// Register Custom Taxonomies for active modules
     }
 
 	/// WIP
@@ -613,11 +635,11 @@ final class Plugin
 	]);
 	*/
 
-    protected static function activate(): void { //public static function activate() {
+    protected static function activate(): void {
        flush_rewrite_rules();
     }
 
-    protected static function deactivate(): void { //public static function deactivate() {
+    protected static function deactivate(): void {
        flush_rewrite_rules();
     }
 
