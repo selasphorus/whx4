@@ -18,7 +18,7 @@ final class SubtypeRegistry
     public function register(): void
     {
         if ( $this->registered ) return;
-        add_action('init', [$this, 'collect'], BootOrder::CPT);
+        add_action('init', [$this, 'collect'], BootOrder::SUBTYPES);
         $this->registered = true;
     }
 
