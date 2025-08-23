@@ -6,7 +6,8 @@ namespace atc\WHx4;
 
 use atc\WHx4\Core\CoreServices;
 use atc\WHx4\Core\PostTypeRegistrar;
-//use atc\WHx4\Core\TaxonomyRegistrar;
+use atc\WHx4\Core\SubtypeRegistry;
+use atc\WHx4\Core\TaxonomyRegistrar;
 use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\SettingsManager;
@@ -35,8 +36,9 @@ final class Plugin
     protected array $bootedModules = [];
     // Make these nullable if they’re typed elsewhere
     protected ?PostTypeRegistrar $postTypeRegistrar = null;
+    protected ?SubtypeRegistry $subtypeRegistry = null;
     protected ?FieldGroupLoader $fieldGroupLoader = null;
-    //protected TaxonomyRegistrar $taxonomyRegistrar;
+    protected TaxonomyRegistrar $taxonomyRegistrar;
     protected SettingsManager $settingsManager;
     protected ?SettingsManager $settings = null;
 
@@ -123,6 +125,8 @@ final class Plugin
         error_log( '=== Plugin::registerPublicHooks() ===' );
         // on 'init': Register post types, taxonomies, shortcodes
         add_action( 'init', [ $this, 'registerPostTypes' ], 10 );
+        add_action( 'init', [ $this, 'collectSubtypes' ], 11 );
+        //SubtypeRegistry::collect()
         add_action( 'acf/init', [ $this, 'registerFieldGroups' ], 11 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] );
 
@@ -164,6 +168,7 @@ final class Plugin
 
         // Lazily build services
         $this->postTypeRegistrar = $this->postTypeRegistrar ?? new PostTypeRegistrar($this);
+        $this->subtypeRegistry = $this->subtypeRegistry ?? new SubtypeRegistry($this);
         $this->fieldGroupLoader  = $this->fieldGroupLoader  ?? new FieldGroupLoader($this);
 
         // Boot active modules and remember which ones succeeded
@@ -434,6 +439,27 @@ final class Plugin
 		}
 
 		$this->postTypeRegistrar?->registerMany( $activePostTypes );
+	}
+
+	public function collectSubtypes(): void
+	{
+		error_log( '=== Plugin::collectSubtypes() ===' );
+
+		// Abort if no modules have been booted
+		if ( !$this->modulesBooted ) {
+		    error_log( '=== no modules booted yet => abort ===' );
+			return;
+		}
+
+		$activePostTypes = $this->getActivePostTypes();
+		//error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
+
+		if ( empty( $activePostTypes ) ) {
+			error_log( 'No active post types found. Skipping registration.' );
+			return;
+		}
+
+		$this->subtypeRegistry?->collect();
 	}
 
     public function registerFieldGroups(): void

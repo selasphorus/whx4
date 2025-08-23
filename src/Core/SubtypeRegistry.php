@@ -4,17 +4,37 @@ namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\Contracts\SubtypeInterface;
 
-final class SubtypeRegistrar
+// WIP 08/22/25
+final class SubtypeRegistry
+//final class SubtypeRegistrar
 {
-    /** @var array<string, array{label:string,args:array}> */
+    /** @var array<string, array{label:string, args:array}> */
+    /** @var array<string, array<string, array{label:string, args:array}>> */
     protected static array $subtypes = [];
 
-    public static function register(): void
+    public static function collect(): void
     {
-        add_action( 'init', [self::class, 'bootstrap'], 5 );
+        self::$subtypes = [];
+        $providers = apply_filters('whx4_register_subtypes', []);
+
+        foreach ($providers as $provider) {
+            if ($provider instanceof SubtypeInterface) {
+                $pt   = $provider->getPostType();
+                $slug = $provider->getSlug();
+                self::$subtypes[$pt][$slug] = [
+                    'label' => $provider->getLabel(),
+                    'args'  => $provider->getTermArgs(),
+                ];
+            }
+        }
+        /**
+         * Allow other systems to react to the collected map.
+         * IMPORTANT: collection only—no side effects.
+         */
+        do_action('whx4_subtypes_collected', self::$subtypes);
     }
 
-    public static function bootstrap(): void
+    /*public static function bootstrap(): void
     {
         // 1) Gather providers
         $providers = apply_filters( 'whx4_register_subtypes', [] );
@@ -60,6 +80,17 @@ final class SubtypeRegistrar
                 }
             }
         }
+    }*/
+
+    /** @return array<string, array{label:string, args:array}> */
+    public static function getForPostType(string $postType): array
+    {
+        return self::$subtypes[$postType] ?? [];
+    }
+
+    public static function getAll(): array
+    {
+        return self::$subtypes;
     }
 
     public static function getTaxonomyForPostType( string $postType ): string

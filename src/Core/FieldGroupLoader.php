@@ -8,6 +8,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 use atc\WHx4\Core\Contracts\FieldGroupInterface;
+use atc\WHx4\Core\Contracts\PostTypeFieldGroupInterface;
 use atc\WHx4\Core\Contracts\SubtypeFieldGroupInterface;
 
 class FieldGroupLoader
@@ -104,8 +105,22 @@ class FieldGroupLoader
                 class_exists( $className ) &&
                 is_subclass_of( $className, FieldGroupInterface::class )
             ) {
-                // === NEW: handle Subtype field groups first
+                // First, handle global post-type scoped field groups
+                if (is_subclass_of($className, PostTypeFieldGroupInterface::class)) {
+                    error_log( 'className: ' . $className . ' is_subclass_of PostTypeFieldGroupInterface');
+                    try {
+                        $instance = new $className();
+                        $pt = $instance->getPostType();
+                        if (array_key_exists($pt, $activePostTypes)) {
+                            $className::register();
+                            continue; // handled
+                        }
+                    } catch (\Throwable $e) { /* ignore and fall through */ }
+                }
+
+                // Handle Subtype-scoped field groups
                 if ( is_subclass_of( $className, SubtypeFieldGroupInterface::class ) ) {
+                    error_log( 'className: ' . $className . ' is_subclass_of SubtypeFieldGroupInterface');
                     try {
                         $instance = new $className();
                         $pt = $instance->getPostType();
