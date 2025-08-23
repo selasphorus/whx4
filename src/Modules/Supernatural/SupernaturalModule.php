@@ -11,13 +11,13 @@ final class SupernaturalModule extends BaseModule
 {
     public function boot(): void
     {
-    	$this->registerDefaultViewRoot();
+        $this->registerDefaultViewRoot();
 
-    	parent::boot();
+        parent::boot();
 
-    	//ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' ); // default
-    	// Override with custom path
-    	//ViewLoader::registerModuleViewRoot( 'supernatural', WP_CONTENT_DIR . '/shared-supernatural-views' );
+        //ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' ); // default
+        // Override with custom path
+        //ViewLoader::registerModuleViewRoot( 'supernatural', WP_CONTENT_DIR . '/shared-supernatural-views' );
     }
 
     /*
@@ -27,12 +27,12 @@ final class SupernaturalModule extends BaseModule
         return 'spooky';
     }
     public function getName(): string
-	{
-		return 'Spooky Things';
-	}
+    {
+        return 'Spooky Things';
+    }
     */
 
-	public function getPostTypeHandlerClasses(): array
+    public function getPostTypeHandlerClasses(): array
     {
         return [
             Monster::class,
