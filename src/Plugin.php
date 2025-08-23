@@ -4,6 +4,7 @@
 
 namespace atc\WHx4;
 
+use atc\WHx4\Core\Contracts\PluginContext;
 use atc\WHx4\Core\CoreServices;
 use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeRegistrar;
@@ -23,7 +24,7 @@ use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
 use atc\WHx4\ACF\BlockRegistrar;
 
-final class Plugin
+final class Plugin implements PluginContext
 {
     private static ?self $instance = null;
     protected bool $booted = false;
