@@ -17,7 +17,7 @@ final class SubtypeRegistry
 
     public static function register(): void
     {
-        add_action('init', [$this, 'collect'], BootOrder::SUBTYPES);
+        add_action('init', [self::class, 'collect'], BootOrder::SUBTYPES);
     }
 
     public static function collect(): void
