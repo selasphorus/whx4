@@ -382,6 +382,11 @@ final class Plugin implements PluginContext
 		return $count;
     }
 
+    public function modulesBooted(): bool
+    {
+        return $this->modulesBooted;
+    }
+
 
 /*public function getActivePostTypeHandlers(): array
 {

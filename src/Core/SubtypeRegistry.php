@@ -15,7 +15,7 @@ final class SubtypeRegistry
     /** @var array<string, array<string, array{label:string, args:array}>> */
     protected static array $subtypes = [];
 
-    public function register(): void
+    public static function register(): void
     {
         if ( $this->registered ) return;
         add_action('init', [$this, 'collect'], BootOrder::SUBTYPES);
