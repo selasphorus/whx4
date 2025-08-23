@@ -162,7 +162,7 @@ final class Plugin
 				// Return slugs of currently active CPTs
 				return array_keys($this->getActivePostTypes());
 			}, 10, 1);
-		}, BootOrder::SUBTYPE_COLLECT); // 11
+		}, BootOrder::SUBTYPES); // 11
 
 		// Register systems in the same order that they will run, though prioritied enforce the actual order on 'init' or 'acf/init'
 

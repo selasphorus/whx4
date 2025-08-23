@@ -4,7 +4,7 @@ namespace atc\WHx4\Core;
 final class BootOrder
 {
     public const CPTS            = 10;
-    public const SUBTYPE         = 11;
+    public const SUBTYPES        = 11;
     public const TAXONOMIES      = 12;
     public const TERM_SEED       = 13;
 
