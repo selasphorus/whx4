@@ -17,9 +17,7 @@ final class SubtypeRegistry
 
     public static function register(): void
     {
-        if ( $this->registered ) return;
         add_action('init', [$this, 'collect'], BootOrder::SUBTYPES);
-        $this->registered = true;
     }
 
     public static function collect(): void
