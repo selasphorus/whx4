@@ -154,7 +154,8 @@ final class Plugin implements PluginContext
         $this->bootActiveModules();
 
 		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
-		do_action('whx4_modules_booted', $this, $this->bootedModules);
+		// TOO EARLY! See below
+		//do_action('whx4_modules_booted', $this, $this->bootedModules);
 
 		// Ensure the active CPTs filter is added AFTER CPTs (10) and BEFORE Taxonomies (12)
 		// WIP 08/23/25
@@ -206,8 +207,16 @@ final class Plugin implements PluginContext
 
         // caps (your custom signal)
         // After modules boot, assign capabilities based on handlers
-		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], 20, 2 ); // wip
+		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], BootOrder::CAPS_ASSIGN, 2 ); // wip
         //\smith\Rex\Core\CapabilitiesAssigner::register();        // add_action('whx4_modules_booted', ..., BootOrder::CAPS_ASSIGN)
+
+        // Defer the emit so *other* plugins can hook in too
+		add_action('init', function(): void {
+			// Guard against double‑fire if you ever refactor
+			if (! did_action('rex_modules_booted')) {
+				do_action('rex_modules_booted', $this, $this->bootedModules);
+			}
+		}, 21); //BootOrder::AFTER_BOOT_SIGNAL
 
 	}
 
