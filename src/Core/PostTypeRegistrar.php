@@ -156,11 +156,13 @@ class PostTypeRegistrar
 		$roles = ['administrator', 'editor'];
 
 		$activePostTypes = $this->ctx->getActivePostTypes();
+		//error_log( 'activePostTypes: ' . print_r($activePostTypes, true). ' ==' );
 
 		foreach ( $activePostTypes as $slug => $handlerClass ) {
+		    error_log( 'preparing to add caps for handlerClass: '.$handlerClass );
 			// Make sure the handler is of correct type
 			$handler = new $handlerClass; // $postTypeHandlerClass();
-			//error_log( '== handler: ' . print_r($handler, true). ' ==' );
+			//error_log( 'handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
 				error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
