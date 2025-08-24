@@ -66,6 +66,8 @@ final class TaxonomyRegistrar
             return; // nothing to do
         }
 
+        error_log("handlers: " . print_r($handlers, true));
+
         // Resolve active CPTs (for '*' wildcard); decouple via a filter
         $activePostTypes = (array) apply_filters('whx4_active_post_types', []);
 
