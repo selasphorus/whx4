@@ -29,7 +29,7 @@ final class TaxonomyRegistrar
         $subtypes = SubtypeRegistry::getAll();
         foreach (array_keys($subtypes) as $postType) {
             $slug = SubtypeRegistry::getTaxonomyForPostType($postType);
-            error_log( 'Subtype slug: ' . $slug ). '/postType: '. $postType );
+            error_log( 'Subtype slug: ' . $slug . '/postType: '. $postType );
 
             // Anonymous handler that behaves like a TaxonomyHandler
             $handlers[] = new class($slug, $postType) extends TaxonomyHandler {
