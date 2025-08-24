@@ -10,11 +10,11 @@ abstract class BaseHandler
     use HasTypeProperties;
 
     protected array $config = [];
-    //protected string $type = 'post_type';
-    protected const TYPE = 'post_type';
-    protected WP_Post|WP_Term|null $object = null;
+    protected const TYPE = 'post_type'; //protected string $type = 'post_type';
+    protected \WP_Post|\WP_Term|null $object = null; //protected WP_Post|WP_Term|null $object = null;
 
-    public function __construct( array $config = [], WP_Post|WP_Term|null $object = null )
+    public function __construct(array $config = [], \WP_Post|\WP_Term|null $object = null)
+    //public function __construct( array $config = [], WP_Post|WP_Term|null $object = null )
 	{
 		$this->config = $config;
 		$this->object = $object;

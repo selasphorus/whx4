@@ -12,6 +12,7 @@ abstract class PostTypeHandler extends BaseHandler
 
 	// Property to store the post object
     protected $post; // better private?
+    protected const TYPE = 'post_type';
 
     // Constructor to set the config and post object
 

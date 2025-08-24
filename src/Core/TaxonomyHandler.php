@@ -6,8 +6,59 @@ use atc\WHx4\Core\BaseHandler;
 
 abstract class TaxonomyHandler extends BaseHandler
 {
-    public function getObjectTypes(): array {
+    protected const TYPE = 'taxonomy';
+
+    public function __construct(array $config = [], \WP_Term|null $term = null)
+    {
+        parent::__construct($config, $term);
+    }
+
+    public function getObjectTypes(): array
+    {
         return $this->getConfig()['object_types'] ?? [];
+    }
+
+    public function isHierarchical(): bool
+    {
+        return (bool)($this->getConfig()['hierarchical'] ?? false);
+    }
+
+    public function getSlug(): string
+    {
+        return (string)$this->getConfig()['slug'];
+    }
+
+    public function getArgs(): array
+    {
+        $slug = $this->getSlug();
+        $name = ucwords(str_replace(['_', '-'], ' ', $slug));
+
+        return [
+            'labels' => [
+                'name'          => $name,
+                'singular_name' => $name,
+            ],
+            'public'            => false,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'hierarchical'      => $this->isHierarchical(),
+            'meta_box_cb'       => $this->isHierarchical() ? 'post_categories_meta_box' : null,
+        ];
+    }
+
+    public function register(): void
+    {
+        $slug  = $this->getSlug();
+        $types = $this->getObjectTypes();
+        $args  = $this->getArgs();
+
+        if (!taxonomy_exists($slug)) {
+            register_taxonomy($slug, $types, $args);
+        } else {
+            foreach ($types as $pt) {
+                register_taxonomy_for_object_type($slug, $pt);
+            }
+        }
     }
 
 }

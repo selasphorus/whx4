@@ -23,7 +23,7 @@ class PostTypeRegistrar
         error_log( '=== PostTypeRegistrar::bootstrap() ===' );
 
         // Abort if no modules have been booted
-		if ( !$this->ctx->modulesBooted ) { //if ( !$this->ctx->modulesBooted() ) return;
+		if ( !$this->ctx->modulesBooted() ) {
 		    error_log( '=== no modules booted yet => abort ===' );
 			return;
 		}

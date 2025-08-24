@@ -37,7 +37,7 @@ final class TaxonomyRegistrar
                         'plural_slug'  => $this->slug . 's',
                         'object_types' => [$this->pt],
                         'hierarchical' => true,
-                    ], 'taxonomy', null);
+                    ], null);
                 }
             };
             /*
