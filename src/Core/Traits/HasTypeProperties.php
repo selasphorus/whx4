@@ -83,18 +83,18 @@ trait HasTypeProperties
             ];
         }
 
-        return [
-            'edit_post'          => "edit_{$singular}",
-            'read_post'          => "read_{$singular}",
-            'delete_post'        => "delete_{$singular}",
-            'edit_posts'         => "edit_{$plural}",
-            'edit_others_posts'  => "edit_others_{$plural}",
-            'edit_private_posts'  => "edit_private_{$plural}",
-            'edit_published_posts'  => "edit_published_{$plural}",
-            'publish_posts'      => "publish_{$plural}",
-            'read_private_posts' => "read_private_{$plural}",
-            'create_posts'       => "edit_{$plural}",
-        ];
+		return [
+		    "edit_{$plural}",
+		    "edit_others_{$plural}",
+		    "delete_{$plural}",
+		    "publish_{$plural}",
+		    "read_private_{$plural}",
+		    "delete_private_{$plural}",
+		    "delete_published_{$plural}",
+		    "delete_others_{$plural}",
+		    "edit_private_{$plural}",
+		    "edit_published_{$plural}",
+		];
     }
 
 	public function isHierarchical(): bool

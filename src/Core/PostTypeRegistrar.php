@@ -71,6 +71,7 @@ class PostTypeRegistrar
 
     	$slug = $handler->getSlug();
     	//error_log('slug: '.$slug);
+        $plural   = $this->getPluralSlug() ?? "{$slug}s";
 
     	$labels = $handler->getLabels();
     	//error_log('labels: '.print_r($labels,true));
@@ -83,9 +84,6 @@ class PostTypeRegistrar
 
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
-        if (!$capabilities) {
-            $capabilities = $this->generateDefaultCapabilities($handler);
-        }
     	error_log('capabilities: '.print_r($capabilities,true));
 
     	$icon = $handler->getMenuIcon();
@@ -99,8 +97,8 @@ class PostTypeRegistrar
 			'query_var'        	=> true,
             'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
             'labels'       => $labels,
-            'capability_type' => $slug,
-            'capabilities' => $capabilities,
+            'capability_type' => [$slug,$plural],
+            //'capabilities' => $capabilities,
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,
             //
@@ -129,31 +127,11 @@ class PostTypeRegistrar
         }
     }
 
-    // Capabilities
-	// TODO:  move this to the PostTypeHandler where default labels etc are defined?
-	protected function generateDefaultCapabilities(PostTypeHandler $handler): array
-	{
-
-        //error_log( '=== PostTypeRegistrar->generateDefaultCapabilities() ===' );
-
-        $slug = $handler->getSlug();
-
-        return [
-            'edit_post'          => "edit_{$slug}",
-            'read_post'          => "read_{$slug}",
-            'delete_post'        => "delete_{$slug}",
-            'edit_posts'         => "edit_{$slug}s",
-            'edit_others_posts'  => "edit_others_{$slug}s",
-            'publish_posts'      => "publish_{$slug}s",
-            'read_private_posts' => "read_private_{$slug}s",
-        ];
-    }
-
 	//public function assignPostTypeCapabilities(array $handlers): void
 	public function assignPostTypeCapabilities(): void
 	{
 		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
-		$roles = ['administrator', 'editor'];
+		$roles = ['administrator']; //$roles = ['administrator', 'editor'];
 
 		$activePostTypes = $this->ctx->getActivePostTypes();
 		//error_log( 'activePostTypes: ' . print_r($activePostTypes, true). ' ==' );
@@ -166,11 +144,12 @@ class PostTypeRegistrar
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
 				error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
-
+				//
 				foreach ($roles as $roleName) {
 					$role = get_role($roleName);
 					if ($role) {
 						foreach ($caps as $cap) {
+						    error_log( ' adding cap: ' . $cap . ' for roleName: '. $roleName )
 							$role->add_cap($cap);
 						}
 					}

@@ -16,6 +16,8 @@ class Monster extends PostTypeHandler
 				'not_found'    => 'No monsters lurking nearby',
 			],
 			'menu_icon'   => 'dashicons-palmtree',
+			//'capability_type' => ['monster', 'monsters'],
+			//'map_meta_cap'       => true,
 		];
 
 		parent::__construct( $config, $post );
