@@ -37,6 +37,7 @@ final class Plugin implements PluginContext
     protected bool $modulesBooted = false;
     /** @var list<class-string<ModuleInterface>> */
     protected array $bootedModules = [];
+    private bool $capsAssigned = false;
 
     // Make these nullable if they’re typed elsewhere
     protected ?PostTypeRegistrar $postTypeRegistrar = null;
@@ -153,9 +154,8 @@ final class Plugin implements PluginContext
         // Boot active modules and remember which ones succeeded
         $this->bootActiveModules();
 
-		// Signal “modules are ready” (cap assignment can hook this or we can call inline)
-		// TOO EARLY! See below
-		//do_action('whx4_modules_booted', $this, $this->bootedModules);
+        // Assign caps now that slugs/handlers are known (no custom hook needed)
+        $this->assignPostTypeCaps($this->bootedModules);
 
 		// Ensure the active CPTs filter is added AFTER CPTs (10) and BEFORE Taxonomies (12)
 		// WIP 08/23/25
@@ -187,8 +187,6 @@ final class Plugin implements PluginContext
 		add_filter('whx4_active_post_types', function(array $cpts) use ($plugin): array {
 			return array_keys($plugin->getActivePostTypes());
 		});
-
-
 		*/
 
         // Register Custom Taxonomies for active modules
@@ -204,19 +202,6 @@ final class Plugin implements PluginContext
         // front-end assets (separate hook family)
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] ); // wip
         //\smith\Rex\Core\Assets::register();                      // add_action('wp_enqueue_scripts', ..., BootOrder::ENQUEUE_ASSETS)
-
-        // caps (your custom signal)
-        // After modules boot, assign capabilities based on handlers
-		add_action( 'whx4_modules_booted', [ $this, 'assignPostTypeCaps' ], BootOrder::CAPS_ASSIGN, 2 ); // wip
-        //\smith\Rex\Core\CapabilitiesAssigner::register();        // add_action('whx4_modules_booted', ..., BootOrder::CAPS_ASSIGN)
-
-        // Defer the emit so *other* plugins can hook in too
-		add_action('init', function(): void {
-			// Guard against double‑fire if you ever refactor
-			if (! did_action('rex_modules_booted')) {
-				do_action('rex_modules_booted', $this, $this->bootedModules);
-			}
-		}, 21); //BootOrder::AFTER_BOOT_SIGNAL
 
 	}
 
@@ -534,8 +519,15 @@ final class Plugin implements PluginContext
     }*/
 
 	/// WIP
-	public static function assignPostTypeCaps(Plugin $plugin, array $bootedModules): void
+	public static function assignPostTypeCaps(array $bootedModules = []): void
     {
+        error_log( '=== assignPostTypeCaps ===' );
+
+        if ($this->capsAssigned) {
+			return;
+		}
+		$this->capsAssigned = true;
+
         try {
             if (!$bootedModules) {
                 error_log( 'No modules were booted; skipping.' );
@@ -543,8 +535,8 @@ final class Plugin implements PluginContext
                 return;
             }
 
-            $handlers = $plugin->getActivePostTypes();
-            //error_log( 'handlers: ' . print_r( $handlers, true ) );
+            $handlers = $this->getActivePostTypes();
+            error_log( 'handlers: ' . print_r( $handlers, true ) );
 
             if (empty($handlers)) {
                 error_log('No active post type handlers found; skipping.');
@@ -563,10 +555,23 @@ final class Plugin implements PluginContext
             //self::log("Assigning capabilities for {$count} handler(s).");
             //error_log( 'handlers: ' . print_r( $handlers, true ) );
 
+            /*
+            // Optional: short-circuit if nothing changed since last run
+			$activeSlugs = array_keys($this->getActivePostTypes());
+			$hash = md5(implode('|', $activeSlugs));
+			$stored = get_option('rex_caps_hash');
+
+			if ($stored === $hash) {
+				return;
+			}
+			*/
+
             $plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
 
             error_log('Capabilities assigned successfully.');
             //self::log('Capabilities assigned successfully.');
+
+            //update_option('rex_caps_hash', $hash);
         } catch (\Throwable $e) {
             error_log('Error in assignPostTypeCaps: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine() );
             /*self::log(
