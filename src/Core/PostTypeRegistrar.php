@@ -71,7 +71,7 @@ class PostTypeRegistrar
 
     	$slug = $handler->getSlug();
     	//error_log('slug: '.$slug);
-        $plural   = $this->getPluralSlug() ?? "{$slug}s";
+        $plural   = $handler->getPluralSlug() ?? "{$slug}s";
 
     	$labels = $handler->getLabels();
     	//error_log('labels: '.print_r($labels,true));
@@ -149,7 +149,7 @@ class PostTypeRegistrar
 					$role = get_role($roleName);
 					if ($role) {
 						foreach ($caps as $cap) {
-						    error_log( ' adding cap: ' . $cap . ' for roleName: '. $roleName )
+						    error_log( ' adding cap: ' . $cap . ' for roleName: '. $roleName );
 							$role->add_cap($cap);
 						}
 					}
