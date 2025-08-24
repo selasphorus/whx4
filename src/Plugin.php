@@ -175,6 +175,21 @@ final class Plugin implements PluginContext
         // Collect Subtypes
         SubtypeRegistry::register();                             // add_action('init', collect, BootOrder::SUBTYPE_COLLECT)
 
+        // Register shared/global taxonomies? WIP
+        /*
+        add_filter('rex_register_taxonomy_handlers', function(array $list): array {
+			$list[] = \smith\Rex\Core\Taxonomies\RexTag::class; // object_types may be ['*'] or an explicit list
+			return $list;
+		});
+
+		// ... and expose active CPTs (for the '*' wildcard) via a small filter the registrar reads:
+		add_filter('rex_active_post_types', function(array $cpts) use ($plugin): array {
+			return array_keys($plugin->getActivePostTypes());
+		});
+
+
+		*/
+
         // Register Custom Taxonomies for active modules
         TaxonomyRegistrar::register();                           // add_action('init', bootstrap, BootOrder::TAXONOMY)
 

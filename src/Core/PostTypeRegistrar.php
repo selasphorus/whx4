@@ -38,6 +38,17 @@ class PostTypeRegistrar
 		$this->registerMany( $activePostTypes );
 
 		//add_filter('rex_active_post_types', fn(array $c) => array_keys($active), 10, 1);
+
+		// After resolving $handlers, deal with taxonomies
+		add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
+			foreach ($handlers as $slug => $handler) {
+				if (method_exists($handler, 'getTaxonomyHandlerClasses')) {
+					$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
+				}
+			}
+			return $list;
+		});
+
     }
 
 	// Registers a custom post type using a PostTypeHandler

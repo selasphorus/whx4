@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\Supernatural\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Modules\Supernatural\Taxonomies\Habitat;
 
 class Monster extends PostTypeHandler
 {
@@ -31,6 +32,11 @@ class Monster extends PostTypeHandler
 			'called_by'      => 'Monster::boot',
 			'append'         => ' {Rowarrr!}',
 		]);
+	}
+
+	public function getTaxonomyHandlerClasses(): array
+	{
+		return [ Habitat::class ];
 	}
 
     /*
