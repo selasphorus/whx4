@@ -13,12 +13,30 @@ use atc\WHx4\Core\Contracts\SubtypeFieldGroupInterface;
 
 class FieldGroupLoader
 {
-    protected Plugin $plugin;
+    private bool $registered = false;
+    public function __construct( private PluginContext $ctx ) {}
 
-    public function __construct( Plugin $plugin )
+    public function register(): void
     {
-        $this->plugin = $plugin;
+        if ( $this->registered ) return;
+        add_action( 'init', [$this, 'bootstrap'], BootOrder::CPTS );
+        $this->registered = true;
     }
+
+    public function bootstrap(): void
+    {
+        error_log( '=== FieldGroupLoader::bootstrap() ===' );
+
+        // Abort if no modules have been booted
+        if ( !$this->ctx->modulesBooted ) { //if ( !$this->ctx->modulesBooted() ) return;
+            error_log( '=== no modules booted yet => abort ===' );
+            return;
+        }
+
+        $this->registerAll();
+    }
+
+    ////
 
     public function registerAll(): void
     {

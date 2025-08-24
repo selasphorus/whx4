@@ -495,7 +495,7 @@ final class Plugin implements PluginContext
 
 		$this->postTypeRegistrar?->registerMany( $activePostTypes );
 	}*/
-
+/*
     public function registerFieldGroups(): void
     {
         error_log( '=== registerFieldGroups ===' );
@@ -507,7 +507,7 @@ final class Plugin implements PluginContext
 		}
 
         $this->fieldGroupLoader?->registerAll();
-    }
+    }*/
 
 	/// WIP
 	public static function assignPostTypeCaps(Plugin $plugin, array $bootedModules): void
