@@ -137,19 +137,19 @@ class PostTypeRegistrar
 		//error_log( 'activePostTypes: ' . print_r($activePostTypes, true). ' ==' );
 
 		foreach ( $activePostTypes as $slug => $handlerClass ) {
-		    error_log( 'preparing to add caps for handlerClass: '.$handlerClass );
+		    //error_log( 'preparing to add caps for handlerClass: '.$handlerClass );
 			// Make sure the handler is of correct type
 			$handler = new $handlerClass; // $postTypeHandlerClass();
 			//error_log( 'handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
-				error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
+				//error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
 				//
 				foreach ($roles as $roleName) {
 					$role = get_role($roleName);
 					if ($role) {
 						foreach ($caps as $cap) {
-						    error_log( ' adding cap: ' . $cap . ' for roleName: '. $roleName );
+						    //error_log( ' adding cap: ' . $cap . ' for roleName: '. $roleName );
 							$role->add_cap($cap);
 						}
 					}
