@@ -519,7 +519,7 @@ final class Plugin implements PluginContext
     }*/
 
 	/// WIP
-	public static function assignPostTypeCaps(array $bootedModules = []): void
+	public function assignPostTypeCaps(array $bootedModules = []): void
     {
         error_log( '=== assignPostTypeCaps ===' );
 
@@ -544,7 +544,7 @@ final class Plugin implements PluginContext
                 return;
             }
 
-            if (!$plugin->postTypeRegistrar) {
+            if (!$this->postTypeRegistrar) {
                 error_log('postTypeRegistrar is null; cannot assign capabilities.');
                 //self::log('postTypeRegistrar is null; cannot assign capabilities.');
                 return;
@@ -566,7 +566,7 @@ final class Plugin implements PluginContext
 			}
 			*/
 
-            $plugin->postTypeRegistrar->assignPostTypeCapabilities($handlers);
+            $this->postTypeRegistrar->assignPostTypeCapabilities($handlers);
 
             error_log('Capabilities assigned successfully.');
             //self::log('Capabilities assigned successfully.');
