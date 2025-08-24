@@ -52,7 +52,7 @@ class PostTypeRegistrar
 
 		// Contribute CPT-specific taxonomy handlers (e.g., Habitat) to the unified registrar
 		if (!empty($activePostTypes)) {
-			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
+			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass;
 					if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
