@@ -67,7 +67,7 @@ class PostTypeRegistrar
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void
     {
-        //error_log( '=== PostTypeRegistrar->registerCPT() ===' );
+        error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
     	$slug = $handler->getSlug();
     	//error_log('slug: '.$slug);
@@ -86,7 +86,7 @@ class PostTypeRegistrar
         if (!$capabilities) {
             $capabilities = $this->generateDefaultCapabilities($handler);
         }
-    	//error_log('capabilities: '.print_r($capabilities,true));
+    	error_log('capabilities: '.print_r($capabilities,true));
 
     	$icon = $handler->getMenuIcon();
     	//error_log('icon: '.$icon);

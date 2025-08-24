@@ -68,9 +68,11 @@ trait HasTypeProperties
 
     public function getDefaultCapabilities(): array
     {
+        error_log( '=== HasTypeProperties::getDefaultCapabilities() ===' );
         $type     = $this->getType();
         $singular = $this->getSlug();
         $plural   = $this->getPluralSlug() ?? "{$singular}s";
+        error_log( 'type: ' . $type . '; singular: ' . $singular . '; plural: ' . $plural );
 
         if ( $type === 'taxonomy' ) {
             return [
