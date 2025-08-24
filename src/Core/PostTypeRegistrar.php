@@ -239,7 +239,7 @@ class PostTypeRegistrar
 
 	public function assignPostTypeCapabilities(array $handlers): void
 	{
-		//error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
+		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
 		$roles = ['administrator', 'editor'];
 
 		foreach ( $handlers as $slug => $fqcn ) {
@@ -248,6 +248,7 @@ class PostTypeRegistrar
 			//error_log( '== handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
+				error_log( 'caps for handler ' . $handler>getSlug() . ': ' . print_r($caps, true) );
 
 				foreach ($roles as $roleName) {
 					$role = get_role($roleName);
