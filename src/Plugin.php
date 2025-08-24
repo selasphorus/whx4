@@ -177,13 +177,13 @@ final class Plugin implements PluginContext
 
         // Register shared/global taxonomies? WIP
         /*
-        add_filter('rex_register_taxonomy_handlers', function(array $list): array {
+        add_filter('whx4_register_taxonomy_handlers', function(array $list): array {
 			$list[] = \smith\Rex\Core\Taxonomies\RexTag::class; // object_types may be ['*'] or an explicit list
 			return $list;
 		});
 
 		// ... and expose active CPTs (for the '*' wildcard) via a small filter the registrar reads:
-		add_filter('rex_active_post_types', function(array $cpts) use ($plugin): array {
+		add_filter('whx4_active_post_types', function(array $cpts) use ($plugin): array {
 			return array_keys($plugin->getActivePostTypes());
 		});
 

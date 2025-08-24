@@ -35,20 +35,31 @@ class PostTypeRegistrar
 		}
 		//error_log( 'activePostTypes: '.print_r($activePostTypes, true) );
 
+		// Register CPTs
 		$this->registerMany( $activePostTypes );
 
-		//add_filter('rex_active_post_types', fn(array $c) => array_keys($active), 10, 1);
+		// Expose active CPT slugs for wildcard shared taxonomies
+		add_filter('whx4_active_post_types', function(array $cpts) use ($activePostTypes): array {
+			return array_keys($activePostTypes);
+		}, 10, 1);
+
+		// Contribute CPT-specific taxonomy handlers to the unified registrar
+		// Try to pull handler instances/map from the context. Guard if unavailable.
+		$handlers = method_exists($this->ctx, 'getPostTypeHandlers')
+			? (array) $this->ctx->getPostTypeHandlers()
+			: [];
 
 		// After resolving $handlers, deal with taxonomies
-		add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
-			foreach ($handlers as $slug => $handler) {
-				if (method_exists($handler, 'getTaxonomyHandlerClasses')) {
-					$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
+		if (!empty($handlers)) {
+			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
+				foreach ($handlers as $slug => $handler) {
+					if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
+						$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
+					}
 				}
-			}
-			return $list;
-		});
-
+				return $list;
+			}, 10, 1);
+		}
     }
 
 	// Registers a custom post type using a PostTypeHandler
