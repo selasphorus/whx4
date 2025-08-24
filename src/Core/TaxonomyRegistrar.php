@@ -20,6 +20,8 @@ final class TaxonomyRegistrar
      */
     public static function bootstrap(): void
     {
+        error_log( '=== TaxonomyRegistrar::bootstrap() ===' );
+
         // 1) Start with any handlers contributed by CPTs/modules/core
         $handlers = (array) apply_filters('whx4_register_taxonomy_handlers', []);
 
@@ -27,6 +29,7 @@ final class TaxonomyRegistrar
         $subtypes = SubtypeRegistry::getAll();
         foreach (array_keys($subtypes) as $postType) {
             $slug = SubtypeRegistry::getTaxonomyForPostType($postType);
+            error_log( 'Subtype slug: ' . $slug ). '/postType: '. $postType );
 
             // Anonymous handler that behaves like a TaxonomyHandler
             $handlers[] = new class($slug, $postType) extends TaxonomyHandler {

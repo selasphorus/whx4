@@ -285,8 +285,8 @@ final class Plugin implements PluginContext
 
 	public function setAvailableModules( array $modules ): void
 	{
-        error_log( '=== Plugin::setAvailableModules() ===' );
-		error_log( 'modules: '.print_r($modules, true) );
+        //error_log( '=== Plugin::setAvailableModules() ===' );
+		//error_log( 'modules: '.print_r($modules, true) );
 
 		// Validate classes -- make sure they implement ModuleInterface
 		foreach( $modules as $slug => $class ) {
@@ -295,7 +295,7 @@ final class Plugin implements PluginContext
 			}
 			if ( is_subclass_of( $class, ModuleInterface::class ) ) {
 				$this->availableModules[$slug] = $class;
-				error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' has been added to availableModules.' );
+				//error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' has been added to availableModules.' );
 			} else {
 			    error_log( 'Module with slug: ' .$slug . ' and class: ' .$class . ' is not a subclass of ModuleInterface.' );
 			}
@@ -342,7 +342,7 @@ final class Plugin implements PluginContext
     //public function bootModules(): void
     public function bootActiveModules(): int
     {
-        error_log( '=== Plugin::bootActiveModules() ===' );
+        //error_log( '=== Plugin::bootActiveModules() ===' );
         $this->bootedModules = [];
         //error_log( '=== Plugin: bootActiveModules() ===' );
         foreach ( $this->getActiveModules() as $moduleClass ) {
@@ -359,7 +359,7 @@ final class Plugin implements PluginContext
 				if (method_exists($module, 'boot')) {
 					$module->boot();
 					$this->bootedModules[] = $moduleClass;
-					error_log('Module booted! moduleClass: '.$moduleClass);
+					//error_log('Module booted! moduleClass: '.$moduleClass);
 				} else {
 					error_log('boot() method missing for moduleClass: '.$moduleClass);
 				}
@@ -369,7 +369,7 @@ final class Plugin implements PluginContext
         }
         $count = count($this->bootedModules);
 		$this->modulesBooted = $count > 0;
-		error_log($count . ' Modules booted');
+		//error_log($count . ' Modules booted');
 
 		/**
 		 * Fires after modules have attempted to boot.

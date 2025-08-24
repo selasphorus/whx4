@@ -20,7 +20,7 @@ class PostTypeRegistrar
 
     public function bootstrap(): void
     {
-        error_log( '=== PostTypeRegistrar::bootstrap() ===' );
+        //error_log( '=== PostTypeRegistrar::bootstrap() ===' );
 
         // Abort if no modules have been booted
 		if ( !$this->ctx->modulesBooted() ) {
