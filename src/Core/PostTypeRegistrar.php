@@ -49,6 +49,8 @@ class PostTypeRegistrar
 			? (array) $this->ctx->getPostTypeHandlers()
 			: [];
 
+		error_log( 'PostType handlers: '.print_r($handlers, true) );
+
 		// After resolving $handlers, deal with taxonomies
 		if (!empty($handlers)) {
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
