@@ -10,6 +10,7 @@ final class TaxonomyRegistrar
 {
     public static function register(): void
     {
+        error_log( '=== TaxonomyRegistrar::register() ===' );
         add_action( 'init', [ self::class, 'bootstrap' ], BootOrder::TAXONOMIES );
     }
 

@@ -17,11 +17,13 @@ final class SubtypeRegistry
 
     public static function register(): void
     {
+        error_log( '=== SubtypeRegistry::register() ===' );
         add_action('init', [self::class, 'collect'], BootOrder::SUBTYPES);
     }
 
     public static function collect(): void
     {
+        error_log( '=== SubtypeRegistry::collect() ===' );
         self::$subtypes = [];
         $providers = apply_filters('whx4_register_subtypes', []);
 
