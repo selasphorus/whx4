@@ -154,9 +154,6 @@ final class Plugin implements PluginContext
         // Boot active modules and remember which ones succeeded
         $this->bootActiveModules();
 
-        // Assign caps now that slugs/handlers are known (no custom hook needed)
-        $this->assignPostTypeCaps($this->bootedModules);
-
 		// Ensure the active CPTs filter is added AFTER CPTs (10) and BEFORE Taxonomies (12)
 		// WIP 08/23/25
 		add_action('init', function (): void {
@@ -414,11 +411,8 @@ final class Plugin implements PluginContext
     /**
      * Returns all enabled post types across active modules,
      * based on both the module definitions and plugin settings.
+     * Items in return array are structured as follows: $postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass;
      */
-    /*public function getActivePostTypes(): array
-    {
-        return $this->getSettingsManager()->getEnabledPostTypeSlugs();
-    }*/
     public function getActivePostTypes(): array
 	{
     	error_log( '=== Plugin::getActivePostTypes() ===' );
@@ -559,7 +553,7 @@ final class Plugin implements PluginContext
             // Optional: short-circuit if nothing changed since last run
 			$activeSlugs = array_keys($this->getActivePostTypes());
 			$hash = md5(implode('|', $activeSlugs));
-			$stored = get_option('rex_caps_hash');
+			$stored = get_option('whx4_caps_hash');
 
 			if ($stored === $hash) {
 				return;
@@ -571,7 +565,7 @@ final class Plugin implements PluginContext
             error_log('Capabilities assigned successfully.');
             //self::log('Capabilities assigned successfully.');
 
-            //update_option('rex_caps_hash', $hash);
+            //update_option('whx4_caps_hash', $hash);
         } catch (\Throwable $e) {
             error_log('Error in assignPostTypeCaps: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine() );
             /*self::log(
@@ -585,7 +579,7 @@ final class Plugin implements PluginContext
     {
         // Prefer CLI output when available
         if (defined('WP_CLI') && \WP_CLI) {
-            \WP_CLI::debug($msg, 'rex');
+            \WP_CLI::debug($msg, 'whx4');
             return;
         }
 

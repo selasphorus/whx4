@@ -9,11 +9,18 @@ use atc\WHx4\Core\PostTypeHandler;
 class PostTypeRegistrar
 {
     private bool $registered = false;
+    private bool $capsAssigned = false;
+
     public function __construct(private PluginContext $ctx) {}
 
     public function register(): void
     {
         if ( $this->registered ) return;
+
+        // Assign caps BEFORE CPTs are registered and before admin UI builds menus.
+        add_action('init', [$this, 'assignPostTypeCapabilities'], BootOrder::CAPS /* e.g. 8 */);
+
+        // Register CPTs at the usual point
         add_action( 'init', [$this, 'bootstrap'], BootOrder::CPTS );
         $this->registered = true;
     }
@@ -43,18 +50,11 @@ class PostTypeRegistrar
 			return array_keys($activePostTypes);
 		}, 10, 1);
 
-		// Derive the post type handlers we just used (tolerant to multiple shapes)
-		$handlers = $this->resolveHandlersFromActivePostTypes($activePostTypes);
-
-		// Fallback: if we still have nothing, try collecting from modules directly
-		if (empty($handlers)) {
-			$handlers = $this->collectHandlersFromModules();
-		}
-
 		// Contribute CPT-specific taxonomy handlers (e.g., Habitat) to the unified registrar
-		if (!empty($handlers)) {
+		if (!empty($activePostTypes)) {
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($handlers): array {
-				foreach ($handlers as $slug => $handler) {
+				foreach ($activePostTypes as $slug => $handlerClass) {
+				    $handler = new $handlerClass;
 					if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
 						$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
 					}
@@ -129,94 +129,6 @@ class PostTypeRegistrar
         }
     }
 
-    /**
-	 * Best-effort resolution of handler instances from the activePostTypes structure.
-	 * Supports:
-	 *  - ['monster' => <HandlerInstance>, ...]
-	 *  - ['monster' => <HandlerClassString>, ...]  (instantiates)
-	 *  - ['monster', 'group', ...]                 (returns empty; use module fallback)
-	 *
-	 * @param array $activePostTypes
-	 * @return array<string,object> map slug => handler instance
-	 */
-	private function resolveHandlersFromActivePostTypes(array $activePostTypes): array
-	{
-		$out = [];
-
-		foreach ($activePostTypes as $key => $val) {
-			// Case A: associative map of slug => handler instance
-			if (is_string($key) && is_object($val)) {
-				$out[$key] = $val;
-				continue;
-			}
-
-			// Case B: associative map of slug => handler class string
-			if (is_string($key) && is_string($val) && class_exists($val)) {
-				try {
-					$out[$key] = new $val();
-				} catch (\Throwable) {}
-				continue;
-			}
-
-			// Case C: numeric array of slugs only — not enough info here.
-			// We'll pick these up from modules in collectHandlersFromModules().
-		}
-
-		return $out;
-	}
-
-	/**
-	 * Fallback: ask modules which handler classes they provide, then
-	 * filter down to only the *active* post types.
-	 *
-	 * Expects modules to be registered on the 'rex_register_modules' filter,
-	 * and each module (class) to expose getPostTypeHandlerClasses(): array.
-	 *
-	 * @return array<string,object> map slug => handler instance
-	 */
-	private function collectHandlersFromModules(): array
-	{
-		$map = (array) apply_filters('whx4_register_modules', []);
-		if (empty($map)) {
-			return [];
-		}
-
-		$want = array_keys($this->ctx->getActivePostTypes()); // active slugs
-		$out  = [];
-
-		foreach ($map as $moduleClass) {
-			if (!class_exists($moduleClass)) {
-				continue;
-			}
-			try {
-				$module = new $moduleClass();
-				if (!method_exists($module, 'getPostTypeHandlerClasses')) {
-					continue;
-				}
-				foreach ((array) $module->getPostTypeHandlerClasses() as $handlerClass) {
-					if (!class_exists($handlerClass)) {
-						continue;
-					}
-					// Instantiate to discover its slug
-					try {
-						$handler = new $handlerClass();
-						$slug    = method_exists($handler, 'getSlug') ? $handler->getSlug() : null;
-						if ($slug && in_array($slug, $want, true)) {
-							$out[$slug] = $handler;
-						}
-					} catch (\Throwable) {
-						// ignore bad handlers
-					}
-				}
-			} catch (\Throwable) {
-				// ignore bad modules
-			}
-		}
-
-		return $out;
-	}
-
-
     // Capabilities
 	// TODO:  move this to the PostTypeHandler where default labels etc are defined?
 	protected function generateDefaultCapabilities(PostTypeHandler $handler): array
@@ -237,18 +149,21 @@ class PostTypeRegistrar
         ];
     }
 
-	public function assignPostTypeCapabilities(array $handlers): void
+	//public function assignPostTypeCapabilities(array $handlers): void
+	public function assignPostTypeCapabilities(): void
 	{
 		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
 		$roles = ['administrator', 'editor'];
 
-		foreach ( $handlers as $slug => $fqcn ) {
+		$activePostTypes = $this->ctx->getActivePostTypes();
+
+		foreach ( $activePostTypes as $slug => $handlerClass ) {
 			// Make sure the handler is of correct type
-			$handler = new $fqcn; // $postTypeHandlerClass();
+			$handler = new $handlerClass; // $postTypeHandlerClass();
 			//error_log( '== handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
-				error_log( 'caps for handler ' . $handler>getSlug() . ': ' . print_r($caps, true) );
+				error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
 
 				foreach ($roles as $roleName) {
 					$role = get_role($roleName);
