@@ -2010,8 +2010,9 @@ function set_row_authorship_display ( $item_ids = array() ) {
                     $show_dates = true;
                 } else if ( ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) { // c && 
                     // If it's a mixed-composer program, then show name if this is a new row or non-consecutive in same row
-                    // WIP -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above, 
+                    // WIP 08/25/25 -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above, 
                     // then composer will be mistakenly hidden after first instance.
+                    // Having disabled this clause, however, there may now be issues with concert programs... 
                     $show_name = true;
                 } else {
                     $show_name = false;
