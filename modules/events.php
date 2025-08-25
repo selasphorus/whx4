@@ -2008,8 +2008,10 @@ function set_row_authorship_display ( $item_ids = array() ) {
                     // Show name and dates for first instance of composer in program
                     $show_name = true;
                     $show_dates = true;
-                } else if ( $num_composers > 1 && ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) {
+                } else if ( ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) { // c && 
                     // If it's a mixed-composer program, then show name if this is a new row or non-consecutive in same row
+                    // WIP -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above, 
+                    // then composer will be mistakenly hidden after first instance.
                     $show_name = true;
                 } else {
                     $show_name = false;
