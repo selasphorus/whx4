@@ -1,4 +1,4 @@
-$capType = $this->getConfig()['capability_type'] ?? [];<?php
+<?php
 
 namespace atc\WHx4\Core;
 
