@@ -2007,7 +2007,7 @@ function set_row_authorship_display ( $item_ids = array() ) {
                 if ( $i == 0 ) {
                     // Show name and dates for first instance of composer in program
                     $show_name = true;
-                    c
+                    $show_dates = true;
                 } else if ( ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) { // c && 
                     // If it's a mixed-composer program, then show name if this is a new row or non-consecutive in same row
                     // WIP 08/25/25 -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above, 
