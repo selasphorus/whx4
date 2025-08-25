@@ -97,7 +97,7 @@ class PostTypeRegistrar
 			'query_var'        	=> true,
             'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
             'labels'       => $labels,
-            'capability_type' => [$slug,$plural],
+            'capability_type' => [$slug,$plural], // fix this -- might override via config -- WIP 08/24/25
             //'capabilities' => $capabilities,
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,

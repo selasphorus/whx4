@@ -62,16 +62,25 @@ trait HasTypeProperties
 
     public function getCapabilities(): array
     {
+        // If capType is set, configure capabilities accordingly... NOT simply based on slug/plural
+        $capType = $this->getConfig()['capability_type'] ?? [];
+        if ( !is_array($capType) ) { $capType = [$capType, "{$capType}s" ]};
+        //
         $custom = $this->getConfig()['capabilities'] ?? [];
-        return array_merge( $this->getDefaultCapabilities(), $custom );
+        return array_merge( $this->getDefaultCapabilities( $capType ), $custom );
     }
 
-    public function getDefaultCapabilities(): array
+    public function getDefaultCapabilities( array $capType = [] ): array
     {
         error_log( '=== HasTypeProperties::getDefaultCapabilities() ===' );
         $type     = $this->getType();
-        $singular = $this->getSlug();
-        $plural   = $this->getPluralSlug() ?? "{$singular}s";
+        if ( $capType ) {
+            $singular = $capType[0];
+            $plural = $capType[1];
+        } else {
+            $singular = $this->getSlug();
+            $plural   = $this->getPluralSlug() ?? "{$singular}s";
+        }
         error_log( 'type: ' . $type . '; singular: ' . $singular . '; plural: ' . $plural );
 
         if ( $type === 'taxonomy' ) {
