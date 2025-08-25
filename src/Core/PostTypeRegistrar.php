@@ -70,7 +70,7 @@ class PostTypeRegistrar
         error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
     	$slug = $handler->getSlug();
-    	//error_log('slug: '.$slug);
+    	error_log('slug: '.$slug);
         $plural   = $handler->getPluralSlug() ?? "{$slug}s";
 
     	$labels = $handler->getLabels();
