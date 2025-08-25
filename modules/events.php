@@ -1995,8 +1995,6 @@ function set_row_authorship_display ( $item_ids = array() ) {
         foreach ( $placements as $x => $item_id ) {
 
             list($row, $num) = explode('-', $x); //list($row, $num, $item_id) = explode('-', $x);
-            $show_name = false;
-            $show_dates = false;
 
             if ( count($placements) == 1 ) {
 
@@ -2007,12 +2005,15 @@ function set_row_authorship_display ( $item_ids = array() ) {
             } else {
 
                 if ( $i == 0 ) {
-                    // Show name snd dates for first instance of composer in program
+                    // Show name and dates for first instance of composer in program
                     $show_name = true;
                     $show_dates = true;
                 } else if ( $num_composers > 1 && ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) {
                     // If it's a mixed-composer program, then show name if this is a new row or non-consecutive in same row
                     $show_name = true;
+                } else {
+                    $show_name = false;
+                    $show_dates = false;
                 }
 
             }
