@@ -71,7 +71,9 @@ class PostTypeRegistrar
 
     	$slug = $handler->getSlug();
     	error_log('slug: '.$slug);
-        $plural   = $handler->getPluralSlug() ?? "{$slug}s";
+
+    	$capType = $handler->getCapType();
+    	error_log('capType: '.print_r($capType,true));
 
     	$labels = $handler->getLabels();
     	//error_log('labels: '.print_r($labels,true));
@@ -84,7 +86,7 @@ class PostTypeRegistrar
 
     	// Get capabilities (if defined, otherwise fall back to defaults)
         $capabilities = $handler->getCapabilities();
-    	error_log('capabilities: '.print_r($capabilities,true));
+    	//error_log('capabilities: '.print_r($capabilities,true));
 
     	$icon = $handler->getMenuIcon();
     	//error_log('icon: '.$icon);
@@ -97,7 +99,7 @@ class PostTypeRegistrar
 			'query_var'        	=> true,
             'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
             'labels'       => $labels,
-            'capability_type' => [$slug,$plural], // fix this -- might override via config -- WIP 08/24/25
+            'capability_type' => $capType,
             //'capabilities' => $capabilities,
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,

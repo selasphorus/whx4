@@ -1,4 +1,4 @@
-<?php
+$capType = $this->getConfig()['capability_type'] ?? [];<?php
 
 namespace atc\WHx4\Core;
 
@@ -25,6 +25,13 @@ abstract class PostTypeHandler extends BaseHandler
 	{
 		// Optional: common setup logic for all post types can go here
 	}
+
+    public function getCapType(): array {
+        $capType = $this->getConfig()['capability_type'] ?? [];
+        if ( empty($capType) ) { $capType = [ $this->getSlug(), $this->getPluralSlug() ]; } else if ( !is_array($capType) ) { $capType = [$capType, "{$capType}s" ]; };
+        return $capType;
+        //return $this->getConfig()['capability_type'] ?? [ $this->getSlug(), $this->getPluralSlug() ];
+    }
 
     public function getSupports(): array {
         return $this->getConfig()['supports'] ?? [ 'title', 'editor' ];
