@@ -144,7 +144,7 @@ class PostTypeRegistrar
 			//error_log( 'handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
-				$obsoleteCaps = ['edit_transactions', 'edit_others_transactions', 'delete_transactions', 'publish_transactions', 'read_private_transactions', 'delete_private_transactions', 'delete_published_transactions', 'delete_others_transactions', 'edit_private_transactions', 'edit_published_transactions'];
+				$obsoleteCaps = [ 'delete_transaction', 'edit_transaction', 'read_transaction', 'edit_transactions', 'edit_others_transactions', 'delete_transactions', 'publish_transactions', 'read_private_transactions', 'delete_private_transactions', 'delete_published_transactions', 'delete_others_transactions', 'edit_private_transactions', 'edit_published_transactions'];
 				//error_log( 'caps for handler ' . $handler->getSlug() . ': ' . print_r($caps, true) );
 				//
 				foreach ($roles as $roleName) {
