@@ -64,7 +64,7 @@ trait HasTypeProperties
     {
         // If capType is set, configure capabilities accordingly... NOT simply based on slug/plural
         $capType = $this->getConfig()['capability_type'] ?? [];
-        if ( !is_array($capType) ) { $capType = [$capType, "{$capType}s" ]};
+        if ( !is_array($capType) ) { $capType = [$capType, "{$capType}s" ]; };
         //
         $custom = $this->getConfig()['capabilities'] ?? [];
         return array_merge( $this->getDefaultCapabilities( $capType ), $custom );
