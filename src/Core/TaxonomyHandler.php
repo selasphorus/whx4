@@ -30,7 +30,7 @@ abstract class TaxonomyHandler extends BaseHandler
 
     public function getArgs(): array
     {
-        $labels = $handler->getLabels();
+        $labels = $this->getLabels();
         return [
             'labels'            => $labels,
             'public'            => false,
