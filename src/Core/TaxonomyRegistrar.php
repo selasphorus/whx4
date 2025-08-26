@@ -21,7 +21,7 @@ final class TaxonomyRegistrar
      */
     public static function bootstrap(): void
     {
-        //error_log( '=== TaxonomyRegistrar::bootstrap() ===' );
+        error_log( '=== TaxonomyRegistrar::bootstrap() ===' );
 
         // 1) Start with any handlers contributed by CPTs/modules/core
         $handlers = (array) apply_filters('whx4_register_taxonomy_handlers', []);
@@ -59,10 +59,12 @@ final class TaxonomyRegistrar
             // Accept FQCNs or ready instances
             if (is_string($h)) {
                 if (!class_exists($h) || !is_subclass_of($h, TaxonomyHandler::class)) {
+                    error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.";
                     continue;
                 }
                 $h = new $h();
             } elseif (!$h instanceof TaxonomyHandler) {
+                error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.";
                 continue;
             }
 
@@ -88,7 +90,7 @@ final class TaxonomyRegistrar
 
             // Finally, register it (handler knows how to call register_taxonomy)
             try {
-                $h->register();
+                $h->registerTaxonomy();
             } catch (\Throwable) {
                 // optional: error_log(...)
             }
