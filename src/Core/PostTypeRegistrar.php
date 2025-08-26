@@ -73,7 +73,7 @@ class PostTypeRegistrar
     	error_log('slug: '.$slug);
 
     	$capType = $handler->getCapType();
-    	error_log('capType: '.print_r($capType,true));
+    	//error_log('capType: '.print_r($capType,true));
 
     	$labels = $handler->getLabels();
     	//error_log('labels: '.print_r($labels,true));
