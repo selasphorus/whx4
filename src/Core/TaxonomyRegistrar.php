@@ -27,10 +27,10 @@ final class TaxonomyRegistrar
         $handlers = (array) apply_filters('whx4_register_taxonomy_handlers', []);
 
         // 2) Subtype taxonomies -- Add synthesized handlers for per‑CPT subtype taxonomies
-        $subtypes = SubtypeRegistry::getAll();
+        /*$subtypes = SubtypeRegistry::getAll();
         foreach (array_keys($subtypes) as $postType) {
             $slug = SubtypeRegistry::getTaxonomyForPostType($postType);
-            //error_log( 'Subtype slug: ' . $slug . '/postType: '. $postType );
+            error_log( 'Subtype slug: ' . $slug . '/postType: '. $postType );
 
             // Anonymous handler that behaves like a TaxonomyHandler
             $handlers[] = new class($slug, $postType) extends TaxonomyHandler {
@@ -44,21 +44,7 @@ final class TaxonomyRegistrar
                     ], null);
                 }
             };
-            /*
-            // old way:
-            if ( !taxonomy_exists( $slug ) ) {
-                // Keep args minimal; you can centralize defaults here
-                register_taxonomy( $slug, $postType, [
-                    'labels'            => [
-                        'name'          => ucfirst( $postType ) . ' Types',
-                        'singular_name' => ucfirst( $postType ) . ' Type',
-                    ],
-                    'public'            => false,
-                    'show_ui'           => true,
-                    'show_admin_column' => true,
-                ] );
-            }*/
-        }
+        }*/
 
         if (empty($handlers)) {
             return; // nothing to do

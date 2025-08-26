@@ -103,8 +103,8 @@ final class SubtypeRegistry
         return self::$subtypes;
     }
 
-    public static function getTaxonomyForPostType( string $postType ): string
+    /*public static function getTaxonomyForPostType( string $postType ): string
     {
         return "whx4_{$postType}_type";
-    }
+    }*/
 }
