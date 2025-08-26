@@ -8,9 +8,29 @@ use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class Event extends PostTypeHandler
 {
+    /*public function getSlug(): string
+    {
+        $slug = EnvSwitch::value('event', [
+            [
+                'when' => static fn() => Plugins::classExists('\EM_Event')
+                    || Plugins::isActive('events-manager/events-manager.php'),
+                'then' => 'rex_event',
+            ],
+            [
+                'when' => static fn() => Plugins::isActive('the-events-calendar/the-events-calendar.php'),
+                'then' => 'rex_event',
+            ],
+        ]);
+
+        // Allow explicit override if needed. -- Example: add_filter('rex/events/event_slug', fn() => 'my_event');
+        return (string) apply_filters('rex/events/event_slug', $slug);
+    }*/
+
+    //
     public function __construct(WP_Post|null $post = null)
     {
-		$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
+		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
+		$slug = $this->resolveSlug();
 
 		$config = [
 			'slug'        => $slug,
@@ -153,5 +173,56 @@ class Event extends PostTypeHandler
 
 	*/
 
+	/**
+ * Decide the CPT slug at runtime, with legacy + new filters.
+ * Default: 'event'; use 'rex_event' if a known events plugin is active.
+ */
+	protected function resolveSlug(): string
+	{
+		$base = $this->conflictingEventsPluginActive() ? 'whx4_event' : 'event';
 
+		// New, clearer filter (preferred going forward)
+		$slug = (string) apply_filters('whx4/events/event_slug', $base);
+
+		// Back-compat for existing code that already filters this
+		//$slug = (string) apply_filters('whx4_events_post_type_slug', $slug);
+
+		return $slug;
+	}
+
+	/**
+	 * Keep this tiny and fast: check a couple of high-signal conditions.
+	 */
+	private function conflictingEventsPluginActive(): bool
+	{
+		// Fast class check(s)
+		if ( class_exists('\EM_Event') ) {
+			return true;
+		}
+
+		if ( ! function_exists('is_plugin_active') ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		// File checks (adjust to your targets)
+		if ( is_plugin_active('events-manager/events-manager.php') ) {
+			return true;
+		}
+
+		if ( is_plugin_active('the-events-calendar/the-events-calendar.php') ) {
+			return true;
+		}
+
+		// Multisite network-active check (optional, cheap)
+		/*
+		if ( is_multisite() ) {
+			$network = (array) get_site_option('active_sitewide_plugins', []);
+			if ( isset($network['events-manager/events-manager.php']) || isset($network['the-events-calendar/the-events-calendar.php']) ) {
+				return true;
+			}
+		}
+		*/
+
+		return false;
+	}
 }
