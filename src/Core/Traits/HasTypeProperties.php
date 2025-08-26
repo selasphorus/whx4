@@ -74,7 +74,7 @@ trait HasTypeProperties
 
     public function getDefaultCapabilities( array $capType = [] ): array
     {
-        error_log( '=== HasTypeProperties::getDefaultCapabilities() ===' );
+        //error_log( '=== HasTypeProperties::getDefaultCapabilities() ===' );
         $type     = $this->getType();
         if ( $capType ) {
             $singular = $capType[0];
@@ -83,7 +83,7 @@ trait HasTypeProperties
             $singular = $this->getSlug();
             $plural   = $this->getPluralSlug() ?? "{$singular}s";
         }
-        error_log( 'type: ' . $type . '; singular: ' . $singular . '; plural: ' . $plural );
+        //error_log( 'type: ' . $type . '; singular: ' . $singular . '; plural: ' . $plural );
 
         if ( $type === 'taxonomy' ) {
             return [
