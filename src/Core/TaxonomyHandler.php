@@ -30,19 +30,14 @@ abstract class TaxonomyHandler extends BaseHandler
 
     public function getArgs(): array
     {
-        $slug = $this->getSlug();
-        $name = ucwords(str_replace(['_', '-'], ' ', $slug));
-
+        $labels = $handler->getLabels();
         return [
-            'labels' => [
-                'name'          => $name,
-                'singular_name' => $name,
-            ],
+            'labels'            => $labels,
             'public'            => false,
             'show_ui'           => true,
             'show_admin_column' => true,
             'hierarchical'      => $this->isHierarchical(),
-            'meta_box_cb'       => $this->isHierarchical() ? 'post_categories_meta_box' : null,
+            'meta_box_cb'       => $this->isHierarchical() ? 'post_categories_meta_box' : null, // TODO:  mod to allow override?
         ];
     }
 

@@ -35,8 +35,10 @@ trait HasTypeProperties
 
 	public function getDefaultLabels(): array
 	{
-		$singular = ucfirst( $this->getSlug() );
-        $plural   = ucfirst( $this->getPluralSlug() );
+		//$singular = ucfirst( $this->getSlug() );
+        $singular = ucwords (str_replace(['_', ' '], ' ', $this->getSlug() ));
+        //$plural   = ucfirst( $this->getPluralSlug() );
+        $plural = ucwords (str_replace(['_', ' '], ' ', $this->getPluralSlug() ));
 
 		return [
 			'name'               => $plural,

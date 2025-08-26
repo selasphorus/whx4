@@ -38,7 +38,7 @@ final class TaxonomyRegistrar
                 {
                     parent::__construct([
                         'slug'         => $this->slug,
-                        'plural_slug'  => $this->slug . 's',
+                        'plural_slug'  => $this->slug . 's', // ?
                         'object_types' => [$this->pt],
                         'hierarchical' => true,
                     ], null);
@@ -56,8 +56,6 @@ final class TaxonomyRegistrar
                     'public'            => false,
                     'show_ui'           => true,
                     'show_admin_column' => true,
-                    'hierarchical'      => true,
-                    'meta_box_cb'       => 'post_categories_meta_box',
                 ] );
             }*/
         }
