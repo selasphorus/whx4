@@ -48,11 +48,11 @@ abstract class TaxonomyHandler extends BaseHandler
         $args  = $this->getArgs();
 
         if (!taxonomy_exists($slug)) {
-            error_log("about to register taxonomy: " . $slug . " for posttypes: " . print_r($types,true)) . "with args: " . print_r($args,true));
+            error_log( "about to register taxonomy: " . $slug . " for posttypes: " . print_r($types,true) . "with args: " . print_r($args,true) );
             register_taxonomy($slug, $types, $args);
         } else {
             foreach ($types as $pt) {
-                error_log("about to register taxonomy: " . $slug . " for posttype: " . $pt);
+                error_log( "about to register taxonomy: " . $slug . " for posttype: " . $pt );
                 register_taxonomy_for_object_type($slug, $pt);
             }
         }
