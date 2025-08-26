@@ -55,9 +55,10 @@ class PostTypeRegistrar
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass;
-					if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
+					$list = array_merge($list, (array) $handler->getTaxonomies());
+					/*if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
 						$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
-					}
+					}*/
 				}
 				return $list;
 			}, 10, 1);
