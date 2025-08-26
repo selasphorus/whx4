@@ -59,12 +59,12 @@ final class TaxonomyRegistrar
             // Accept FQCNs or ready instances
             if (is_string($h)) {
                 if (!class_exists($h) || !is_subclass_of($h, TaxonomyHandler::class)) {
-                    error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.";
+                    error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.");
                     continue;
                 }
                 $h = new $h();
             } elseif (!$h instanceof TaxonomyHandler) {
-                error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.";
+                error_log("handler class: " . $h . " is not a valid TaxonomyHandler class.");
                 continue;
             }
 
