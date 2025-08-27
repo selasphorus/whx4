@@ -32,7 +32,7 @@ class Person extends PostTypeHandler
 			'show_subtitle'  => true,
 			'hlevel_sub'     => 4,
 			'called_by'      => 'Person::boot',
-			'append'         => getPersonDates( $this->getPostID() ),
+			'append'         => "dates: ".getPersonDates( $this->getPostID() ),
 		]);
 	}
 
