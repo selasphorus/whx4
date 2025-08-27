@@ -13,7 +13,8 @@ class ProgramLabel extends TaxonomyHandler
             'slug'         => 'program_label',
             //'plural_slug'  => 'program_labels',
             'object_types' => ['event'],
-            'hierarchical' => true,
+            'hierarchical' => false,
+            'meta_box_cb'  => false,
         ], $term);
     }
 }
