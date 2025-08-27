@@ -32,12 +32,25 @@ class Person extends PostTypeHandler
 			'show_subtitle'  => true,
 			'hlevel_sub'     => 4,
 			'called_by'      => 'Person::boot',
-			'append'         => "dates: ".$this->getPersonDates( $this->getPostID() ),
+			//'append'         => " dates: ".$this->getPersonDates( $this->getPostID() ),
 		]);
 	}
 
 	//
-	//
+	public function getCustomTitleArgs(): array
+	{
+		$postId = get_the_ID(); // or inject dynamically elsewhere -- ???
+		if ( ! $postId ) {
+			return [];
+		}
+
+		$dates = $this->getPersonDates( $postId );
+
+		return [
+			'append' => $dates,
+		];
+	}
+
 
 	//
 	protected function getPersonDates($post_id, $styled = false)
