@@ -103,6 +103,15 @@ final class Plugin implements PluginContext
 			add_action('init', [$this, 'finishBoot'], 0);
 		}
 
+        TitleFilter::setContext( $this ); // $this implements PluginContext
+        TitleFilter::boot();
+        /*
+        add_action( 'init', function() {
+			\smith\Rex\Utils\TitleFilter::setContext( Plugin::getInstance() );
+			\smith\Rex\Utils\TitleFilter::boot();
+		}, 11 );
+		*/
+
 		$this->booted = true;
     }
 
@@ -200,8 +209,6 @@ final class Plugin implements PluginContext
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] ); // wip
         //\smith\Rex\Core\Assets::register();                      // add_action('wp_enqueue_scripts', ..., BootOrder::ENQUEUE_ASSETS)
 
-        TitleFilter::setContext( $this ); // $this implements PluginContext
-        TitleFilter::boot();
 	}
 
     /*protected function initializeCore(): void

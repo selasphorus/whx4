@@ -21,7 +21,6 @@ class TitleFilter
         self::$ctx = $ctx;
     }
 
-
     public static function setGlobalArgsForPostType( string $postType, array $args ): void
     {
         //error_log("=== TitleFilter: setGlobalArgsForPostType ===");
