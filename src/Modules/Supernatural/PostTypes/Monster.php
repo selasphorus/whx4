@@ -47,8 +47,8 @@ class Monster extends PostTypeHandler
 	}
 	*/
 
-	public function getCustomContent(WP_Post $post): string
-	//public function getCustomContent()
+	//public function getCustomContent(WP_Post $post): string
+	public function getCustomContent()
 	{
 		//return "Hello, Monster!";
 
