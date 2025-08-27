@@ -233,9 +233,11 @@ class PostTypeRegistrar
         // -> prefix: atc\WHx4\Modules\, currentModule: Supernatural
         $class = static::class;
         if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $class, $m)) {
+            error_log( 'class: ' . $class );
             // Fallback: just StudlyCase in current namespace root (unlikely)
-            return $this->studly($name);
+            //return $this->studly($name);
         }
+        error_log( 'm: ' . print_r($m, true) );
         $modulesPrefix = $m[1]; // "atc\WHx4\Modules\"
         $currentModule = $m[2]; // "Supernatural"
 
