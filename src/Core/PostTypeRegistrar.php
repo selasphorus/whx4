@@ -107,7 +107,7 @@ class PostTypeRegistrar
             'map_meta_cap'    => true,
             //
             'supports'     => $supports, // [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
-			'taxonomies'   =? $taxonomies, //'taxonomies'	=> [ 'category', 'tag' ],
+			'taxonomies'   => $taxonomies, //'taxonomies'	=> [ 'category', 'tag' ],
             'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,
