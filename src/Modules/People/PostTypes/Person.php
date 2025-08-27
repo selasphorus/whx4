@@ -37,9 +37,11 @@ class Person extends PostTypeHandler
 	}
 
 	//
-	public function getCustomTitleArgs(): array
+	//public function getCustomTitleArgs(): array
+	public function getCustomTitleArgs( \WP_Post $post ): array
 	{
-		$postId = get_the_ID(); // or inject dynamically elsewhere -- ???
+		$postId = $post->ID;
+		//$postId = get_the_ID(); // or inject dynamically elsewhere -- ???
 		if ( ! $postId ) {
 			return [];
 		}
