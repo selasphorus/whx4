@@ -167,7 +167,7 @@ class TitleFilter
      */
     public static function normalizeTitleArgs( \WP_Post $post, array $args ): array
     {
-        $postType = $post->post_type : null;
+        $postType = $post->post_type;
 
         $defaults = self::getDefaultTitleArgs( $postType );
 
