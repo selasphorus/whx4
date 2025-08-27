@@ -54,7 +54,7 @@ class PostTypeRegistrar
 		if (!empty($activePostTypes)) {
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
-				    //$handler = new $handlerClass;
+				    $handler = new $handlerClass;
 				    // Wherever you attach/ensure taxonomies, resolve them:
 				    $taxonomyClasses = $this->resolveTaxonomyClasses($handlerClass, $handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
