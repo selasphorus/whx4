@@ -71,7 +71,8 @@ abstract class PostTypeHandler extends BaseHandler
         return get_the_title($this->getPostID());
     }
 
-	public function getCustomContent()
+	public function getCustomContent(WP_Post $post): string
+	//public function getCustomContent()
 	{
 		$post_id = $this->getPostID();
 
