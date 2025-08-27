@@ -54,7 +54,7 @@ class PostTypeRegistrar
 		if (!empty($activePostTypes)) {
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
-				    $handler = new $handlerClass;
+				    $handler = new $handlerClass();
 				    // Wherever you attach/ensure taxonomies, resolve them:
 				    $taxonomyClasses = $this->resolveTaxonomyClasses($handlerClass, $handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
@@ -143,7 +143,7 @@ class PostTypeRegistrar
 		foreach ( $activePostTypes as $slug => $handlerClass ) {
 		    //error_log( 'preparing to add caps for handlerClass: '.$handlerClass );
 			// Make sure the handler is of correct type
-			$handler = new $handlerClass; // $postTypeHandlerClass();
+			$handler = new $handlerClass(); // $postTypeHandlerClass();
 			//error_log( 'handler: ' . print_r($handler, true). ' ==' );
 			if ( $handler instanceof PostTypeHandler ) {
 				$caps = $handler->getCapabilities();
