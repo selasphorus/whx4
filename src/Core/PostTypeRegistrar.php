@@ -237,8 +237,8 @@ class PostTypeRegistrar
             // Fallback: just StudlyCase in current namespace root (unlikely)
             return $this->studly($name);
         }*/
-        if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $handler, $m)) {
-            error_log( 'handler: ' . $handler );
+        if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $handlerClass, $m)) {
+            error_log( 'handlerClass: ' . $handlerClass );
             // Fallback: just StudlyCase in current namespace root (unlikely)
             //return $this->studly($name);
         }
