@@ -25,6 +25,7 @@ final class TaxonomyRegistrar
 
         // 1) Start with any handlers contributed by CPTs/modules/core
         $handlers = (array) apply_filters('whx4_register_taxonomy_handlers', []);
+        $handlers = array_unique($handlers); // Get rid of duplicates
 
         // 2) Subtype taxonomies -- Add synthesized handlers for per‑CPT subtype taxonomies
         /*$subtypes = SubtypeRegistry::getAll();

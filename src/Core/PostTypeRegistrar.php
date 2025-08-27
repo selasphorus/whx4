@@ -220,11 +220,11 @@ class PostTypeRegistrar
     protected function resolveTaxonomyFqcn(string $handlerClass, string $name): string
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
-		error_log( 'name to resolve: ' . $name );
+		//error_log( 'name to resolve: ' . $name );
 
         // Already a FQCN?
         if (str_contains($name, '\\')) {
-            error_log( 'already a fqcn' );
+            //error_log( 'already a fqcn' );
             return ltrim($name, '\\');
         }
 
@@ -238,11 +238,11 @@ class PostTypeRegistrar
             return $this->studly($name);
         }*/
         if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $handlerClass, $m)) {
-            error_log( 'handlerClass: ' . $handlerClass );
+            //error_log( 'handlerClass: ' . $handlerClass );
             // Fallback: just StudlyCase in current namespace root (unlikely)
             //return $this->studly($name);
         }
-        error_log( 'm: ' . print_r($m, true) );
+        //error_log( 'm: ' . print_r($m, true) );
         $modulesPrefix = $m[1]; // "atc\WHx4\Modules\"
         $currentModule = $m[2]; // "Supernatural"
 
