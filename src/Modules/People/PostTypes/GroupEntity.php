@@ -17,7 +17,7 @@ class GroupEntity extends PostTypeHandler
 			],
 			'menu_icon'   => 'dashicons-networking',
 			//'supports' => ['title', 'editor'],
-			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
+			'taxonomies' => [ 'group_category' => 'GroupCategory', 'admin_tag' => 'AdminTag' ],
 		];
 
 		parent::__construct( $config, $post );

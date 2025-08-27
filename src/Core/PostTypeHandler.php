@@ -38,7 +38,11 @@ abstract class PostTypeHandler extends BaseHandler
     }
 
     public function getTaxonomies(): array {
-        return $this->getConfig()['taxonomies'] ?? [ 'admin_tag' ];
+        //$taxonomies = $this->getConfig()['taxonomies'] ?? [ 'admin_tag' => 'AdminTag' ];
+        //return $this->getConfig()['taxonomies'] ?? [ 'admin_tag' ];
+        // WIP 08/26/25 -- turn this into an array of slug -> className pairs
+        //return $taxonomies;
+        return $this->getConfig()['taxonomies'] ?? [ 'admin_tag' => 'AdminTag' ];
     }
 
     public function getMenuIcon(): ?string {

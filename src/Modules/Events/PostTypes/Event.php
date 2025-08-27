@@ -40,6 +40,7 @@ class Event extends PostTypeHandler
 			],
             'supports'    => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
 			//'taxonomies' => [ 'event_category', 'event_tag', 'admin_tag' ],
+			'taxonomies' => [ 'event_category' => 'EventCategory', 'event_tag' => 'EventTag', 'admin_tag' => 'AdminTag' ],
 			'menu_icon' => 'dashicons-calendar-alt',
 		];
 
