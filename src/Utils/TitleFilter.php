@@ -9,9 +9,7 @@ class TitleFilter
     protected static array $globalArgs = [];
     protected static array $contextArgs = []; // ???
     protected static array $postTypeHandlers = []; // ??? obsolete?
-    protected static ?PluginContext $ctx = null;
-
-    public function __construct(private PluginContext $ctx) {}
+    protected static ?PluginContext $ctx = null; //public function __construct(private PluginContext $ctx) {}
 
     public static function boot(): void
     {
