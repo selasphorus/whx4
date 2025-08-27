@@ -28,6 +28,7 @@ class Monster extends PostTypeHandler
 	{
 	    parent::boot(); // Optional if you add shared logic later
 
+	    // Apply Title Args -- this modifies front-end display only
 		$this->applyTitleArgs( $this->getSlug(), [
 			'line_breaks'    => true,
 			'show_subtitle'  => true,
@@ -45,11 +46,12 @@ class Monster extends PostTypeHandler
 	}
 	*/
 
-	public function getCPTContent() {
+	public function getCustomContent()
+	{
 		return "hello";
 	}
 
-    public function get_color() {
+    public function getColor() {
         // Assuming the color is stored as a custom field, for example, _monster_color
         return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : null;
     }
