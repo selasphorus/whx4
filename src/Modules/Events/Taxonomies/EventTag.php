@@ -9,7 +9,7 @@ class EventTag extends TaxonomyHandler
     public function __construct(\WP_Term|null $term = null)
     {
         parent::__construct([
-            'slug'         => 'event_tag', // EM slug: event-tags
+            'slug'         => 'event_tag', // EM slug: event-tags -- TODO: figure out migration plan
             //'plural_slug'  => 'event_tags',
             'object_types' => ['event'],
             'hierarchical' => false,
