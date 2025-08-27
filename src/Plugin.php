@@ -33,6 +33,8 @@ final class Plugin implements PluginContext
 	// WIP clean this up and simplify
 	protected array $availableModules = [];
     protected array $activeModules = [];
+    protected array $activePostTypes = [];
+    //
     protected bool $modulesLoaded = false;
     protected bool $modulesBooted = false;
     /** @var list<class-string<ModuleInterface>> */
@@ -427,8 +429,14 @@ final class Plugin implements PluginContext
 	{
     	error_log( '=== Plugin::getActivePostTypes() ===' );
 
+		// Don't reload activePostTypes if we've cached them already
+		if ( ! empty( $this->activePostTypes ) ) {
+			return $this->activePostTypes;
+		}
+
     	$this->loadActiveModules();
 		$enabledPostTypesByModule = $this->getSettingsManager()->getEnabledPostTypeSlugsByModule();
+		//$activeSlugsByModule = $this->settingsManager->getEnabledPostTypeSlugsByModule();
 		//error_log("enabledPostTypesByModule: " . print_r($enabledPostTypesByModule, true));
 
 		$postTypeClasses = [];
@@ -457,19 +465,26 @@ final class Plugin implements PluginContext
 
 				//$definedPostTypes = $moduleClass::getPostTypes();
 				$definedPostTypes = $moduleInstance->getPostTypeHandlerClasses();
+				//$handlers = $module->getPostTypeHandlers();
 				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
 				//error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
 
 				//foreach ($definedPostTypes as $postTypeSlug => $name) {
+				//foreach ( $handlers as $handlerClass ) {
 				foreach ( $definedPostTypes as $postTypeHandlerClass ) {
+				    if ( ! class_exists( $postTypeHandlerClass ) ) {
+						continue;
+					}
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
+					//$slug = ( new $handlerClass( null ) )->getSlug();
 					//$className = $handler->getLabels()['singular_name'];
 					if  (in_array( $postTypeSlug, $enabled, true )) {
 					    //error_log("Post type '$postTypeSlug' from module '$moduleSlug' is now enabled (class: '$postTypeHandlerClass' ).");
 						$postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass; //$className;
+						$this->activePostTypes[ $slug ] = $postTypeHandlerClass;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
@@ -482,7 +497,8 @@ final class Plugin implements PluginContext
 		//error_log( '=== END getActivePostTypes() ===' );
 		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
 
-		return array_unique($postTypeClasses);
+		return $this->activePostTypes;
+		//return array_unique($postTypeClasses);
 	}
 
 	//getEnabledTaxonomies

@@ -188,12 +188,12 @@ class TitleFilter
         // Merge per-post-type customizations
         $custom = [];
 
-        $handlerClass = self::$ctx?->getActivePostTypes()[ $postType ] ?? null; //$activePostTypes = self::$ctx?->getActivePostTypes()[ $postType ] ?? null;
+        //$handlerClass = self::$ctx?->getActivePostTypes()[ $postType ] ?? null; //$activePostTypes = self::$ctx?->getActivePostTypes()[ $postType ] ?? null;
         //error_log( 'normalizeTitleArgs >> activePostTypes: ' . print_r($activePostTypes, true) );
-        if ( method_exists( $handlerClass, 'getCustomTitleArgs' ) ) {
+        /*if ( method_exists( $handlerClass, 'getCustomTitleArgs' ) ) {
             $handler = new $handlerClass();
             $custom = $handler->getCustomTitleArgs( $post );
-        }
+        }*/
 
         // Merge in priority: user-supplied > custom > globals > defaults
         //return array_merge( $defaults, $custom, $overrides );
