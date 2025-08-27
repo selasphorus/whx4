@@ -12,7 +12,7 @@ class EventTag extends TaxonomyHandler
             'slug'         => 'event_tag', // EM slug: event-tags
             //'plural_slug'  => 'event_tags',
             'object_types' => ['event'],
-            'hierarchical' => true,
+            'hierarchical' => false,
         ], $term);
     }
 }
