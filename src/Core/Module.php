@@ -20,6 +20,7 @@ abstract class Module implements ModuleInterface
     /**
 	 * @return array<class-string>
 	 */
+	 // TODO: consider finding these automatically, as with FieldGroups?
 	abstract public function getPostTypeHandlerClasses(): array;
 	/**
 	 * @return array<class-string>
