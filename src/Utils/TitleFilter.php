@@ -188,7 +188,7 @@ class TitleFilter
         // Merge per-post-type customizations
         $custom = [];
 
-        $activePostTypes = $this->ctx->getActivePostTypes();
+        $activePostTypes = self::ctx->getActivePostTypes(); //$activePostTypes = $this->ctx->getActivePostTypes();
         //error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
         if (array_key_exists($postType, $activePostTypes)) {
             $handler = $activePostTypes[ $postType ];
