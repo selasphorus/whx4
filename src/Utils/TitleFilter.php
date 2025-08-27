@@ -18,6 +18,7 @@ class TitleFilter
 
     public static function setContext( PluginContext $ctx ): void
     {
+        error_log( '=== TitleFilter::setContext ===' );
         self::$ctx = $ctx;
     }
 
