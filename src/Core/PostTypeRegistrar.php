@@ -56,7 +56,7 @@ class PostTypeRegistrar
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass;
 				    // Wherever you attach/ensure taxonomies, resolve them:
-				    $taxonomyClasses = $this->resolveTaxonomyClasses($handler->getConfig('taxonomies') ?? []);
+				    $taxonomyClasses = $this->resolveTaxonomyClasses($handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
 				    // $this->taxonomyRegistrar->ensureRegistered($taxonomyClasses);
 					$list = array_merge($list, (array) $taxonomyClasses);
