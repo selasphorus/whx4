@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Core;
 
+use atc\Whx4\Core\Util\NamespaceUtil;
 use atc\WHx4\Core\Contracts\PluginContext;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
@@ -115,8 +116,9 @@ class FieldGroupLoader
         //foreach ( glob( $fieldsDir . '/*Fields.php' ) as $file ) {
         foreach ( $fieldFiles as $file ) {
             require_once $file;
+            //error_log( 'Fields file filename: ' . $file );
 
-            $className = $this->getFullyQualifiedClassName( $file );
+            $className = $this->getFQCNFromFilename( $file );
             //error_log( 'Fields file className: ' . $className );
 
             if (
@@ -205,7 +207,14 @@ class FieldGroupLoader
         return 'atc\\WHx4\\' . $relativePath;
     }*/
 
-    protected function getFullyQualifiedClassName(string $file): string
+    // WIP alt generalized method
+    /*protected function getFullyQualifiedClassName(string $file): string
+    {
+        return NamespaceUtil::fqcnFromFile($file, 'atc\\WHx4', dirname(__DIR__, 2) . '/src/');
+    }*/
+
+    // Get fqcn from filename
+    protected function getFQCNFromFilename(string $file): string
     {
         // 1) Prefer the declared namespace in the file (works for external add-on modules)
         $namespace = $this->extractNamespaceFromFile($file);
