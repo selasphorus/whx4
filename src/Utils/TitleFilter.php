@@ -2,15 +2,27 @@
 
 namespace atc\WHx4\Utils;
 
+use atc\WHx4\Core\Contracts\PluginContext;
+
 class TitleFilter
 {
     protected static array $globalArgs = [];
-    protected static array $contextArgs = [];
+    protected static array $contextArgs = []; // ???
+    protected static array $postTypeHandlers = []; // ??? obsolete?
+    protected static ?PluginContext $ctx = null;
+
+    public function __construct(private PluginContext $ctx) {}
 
     public static function boot(): void
     {
         add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
     }
+
+    public static function setContext( PluginContext $ctx ): void
+    {
+        self::$ctx = $ctx;
+    }
+
 
     public static function setGlobalArgsForPostType( string $postType, array $args ): void
     {
@@ -177,7 +189,11 @@ class TitleFilter
 
         // Merge per-post-type customizations
         $custom = [];
-        if ( $postType && ( $handler = self::getHandlerForPostType( $postType ) ) ) {
+
+        $activePostTypes = $this->ctx->getActivePostTypes();
+        //error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
+        if (array_key_exists($postType, $activePostTypes)) {
+            $handler = $activePostTypes[ $postType ];
             if ( method_exists( $handler, 'getCustomTitleArgs' ) ) {
                 $custom = $handler->getCustomTitleArgs( $post );
             }

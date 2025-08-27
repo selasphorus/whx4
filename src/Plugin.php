@@ -18,7 +18,7 @@ use atc\WHx4\Admin\SettingsPageController;
 use atc\WHx4\Admin\FieldKeyAuditPageController;
 
 use atc\WHx4\Core\ViewLoader;
-///use atc\WHx4\Utils\TitleFilter;
+use atc\WHx4\Utils\TitleFilter;
 //
 use atc\WHx4\ACF\JsonPaths;
 use atc\WHx4\ACF\RestrictAccess;
@@ -200,6 +200,8 @@ final class Plugin implements PluginContext
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueuePublicAssets' ] ); // wip
         //\smith\Rex\Core\Assets::register();                      // add_action('wp_enqueue_scripts', ..., BootOrder::ENQUEUE_ASSETS)
 
+        TitleFilter::setContext( $this ); // $this implements PluginContext
+        TitleFilter::boot();
 	}
 
     /*protected function initializeCore(): void
@@ -447,7 +449,7 @@ final class Plugin implements PluginContext
 
 				//$definedPostTypes = $moduleClass::getPostTypes();
 				$definedPostTypes = $moduleInstance->getPostTypeHandlerClasses();
-				//error_log("definedPostTypes: " . print_r($definedPostTypes, true));
+				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
 				//error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
