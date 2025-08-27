@@ -9,7 +9,7 @@ class EventCategory extends TaxonomyHandler
     public function __construct(\WP_Term|null $term = null)
     {
         parent::__construct([
-            'slug'         => 'event_category', // EM slug: event-categories
+            'slug'         => 'event_category', // EM slug: event-categories -- TODO: figure out migration plan
             'plural_slug'  => 'event_categories',
             'object_types' => ['event'],
             'hierarchical' => true,
