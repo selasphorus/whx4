@@ -199,7 +199,9 @@ class PostTypeRegistrar
      */
     protected function resolveTaxonomyClasses(array|string $taxonomies): array
     {
+		error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
         $taxonomies = is_array($taxonomies) ? $taxonomies : [ $taxonomies ];
+        error_log( 'taxonomies: ' . print_r($taxonomies, true) );
         $resolved   = [];
 
         foreach ($taxonomies as $t) {
@@ -209,6 +211,7 @@ class PostTypeRegistrar
             }
             $resolved[] = $this->resolveTaxonomyFqcn($t);
         }
+        error_log( 'resolved: ' . print_r($resolved, true) );
 
         return array_values(array_unique($resolved));
     }
@@ -216,8 +219,12 @@ class PostTypeRegistrar
     // TODO: generalize
     protected function resolveTaxonomyFqcn(string $name): string
     {
-        // Already an FQCN?
+		error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
+		error_log( 'name to resolve: ' . $name );
+
+        // Already a FQCN?
         if (str_contains($name, '\\')) {
+            error_log( 'already a fqcn' );
             return ltrim($name, '\\');
         }
 
@@ -244,7 +251,9 @@ class PostTypeRegistrar
 
         // Build FQCN: <prefix><Module>\Taxonomies\<Studly>
         // TODO: generalize for classes other than Taxonomies by replacing hardcoded '\\Taxonomies\\' with another var
-        return $modulesPrefix . $targetModule . '\\Taxonomies\\' . $this->studly($basename);
+        $fqcn = $modulesPrefix . $targetModule . '\\Taxonomies\\' . $this->studly($basename);
+        error_log( 'fqcn: ' . $fqcn );
+        return $fqcn;
     }
 
     // Translate slug to studly caps to match class naming conventions
