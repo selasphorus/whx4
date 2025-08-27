@@ -54,9 +54,9 @@ class PostTypeRegistrar
 		if (!empty($activePostTypes)) {
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
-				    $handler = new $handlerClass;
+				    //$handler = new $handlerClass;
 				    // Wherever you attach/ensure taxonomies, resolve them:
-				    $taxonomyClasses = $this->resolveTaxonomyClasses($handler, $handler->getTaxonomies() ?? []);
+				    $taxonomyClasses = $this->resolveTaxonomyClasses($handlerClass, $handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
 				    // $this->taxonomyRegistrar->ensureRegistered($taxonomyClasses);
 					$list = array_merge($list, (array) $taxonomyClasses);
@@ -197,7 +197,7 @@ class PostTypeRegistrar
      * @param array|string $taxonomies Short names like 'habitat', or FQCNs, or 'Module:habitat'.
      * @return string[] FQCNs
      */
-    protected function resolveTaxonomyClasses(PostTypeHandler $handler, array|string $taxonomies): array
+    protected function resolveTaxonomyClasses(string $handlerClass, array|string $taxonomies): array
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
         $taxonomies = is_array($taxonomies) ? $taxonomies : [ $taxonomies ];
@@ -209,7 +209,7 @@ class PostTypeRegistrar
             if ($t === '') {
                 continue;
             }
-            $resolved[] = $this->resolveTaxonomyFqcn($t);
+            $resolved[] = $this->resolveTaxonomyFqcn($handlerClass, $t);
         }
         error_log( 'resolved: ' . print_r($resolved, true) );
 
@@ -217,7 +217,7 @@ class PostTypeRegistrar
     }
 
     // TODO: generalize
-    protected function resolveTaxonomyFqcn(PostTypeHandler $handler, string $name): string
+    protected function resolveTaxonomyFqcn(string $handlerClass, string $name): string
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
 		error_log( 'name to resolve: ' . $name );
