@@ -56,7 +56,7 @@ class PostTypeRegistrar
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass;
 				    // Wherever you attach/ensure taxonomies, resolve them:
-				    $taxonomyClasses = $this->resolveTaxonomyClasses($handler->getTaxonomies() ?? []);
+				    $taxonomyClasses = $this->resolveTaxonomyClasses($handler, $handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
 				    // $this->taxonomyRegistrar->ensureRegistered($taxonomyClasses);
 					$list = array_merge($list, (array) $taxonomyClasses);
@@ -197,7 +197,7 @@ class PostTypeRegistrar
      * @param array|string $taxonomies Short names like 'habitat', or FQCNs, or 'Module:habitat'.
      * @return string[] FQCNs
      */
-    protected function resolveTaxonomyClasses(array|string $taxonomies): array
+    protected function resolveTaxonomyClasses(PostTypeHandler $handler, array|string $taxonomies): array
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
         $taxonomies = is_array($taxonomies) ? $taxonomies : [ $taxonomies ];
@@ -217,7 +217,7 @@ class PostTypeRegistrar
     }
 
     // TODO: generalize
-    protected function resolveTaxonomyFqcn(string $name): string
+    protected function resolveTaxonomyFqcn(PostTypeHandler $handler, string $name): string
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
 		error_log( 'name to resolve: ' . $name );
@@ -231,9 +231,14 @@ class PostTypeRegistrar
         // Extract root prefix up to "Modules\"
         // e.g. atc\WHx4\Modules\Supernatural\PostTypes\Monster
         // -> prefix: atc\WHx4\Modules\, currentModule: Supernatural
-        $class = static::class;
+        /*$class = static::class;
         if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $class, $m)) {
             error_log( 'class: ' . $class );
+            // Fallback: just StudlyCase in current namespace root (unlikely)
+            return $this->studly($name);
+        }*/
+        if (!preg_match('/^(.*\\\\Modules\\\\)([^\\\\]+)/', $handler, $m)) {
+            error_log( 'handler: ' . $handler );
             // Fallback: just StudlyCase in current namespace root (unlikely)
             //return $this->studly($name);
         }
