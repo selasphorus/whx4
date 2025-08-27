@@ -55,10 +55,11 @@ class PostTypeRegistrar
 			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass;
-					$list = array_merge($list, (array) $handler->getTaxonomies());
-					/*if (is_object($handler) && method_exists($handler, 'getTaxonomyHandlerClasses')) {
-						$list = array_merge($list, (array) $handler->getTaxonomyHandlerClasses());
-					}*/
+				    // Wherever you attach/ensure taxonomies, resolve them:
+				    $taxonomyClasses = $this->resolveTaxonomyClasses($this->getConfig('taxonomies') ?? []);
+				    // Example: hand them to your registrar, or call static register() if you use handlers.
+				    // $this->taxonomyRegistrar->ensureRegistered($taxonomyClasses);
+					$list = array_merge($list, (array) $taxonomyClasses);
 				}
 				return $list;
 			}, 10, 1);
@@ -105,9 +106,8 @@ class PostTypeRegistrar
 			//'caps'			=> [ 'post' ],
             'map_meta_cap'    => true,
             //
-            'supports'     => $supports, //['title', 'editor'],
-            //'supports'		=> [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
-			//'taxonomies'	=> [ 'category', 'tag' ],
+            'supports'     => $supports, // [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
+			'taxonomies'   =? $taxonomies, //'taxonomies'	=> [ 'category', 'tag' ],
             'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
             'has_archive'  => true,
             'show_in_menu' => true,

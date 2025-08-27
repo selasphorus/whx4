@@ -16,6 +16,7 @@ class Monster extends PostTypeHandler
 				'not_found'    => 'No monsters lurking nearby',
 			],
 			'menu_icon'   => 'dashicons-palmtree',
+			'taxonomies'   => [ 'habitat' ],
 			//'capability_type' => ['monster', 'monsters'],
 			//'map_meta_cap'       => true,
 		];
@@ -34,11 +35,6 @@ class Monster extends PostTypeHandler
 			'called_by'      => 'Monster::boot',
 			'append'         => ' {Rowarrr!}',
 		]);
-	}
-
-	public function getTaxonomyHandlerClasses(): array
-	{
-		return [ Habitat::class ];
 	}
 
     /*
