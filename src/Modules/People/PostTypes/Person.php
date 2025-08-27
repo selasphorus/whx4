@@ -32,13 +32,46 @@ class Person extends PostTypeHandler
 			'show_subtitle'  => true,
 			'hlevel_sub'     => 4,
 			'called_by'      => 'Person::boot',
-			//'append'         => 'TESTTF',
+			'append'         => getPersonDates( $this->getPostID() ),
 		]);
 	}
 
-	/*public function getCPTContent()
+	//
+	//
+
+	//
+	protected function getPersonDates($post_id, $styled = false)
 	{
-		$post_id = $this->get_post_id();
-	}*/
+		error_log( '=== Person::getPersonDates() ===' );
+		error_log( 'post_id: ' . $post_id );
+
+		// Init vars
+		$info = ""; // init
+
+		// Try ACF get_field instead?
+		$birth_year = get_post_meta( $post_id, 'birth_year', true );
+		$death_year = get_post_meta( $post_id, 'death_year', true );
+		$dates = get_post_meta( $post_id, 'dates', true );
+
+		if ( !empty($birth_year) && !empty($death_year) ) {
+			$info .= "(".$birth_year."-".$death_year.")";
+		} else if ( !empty($birth_year) ) {
+			$info .= "(b. ".$birth_year.")";
+		} else if ( !empty($death_year) ) {
+			$info .= "(d. ".$death_year.")";
+		} else if ( !empty($dates) ) {
+			$info .= "(".$dates.")";
+		}
+
+		if ( !empty($info) ) {
+			if ( $styled ) {
+				$info = '<span class="person_dates">&nbsp;'.$info.'</span>';
+			} else {
+				$info = ' '.$info; // add space before dates str
+			}
+		}
+
+		return $info;
+	}
 }
 
