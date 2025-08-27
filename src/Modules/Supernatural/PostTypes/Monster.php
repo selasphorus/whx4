@@ -29,6 +29,7 @@ class Monster extends PostTypeHandler
 	    parent::boot(); // Optional if you add shared logic later
 
 	    // Apply Title Args -- this modifies front-end display only
+	    // TODO: consider alternative approaches to allow for more customization? e.g. different args as with old SDG get_person_display_name method
 		$this->applyTitleArgs( $this->getSlug(), [
 			'line_breaks'    => true,
 			'show_subtitle'  => true,
@@ -46,9 +47,22 @@ class Monster extends PostTypeHandler
 	}
 	*/
 
-	public function getCustomContent()
+	public function getCustomContent(WP_Post $post): string
+	//public function getCustomContent()
 	{
-		return "hello";
+		//return "Hello, Monster!";
+
+		/*$habitat = get_post_meta($post->ID, 'rex_supernatural_habitat', true);
+		if ( ! $habitat ) {
+			return '';
+		}*/
+		$habitat = "The Great Dismal Swamp"; // tft
+
+		$html  = '<div class="rex-custom-content rex-monster-meta">';
+		$html .= '<strong>Habitat:</strong> ' . esc_html($habitat);
+		$html .= '</div>';
+
+		return $html;
 	}
 
     public function getColor() {
