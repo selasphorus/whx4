@@ -488,6 +488,14 @@ final class Plugin implements PluginContext
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
+					/*
+					if (
+						! isset( $activeSlugsByModule[ $moduleSlug ] ) ||
+						! in_array( $slug, $activeSlugsByModule[ $moduleSlug ], true )
+					) {
+						continue;
+					}
+					*/
 				}
 			} catch( \Throwable $e ) {
 				error_log("Exception in getActivePostTypes for module $moduleSlug: " . $e->getMessage());
