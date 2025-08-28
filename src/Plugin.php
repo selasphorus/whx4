@@ -105,9 +105,11 @@ final class Plugin implements PluginContext
 			add_action('init', [$this, 'finishBoot'], 0);
 		}
 
+		/*
 		error_log( 'About to setContext for TitleFilter' );
         TitleFilter::setContext( $this ); // $this implements PluginContext
         TitleFilter::boot();
+        */
         /*
         add_action( 'init', function() {
 			\smith\Rex\Utils\TitleFilter::setContext( Plugin::getInstance() );
