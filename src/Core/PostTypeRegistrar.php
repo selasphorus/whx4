@@ -122,12 +122,13 @@ class PostTypeRegistrar
     public function registerMany( array $postTypeClasses ): void
     {
     	error_log( '=== PostTypeRegistrar->registerMany() ===' );
-    	error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
-        foreach( $postTypeClasses as $handlerClass ) {
-        	/*error_log( 'attempting to register handlerClass: '.$handlerClass );
-        	if ( post_type_exists( $post_type ) ) {
+    	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
+        foreach( $postTypeClasses as $slug => $handlerClass ) {
+        	//error_log( 'attempting to register handlerClass: '.$handlerClass );
+        	if ( post_type_exists( $slug ) ) {
+        	    error_log( 'already post_type_exists: '.$slug );
         	    continue;
-        	}*/
+        	}
         	$handler = new $handlerClass();
             $this->registerCPT( $handler );
         }
