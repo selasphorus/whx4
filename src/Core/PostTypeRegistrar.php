@@ -52,16 +52,16 @@ class PostTypeRegistrar
 
 		// Contribute CPT-specific taxonomy handlers (e.g., Habitat) to the unified registrar
 		if (!empty($activePostTypes)) {
-			add_filter('whx4_register_taxonomy_handlers', function(array $list) use ($activePostTypes): array {
+			add_filter('whx4_register_taxonomy_handlers', function(array $taxArray) use ($activePostTypes): array {
 				foreach ($activePostTypes as $slug => $handlerClass) {
 				    $handler = new $handlerClass();
 				    // Wherever you attach/ensure taxonomies, resolve them:
 				    $taxonomyClasses = $this->resolveTaxonomyClasses($handlerClass, $handler->getTaxonomies() ?? []);
 				    // Example: hand them to your registrar, or call static register() if you use handlers.
 				    // $this->taxonomyRegistrar->ensureRegistered($taxonomyClasses);
-					$list = array_merge($list, (array) $taxonomyClasses);
+					$taxArray = array_merge($taxArray, (array) $taxonomyClasses);
 				}
-				return $list;
+				return $taxArray;
 			}, 10, 1);
 		}
     }
@@ -204,6 +204,7 @@ class PostTypeRegistrar
         //error_log( 'taxonomies: ' . print_r($taxonomies, true) );
         $resolved   = [];
 
+        // WIP: modify to return associative array of slug => fqcn instead of ONLY the class names
         foreach ($taxonomies as $t) {
             $t = trim((string) $t);
             if ($t === '') {

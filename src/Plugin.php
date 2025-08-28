@@ -433,6 +433,7 @@ final class Plugin implements PluginContext
 
 		// Don't reload activePostTypes if we've cached them already
 		if ( ! empty( $this->activePostTypes ) ) {
+		    error_log( 'activePostTypes already cached' );
 			return $this->activePostTypes;
 		}
 
@@ -444,7 +445,7 @@ final class Plugin implements PluginContext
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
-			//error_log("moduleSlug: " . print_r($moduleSlug, true));
+			error_log("About to look for activePostTypes for moduleSlug: " . print_r($moduleSlug, true));
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");

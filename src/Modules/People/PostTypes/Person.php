@@ -17,7 +17,7 @@ class Person extends PostTypeHandler
 			],
 			'menu_icon'   => 'dashicons-groups',
 			//'supports' => ['title', 'editor'],
-			'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
+			'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
 		];
 
 		parent::__construct( $config, $post );
