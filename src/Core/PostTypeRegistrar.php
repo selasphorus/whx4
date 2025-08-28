@@ -201,7 +201,7 @@ class PostTypeRegistrar
     {
 		error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
         $taxonomies = is_array($taxonomies) ? $taxonomies : [ $taxonomies ];
-        error_log( 'taxonomies: ' . print_r($taxonomies, true) );
+        //error_log( 'taxonomies: ' . print_r($taxonomies, true) );
         $resolved   = [];
 
         foreach ($taxonomies as $t) {
@@ -211,7 +211,7 @@ class PostTypeRegistrar
             }
             $resolved[] = $this->resolveTaxonomyFqcn($handlerClass, $t);
         }
-        error_log( 'resolved: ' . print_r($resolved, true) );
+        //error_log( 'resolved: ' . print_r($resolved, true) );
 
         return array_values(array_unique($resolved));
     }
