@@ -483,8 +483,8 @@ final class Plugin implements PluginContext
 					//$className = $handler->getLabels()['singular_name'];
 					if  (in_array( $postTypeSlug, $enabled, true )) {
 					    //error_log("Post type '$postTypeSlug' from module '$moduleSlug' is now enabled (class: '$postTypeHandlerClass' ).");
-						$postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass; //$className;
-						$this->activePostTypes[ $slug ] = $postTypeHandlerClass;
+						//$postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass; //$className;
+						$this->activePostTypes[ $postTypeSlug ] = $postTypeHandlerClass;
 					} else {
 						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
