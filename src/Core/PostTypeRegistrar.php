@@ -93,6 +93,10 @@ class PostTypeRegistrar
     	$icon = $handler->getMenuIcon();
     	//error_log('icon: '.$icon);
 
+    	// WIP: better to enclose the following in mini-methods like getSupports? or simplify them all/most?
+    	$hierarchical = $handler->getConfig()['hierarchical'] ?? false;
+    	$rewrite = $handler->getConfig()['rewrite'] ?? ['slug' => $slug];
+
         // Register the post type
         register_post_type($slug, [
             'public'       => true,
@@ -102,17 +106,17 @@ class PostTypeRegistrar
             'show_in_rest' => true,  // Enable REST API support // false = use classic, not block editor
             'labels'       => $labels,
             'capability_type' => $capType,
+			//'caps'       => [ 'post' ],
             //'capabilities' => $capabilities,
-			//'caps'			=> [ 'post' ],
-            'map_meta_cap'    => true,
+            'map_meta_cap' => true,
             //
             'supports'     => $supports, // [ 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ],
 			'taxonomies'   => $taxonomies, //'taxonomies'	=> [ 'category', 'tag' ],
-            'rewrite'      => ['slug' => $slug], //'rewrite' => ['slug' => $handlerClass::getSlug()],
+            'rewrite'      => $rewrite, //['slug' => $slug],
             'has_archive'  => true,
             'show_in_menu' => true,
-            'menu_icon' => $icon,
-			'hierarchical'		=> false,
+            'menu_icon'    => $icon,
+			'hierarchical' => $hierarchical, // false
 			//'menu_position'		=> null,
 			//'delete_with_user' 	=> false,
         ]);
