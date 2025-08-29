@@ -13,7 +13,7 @@ class TitleFilter
 
     public static function boot(): void
     {
-        add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
+        //add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
     }
 
     public static function setContext( PluginContext $ctx ): void
