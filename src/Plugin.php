@@ -305,8 +305,8 @@ final class Plugin implements PluginContext
 
 	public function setAvailableModules( array $modules ): void
 	{
-        //error_log( '=== Plugin::setAvailableModules() ===' );
-		//error_log( 'modules: '.print_r($modules, true) );
+        error_log( '=== Plugin::setAvailableModules() ===' );
+		error_log( 'modules: '.print_r($modules, true) );
 
 		// Validate classes -- make sure they implement ModuleInterface
 		foreach( $modules as $slug => $class ) {
