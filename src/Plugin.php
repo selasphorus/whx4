@@ -154,6 +154,7 @@ final class Plugin implements PluginContext
 
         // Discover all modules registered by core + add‑ons
         $modules = apply_filters( 'whx4_register_modules', [] );
+		error_log( 'modules discovered via whx4_register_modules: '.print_r($modules, true) );
         $this->setAvailableModules( $modules );
 
         // Settings
