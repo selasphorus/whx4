@@ -26,16 +26,19 @@ final class SubtypeRegistry
         error_log( '=== SubtypeRegistry::collect() ===' );
         self::$subtypes = [];
         $providers = apply_filters('whx4_register_subtypes', []);
+        error_log( 'providers: ' . print_r($providers, true) );
 
         foreach ($providers as $provider) {
             if ($provider instanceof SubtypeInterface) {
-                error_log( 'subtype provider: ' . $provider->getSlug() );
+                error_log( 'subtype provider: ' . $provider->getSlug() . ' is a valid SubtypeInterface.');
                 $pt   = $provider->getPostType();
                 $slug = $provider->getSlug();
                 self::$subtypes[$pt][$slug] = [
                     'label' => $provider->getLabel(),
                     'args'  => $provider->getTermArgs(),
                 ];
+            } else {
+                error_log( 'subtype provider: ' . $provider->getSlug() . ' is NOT a valid SubtypeInterface.');
             }
         }
         /**
