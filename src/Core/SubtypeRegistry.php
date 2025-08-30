@@ -29,6 +29,7 @@ final class SubtypeRegistry
 
         foreach ($providers as $provider) {
             if ($provider instanceof SubtypeInterface) {
+                error_log( 'subtype provider: ' . $provider->getSlug() );
                 $pt   = $provider->getPostType();
                 $slug = $provider->getSlug();
                 self::$subtypes[$pt][$slug] = [
