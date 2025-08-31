@@ -733,15 +733,22 @@ final class EventFields implements FieldGroupInterface
                     'placeholder' => '',
                 ),
             ),
-            'location' => array(
-                array(
-                    array(
-                        'param' => 'post_type',
+            'location' => [
+                [
+                    [
+                        'param'    => 'post_type',
                         'operator' => '==',
-                        'value' => 'event',
-                    ),
-                ),
-            ),
+                        'value'    => 'event',
+                    ],
+                ],
+                [
+                    [
+                        'param'    => 'post_type',
+                        'operator' => '==',
+                        'value'    => 'whx4_event',
+                    ],
+                ]
+            ],
             'menu_order' => 0,
             'position' => 'normal',
             'style' => 'default',
