@@ -41,10 +41,17 @@ require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 use atc\WHx4\Plugin;
 use atc\WHx4\Core\PostUtils;
 // TBD whether there's a way to streamline the following
+
+// Test Modules
 use atc\WHx4\Modules\Supernatural\SupernaturalModule as Supernatural;
+
+// Primary "WH" Modules
 use atc\WHx4\Modules\People\PeopleModule as People;
 use atc\WHx4\Modules\Places\PlacesModule as Places;
 use atc\WHx4\Modules\Events\EventsModule as Events;
+
+// Secondary Modules
+use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
 
 // Init
 add_filter( 'whx4_register_modules', function( array $modules ) {
@@ -53,7 +60,8 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
         'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
         'people'		=> People::class,
         'places'		=> Places::class,
-        'events' 		=> Events::class
+        'events' 		=> Events::class,
+        'projects' 		=> Projects::class
     ]);
 });
 
