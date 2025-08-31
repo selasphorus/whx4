@@ -37,6 +37,7 @@ abstract class TaxonomyHandler extends BaseHandler
             'public'            => false,
             'show_ui'           => true,
             'show_admin_column' => true,
+            'query_var'         => true, // ok for default?
             'hierarchical'      => $this->isHierarchical(),
             'meta_box_cb'       => $this->isHierarchical() ? 'post_categories_meta_box' : null, // TODO:  mod to allow override?
         ];
