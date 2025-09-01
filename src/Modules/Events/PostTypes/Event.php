@@ -41,6 +41,7 @@ class Event extends PostTypeHandler
             'supports'    => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
 			'taxonomies' => [ 'event_category', 'event_tag', 'program_label', 'admin_tag' ],
 			'menu_icon' => 'dashicons-calendar-alt',
+			'capability_type' => ['event','events'],
 		];
 
 		parent::__construct( $config, $post );

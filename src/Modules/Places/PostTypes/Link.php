@@ -15,6 +15,7 @@ class Link extends PostTypeHandler
 				//'not_found' => 'No people loitering nearby',
 			],*/
 			'menu_icon'   => 'dashicons-admin-links',
+			'capability_type' => ['place','places'],
 			//'supports' => ['title', 'editor'],
 			'taxonomies' => [ 'link_category' ],
 		];

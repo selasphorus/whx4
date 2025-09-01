@@ -16,6 +16,7 @@ class Person extends PostTypeHandler
 				'not_found' => 'No people loitering nearby',
 			],
 			'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
+			'capability_type' => ['person','people'],
 			//'supports' => ['title', 'editor'],
 			'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
 		];

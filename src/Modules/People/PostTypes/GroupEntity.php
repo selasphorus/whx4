@@ -16,6 +16,7 @@ class GroupEntity extends PostTypeHandler
 				//'not_found'    => 'No groups have yet come together',
 			],
 			'menu_icon'   => 'dashicons-networking', // could use dashicons-groups instead
+			'capability_type' => ['group','groups'],
 			//'supports' => ['title', 'editor'],
 			'taxonomies' => [ 'group_category' ], //, 'admin_tag'
 		];

@@ -15,6 +15,7 @@ class Venue extends PostTypeHandler
 				'not_found' => 'Nowhere to go',
 			],*/
 			'menu_icon'   => 'dashicons-location', // could use dashicons-admin-multisite instead
+			'capability_type' => ['place','places'],
 			//'supports' => ['title', 'editor'],
 			'taxonomies' => ['venue_category', 'admin_tag'],
 		];

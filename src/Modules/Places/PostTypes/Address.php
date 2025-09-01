@@ -15,6 +15,7 @@ class Address extends PostTypeHandler
 				//'not_found' => 'No people loitering nearby',
 			],*/
 			'menu_icon'   => 'dashicons-location-alt',
+			'capability_type' => ['place','places'],
 			//'supports' => ['title', 'editor'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];

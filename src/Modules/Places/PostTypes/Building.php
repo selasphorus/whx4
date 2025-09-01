@@ -15,6 +15,7 @@ class Building extends PostTypeHandler
 				//'not_found' => 'No people loitering nearby',
 			],*/
 			'menu_icon'   => 'dashicons-building',
+			'capability_type' => ['place','places'],
 			//'supports' => ['title', 'editor'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
