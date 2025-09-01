@@ -17,7 +17,7 @@ class AdminNote extends PostTypeHandler
             'capability_type' => ['secret','secrets'],
             //'hierarchical' => false,
             //'taxonomies' => ['admin_tag', 'secret_category'],
-            //'taxonomies'         => array( 'adminnote_category', 'admin_tag', 'data_table', 'query_tag', 'admin_tag' ),
+            'taxonomies' => array( 'adminnote_category', 'admin_tag', 'data_table', 'query_tag', 'admin_tag' ),
         ];
 
         parent::__construct( $config, $post );
