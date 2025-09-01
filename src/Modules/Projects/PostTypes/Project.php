@@ -22,7 +22,7 @@ class Project extends PostTypeHandler
 
     public function boot(): void
     {
-        parent::boot(); // Optional if you add shared logic later
+        parent::boot();
     }
 
     // Other methods related to the Project PostType...
