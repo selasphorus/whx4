@@ -481,7 +481,7 @@ final class Plugin implements PluginContext
 				    if ( ! class_exists( $postTypeHandlerClass ) ) {
 						continue;
 					}
-					error_log("postTypeHandlerClass: " . $postTypeHandlerClass );
+					//error_log("postTypeHandlerClass: " . $postTypeHandlerClass );
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
 					//$slug = ( new $handlerClass( null ) )->getSlug();

@@ -49,7 +49,7 @@ class FieldGroupLoader
 
     protected function registerFieldsForModule( string $moduleClass ): void
     {
-        error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
+        //error_log( '=== registerFieldsForModule for moduleClass: ' . $moduleClass . ' ===' );
         $ref = new \ReflectionClass( $moduleClass );
         $moduleDir = dirname( $ref->getFileName() );
         $fieldsDir = $moduleDir . '/Fields';
@@ -127,7 +127,7 @@ class FieldGroupLoader
             ) {
                 // First, handle global post-type scoped field groups
                 if (is_subclass_of($className, PostTypeFieldGroupInterface::class)) {
-                    error_log( 'className: ' . $className . ' is_subclass_of PostTypeFieldGroupInterface');
+                    //error_log( 'className: ' . $className . ' is_subclass_of PostTypeFieldGroupInterface');
                     try {
                         $instance = new $className();
                         $pt = $instance->getPostType();
@@ -140,7 +140,7 @@ class FieldGroupLoader
 
                 // Handle Subtype-scoped field groups
                 if ( is_subclass_of( $className, SubtypeFieldGroupInterface::class ) ) {
-                    error_log( 'className: ' . $className . ' is_subclass_of SubtypeFieldGroupInterface');
+                    //error_log( 'className: ' . $className . ' is_subclass_of SubtypeFieldGroupInterface');
                     try {
                         $instance = new $className();
                         $pt = $instance->getPostType();
