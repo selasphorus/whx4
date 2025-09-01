@@ -51,6 +51,7 @@ use atc\WHx4\Modules\Places\PlacesModule as Places;
 use atc\WHx4\Modules\Events\EventsModule as Events;
 
 // Secondary Modules
+use atc\WHx4\Modules\Admin\AdminModule as Admin;
 use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
 use atc\WHx4\Modules\Logbook\LogbookModule as Logbook;
 
@@ -61,7 +62,8 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
         'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
         'people'		=> People::class,
         'places'		=> Places::class,
-        'events' 		=> Events::class,
+        'events' 		=> Events::class,,
+        'admin' 		=> Admin::class
         'projects' 		=> Projects::class,
         'logbook' 		=> Logbook::class
     ]);
