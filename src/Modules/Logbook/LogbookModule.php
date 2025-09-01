@@ -17,8 +17,7 @@ final class LogbookModule extends BaseModule
         parent::boot();
 
         add_filter( 'whx4_register_subtypes', function( array $providers ): array {
-            // TODO: add use statement above to simplify these lines?
-            $providers[] = new \atc\WHx4\Modules\Logbook\Subtypes\LogEntriesSubtype(); // Subtype of XXX PostType
+            //$providers[] = new \atc\WHx4\Modules\Logbook\Subtypes\LogEntriesSubtype(); // Subtype of XXX PostType
             return $providers;
         } );
     }
