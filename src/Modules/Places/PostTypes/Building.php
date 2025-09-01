@@ -28,5 +28,3 @@ class Building extends PostTypeHandler
         parent::boot();
     }
 }
-
-?>

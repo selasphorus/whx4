@@ -28,5 +28,3 @@ class Link extends PostTypeHandler
         parent::boot();
     }
 }
-
-?>

@@ -17,7 +17,7 @@ class Venue extends PostTypeHandler
 			'menu_icon'   => 'dashicons-location', // could use dashicons-admin-multisite instead
 			'capability_type' => ['place','places'],
 			//'supports' => ['title', 'editor'],
-			'taxonomies' => ['venue_category', 'admin_tag'],
+			'taxonomies' => ['venue_category'], //, 'admin_tag'
 		];
 
 		parent::__construct( $config, $post );
@@ -28,5 +28,3 @@ class Venue extends PostTypeHandler
         parent::boot();
     }
 }
-
-?>

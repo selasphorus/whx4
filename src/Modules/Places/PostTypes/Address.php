@@ -28,5 +28,3 @@ class Address extends PostTypeHandler
         parent::boot();
     }
 }
-
-?>
