@@ -9,7 +9,7 @@ class Venue extends PostTypeHandler
 	public function __construct(WP_Post|null $post = null) {
 		$config = [
 			'slug'        => 'venue',
-			//'plural_slug' => 'addresses',
+			//'plural_slug' => 'venues',
 			'labels'      => [
 				//'add_new_item' => 'Summon New Monster',
 				'not_found' => 'Nowhere to go',
@@ -22,6 +22,10 @@ class Venue extends PostTypeHandler
 		parent::__construct( $config, $post );
 	}
 
+    public function boot(): void
+    {
+        parent::boot();
+    }
 }
 
 ?>

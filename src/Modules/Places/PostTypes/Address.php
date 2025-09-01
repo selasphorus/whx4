@@ -22,6 +22,10 @@ class Address extends PostTypeHandler
 		parent::__construct( $config, $post );
 	}
 
+    public function boot(): void
+    {
+        parent::boot();
+    }
 }
 
 ?>
