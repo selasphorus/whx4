@@ -45,7 +45,7 @@ abstract class TaxonomyHandler extends BaseHandler
 
     public function registerTaxonomy(): void
     {
-        error_log( '=== TaxonomyHandler::registerTaxonomy() ===' );
+        //error_log( '=== TaxonomyHandler::registerTaxonomy() ===' );
         $slug  = $this->getSlug();
         $types = $this->getObjectTypes();
         $args  = $this->getArgs();

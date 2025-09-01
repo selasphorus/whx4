@@ -69,10 +69,10 @@ class PostTypeRegistrar
 	// Registers a custom post type using a PostTypeHandler
     public function registerCPT(PostTypeHandler $handler): void
     {
-        error_log( '=== PostTypeRegistrar->registerCPT() ===' );
+        //error_log( '=== PostTypeRegistrar->registerCPT() ===' );
 
     	$slug = $handler->getSlug();
-    	error_log('slug: '.$slug);
+    	//error_log('slug: '.$slug);
 
     	$capType = $handler->getCapType();
     	//error_log('capType: '.print_r($capType,true));
@@ -125,7 +125,7 @@ class PostTypeRegistrar
     //
     public function registerMany( array $postTypeClasses ): void
     {
-    	error_log( '=== PostTypeRegistrar->registerMany() ===' );
+    	//error_log( '=== PostTypeRegistrar->registerMany() ===' );
     	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $slug => $handlerClass ) {
         	//error_log( 'attempting to register handlerClass: '.$handlerClass );
@@ -141,7 +141,7 @@ class PostTypeRegistrar
 	//public function assignPostTypeCapabilities(array $handlers): void
 	public function assignPostTypeCapabilities(): void
 	{
-		error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
+		//error_log( '=== PostTypeRegistrar::assignPostTypeCapabilities() ===' );
 		//$roles = ['administrator']; //
 		$roles = ['administrator', 'editor'];
 
@@ -207,7 +207,7 @@ class PostTypeRegistrar
      */
     protected function resolveTaxonomyClasses(string $handlerClass, array|string $taxonomies): array
     {
-		error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
+		//error_log( '=== PostTypeRegistrar::resolveTaxonomyClasses() ===' );
         $taxonomies = is_array($taxonomies) ? $taxonomies : [ $taxonomies ];
         //error_log( 'taxonomies: ' . print_r($taxonomies, true) );
         $resolved   = [];
@@ -228,7 +228,7 @@ class PostTypeRegistrar
     // TODO: generalize
     protected function resolveTaxonomyFqcn(string $handlerClass, string $name): string
     {
-		error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
+		//error_log( '=== PostTypeRegistrar::resolveTaxonomyFqcn() ===' );
 		//error_log( 'name to resolve: ' . $name );
 
         // Already a FQCN?
@@ -268,7 +268,7 @@ class PostTypeRegistrar
         // Build FQCN: <prefix><Module>\Taxonomies\<Studly>
         // TODO: generalize for classes other than Taxonomies by replacing hardcoded '\\Taxonomies\\' with another var
         $fqcn = $modulesPrefix . $targetModule . '\\Taxonomies\\' . $this->studly($basename);
-        error_log( 'fqcn: ' . $fqcn );
+        //error_log( 'fqcn: ' . $fqcn );
         return $fqcn;
     }
 

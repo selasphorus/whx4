@@ -10,7 +10,7 @@ final class TaxonomyRegistrar
 {
     public static function register(): void
     {
-        error_log( '=== TaxonomyRegistrar::register() ===' );
+        //error_log( '=== TaxonomyRegistrar::register() ===' );
         add_action( 'init', [ self::class, 'bootstrap' ], BootOrder::TAXONOMIES );
     }
 
@@ -21,7 +21,7 @@ final class TaxonomyRegistrar
      */
     public static function bootstrap(): void
     {
-        error_log( '=== TaxonomyRegistrar::bootstrap() ===' );
+        //error_log( '=== TaxonomyRegistrar::bootstrap() ===' );
 
         // 1) Start with any handlers contributed by CPTs/modules/core
         $handlers = (array) apply_filters('whx4_register_taxonomy_handlers', []);
@@ -51,7 +51,7 @@ final class TaxonomyRegistrar
             return; // nothing to do
         }
 
-        error_log("taxonomy handlers: " . print_r($handlers, true));
+        //error_log("taxonomy handlers: " . print_r($handlers, true));
 
         // Resolve active CPTs (for '*' wildcard); decouple via a filter
         $activePostTypes = (array) apply_filters('whx4_active_post_types', []);
