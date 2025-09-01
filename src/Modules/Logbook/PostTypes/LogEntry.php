@@ -11,7 +11,7 @@ class LogEntry extends PostTypeHandler
             'slug'        => 'log_entry',
             'plural_slug' => 'log_entries',
             //'rewrite' => ['slug' => 'whimsy'],
-            //'menu_icon'   => 'dashicons-palmtree',
+            'menu_icon'   => 'dashicons-book',
             //'capability_type' => ['secret','secrets'],
             //'hierarchical' => false,
             //'taxonomies' => ['admin_tag', 'secret_category'],
