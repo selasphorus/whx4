@@ -3,7 +3,7 @@
 namespace atc\WHx4\Modules\Supernatural\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Modules\Supernatural\Taxonomies\Habitat;
+use atc\WHx4\Modules\Supernatural\Taxonomies\Habitat; // ???
 
 class Monster extends PostTypeHandler
 {
