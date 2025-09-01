@@ -87,7 +87,7 @@ final class Plugin implements PluginContext
 
     public function boot(): void
     {
-        error_log( '=== Plugin::boot() ===' );
+        error_log( '=== WHx4\Plugin::boot() ===' );
         if ( $this->booted ) {
             return;
 		}
@@ -122,7 +122,7 @@ final class Plugin implements PluginContext
 
     protected function registerAdminHooks(): void
     {
-        error_log( '=== Plugin::registerAdminHooks() ===' );
+        //error_log( '=== Plugin::registerAdminHooks() ===' );
         if ( is_admin() ) {
             ( new SettingsPageController( $this ) )->addHooks();
             ( new FieldKeyAuditPageController( $this ) )->addHooks();
@@ -145,7 +145,7 @@ final class Plugin implements PluginContext
 
     public function finishBoot(): void
 	{
-	    error_log('=== Plugin::finishBoot() @ init:0 ===');
+	    //error_log('=== Plugin::finishBoot() @ init:0 ===');
 
 		// Boot core services -- TODO: make sure this is still useful...
 		CoreServices::boot();
@@ -154,7 +154,7 @@ final class Plugin implements PluginContext
 
         // Discover all modules registered by core + add‑ons
         $modules = apply_filters( 'whx4_register_modules', [] );
-		error_log( 'modules discovered via whx4_register_modules: '.print_r($modules, true) );
+		//error_log( 'modules discovered via whx4_register_modules: '.print_r($modules, true) );
         $this->setAvailableModules( $modules );
 
         // Settings
@@ -306,8 +306,8 @@ final class Plugin implements PluginContext
 
 	public function setAvailableModules( array $modules ): void
 	{
-        error_log( '=== Plugin::setAvailableModules() ===' );
-		error_log( 'modules: '.print_r($modules, true) );
+        //error_log( '=== Plugin::setAvailableModules() ===' );
+		//error_log( 'modules: '.print_r($modules, true) );
 
 		// Validate classes -- make sure they implement ModuleInterface
 		foreach( $modules as $slug => $class ) {
@@ -430,11 +430,11 @@ final class Plugin implements PluginContext
      */
     public function getActivePostTypes(): array
 	{
-    	error_log( '=== Plugin::getActivePostTypes() ===' );
+    	//error_log( '=== Plugin::getActivePostTypes() ===' );
 
 		// Don't reload activePostTypes if we've cached them already
 		if ( ! empty( $this->activePostTypes ) ) {
-		    error_log( 'activePostTypes already cached' );
+		    //error_log( 'activePostTypes already cached' );
 			return $this->activePostTypes;
 		}
 
@@ -446,7 +446,7 @@ final class Plugin implements PluginContext
 		$postTypeClasses = [];
 
 		foreach( $this->activeModules as $moduleSlug => $moduleClass ) {
-			error_log("About to look for activePostTypes for moduleSlug: " . print_r($moduleSlug, true));
+			//error_log("About to look for activePostTypes for moduleSlug: " . print_r($moduleSlug, true));
 			try {
 				if( !class_exists($moduleClass) ) {
 					error_log("Class $moduleClass does not exist.");
@@ -470,7 +470,7 @@ final class Plugin implements PluginContext
 				//$definedPostTypes = $moduleClass::getPostTypes();
 				$definedPostTypes = $moduleInstance->getPostTypeHandlerClasses();
 				//$handlers = $module->getPostTypeHandlers();
-				error_log("definedPostTypes: " . print_r($definedPostTypes, true));
+				//error_log("definedPostTypes: " . print_r($definedPostTypes, true));
 
 				$enabled = $enabledPostTypesByModule[ $moduleSlug ] ?? $definedPostTypes;
 				//error_log("Module $moduleSlug: defined=" . implode(',', $definedPostTypes) . "; enabled=" . implode(',', $enabled));
@@ -553,7 +553,7 @@ final class Plugin implements PluginContext
 	/// WIP
 	public function assignPostTypeCaps(array $bootedModules = []): void
     {
-        error_log( '=== assignPostTypeCaps ===' );
+        //error_log( '=== assignPostTypeCaps ===' );
 
         if ($this->capsAssigned) {
 			return;
@@ -568,7 +568,7 @@ final class Plugin implements PluginContext
             }
 
             $handlers = $this->getActivePostTypes();
-            error_log( 'handlers: ' . print_r( $handlers, true ) );
+            //error_log( 'handlers: ' . print_r( $handlers, true ) );
 
             if (empty($handlers)) {
                 error_log('No active post type handlers found; skipping.');
@@ -600,7 +600,7 @@ final class Plugin implements PluginContext
 
             $this->postTypeRegistrar->assignPostTypeCapabilities($handlers);
 
-            error_log('Capabilities assigned successfully.');
+            //error_log('Capabilities assigned successfully.');
             //self::log('Capabilities assigned successfully.');
 
             //update_option('whx4_caps_hash', $hash);
