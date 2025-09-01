@@ -11,7 +11,7 @@ class LogEntry extends PostTypeHandler
             'slug'        => 'log_entry',
             'plural_slug' => 'log_entries',
             'labels'      => [
-                'name' => 'Logbook',
+                //'name' => 'Logbook',
                 'menu_name' => 'Logbook',
                 //'search_items' => 'Search Logbook',
             ],
