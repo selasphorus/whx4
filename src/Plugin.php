@@ -481,6 +481,7 @@ final class Plugin implements PluginContext
 				    if ( ! class_exists( $postTypeHandlerClass ) ) {
 						continue;
 					}
+					error_log("postTypeHandlerClass: " . $postTypeHandlerClass );
 					$handler = new $postTypeHandlerClass(); //$postTypeHandler = new $postTypeHandlerClass();
 					$postTypeSlug = $handler->getSlug();
 					//$slug = ( new $handlerClass( null ) )->getSlug();
@@ -508,6 +509,14 @@ final class Plugin implements PluginContext
 
 		//error_log( '=== END getActivePostTypes() ===' );
 		//error_log("active postTypeClasses: " . print_r($postTypeClasses, true));
+
+		// Make sure WP default Post Types are also accounted for so that Subtypes will work -- e.g. subtype of Post
+		// TODO: make this more robust to ensure that these default types haven't for some reason been deactivated/removed?
+		$core = new \atc\WHx4\Modules\Core\CoreModule();
+		$coreHandlerClasses = $core->getPostTypeHandlerClasses();
+		foreach ($coreHandlerClasses as $slug => $class) {
+			$this->activePostTypes[$slug] = $class;
+		}
 
 		return $this->activePostTypes;
 		//return array_unique($postTypeClasses);

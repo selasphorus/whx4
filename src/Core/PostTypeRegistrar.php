@@ -129,12 +129,14 @@ class PostTypeRegistrar
     	//error_log( 'postTypeClasses: ' . print_r( $postTypeClasses, true ) );
         foreach( $postTypeClasses as $slug => $handlerClass ) {
         	//error_log( 'attempting to register handlerClass: '.$handlerClass );
-        	if ( post_type_exists( $slug ) ) {
-        	    error_log( 'already post_type_exists: '.$slug );
-        	    continue;
-        	}
         	$handler = new $handlerClass();
-            $this->registerCPT( $handler );
+        	if (!post_type_exists($slug)) {
+				// Only register if it doesn't already exist
+				$this->registerCPT( $handler );
+			} else {
+			    error_log( 'already post_type_exists: '.$slug );
+        	}
+        	//$handler->boot();
         }
     }
 
