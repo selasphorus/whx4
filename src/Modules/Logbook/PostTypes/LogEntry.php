@@ -15,6 +15,7 @@ class LogEntry extends PostTypeHandler
             //'capability_type' => ['secret','secrets'],
             //'hierarchical' => false,
             //'taxonomies' => ['admin_tag', 'secret_category'],
+            'menu_name' => 'Logbook',
         ];
 
         parent::__construct( $config, $post );
