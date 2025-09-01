@@ -52,6 +52,7 @@ use atc\WHx4\Modules\Events\EventsModule as Events;
 
 // Secondary Modules
 use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
+use atc\WHx4\Modules\Logbook\LogbookModule as Logbook;
 
 // Init
 add_filter( 'whx4_register_modules', function( array $modules ) {
@@ -61,7 +62,8 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
         'people'		=> People::class,
         'places'		=> Places::class,
         'events' 		=> Events::class,
-        'projects' 		=> Projects::class
+        'projects' 		=> Projects::class,
+        'logbook' 		=> Logbook::class
     ]);
 });
 
