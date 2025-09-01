@@ -4,12 +4,12 @@ namespace atc\WHx4\Modules\Logbook\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
 
-class Thing extends PostTypeHandler
+class LogEntry extends PostTypeHandler
 {
     public function __construct(WP_Post|null $post = null) {
         $config = [
-            'slug'        => 'thing',
-            'plural_slug' => 'thingies',
+            'slug'        => 'log_entry',
+            'plural_slug' => 'log_entries',
             //'rewrite' => ['slug' => 'whimsy'],
             //'menu_icon'   => 'dashicons-palmtree',
             //'capability_type' => ['secret','secrets'],
