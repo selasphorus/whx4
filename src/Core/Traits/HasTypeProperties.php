@@ -21,10 +21,10 @@ trait HasTypeProperties
 
     public function getLabels(): array
 	{
-		//error_log('=== getLabels() ===');
+		error_log('=== getLabels() ===');
 		$slug = $this->getSlug();
 		$defaults = $this->getDefaultLabels();
-		$overrides = $this->config['labels'] ?? [];
+		$overrides = $this->getConfig()['labels'] ?? [];
 		// Merge defaults with overrides
 		$labels = array_merge($defaults, $overrides);
 
