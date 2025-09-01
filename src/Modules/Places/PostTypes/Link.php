@@ -14,7 +14,7 @@ class Link extends PostTypeHandler
 				//'add_new_item' => 'Summon New Monster',
 				//'not_found' => 'No people loitering nearby',
 			],*/
-			'menu_icon'   => 'dashicons-link',
+			'menu_icon'   => 'dashicons-admin-links',
 			//'supports' => ['title', 'editor'],
 			'taxonomies' => [ 'link_category' ],
 		];
