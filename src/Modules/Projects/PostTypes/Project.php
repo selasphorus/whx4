@@ -10,6 +10,10 @@ class Project extends PostTypeHandler
         $config = [
             'slug'        => 'project',
             //'plural_slug' => 'projects',
+            /*'labels'      => [
+                //'name' => 'SpecialName',
+                //'menu_name' => 'SpecialName',
+            ],*/
             //'rewrite' => ['slug' => 'whimsy'],
             'menu_icon'   => 'dashicons-buddicons-replies', // alt could use dashicons-welcome-write-blog
             'capability_type' => ['project','projects'],

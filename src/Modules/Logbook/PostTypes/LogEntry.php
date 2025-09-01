@@ -10,14 +10,16 @@ class LogEntry extends PostTypeHandler
         $config = [
             'slug'        => 'log_entry',
             'plural_slug' => 'log_entries',
+            'labels'      => [
+                'name' => 'Logbook',
+                'menu_name' => 'Logbook',
+                //'search_items' => 'Search Logbook',
+            ],
             //'rewrite' => ['slug' => 'whimsy'],
             'menu_icon'   => 'dashicons-book',
             //'capability_type' => ['secret','secrets'],
             //'hierarchical' => false,
             //'taxonomies' => ['admin_tag', 'secret_category'],
-            'name' => 'Logbook',
-            'menu_name' => 'Logbook',
-            'search_items' => 'Search Logbook',
         ];
 
         parent::__construct( $config, $post );
