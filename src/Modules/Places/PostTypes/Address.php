@@ -10,11 +10,11 @@ class Address extends PostTypeHandler
 		$config = [
 			'slug'        => 'address',
 			'plural_slug' => 'addresses',
-			'labels'      => [
+			/*'labels'      => [
 				//'add_new_item' => 'Summon New Monster',
 				//'not_found' => 'No people loitering nearby',
-			],
-			//'menu_icon'   => 'dashicons-palmtree',
+			],*/
+			'menu_icon'   => 'dashicons-location-alt',
 			//'supports' => ['title', 'editor'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];

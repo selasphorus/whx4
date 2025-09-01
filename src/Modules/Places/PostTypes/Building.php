@@ -10,11 +10,11 @@ class Building extends PostTypeHandler
 		$config = [
 			'slug'        => 'building',
 			//'plural_slug' => 'buildings',
-			'labels'      => [
+			/*'labels'      => [
 				//'add_new_item' => 'Summon New Monster',
 				//'not_found' => 'No people loitering nearby',
-			],
-			//'menu_icon'   => 'dashicons-palmtree',
+			],*/
+			'menu_icon'   => 'dashicons-building',
 			//'supports' => ['title', 'editor'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
