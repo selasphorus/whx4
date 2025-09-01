@@ -30,7 +30,7 @@ final class LinkFields implements FieldGroupInterface
 
         acf_add_local_field_group( array(
             'key' => 'group_641509845a51d',
-            'title' => 'Link Details [whx4-ok]',
+            'title' => 'Link Details',
             'fields' => array(
                 array(
                     'key' => 'field_64150985e54f2',
