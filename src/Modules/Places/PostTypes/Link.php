@@ -10,13 +10,13 @@ class Link extends PostTypeHandler
 		$config = [
 			'slug'        => 'link',
 			//'plural_slug' => 'links',
-			'labels'      => [
+			/*'labels'      => [
 				//'add_new_item' => 'Summon New Monster',
 				//'not_found' => 'No people loitering nearby',
-			],
-			//'menu_icon'   => 'dashicons-palmtree',
+			],*/
+			'menu_icon'   => 'dashicons-link',
 			//'supports' => ['title', 'editor'],
-			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
+			'taxonomies' => [ 'link_category' ],
 		];
 
 		parent::__construct( $config, $post );
