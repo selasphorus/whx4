@@ -4,21 +4,21 @@ namespace atc\WHx4\Modules\Logbook\Subtypes;
 
 use atc\WHx4\Core\Contracts\SubtypeInterface;
 
-final class XXXSubtype implements SubtypeInterface
+final class LogEntriesSubtype implements SubtypeInterface
 {
     public function getPostType(): string
     {
-        return 'xxx_post_type_slug';
+        return 'post';
     }
 
     public function getSlug(): string
     {
-        return 'xxx_subtype_slug';
+        return 'log_entry';
     }
 
     public function getLabel(): string
     {
-        return 'XXX Subtype Name';
+        return 'Log Entries';
     }
 
     public function getTermArgs(): array
