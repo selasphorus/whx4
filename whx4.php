@@ -62,10 +62,10 @@ add_filter( 'whx4_register_modules', function( array $modules ) {
         'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
         'people'		=> People::class,
         'places'		=> Places::class,
-        'events' 		=> Events::class,,
-        'admin' 		=> Admin::class
+        'events' 		=> Events::class,
+        'admin' 		=> Admin::class,
         'projects' 		=> Projects::class,
-        'logbook' 		=> Logbook::class
+        'logbook' 		=> Logbook::class,
     ]);
 });
 
