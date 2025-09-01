@@ -53,7 +53,6 @@ class Person extends PostTypeHandler
 		];
 	}
 
-
 	//
 	protected function getPersonDates($post_id, $styled = false)
 	{
