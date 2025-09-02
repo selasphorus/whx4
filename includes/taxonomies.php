@@ -17,7 +17,7 @@ if ( get_field('whx4_active_modules', 'option') ) { $active_modules = get_field(
 
 if ( in_array('people', $active_modules ) ) {
 
-    // Custom Taxonomy: People Category
+    // Custom Taxonomy: People Category ==> Ok WHx4
     function register_taxonomy_person_category() {
         $labels = array(
             'name'              => _x( 'Person Categories', 'taxonomy general name' ),
@@ -57,7 +57,7 @@ if ( in_array('people', $active_modules ) ) {
     }
     add_action( 'init', 'register_taxonomy_person_category' );
 
-    // Custom Taxonomy: Person Role
+    // Custom Taxonomy: Person Role ==> Ok WHx4
     // This taxonomy is used both to designate personnel roles for events and also roles vis-a-vis identities and affiliations
     // NB: previously linked to Events module, along with Program Items
     function register_taxonomy_person_role() {
@@ -99,7 +99,7 @@ if ( in_array('people', $active_modules ) ) {
     }
     add_action( 'init', 'register_taxonomy_person_role' );
 
-    // Custom Taxonomy: Person Title
+    // Custom Taxonomy: Person Title ==> TBD
     // TODO: phase out this taxonomy -- currently in use only for nycago -- replace with affiliations via person_role
     function register_taxonomy_person_title() {
         $labels = array(
@@ -130,7 +130,7 @@ if ( in_array('people', $active_modules ) ) {
     }
     add_action( 'init', 'register_taxonomy_person_title' );
 
-    // Custom Taxonomy: Person Tag
+    // Custom Taxonomy: Person Tag -- Ok WHx4
     function register_taxonomy_person_tag() {
         $labels = array(
             'name'              => _x( 'Person Tags', 'taxonomy general name' ),
@@ -164,7 +164,7 @@ if ( in_array('people', $active_modules ) ) {
 /*** Taxonomies for GROUPS (Organizations/Ensembles/Institutions) ***/
 
 if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_modules ) ) {
-    // Custom Taxonomy: Group Category
+    // Custom Taxonomy: Group Category ==> Ok WHx4
     function register_taxonomy_group_category() {
         $labels = array(
             'name'              => _x( 'Group Categories', 'taxonomy general name' ),
@@ -208,7 +208,7 @@ if ( in_array( 'people', $active_modules ) || in_array( 'groups', $active_module
 
 //if ( in_array('venues', $active_modules ) ) {
 if ( in_array('places', $active_modules ) ) {
-    // Custom Taxonomy: Venue Category
+    // Custom Taxonomy: Venue Category ==> Ok WHx4
     function register_taxonomy_venue_category() {
         $labels = array(
             'name'              => _x( 'Venue Categories', 'taxonomy general name' ),
@@ -252,7 +252,7 @@ if ( in_array('places', $active_modules ) ) {
 
 if ( in_array('events', $active_modules ) ) {
 
-    // Custom Taxonomy: Program Label
+    // Custom Taxonomy: Program Label ==> Ok WHx4
     // TODO: consider generalizing this taxonomy to something like info_label or item_label? Or at least remove the limit to events so it can also be used with e.g. Projects?
     function register_taxonomy_program_label() {
         $labels = array(
@@ -293,6 +293,7 @@ if ( in_array('events', $active_modules ) ) {
     }
     add_action( 'init', 'register_taxonomy_program_label' );
 
-}
+    // Event Categories -- EM slug: event-categories
+    // Event Tags -- EM slug: event-tags
 
-?>
+}

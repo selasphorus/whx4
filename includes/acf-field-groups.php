@@ -18,7 +18,7 @@ add_action( 'acf/include_fields', 'whx4_register_field_groups' );
 
 function whx4_register_field_groups() {
 
-    // group_whx4_person
+    // group_whx4_person -- oop-ok
     acf_add_local_field_group( array(
         'key' => 'group_whx4_person',
         //'key' => 'group_624775b57f8df',
@@ -741,7 +741,7 @@ function whx4_register_field_groups() {
         'show_in_rest' => 0,
     ) );
 
-    //
+    // person legacy fields
     acf_add_local_field_group( array(
         'key' => 'group_5f15964995660',
         'title' => 'WHx4 Person: Legacy Fields',
@@ -912,8 +912,8 @@ function whx4_register_field_groups() {
         'description' => '',
         'show_in_rest' => false,
     ) );
-    
-    // group_whx4_identity    
+
+    // group_whx4_identity
     acf_add_local_field_group( array(
         'key' => 'group_whx4_identity',
         //'key' => 'group_67054bd382b5f',
@@ -1150,8 +1150,8 @@ function whx4_register_field_groups() {
         'acfe_meta' => '',
         'acfe_note' => '',
     ) );
-    
-    //
+
+    // People Module Options
     acf_add_local_field_group( array(
         'key' => 'group_664b76ebf3872',
         'title' => 'People Module Options',
@@ -1239,8 +1239,8 @@ function whx4_register_field_groups() {
         'description' => '',
         'show_in_rest' => 0,
     ) );
-    
-    // group_whx4_group
+
+    // group_whx4_group -- oop-ok
     acf_add_local_field_group( array(
         'key' => 'group_whx4_group',
         //'key' => 'group_62745b70d177e',
@@ -1286,8 +1286,8 @@ function whx4_register_field_groups() {
         'description' => 'This post type is for managing groups of persons, including: organizations, educational and religious institutions, ensembles, companies, etc.',
         'show_in_rest' => 0,
     ) );
-    
-    // group_whx4_pp
+
+    // WHx4: Personnel & Program (group_whx4_pp)
     acf_add_local_field_group( array(
         'key' => 'group_whx4_pnp',
         //'key' => 'group_5efa556eba291',
@@ -2411,8 +2411,8 @@ function whx4_register_field_groups() {
         'description' => '',
         'show_in_rest' => 0,
     ) );
-    
-    // group_whx4_event
+
+    // WHx4 Event: Additional Fields (group_whx4_event)
     acf_add_local_field_group( array(
         'key' => 'group_whx4_event',
         //'key' => 'group_5efa556eba291',
@@ -3021,7 +3021,7 @@ function whx4_register_field_groups() {
         'show_in_rest' => 0,
     ) );
 
-    // >> WHx4
+    // >> WHx4 event legacy fields
     acf_add_local_field_group( array(
         'key' => 'group_5de541e8a5411',
         'title' => 'WHx4 Event: Legacy & Admin Fields',
@@ -3367,8 +3367,8 @@ function whx4_register_field_groups() {
         'description' => '',
         'show_in_rest' => 0,
     ) );
-    
-    // group_whx4_event_series
+
+    // WHX4 Event Series: Additional Fields (group_whx4_event_series)
     acf_add_local_field_group( array(
         'key' => 'group_whx4_event_series',
         //'key' => 'group_627c0014d01c2',
