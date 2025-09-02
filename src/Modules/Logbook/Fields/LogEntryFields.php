@@ -533,6 +533,18 @@ final class LogEntryFields implements FieldGroupInterface
                     array(
                         'param' => 'post_type',
                         'operator' => '==',
+                        'value' => 'post',
+                    ),
+                    array(
+                        'param' => 'post_taxonomy',
+                        'operator' => '==',
+                        'value' => 'categories:meow',
+                    ),
+                ),
+                array(
+                    array(
+                        'param' => 'post_type',
+                        'operator' => '==',
                         'value' => 'event',
                     ),
                     array(
