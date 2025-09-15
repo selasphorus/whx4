@@ -5,6 +5,8 @@
 namespace atc\WHx4;
 
 use atc\WHx4\Core\Contracts\PluginContext;
+use atc\WHx4\Core\BaseHandler;
+//
 use atc\WHx4\Core\CoreServices;
 use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeRegistrar;
@@ -94,6 +96,8 @@ final class Plugin implements PluginContext
 
 		// Allow others to register modules early
 		do_action( 'whx4_pre_boot', $this );
+
+		BaseHandler::setContext($this); // <-- make context available to all handlers
 
         $this->defineConstants();
         $this->registerAdminHooks();

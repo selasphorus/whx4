@@ -2,7 +2,6 @@
 
 namespace atc\WHx4\Core;
 
-use atc\WHx4\Core\Contracts\PluginContext;
 use WP_Post;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
@@ -11,7 +10,7 @@ abstract class PostTypeHandler extends BaseHandler
 {
 	use AppliesTitleArgs;
 
-    public function __construct(private PluginContext $ctx) {} // Is this the best way? TBD -- point is to have access to getActivePostTypes for array of slugs/fqcns
+	protected PluginContext $ctx; //protected static ?PluginContext $ctx = null; // Is this the best way? TBD -- point is to have access to getActivePostTypes for array of slugs/fqcns
 
 	// Property to store the post object
     protected $post; // better private?
@@ -26,7 +25,6 @@ abstract class PostTypeHandler extends BaseHandler
     // END WIP
 
     // Constructor to set the config and post object
-
     public function __construct( array $config = [], WP_Post|null $post = null )
     {
         parent::__construct( $config, $post );

@@ -3,11 +3,16 @@
 namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\Traits\HasTypeProperties;
+use atc\WHx4\Core\Contracts\PluginContext;
+use LogicException;
 
 // Shared logic & constructor for all registrable types (CPTs, taxonomies, maybe more)
 abstract class BaseHandler
 {
-    use HasTypeProperties;
+    //use HasTypeProperties;
+
+    /** @var PluginContext|null */
+    private static ?PluginContext $ctx = null;
 
     protected array $config = [];
     protected const TYPE = 'post_type'; //protected string $type = 'post_type';
@@ -19,6 +24,24 @@ abstract class BaseHandler
 		$this->config = $config;
 		$this->object = $object;
 	}
+
+    public static function setContext(PluginContext $ctx): void
+    {
+        self::$ctx = $ctx;
+    }
+
+    protected static function getContext(): PluginContext
+    {
+        if(self::$ctx === null){
+            throw new LogicException('PluginContext not set. Call BaseHandler::setContext() during plugin boot.');
+        }
+        return self::$ctx;
+    }
+
+    protected function ctx(): PluginContext
+    {
+        return self::getContext();
+    }
 
     public function getType(): string {
 		return static::TYPE;
