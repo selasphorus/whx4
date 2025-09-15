@@ -2,7 +2,7 @@
 
 namespace atc\Whx4\Core;
 
-class ViewLoader
+final class ViewLoader
 {
     protected static array $moduleViewRoots = [];
 
@@ -16,7 +16,8 @@ class ViewLoader
      */
     public static function registerModuleViewRoot( string $moduleSlug, string $absolutePath ): void
     {
-        self::$moduleViewRoots[ $moduleSlug ] = rtrim( $absolutePath, '/' );
+        $key = strtolower( trim($moduleSlug) ); // just in case
+        self::$moduleViewRoots[ $key ] = rtrim( $absolutePath, '/' );
     }
 
     /**
@@ -76,16 +77,18 @@ class ViewLoader
     protected static function generateSearchPaths( string $view, string $module = '' ): array
     {
         $paths = [];
-        $moduleSlug = strtolower( $module );
+        $moduleSlug = strtolower(trim($module));
 
         if ( $moduleSlug ) {
-            // 1. Theme override: /themes/my-theme/whx4/{module}/view.php
-            $themeOverride = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
-            error_log( '=== themeOverride path: ' . $themeOverride . '===' );
-            $paths[] = $themeOverride;
+            // Theme overrides
+            // 1a. Child theme override -- e.g. /themes/my-theme/whx4/{module}/view.php
+            //error_log( '=== themeOverride path: ' . $themeOverride . '===' );
+            $paths[] = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
+            // 1b. Parent theme override
+            $paths[] = get_template_directory()   . "/whx4/{$moduleSlug}/{$view}.php";
 
-            // 2. Module-registered path: src/Modules/Supernatural/Views/view.php)
-            if ( isset( self::$moduleViewRoots[ $module ] ) ) {
+            // 2. Module-registered path -- e.g. src/Modules/Supernatural/Views/view.php
+            if ( isset( self::$moduleViewRoots[ $module ] ) ) { // if (isset(self::$moduleViewRoots[$moduleSlug])) {
                 $moduleViewPath = self::$moduleViewRoots[ $module ] . "/{$view}.php";
                 error_log( '=== moduleViewPath: ' . $moduleViewPath . '===' );
                 $paths[] = $moduleViewPath;
