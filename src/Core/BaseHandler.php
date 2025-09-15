@@ -9,7 +9,7 @@ use LogicException;
 // Shared logic & constructor for all registrable types (CPTs, taxonomies, maybe more)
 abstract class BaseHandler
 {
-    //use HasTypeProperties;
+    use HasTypeProperties;
 
     /** @var PluginContext|null */
     private static ?PluginContext $ctx = null;
