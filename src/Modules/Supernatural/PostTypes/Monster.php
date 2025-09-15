@@ -29,7 +29,7 @@ class Monster extends PostTypeHandler
 	    parent::boot(); // Optional if you add shared logic later
 
 	    // Apply Title Args -- this modifies front-end display only
-	    // TODO: consider alternative approaches to allow for more customization? e.g. different args as with old SDG get_person_display_name method
+	    // TODO: consider alternative approaches to allow for more customization? e.g. different args as with old SDG getPersonDisplayName method
 		$this->applyTitleArgs( $this->getSlug(), [
 			'line_breaks'    => true,
 			'show_subtitle'  => true,
@@ -67,7 +67,7 @@ class Monster extends PostTypeHandler
 
     public function getColor() {
         // Assuming the color is stored as a custom field, for example, _monster_color
-        return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : null;
+        return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : "orange";
     }
 
     // Other methods related to the monster...
