@@ -6,9 +6,6 @@ use atc\WHx4\Core\Contracts\PluginContext;
 
 class TitleFilter
 {
-    protected static array $globalArgs = [];
-    protected static array $contextArgs = []; // ???
-    protected static array $postTypeHandlers = []; // ??? obsolete?
     protected static ?PluginContext $ctx = null; //public function __construct(private PluginContext $ctx) {}
 
     public static function boot(): void
@@ -20,17 +17,6 @@ class TitleFilter
     {
         error_log( '=== TitleFilter::setContext ===' );
         self::$ctx = $ctx;
-    }
-
-    public static function setGlobalArgsForPostType( string $postType, array $args ): void
-    {
-        //error_log("=== TitleFilter: setGlobalArgsForPostType ===");
-        self::$globalArgs[ $postType ] = $args;
-    }
-
-    public static function getGlobalArgsForPostType( string $postType ): array
-    {
-        return self::$globalArgs[ $postType ] ?? [];
     }
 
     public static function filterTitle( string $title, int $postId ): string
