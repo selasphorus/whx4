@@ -4,6 +4,7 @@ namespace atc\Whx4\Core;
 
 use atc\WHx4\Utils\TitleFilter;
 use atc\WHx4\Core\FieldGroupLoader;
+use atc\WHx4\Core\TemplateRouter;
 
 class CoreServices
 {
@@ -15,6 +16,7 @@ class CoreServices
         $services = apply_filters( 'whx4_core_services', [
             TitleFilter::class,
             FieldGroupLoader::class,
+            TemplateRouter::class,
             // Add more core classes here as needed
         ]);
 

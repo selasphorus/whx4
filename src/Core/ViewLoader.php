@@ -105,4 +105,30 @@ final class ViewLoader
 
         return $paths;
     }
+
+    /**
+     * Map a post type slug to "{moduleSlug}/{postType}" for view lookup.
+     * Prefers Handler::getViewNamespace(); falls back to deriving module from FQCN.
+     */
+    public static function viewKeyForPostType(string $postType): ?string
+    {
+        $activePostTypes = $this->ctx->getActivePostTypes(); // ['person' => \...Person::class]
+        $handlerClass = $activePostTypes[$postType] ?? null;
+        if (!$handlerClass || !class_exists($handlerClass)) {
+            return null;
+        }
+
+        if (method_exists($handlerClass, 'getViewNamespace')) {
+            $ns = strtolower((string) $handlerClass::getViewNamespace());
+            return "{$ns}/{$postType}";
+        }
+
+        if (preg_match('#\\\\Modules\\\\([^\\\\]+)\\\\#', $handlerClass, $m)) {
+            $module = strtolower($m[1]);
+            return "{$module}/{$postType}";
+        }
+
+        return null;
+    }
+
 }

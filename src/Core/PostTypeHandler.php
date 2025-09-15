@@ -10,8 +10,6 @@ abstract class PostTypeHandler extends BaseHandler
 {
 	use AppliesTitleArgs;
 
-	protected PluginContext $ctx; //protected static ?PluginContext $ctx = null; // Is this the best way? TBD -- point is to have access to getActivePostTypes for array of slugs/fqcns
-
 	// Property to store the post object
     protected $post; // better private?
     protected const TYPE = 'post_type';
