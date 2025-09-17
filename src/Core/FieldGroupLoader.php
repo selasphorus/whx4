@@ -2,8 +2,8 @@
 
 namespace atc\WHx4\Core;
 
-use atc\Whx4\Core\Util\NamespaceUtil;
-use atc\WHx4\Core\Contracts\PluginContext;
+use atc\WHx4\Core\WHx4;
+//use atc\Whx4\Core\Util\NamespaceUtil;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -29,7 +29,7 @@ class FieldGroupLoader
         error_log( '=== FieldGroupLoader::bootstrap() ===' );
 
         // Abort if no modules have been booted
-        if ( !$this->ctx->modulesBooted() ) {
+        if ( !WHx4::ctx()->modulesBooted() ) {
             error_log( '=== no modules booted yet => abort ===' );
             return;
         }
@@ -42,7 +42,7 @@ class FieldGroupLoader
     public function registerAll(): void
     {
         error_log( '=== registerAll field groups ===' );
-        foreach( $this->ctx->getActiveModules() as $moduleClass ) {
+        foreach( WHx4::ctx()->getActiveModules() as $moduleClass ) {
             $this->registerFieldsForModule( $moduleClass );
         }
     }
@@ -60,7 +60,7 @@ class FieldGroupLoader
             return;
         }
 
-        $activePostTypes = $this->ctx->getActivePostTypes();
+        $activePostTypes = WHx4::ctx()->getActivePostTypes();
         //error_log( 'activePostTypes: ' . print_r($activePostTypes, true) );
 
         // === Build a map of postType slug => short class name (e.g. rex_event => Event)

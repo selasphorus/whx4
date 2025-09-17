@@ -3,6 +3,7 @@
 namespace atc\WHx4\Core;
 
 use WP_Post;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
 
@@ -85,7 +86,7 @@ abstract class PostTypeHandler extends BaseHandler
             return null;
         }
 
-        $activePostTypes = $this->ctx->getActivePostTypes(); // ['person' => \...Person::class]
+        $activePostTypes = WHx4::ctx()->getActivePostTypes(); // ['person' => \...Person::class]
         if ( empty( $activePostTypes ) ) {
 			return null;
 		}

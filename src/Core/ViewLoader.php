@@ -4,6 +4,9 @@ namespace atc\Whx4\Core;
 
 final class ViewLoader
 {
+    /** @var PluginContext|null */
+    private static ?PluginContext $ctx = null;
+
     protected static array $moduleViewRoots = [];
 
     public static function hasViewRoot( string $slug ): bool
@@ -112,7 +115,7 @@ final class ViewLoader
      */
     public static function viewKeyForPostType(string $postType): ?string
     {
-        $activePostTypes = $this->ctx->getActivePostTypes(); // ['person' => \...Person::class]
+        $activePostTypes = WHx4::ctx()->getActivePostTypes(); // ['person' => \...Person::class]
         $handlerClass = $activePostTypes[$postType] ?? null;
         if (!$handlerClass || !class_exists($handlerClass)) {
             return null;
