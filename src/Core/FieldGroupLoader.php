@@ -15,7 +15,6 @@ use atc\WHx4\Core\Contracts\SubtypeFieldGroupInterface;
 class FieldGroupLoader
 {
     private bool $registered = false;
-    public function __construct( private PluginContext $ctx ) {}
 
     public function register(): void
     {
