@@ -11,8 +11,6 @@ class PostTypeRegistrar
     private bool $registered = false;
     private bool $capsAssigned = false;
 
-    public function __construct(private PluginContext $ctx) {}
-
     public function register(): void
     {
         if ( $this->registered ) return;
