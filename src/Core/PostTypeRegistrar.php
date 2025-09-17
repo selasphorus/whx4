@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Core;
 
-use atc\WHx4\Core\Contracts\PluginContext;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeHandler;
 
@@ -30,12 +30,12 @@ class PostTypeRegistrar
         //error_log( '=== PostTypeRegistrar::bootstrap() ===' );
 
         // Abort if no modules have been booted
-		if ( !$this->ctx->modulesBooted() ) {
+		if ( !WHx4::ctx()->modulesBooted() ) {
 		    error_log( '=== no modules booted yet => abort ===' );
 			return;
 		}
 
-        $activePostTypes = $this->ctx->getActivePostTypes();
+        $activePostTypes = WHx4::ctx()->getActivePostTypes();
         if ( empty( $activePostTypes ) ) {
 			error_log( 'No active post types found. Skipping registration.' );
 			return;
@@ -147,7 +147,7 @@ class PostTypeRegistrar
 		//$roles = ['administrator']; //
 		$roles = ['administrator', 'editor'];
 
-		$activePostTypes = $this->ctx->getActivePostTypes();
+		$activePostTypes = WHx4::ctx()->getActivePostTypes();
 		//error_log( 'activePostTypes: ' . print_r($activePostTypes, true). ' ==' );
 
 		foreach ( $activePostTypes as $slug => $handlerClass ) {
