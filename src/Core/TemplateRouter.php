@@ -6,7 +6,7 @@ use atc\WHx4\Core\ViewLoader;
 /**
  * Routes WP's single/archive template resolution for WHx4-managed CPTs.
  * Honors native theme overrides (single-{pt}.php, archive-{pt}.php) first,
- * then falls back to the Rex view cascade via ViewLoader.
+ * then falls back to the WHx4 view cascade via ViewLoader.
  */
 final class TemplateRouter
 {
@@ -63,14 +63,14 @@ final class TemplateRouter
     }
 
     /**
-     * Find the Rex view path for a CPT and view kind ("single"|"archive").
+     * Find the WHx4 view path for a CPT and view kind ("single"|"archive").
      * Returns the absolute path if found; otherwise null (caller falls back to WP's template).
      */
     private static function locatePostTypeTemplate(string $kind, string $postType, string $fallback): ?string
     {
         $key = ViewLoader::viewKeyForPostType($postType); // e.g. "supernatural/monster"
         if (!$key) {
-            return null; // Not a Rex-managed CPT or no handler registered.
+            return null; // Not a WHx4-managed CPT or no handler registered.
         }
 
         [$module] = explode('/', $key, 2);

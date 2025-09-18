@@ -10,7 +10,6 @@ $color = ($handler && method_exists($handler, 'getColor'))
     : '';
 ?>
 
-
 <div>
 Monster view test -- single.
 <?php echo "color: " . $color; ?>
