@@ -3,7 +3,7 @@
 namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\WHx4;
-//use atc\Whx4\Core\Util\NamespaceUtil;
+//use atc\WHx4\Core\Util\NamespaceUtil;
 use ReflectionClass;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

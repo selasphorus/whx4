@@ -1,6 +1,7 @@
 <?php
 
-namespace atc\Whx4\Core;
+namespace atc\WHx4\Core;
+use atc\WHx4\Core\WHx4;
 
 final class ViewLoader
 {
@@ -20,7 +21,9 @@ final class ViewLoader
     public static function registerModuleViewRoot( string $moduleSlug, string $absolutePath ): void
     {
         $key = strtolower( trim($moduleSlug) ); // just in case
-        self::$moduleViewRoots[ $key ] = rtrim( $absolutePath, '/' );
+        $viewRoot = rtrim( $absolutePath, '/' );
+        error_log( '=== viewRoot for moduleSlug/key: ' . $key . ' is: ' . $viewRoot . '===' );
+        self::$moduleViewRoots[ $key ] = $viewRoot;
     }
 
     /**
@@ -57,6 +60,7 @@ final class ViewLoader
     {
         foreach ( self::generateSearchPaths( $view, $module ) as $path ) {
             if ( file_exists( $path ) ) {
+                error_log( '=== File found at path: ' . $path . '===' );
                 return $path;
             }
             error_log( '=== No file_exists at path: ' . $path . '===' );
@@ -98,7 +102,7 @@ final class ViewLoader
             }
 
             // 3. Plugin-level module fallback: Modules/{module}/Views/view.php -- could also add views/modules/{module}/view.php
-            $pluginViewPath = WHX4_PLUGIN_DIR . "src/Modules/{$module}/Views/{$view}.php";
+            $pluginViewPath = WHX4_PLUGIN_DIR . "views/modules/" . $module . "/{$view}.php";
             error_log( '=== pluginViewPath: ' . $pluginViewPath . '===' );
             $paths[] = $pluginViewPath;
         }

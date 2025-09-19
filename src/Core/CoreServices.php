@@ -1,6 +1,6 @@
 <?php
 
-namespace atc\Whx4\Core;
+namespace atc\WHx4\Core;
 
 use atc\WHx4\Utils\TitleFilter;
 use atc\WHx4\Core\FieldGroupLoader;

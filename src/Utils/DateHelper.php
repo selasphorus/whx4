@@ -1,6 +1,6 @@
 <?php
 
-namespace atc\Whx4\Utils;
+namespace atc\WHx4\Utils;
 
 use DateTimeImmutable;
 use DateTimeInterface;
