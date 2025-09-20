@@ -37,7 +37,7 @@ final class ViewLoader
      */
     public static function registerModuleViewRoot( string $moduleSlug, string $absolutePath ): void
     {
-        $slug = Text::slugify($moduleSlug); // just in case
+        $key = Text::slugify($moduleSlug); // just in case
         $viewRoot = rtrim( $absolutePath, '/' );
         error_log( '=== viewRoot for moduleSlug/key: ' . $key . ' is: ' . $viewRoot . '===' );
         self::$moduleViewRoots[ $key ] = $viewRoot;
