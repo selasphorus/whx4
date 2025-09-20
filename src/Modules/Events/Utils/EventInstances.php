@@ -6,7 +6,7 @@ use WP_Post;
 use WP_Query;
 use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Utils\RepeaterChangeDetector;
-use atc\WHx4\Helpers\PluginPaths;
+use atc\WHx4\Utils\PluginPaths;
 use atc\WHx4\Core\ViewLoader;
 
 class EventInstances

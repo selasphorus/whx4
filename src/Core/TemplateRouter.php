@@ -1,7 +1,9 @@
 <?php
 namespace atc\WHx4\Core;
 
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\ViewLoader;
+use atc\WHx4\Utils\ClassInfo;
 
 /**
  * Routes WP's single/archive template resolution for WHx4-managed CPTs.
@@ -68,14 +70,48 @@ final class TemplateRouter
      */
     private static function locatePostTypeTemplate(string $kind, string $postType, string $fallback): ?string
     {
-        $key = ViewLoader::viewKeyForPostType($postType); // e.g. "supernatural/monster"
+        $activePostTypes = WHx4::ctx()->getActivePostTypes(); // ['person' => \...Person::class]
+        $handlerClass = $activePostTypes[$postType] ?? null;
+        if (!$handlerClass || !class_exists($handlerClass)) {
+            return null;
+        }
+        $key = strtolower((string) ClassInfo::getViewNamespace($handlerClass));
+        //$key = self::viewKeyForPostType($postType); // e.g. "supernatural/monster"
         if (!$key) {
             return null; // Not a WHx4-managed CPT or no handler registered.
         }
 
         [$module] = explode('/', $key, 2);
+        // TODO:
         $view = "{$postType}/{$kind}"; // e.g. "monster/single" or "monster/archive"
 
-        return ViewLoader::getViewPath($view, $module) ?? $fallback;
+        //return ViewLoader::getViewPath($view, $module) ?? $fallback;
+        return ViewLoader::getViewPath($view, ['module' => $module] ) ?? $fallback;
     }
+
+
+    /**
+     * Map a post type slug to "{moduleSlug}/{postType}" for view lookup.
+     * Prefers Handler::getViewNamespace(); falls back to deriving module from FQCN.
+     */
+    /*public static function viewKeyForPostType(string $postType): ?string
+    {
+        $activePostTypes = WHx4::ctx()->getActivePostTypes(); // ['person' => \...Person::class]
+        $handlerClass = $activePostTypes[$postType] ?? null;
+        if (!$handlerClass || !class_exists($handlerClass)) {
+            return null;
+        }
+
+        if (method_exists($handlerClass, 'getViewNamespace')) {
+            $ns = strtolower((string) $handlerClass::getViewNamespace());
+            return "{$ns}/{$postType}";
+        }
+
+        if (preg_match('#\\\\Modules\\\\([^\\\\]+)\\\\#', $handlerClass, $m)) {
+            $module = strtolower($m[1]);
+            return "{$module}/{$postType}";
+        }
+
+        return null;
+    }*/
 }

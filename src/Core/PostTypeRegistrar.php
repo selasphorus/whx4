@@ -272,13 +272,4 @@ class PostTypeRegistrar
         return $fqcn;
     }
 
-    // Translate slug to studly caps to match class naming conventions
-    private function studly(string $value): string
-    {
-        // "habitat" -> "Habitat", "event_tag" -> "EventTag", "event-tag" -> "EventTag"
-        $value = str_replace([ '-', '_' ], ' ', $value);
-        $value = ucwords($value);
-        return str_replace(' ', '', $value);
-    }
-
 }

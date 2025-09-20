@@ -1,18 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace atc\WHx4\Core;
 use atc\WHx4\Core\WHx4;
+use atc\WHx4\Core\ViewKind;
+use atc\WHx4\Utils\Text;
+use atc\WHx4\Utils\ClassInfo;
 
+/**
+ * Framework-level view resolver & renderer.
+ * Responsibilities:
+ *  - Register module view roots
+ *  - Resolve view paths with layered overrides (theme → module → plugin)
+ *  - Render views to output or string
+ *
+ * View "spec":
+ *   - kind: one of ViewKind (enum instance) or string ('module', 'posttype', ...)
+ *   - module: module slug (e.g. 'supernatural')
+ *   - post_type: post type slug (e.g. 'monster')
+ *   - allow_theme: whether to check theme overrides (default true)
+ */
 final class ViewLoader
 {
-    /** @var PluginContext|null */
-    private static ?PluginContext $ctx = null;
-
+    /** @var array<string,string> Module slug => absolute view root path */
     protected static array $moduleViewRoots = [];
 
-    public static function hasViewRoot( string $slug ): bool
+    public static function hasViewRoot( string $moduleSlug ): bool
     {
-        return isset( self::$moduleViewRoots[ $slug ] );
+        $slug = Text::slugify($moduleSlug); // just in case
+        return isset(self::$moduleViewRoots[$slug]);
     }
 
     /**
@@ -20,7 +37,7 @@ final class ViewLoader
      */
     public static function registerModuleViewRoot( string $moduleSlug, string $absolutePath ): void
     {
-        $key = strtolower( trim($moduleSlug) ); // just in case
+        $slug = Text::slugify($moduleSlug); // just in case
         $viewRoot = rtrim( $absolutePath, '/' );
         error_log( '=== viewRoot for moduleSlug/key: ' . $key . ' is: ' . $viewRoot . '===' );
         self::$moduleViewRoots[ $key ] = $viewRoot;
@@ -28,39 +45,51 @@ final class ViewLoader
 
     /**
      * Echo a rendered view immediately.
+     *
+     * @param array<string,mixed> $vars
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
      */
-    public static function render( string $view, array $vars = [], string $module = '' ): void
+    public static function render( string $view, array $vars = [], array $spec = [] ): void
     {
-        echo self::renderToString( $view, $vars, $module );
+        echo self::renderToString($view, $vars, $spec);
     }
 
     /**
-     * Return a rendered view as a string, searching in theme, module, and plugin folders. Uses output buffering.
+     * Return the rendered view as a string. Uses output buffering.
+     *
+     * @param array<string,mixed> $vars
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
      */
-    public static function renderToString( string $view, array $vars = [], string $module = '' ): string
+    public static function renderToString(string $view, array $vars = [], array $spec = []): string
     {
-        $path = self::getViewPath( $view, $module );
+        $path = self::getViewPath($view, $spec);
 
-        if ( $path ) {
+        if ($path) {
             ob_start();
-            extract( $vars, EXTR_SKIP );
+            extract($vars, EXTR_SKIP);
             include $path;
             return ob_get_clean();
         }
 
+        $kind   = self::normalizeKind($spec['kind'] ?? null);
+        $module = Text::slug($spec['module'] ?? '');
+        $ptype  = Text::slug($spec['post_type'] ?? '');
+
         return '<div class="notice notice-error"><p>' .
-            esc_html( "View not found: $view (module: " . $module . ") at path: " . $path ) .
+            esc_html("View not found: {$view} (kind: {$kind}, module: {$module}, post_type: {$ptype})") .
             '</p></div>';
     }
 
     /**
-     * Get the resolved full path to a view (first match), or null if not found.
+     * Resolve a view to a concrete file path, or null if not found.
+     *
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
      */
-    public static function getViewPath( string $view, string $module = '' ): ?string
+    public static function getViewPath(string $view, array $spec = []): ?string
     {
-        foreach ( self::generateSearchPaths( $view, $module ) as $path ) {
-            if ( file_exists( $path ) ) {
-                error_log( '=== File found at path: ' . $path . '===' );
+        foreach (self::generateSearchPaths($view, $spec) as $path) {
+            if (file_exists($path)) {
+                //error_log( '=== File found at path: ' . $path . '===' );
                 return $path;
             }
             error_log( '=== No file_exists at path: ' . $path . '===' );
@@ -68,6 +97,9 @@ final class ViewLoader
 
         return null;
     }
+
+    ////
+
     /* Usage examples:
     From a module:
     $this->renderView( 'monster-list', [
@@ -79,63 +111,108 @@ final class ViewLoader
     */
 
     /**
-     * Generate an ordered list of candidate view paths based on view name and module.
+     * Build ordered candidate paths:
+     *   1) Theme overrides (child → parent)
+     *   2) Module-registered root (src/Modules/<Module>/Views)
+     *   3) Plugin fallback (rex/views/<view>.php)
+     *
+     * @param array{module?:string,post_type?:string,allow_theme?:bool} $spec
+     * @return string[]
      */
-    protected static function generateSearchPaths( string $view, string $module = '' ): array
+    protected static function generateSearchPaths(string $view, array $spec = []): array
     {
-        $paths = [];
-        $moduleSlug = strtolower(trim($module));
+        $paths       = [];
+        $module      = Text::slug($spec['module'] ?? '');
+        $postType    = Text::slug($spec['post_type'] ?? '');
+        $allowTheme  = $spec['allow_theme'] ?? true;
 
-        if ( $moduleSlug ) {
-            // Theme overrides
-            // 1a. Child theme override -- e.g. /themes/my-theme/whx4/{module}/view.php
-            //error_log( '=== themeOverride path: ' . $themeOverride . '===' );
-            $paths[] = get_stylesheet_directory() . "/whx4/{$moduleSlug}/{$view}.php";
-            // 1b. Parent theme override
-            $paths[] = get_template_directory()   . "/whx4/{$moduleSlug}/{$view}.php";
-
-            // 2. Module-registered path -- e.g. src/Modules/Supernatural/Views/view.php
-            if ( isset( self::$moduleViewRoots[ $module ] ) ) { // if (isset(self::$moduleViewRoots[$moduleSlug])) {
-                $moduleViewPath = self::$moduleViewRoots[ $module ] . "/{$view}.php";
-                error_log( '=== moduleViewPath: ' . $moduleViewPath . '===' );
-                $paths[] = $moduleViewPath;
+        // 1) Theme overrides (child → parent)
+        if ($allowTheme) {
+            foreach ([get_stylesheet_directory(), get_template_directory()] as $root) {
+                self::appendPermutations(
+                    $paths,
+                    rtrim($root, '/'),
+                    'rex',          // theme subdir
+                    $module,
+                    $postType,
+                    $view,
+                    true            // include module-specific permutations
+                );
             }
-
-            // 3. Plugin-level module fallback: Modules/{module}/Views/view.php -- could also add views/modules/{module}/view.php
-            $pluginViewPath = WHX4_PLUGIN_DIR . "views/modules/" . $module . "/{$view}.php";
-            error_log( '=== pluginViewPath: ' . $pluginViewPath . '===' );
-            $paths[] = $pluginViewPath;
         }
 
-        // 4. Plugin-level global fallback: views/view.php (shared/global)
-        $paths[] = WHX4_PLUGIN_DIR . "views/{$view}.php";
+        // 2) Module-registered root (e.g., rex/src/Modules/Supernatural/Views)
+        if ($module !== '' && isset(self::$moduleViewRoots[$module])) {
+            $root = rtrim(self::$moduleViewRoots[$module], '/');
+            if ($postType !== '') {
+                $paths[] = "{$root}/{$postType}/{$view}.php";
+            }
+            $paths[] = "{$root}/{$view}.php";
+        }
+
+        // 3) Plugin fallback (rex/views/<view>.php)
+        self::appendPermutations(
+            $paths,
+            rtrim(WHX4_PLUGIN_DIR, '/'),
+            'views',        // plugin views dir
+            $module,
+            $postType,
+            $view,
+            false           // no module-specific permutations under plugin/views
+        );
 
         return $paths;
     }
 
     /**
-     * Map a post type slug to "{moduleSlug}/{postType}" for view lookup.
-     * Prefers Handler::getViewNamespace(); falls back to deriving module from FQCN.
+     * Append most-specific → least-specific permutations under a root.
+     * When $includeModule is false, only "<root>/<subdir>/<view>.php" is appended.
+     *
+     * @param array<string> $list
      */
-    public static function viewKeyForPostType(string $postType): ?string
+    private static function appendPermutations(
+        array &$list,
+        string $root,
+        string $subdir,
+        string $module,
+        string $postType,
+        string $view,
+        bool $includeModule
+    ): void
     {
-        $activePostTypes = WHx4::ctx()->getActivePostTypes(); // ['person' => \...Person::class]
-        $handlerClass = $activePostTypes[$postType] ?? null;
-        if (!$handlerClass || !class_exists($handlerClass)) {
-            return null;
+        $base = rtrim($root, '/');
+        $sub  = trim($subdir, '/');
+        $base = $sub !== '' ? "{$base}/{$sub}" : $base;
+
+        if ($includeModule && $module !== '' && $postType !== '') {
+            $list[] = "{$base}/{$module}/{$postType}/{$view}.php";
         }
 
-        if (method_exists($handlerClass, 'getViewNamespace')) {
-            $ns = strtolower((string) $handlerClass::getViewNamespace());
-            return "{$ns}/{$postType}";
+        if ($includeModule && $module !== '') {
+            $list[] = "{$base}/{$module}/{$view}.php";
         }
 
-        if (preg_match('#\\\\Modules\\\\([^\\\\]+)\\\\#', $handlerClass, $m)) {
-            $module = strtolower($m[1]);
-            return "{$module}/{$postType}";
+        $list[] = "{$base}/{$view}.php";
+    }
+
+    ///////
+
+    /**
+     * Normalize the "kind" input to a lowercase string.
+     *
+     * Accepts:
+     *  - null
+     *  - raw string (e.g. "posttype")
+     *  - ViewKind enum instance
+     */
+    private static function normalizeKind(mixed $kind): string
+    {
+        if ($kind instanceof ViewKind) {
+            return Text::slugify($kind->value);
         }
 
-        return null;
+        $k = Text::slugify((string) $kind);
+        return $k !== '' ? $k : ViewKind::GLOBAL->value;
     }
 
 }
