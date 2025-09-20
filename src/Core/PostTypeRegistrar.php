@@ -5,6 +5,7 @@ namespace atc\WHx4\Core;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BootOrder;
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Utils\Text;
 
 class PostTypeRegistrar
 {
@@ -267,7 +268,7 @@ class PostTypeRegistrar
 
         // Build FQCN: <prefix><Module>\Taxonomies\<Studly>
         // TODO: generalize for classes other than Taxonomies by replacing hardcoded '\\Taxonomies\\' with another var
-        $fqcn = $modulesPrefix . $targetModule . '\\Taxonomies\\' . $this->studly($basename);
+        $fqcn = $modulesPrefix . $targetModule . '\\Taxonomies\\' . Text::studly($basename);
         //error_log( 'fqcn: ' . $fqcn );
         return $fqcn;
     }
