@@ -122,8 +122,8 @@ final class ViewLoader
     protected static function generateSearchPaths(string $view, array $spec = []): array
     {
         $paths       = [];
-        $module      = Text::slug($spec['module'] ?? '');
-        $postType    = Text::slug($spec['post_type'] ?? '');
+        $module      = Text::slugify($spec['module'] ?? '');
+        $postType    = Text::slugify($spec['post_type'] ?? '');
         $allowTheme  = $spec['allow_theme'] ?? true;
 
         // 1) Theme overrides (child → parent)
