@@ -114,7 +114,7 @@ final class ViewLoader
      * Build ordered candidate paths:
      *   1) Theme overrides (child → parent)
      *   2) Module-registered root (src/Modules/<Module>/Views)
-     *   3) Plugin fallback (rex/views/<view>.php)
+     *   3) Plugin fallback (whx4/views/<view>.php)
      *
      * @param array{module?:string,post_type?:string,allow_theme?:bool} $spec
      * @return string[]
@@ -132,7 +132,7 @@ final class ViewLoader
                 self::appendPermutations(
                     $paths,
                     rtrim($root, '/'),
-                    'rex',          // theme subdir
+                    'whx4',          // theme subdir
                     $module,
                     $postType,
                     $view,
@@ -141,7 +141,7 @@ final class ViewLoader
             }
         }
 
-        // 2) Module-registered root (e.g., rex/src/Modules/Supernatural/Views)
+        // 2) Module-registered root (e.g., whx4/src/Modules/Supernatural/Views)
         if ($module !== '' && isset(self::$moduleViewRoots[$module])) {
             $root = rtrim(self::$moduleViewRoots[$module], '/');
             if ($postType !== '') {
@@ -150,7 +150,7 @@ final class ViewLoader
             $paths[] = "{$root}/{$view}.php";
         }
 
-        // 3) Plugin fallback (rex/views/<view>.php)
+        // 3) Plugin fallback (whx4/views/<view>.php)
         self::appendPermutations(
             $paths,
             rtrim(WHX4_PLUGIN_DIR, '/'),
