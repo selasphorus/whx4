@@ -143,7 +143,7 @@ final class ViewLoader
 
         // 2) Module-registered root (e.g., whx4/src/Modules/Supernatural/Views)
         if ($module !== '' && isset(self::$moduleViewRoots[$module])) {
-            error_log( 'moduleViewRoots[module]: ' . $moduleViewRoots[$module] . '' );
+            error_log( 'self::moduleViewRoots[module]: ' . self::$moduleViewRoots[$module] . '' );
             $root = rtrim(self::$moduleViewRoots[$module], '/');
             error_log( 'root: ' . $root . '' );
             if ($postType !== '') {
