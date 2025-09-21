@@ -150,7 +150,8 @@ abstract class Module implements ModuleInterface
 
     public function getViewPath( string $view ): ?string
 	{
-		return $this->plugin->getViewPath( $view, $this->getSlug() );
+		//return $this->plugin->getViewPath( $view, $this->getSlug() );
+		return $this->plugin->getViewPath( $view, ['module' => $this->getSlug()] );
 	}
 
 	public function renderViewToString( string $view, array $vars = [] ): string
