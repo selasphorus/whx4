@@ -143,7 +143,9 @@ final class ViewLoader
 
         // 2) Module-registered root (e.g., whx4/src/Modules/Supernatural/Views)
         if ($module !== '' && isset(self::$moduleViewRoots[$module])) {
+            error_log( 'moduleViewRoots[module]: ' . $moduleViewRoots[$module] . '' );
             $root = rtrim(self::$moduleViewRoots[$module], '/');
+            error_log( 'root: ' . $root . '' );
             if ($postType !== '') {
                 $paths[] = "{$root}/{$postType}/{$view}.php";
             }
@@ -151,6 +153,7 @@ final class ViewLoader
         }
 
         // 3) Plugin fallback (whx4/views/<view>.php)
+        error_log( 'WHX4_PLUGIN_DIR: ' . WHX4_PLUGIN_DIR . '' );
         self::appendPermutations(
             $paths,
             rtrim(WHX4_PLUGIN_DIR, '/'),
