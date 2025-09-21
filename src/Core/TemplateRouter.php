@@ -82,11 +82,11 @@ final class TemplateRouter
         }
 
         [$module] = explode('/', $key, 2);
-        // TODO:
+        // WIP
         $view = "{$postType}/{$kind}"; // e.g. "monster/single" or "monster/archive"
 
         //return ViewLoader::getViewPath($view, $module) ?? $fallback;
-        return ViewLoader::getViewPath($view, ['module' => $module] ) ?? $fallback;
+        return ViewLoader::getViewPath($view, ['module' => $module, 'post_type' => $postType, 'kind' => $kind ] ) ?? $fallback;
     }
 
 

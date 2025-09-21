@@ -62,6 +62,7 @@ final class ViewLoader
      */
     public static function renderToString(string $view, array $vars = [], array $spec = []): string
     {
+        error_log( '=== renderToString for view: ' . $view . ' with vars: ' . print_r($vars,true) . ' and spec: ' . print_r($spec,true) . '===' );
         $path = self::getViewPath($view, $spec);
 
         if ($path) {
@@ -87,7 +88,7 @@ final class ViewLoader
      */
     public static function getViewPath(string $view, array $spec = []): ?string
     {
-        error_log( '=== About to getViewPath for view: ' . $view . ' with spec: ' . print_r($spec,true) . '===' );
+        error_log( '=== getViewPath for view: ' . $view . ' with spec: ' . print_r($spec,true) . '===' );
         foreach (self::generateSearchPaths($view, $spec) as $path) {
             if (file_exists($path)) {
                 //error_log( '=== File found at path: ' . $path . '===' );
