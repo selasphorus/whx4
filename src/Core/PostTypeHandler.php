@@ -37,6 +37,11 @@ abstract class PostTypeHandler extends BaseHandler
         add_filter( 'the_content', [ self::class, 'appendCustomContent' ], 15 );
 	}
 
+	/*public function getPost()
+	{
+	    $post = $this->getObject();
+	}*/
+
     public function getCapType(): array
     {
         $capType = $this->getConfig()['capability_type'] ?? [];

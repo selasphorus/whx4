@@ -66,12 +66,14 @@ class Monster extends PostTypeHandler
 		return $html;
 	}
 
-    public function getColor() {
+    public function getColor(WP_Post $post)
+    {
         // Assuming the color is stored as a custom field, for example, _monster_color
         return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : "orange";
     }
 
-    public function getSN() {
+    public function getSN(WP_Post $post)
+    {
         return isset($this->post) ? get_post_meta($this->post->ID, 'secret_name', true) : "Unknown";
     }
 
