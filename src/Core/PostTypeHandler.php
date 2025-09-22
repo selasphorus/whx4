@@ -180,7 +180,7 @@ abstract class PostTypeHandler extends BaseHandler
             //'availableModules' => WHx4::ctx()->getAvailableModules(),
             ],
             // specs
-            [ 'kind' => 'single', 'post_type' => $postType ]
+            [ 'kind' => 'partial', 'post_type' => $postType ]
         );
 
         // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)

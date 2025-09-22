@@ -64,6 +64,10 @@ final class ViewLoader
     {
         error_log( '=== renderToString for view: ' . $view . ' with vars: ' . print_r($vars,true) . ' and spec: ' . print_r($specs,true) . '===' );
         $path = self::getViewPath($view, $specs);
+        //
+        $kind   = self::normalizeKind($specs['kind'] ?? null);
+        $module = Text::slugify($specs['module'] ?? '');
+        $ptype  = Text::slugify($specs['post_type'] ?? '');
 
         if ($path) {
             ob_start();
@@ -71,10 +75,6 @@ final class ViewLoader
             include $path;
             return ob_get_clean();
         }
-
-        $kind   = self::normalizeKind($specs['kind'] ?? null);
-        $module = Text::slugify($specs['module'] ?? '');
-        $ptype  = Text::slugify($specs['post_type'] ?? '');
 
         return '<div class="notice notice-error"><p>' .
             esc_html("View not found: {$view} (kind: {$kind}, module: {$module}, post_type: {$ptype})") .
