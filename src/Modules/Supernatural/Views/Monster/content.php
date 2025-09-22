@@ -16,11 +16,11 @@ $sn = ($handler && method_exists($handler, 'getSN'))
 
 <div>
 Monster view test -- content (partial/appended).
-<?php echo "color: " . $color; ?>
+<?php echo "color: " . $color; ?><br />
 <?php echo "secret name: " . $sn; ?>
 </div>
 
-<div class="troubleshooting">
+<div class="troubleshootingg">
 <?php echo 'post: <pre>' . print_r($post,true) . '</pre>'; ?>
 <?php echo 'handler: <pre>' . print_r($handler,true) . '</pre>'; ?>
 </div>
