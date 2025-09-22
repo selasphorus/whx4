@@ -120,7 +120,7 @@ final class ViewLoader
         $allowTheme  = $specs['allow_theme'] ?? true;
         error_log( 'kind: ' . $kind . '' );
         //error_log( 'module: ' . $module . '' );
-        error_log( 'postType: ' . $postType . '' );
+        //error_log( 'postType: ' . $postType . '' );
 
         // 1) Theme overrides (child → parent)
         if ($allowTheme) {
@@ -139,14 +139,10 @@ final class ViewLoader
 
         // 2) Module-registered root (e.g., whx4/src/Modules/Supernatural/Views)
         if ($module !== '' && isset(self::$moduleViewRoots[$module])) {
-            error_log( 'self::moduleViewRoots[module]: ' . self::$moduleViewRoots[$module] . '' );
+            //error_log( 'self::moduleViewRoots[module]: ' . self::$moduleViewRoots[$module] . '' );
             $root = rtrim(self::$moduleViewRoots[$module], '/');
-            //error_log( 'root: ' . $root . '' );
             if ($postType !== '') {
-                $postType = Text::studly($postType);
-                error_log( 'postType: ' . $postType . '' );
-                error_log( 'view: ' . $view . '' );
-                $paths[] = "{$root}/{$postType}/{$view}.php";
+                $paths[] = "{$root}/" . Text::studly($postType) . "/{$view}.php"; // Within the Modules dir structure, postTypes are studly caps to match class names
             }
             $paths[] = "{$root}/{$view}.php";
         }
@@ -186,12 +182,11 @@ final class ViewLoader
         $sub  = trim($subdir, '/');
         $base = $sub !== '' ? "{$base}/{$sub}" : $base;
 
-        if ($includeModule && $module !== '' && $postType !== '') {
-            $list[] = "{$base}/{$module}/{$postType}/{$view}.php";
-        }
-
-        if ($includeModule && $module !== '') {
+        if ( $includeModule && $module !== '' ) {
             $list[] = "{$base}/{$module}/{$view}.php";
+            if ( $postType !== '' ) {
+                $list[] = "{$base}/{$module}/{$postType}/{$view}.php";
+            }
         }
 
         $list[] = "{$base}/{$view}.php";
