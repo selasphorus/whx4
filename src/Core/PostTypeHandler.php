@@ -6,6 +6,8 @@ use WP_Post;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
+//
+use atc\WHx4\Utils\ClassInfo;
 
 abstract class PostTypeHandler extends BaseHandler
 {
@@ -173,6 +175,8 @@ abstract class PostTypeHandler extends BaseHandler
         }
 
         //$extra = "postType: ".$postType;
+        $handlerClass = self::getHandlerClassForPostType($pt);
+        $module = strtolower((string) ClassInfo::getModuleKey($handlerClass));
 
         $extra = ViewLoader::render( 'content',
             // vars
@@ -180,7 +184,7 @@ abstract class PostTypeHandler extends BaseHandler
             //'availableModules' => WHx4::ctx()->getAvailableModules(),
             ],
             // specs
-            [ 'kind' => 'partial', 'post_type' => $postType ]
+            [ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
         );
 
         // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)

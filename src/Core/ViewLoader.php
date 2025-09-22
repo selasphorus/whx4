@@ -69,7 +69,7 @@ final class ViewLoader
         $module = Text::slugify($specs['module'] ?? '');
         $ptype  = Text::slugify($specs['post_type'] ?? '');
 
-        if ($path) {
+        if ( $path ) {
             ob_start();
             extract($vars, EXTR_SKIP);
             include $path;
@@ -88,7 +88,7 @@ final class ViewLoader
      */
     public static function getViewPath(string $view, array $specs = []): ?string
     {
-        error_log( '=== getViewPath for view: ' . $view . ' with spec: ' . print_r($specs,true) . '===' );
+        //error_log( '=== getViewPath for view: ' . $view . ' with spec: ' . print_r($specs,true) . '===' );
         foreach (self::generateSearchPaths($view, $specs) as $path) {
             if (file_exists($path)) {
                 //error_log( '=== File found at path: ' . $path . '===' );
@@ -113,6 +113,7 @@ final class ViewLoader
      */
     protected static function generateSearchPaths(string $view, array $specs = []): array
     {
+        error_log( '=== generateSearchPaths for view: ' . $view . ' with specs: ' . print_r($specs,true) . '===' );
         $paths       = [];
         $kind        = Text::slugify($specs['kind'] ?? '');
         $module      = Text::slugify($specs['module'] ?? '');
@@ -123,7 +124,7 @@ final class ViewLoader
         //error_log( 'postType: ' . $postType . '' );
 
         // 1) Theme overrides (child → parent)
-        if ($allowTheme) {
+        if ( $allowTheme ) {
             foreach ([get_stylesheet_directory(), get_template_directory()] as $root) {
                 self::appendPermutations(
                     $paths,
