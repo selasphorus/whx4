@@ -10,7 +10,7 @@ $color = ($handler && method_exists($handler, 'getColor'))
     : '';
 
 $sn = ($handler && method_exists($handler, 'getSN'))
-    ? $handler->getColor($post)
+    ? $handler->getSN($post)
     : '';
 ?>
 
