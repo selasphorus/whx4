@@ -178,7 +178,7 @@ abstract class PostTypeHandler extends BaseHandler
         $handlerClass = self::getHandlerClassForPostType($postType);
         $module = strtolower((string) ClassInfo::getModuleKey($handlerClass));
 
-        $extra = ViewLoader::render( 'content',
+        $extra = ViewLoader::renderToString( 'content',
             // vars
             [
             //'availableModules' => WHx4::ctx()->getAvailableModules(),
