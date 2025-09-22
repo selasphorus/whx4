@@ -71,6 +71,10 @@ class Monster extends PostTypeHandler
         return isset($this->post) ? get_post_meta($this->post->ID, '_monster_color', true) : "orange";
     }
 
+    public function getSN() {
+        return isset($this->post) ? get_post_meta($this->post->ID, 'secret_name', true) : "Unknown";
+    }
+
     // Other methods related to the monster...
 }
 
