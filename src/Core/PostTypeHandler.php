@@ -177,7 +177,7 @@ abstract class PostTypeHandler extends BaseHandler
         // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)
         /*$extra = ViewLoader::render( '{$postType}/content', [
             'post' => get_post(),
-        ] );*
+        ] );*/
 
         return $content . $extra;
 	}
