@@ -186,6 +186,7 @@ final class ViewLoader
             $list[] = "{$base}/{$module}/{$view}.php";
             if ( $postType !== '' ) {
                 $list[] = "{$base}/{$module}/{$postType}/{$view}.php";
+                // WIP -- add also single-{cpt}.php, archive-{cpt}.php?
             }
         }
 
