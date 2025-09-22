@@ -5,20 +5,15 @@ use atc\WHx4\Core\PostTypeHandler;
 $handler = PostTypeHandler::getHandlerForPost($post);
 
 // Monster-specific data
-$color = ($handler && method_exists($handler, 'getColor'))
-    ? $handler->getColor($post)
-    : '';
-
-$sn = ($handler && method_exists($handler, 'getSN'))
-    ? $handler->getSN($post)
-    : '';
+$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
+$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
 <div>
 Monster view test -- content (partial/appended).
 <?php echo "color: " . $color; ?><br />
 <?php echo "secret name: " . $sn; ?><br />
-<?php echo "getPostID: " . $handler->getPostID($post); ?>
+<?php //echo "getPostID: " . $handler->getPostID($post); ?>
 </div>
 
 <div class="troubleshootingg">

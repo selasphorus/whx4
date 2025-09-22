@@ -37,10 +37,10 @@ abstract class PostTypeHandler extends BaseHandler
         add_filter( 'the_content', [ self::class, 'appendCustomContent' ], 15 );
 	}
 
-	/*public function getPost()
+	public function getPost(): ?\WP_Post
 	{
-	    $post = $this->getObject();
-	}*/
+		return $this->object instanceof \WP_Post ? $this->object : null;
+	}
 
     public function getCapType(): array
     {
@@ -113,7 +113,8 @@ abstract class PostTypeHandler extends BaseHandler
      * Get the handler instance for a post (or current global $post).
      * Returns a concrete subclass of PostTypeHandler, cached per post ID.
      */
-    public static function getHandlerForPost(WP_Post|int|null $post = null): ?self
+    //public static function getHandlerForPost(WP_Post|int|null $post = null): ?self
+    public static function getHandlerForPost(WP_Post $post): ?self
     {
         // Normalize $post
         if ($post === null) {
@@ -135,7 +136,7 @@ abstract class PostTypeHandler extends BaseHandler
         }
 
         // Resolve handler class for this CPT
-        $pt = get_post_type($post);
+        $pt = $post->post_type; //get_post_type($post);
         if (!$pt) {
             return null;
         }
@@ -157,7 +158,7 @@ abstract class PostTypeHandler extends BaseHandler
     // Method to get the post ID
     public function getPostID()
     {
-        return $this->post->ID;
+        return $this->getPost()->ID;
     }
 
     // Method to get the post title
