@@ -72,12 +72,11 @@ class Monster extends PostTypeHandler
         return $p ? (string)get_post_meta($p->ID, 'monster_color', true) : 'orange';
     }
 
-    public function getSN(WP_Post $post)
+    public function getSN(?WP_Post $post = null): string
     {
-        //return isset($this->post) ? get_post_meta($this->post->ID, 'secret_name', true) : "Unknown";
-        return isset($post) ? get_post_meta($post->ID, 'secret_name', true) : "Unknown";
+        $p = $post ?? $this->getPost();
+        return $p ? (string)get_post_meta($p->ID, 'secret_name', true) : 'Unknown';
     }
 
-    // Other methods related to the monster...
 }
 
