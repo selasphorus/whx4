@@ -11,6 +11,6 @@ $color = ($handler && method_exists($handler, 'getColor'))
 ?>
 
 <div>
-Monster view test -- single.
+Monster view test -- content (partial/appended).
 <?php echo "color: " . $color; ?>
 </div>

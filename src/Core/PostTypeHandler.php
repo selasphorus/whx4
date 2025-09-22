@@ -169,10 +169,15 @@ abstract class PostTypeHandler extends BaseHandler
 
 	public static function appendCustomContent( string $content ): string
 	{
-	    $postType = get_post_type();
+	    $post = get_post();
+		if (!$post instanceof WP_Post) {
+			return $content;
+		}
 	    if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query() ) {
             return $content;
         }
+
+	    $postType = get_post_type();
 
         //$extra = "postType: ".$postType;
         $handlerClass = self::getHandlerClassForPostType($postType);
@@ -180,9 +185,7 @@ abstract class PostTypeHandler extends BaseHandler
 
         $extra = ViewLoader::renderToString( 'content',
             // vars
-            [
-            //'availableModules' => WHx4::ctx()->getAvailableModules(),
-            ],
+            [ 'post' => $post ],
             // specs
             [ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
         );
