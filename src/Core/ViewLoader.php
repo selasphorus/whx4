@@ -73,8 +73,8 @@ final class ViewLoader
         }
 
         $kind   = self::normalizeKind($specs['kind'] ?? null);
-        $module = Text::slug($specs['module'] ?? '');
-        $ptype  = Text::slug($specs['post_type'] ?? '');
+        $module = Text::slugify($specs['module'] ?? '');
+        $ptype  = Text::slugify($specs['post_type'] ?? '');
 
         return '<div class="notice notice-error"><p>' .
             esc_html("View not found: {$view} (kind: {$kind}, module: {$module}, post_type: {$ptype})") .
