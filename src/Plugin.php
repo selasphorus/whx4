@@ -339,9 +339,6 @@ final class Plugin implements PluginContext
                 $moduleClass = $this->availableModules[ $slug ];
                 $module = new $moduleClass();
 
-                /*if ( method_exists( $module, 'setPlugin' ) ) {
-                    $module->setPlugin( $this ); // Optional: inject plugin
-                }*/
                 //$this->activeModules[ $slug ] = $module;
                 $this->activeModules[ $slug ] = $moduleClass;
             }
@@ -370,7 +367,6 @@ final class Plugin implements PluginContext
 				error_log('Module does not implement ModuleInterface: '.$moduleClass);
 				continue;
 			}
-        	$module->setPlugin($this);
 
         	//error_log( 'About to attempt module boot() for moduleClass: ' . $moduleClass );
         	try {
@@ -404,21 +400,6 @@ final class Plugin implements PluginContext
     {
         return $this->modulesBooted;
     }
-
-
-/*public function getActivePostTypeHandlers(): array
-{
-    $handlers = [];
-    foreach ($this->getBootedModules() as $moduleClass) {
-        // @var ModuleInterface $module
-        $module = new $moduleClass();
-        $module->setPlugin($this);
-        foreach ($module->getPostTypeHandlers() as $handler) {
-            $handlers[] = $handler;
-        }
-    }
-    return $handlers;
-}*/
 
     /**
      * Returns all enabled post types across active modules,
