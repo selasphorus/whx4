@@ -165,7 +165,7 @@ abstract class PostTypeHandler extends BaseHandler
 		return [];
 	}
 
-	public function appendCustomContent( string $content ): string
+	public static function appendCustomContent( string $content ): string
 	{
 	    $postType = get_post_type();
 	    if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query() ) {
