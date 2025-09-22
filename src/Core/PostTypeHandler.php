@@ -31,7 +31,8 @@ abstract class PostTypeHandler extends BaseHandler
 
     public function boot(): void
 	{
-		// Optional: common setup logic for all post types can go here
+        // WIP 09/22/25
+        add_filter( 'the_content', [ self::class, 'appendCustomContent' ], 15 );
 	}
 
     public function getCapType(): array
@@ -164,6 +165,22 @@ abstract class PostTypeHandler extends BaseHandler
 		return [];
 	}
 
+	public function appendCustomContent( string $content ): string
+	{
+	    $postType = get_post_type();
+	    if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query() ) {
+            return $content;
+        }
+
+        $extra = "postType: ".$postType;
+
+        // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)
+        /*$extra = ViewLoader::render( '{$postType}/content', [
+            'post' => get_post(),
+        ] );*
+
+        return $content . $extra;
+	}
 
 	//public function getCustomContent(WP_Post $post): string
 	public function getCustomContent()
