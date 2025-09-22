@@ -172,7 +172,16 @@ abstract class PostTypeHandler extends BaseHandler
             return $content;
         }
 
-        $extra = "postType: ".$postType;
+        //$extra = "postType: ".$postType;
+
+        $extra = ViewLoader::render( 'content',
+            // vars
+            [
+            //'availableModules' => WHx4::ctx()->getAvailableModules(),
+            ],
+            // specs
+            [ 'kind' => 'single', 'post_type' => $postType ]
+        );
 
         // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)
         /*$extra = ViewLoader::render( '{$postType}/content', [
