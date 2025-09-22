@@ -143,7 +143,7 @@ final class ViewLoader
             $root = rtrim(self::$moduleViewRoots[$module], '/');
             //error_log( 'root: ' . $root . '' );
             if ($postType !== '') {
-                $postType = Text::camel($postType);
+                $postType = Text::studly($postType);
                 $paths[] = "{$root}/{$postType}/{$view}.php";
             }
             $paths[] = "{$root}/{$view}.php";
