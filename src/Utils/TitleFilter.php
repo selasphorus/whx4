@@ -2,21 +2,13 @@
 
 namespace atc\WHx4\Utils;
 
-use atc\WHx4\Core\Contracts\PluginContext;
+use atc\WHx4\Core\WHx4;
 
 class TitleFilter
 {
-    protected static ?PluginContext $ctx = null; //public function __construct(private PluginContext $ctx) {}
-
     public static function boot(): void
     {
         //add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
-    }
-
-    public static function setContext( PluginContext $ctx ): void
-    {
-        error_log( '=== TitleFilter::setContext ===' );
-        self::$ctx = $ctx;
     }
 
     public static function filterTitle( string $title, int $postId ): string
@@ -193,8 +185,7 @@ class TitleFilter
 
     protected static function getPostTypeHandler( string $postType, \WP_Post $post ): ?PostTypeHandler
     {
-        $plugin = Plugin::getInstance();
-        $handlers = $plugin->getActivePostTypes();
+        $handlers = WHX4::ctx()->getActivePostTypes();
 
         foreach ( $handlers as $handler ) {
             if ( $handler->getSlug() === $postType ) {

@@ -99,7 +99,7 @@ final class Plugin implements PluginContext
 
 		WHx4::setContext($this); // <-- make context available to all handlers
 
-        $this->defineConstants();
+        //$this->defineConstants(); // phased out (for now) -- constants now defined via whx4.php
         $this->registerAdminHooks();
 
         // Run as early as possible on init so modules are ready before init:10 work.
@@ -300,13 +300,6 @@ final class Plugin implements PluginContext
 	{
 		return isset( $_GET['page'] ) && $_GET['page'] === 'whx4_settings';
 	}
-
-    protected function defineConstants(): void
-    {
-    	define( 'WHX4_TEXTDOMAIN', 'whx4' );
-    	define( 'WHX4_VERSION', '2.0.0' );
-    	//error_log( '=== WHx4 defineConstants() complete ===' ); //ok
-    }
 
 	public function setAvailableModules( array $modules ): void
 	{
@@ -686,34 +679,6 @@ final class Plugin implements PluginContext
        return $plugin;
     }
     */
-
-    public function getViewPath( string $view, string $module = '' ): ?string
-	{
-		return ViewLoader::getViewPath( $view, $module );
-	}
-	/* Inside, e.g. Supernatural\Module:
-	$path = $this->getViewPath( 'monster-list' );
-	if ( $path ) {
-		include $path;
-	}
-	*/
-
-	public function renderView( string $view, array $vars = [], string $module = '' ): void
-	{
-		ViewLoader::render( $view, $vars );
-	}
-
-	public function renderViewToString( string $view, array $vars = [], string $module = '' ): string
-	{
-		return ViewLoader::renderToString( $view, $vars );
-	}
-	/*
-	Usage in a shortcode or module method:
-	//
-	$html = $this->plugin->renderViewToString( 'partials/monster-list', [
-		'monsters' => $this->getMonsterPosts(),
-	]);
-	*/
 
     protected static function activate(): void {
        flush_rewrite_rules();

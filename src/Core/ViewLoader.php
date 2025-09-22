@@ -47,23 +47,23 @@ final class ViewLoader
      * Echo a rendered view immediately.
      *
      * @param array<string,mixed> $vars
-     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $specs
      */
-    public static function render( string $view, array $vars = [], array $spec = [] ): void
+    public static function render( string $view, array $vars = [], array $specs = [] ): void
     {
-        echo self::renderToString($view, $vars, $spec);
+        echo self::renderToString($view, $vars, $specs);
     }
 
     /**
      * Return the rendered view as a string. Uses output buffering.
      *
      * @param array<string,mixed> $vars
-     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $specs
      */
-    public static function renderToString(string $view, array $vars = [], array $spec = []): string
+    public static function renderToString(string $view, array $vars = [], array $specs = []): string
     {
-        error_log( '=== renderToString for view: ' . $view . ' with vars: ' . print_r($vars,true) . ' and spec: ' . print_r($spec,true) . '===' );
-        $path = self::getViewPath($view, $spec);
+        error_log( '=== renderToString for view: ' . $view . ' with vars: ' . print_r($vars,true) . ' and spec: ' . print_r($specs,true) . '===' );
+        $path = self::getViewPath($view, $specs);
 
         if ($path) {
             ob_start();
@@ -72,9 +72,9 @@ final class ViewLoader
             return ob_get_clean();
         }
 
-        $kind   = self::normalizeKind($spec['kind'] ?? null);
-        $module = Text::slug($spec['module'] ?? '');
-        $ptype  = Text::slug($spec['post_type'] ?? '');
+        $kind   = self::normalizeKind($specs['kind'] ?? null);
+        $module = Text::slug($specs['module'] ?? '');
+        $ptype  = Text::slug($specs['post_type'] ?? '');
 
         return '<div class="notice notice-error"><p>' .
             esc_html("View not found: {$view} (kind: {$kind}, module: {$module}, post_type: {$ptype})") .
@@ -84,12 +84,12 @@ final class ViewLoader
     /**
      * Resolve a view to a concrete file path, or null if not found.
      *
-     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $spec
+     * @param array{kind?:string|ViewKind,module?:string,post_type?:string,allow_theme?:bool} $specs
      */
-    public static function getViewPath(string $view, array $spec = []): ?string
+    public static function getViewPath(string $view, array $specs = []): ?string
     {
-        error_log( '=== getViewPath for view: ' . $view . ' with spec: ' . print_r($spec,true) . '===' );
-        foreach (self::generateSearchPaths($view, $spec) as $path) {
+        error_log( '=== getViewPath for view: ' . $view . ' with spec: ' . print_r($specs,true) . '===' );
+        foreach (self::generateSearchPaths($view, $specs) as $path) {
             if (file_exists($path)) {
                 //error_log( '=== File found at path: ' . $path . '===' );
                 return $path;
@@ -102,31 +102,23 @@ final class ViewLoader
 
     ////
 
-    /* Usage examples:
-    From a module:
-    $this->renderView( 'monster-list', [
-        'monsters' => $this->getMonsterPosts(),
-    ]);
-
-    If views/supernatural/monster-list.php doesn’t exist, it will fall back to:
-    views/monster-list.php
-    */
-
     /**
      * Build ordered candidate paths:
      *   1) Theme overrides (child → parent)
      *   2) Module-registered root (src/Modules/<Module>/Views)
      *   3) Plugin fallback (whx4/views/<view>.php)
      *
-     * @param array{module?:string,post_type?:string,allow_theme?:bool} $spec
+     * @param array{module?:string,post_type?:string,allow_theme?:bool} $specs
      * @return string[]
      */
-    protected static function generateSearchPaths(string $view, array $spec = []): array
+    protected static function generateSearchPaths(string $view, array $specs = []): array
     {
         $paths       = [];
-        $module      = Text::slugify($spec['module'] ?? '');
-        $postType    = Text::slugify($spec['post_type'] ?? '');
-        $allowTheme  = $spec['allow_theme'] ?? true;
+        $kind        = Text::slugify($specs['kind'] ?? '');
+        $module      = Text::slugify($specs['module'] ?? '');
+        $postType    = Text::slugify($specs['post_type'] ?? '');
+        $allowTheme  = $specs['allow_theme'] ?? true;
+        error_log( 'kind: ' . $kind . '' );
         //error_log( 'module: ' . $module . '' );
         error_log( 'postType: ' . $postType . '' );
 

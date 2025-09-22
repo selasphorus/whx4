@@ -24,6 +24,10 @@ define( 'WHX4_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 //define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
 define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
+// Some constants were previously defined via Plugin.php protected function defineConstants(): void {} and called via boot
+// -- perhaps revisit this alternate approach to constants if things get too messy here.
+define( 'WHX4_TEXTDOMAIN', 'whx4' );
+define( 'WHX4_VERSION', '2.0.0' );
 
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {

@@ -2,18 +2,11 @@
 
 namespace atc\WHx4\Admin;
 
-use atc\WHx4\Plugin;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Migrations\FieldKeyMigrator;
 
 final class FieldKeyAuditPageController
 {
-    protected Plugin $plugin;
-
-    public function __construct( Plugin $plugin )
-    {
-        $this->plugin = $plugin;
-    }
-
     public function addHooks(): void
     {
         //error_log( '=== FieldKeyAuditPageController: addHooks() ===' );

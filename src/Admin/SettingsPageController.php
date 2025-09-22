@@ -2,16 +2,11 @@
 
 namespace atc\WHx4\Admin;
 
-use atc\WHx4\Plugin;
+use atc\WHx4\Core\WHx4;
+use atc\WHx4\Core\ViewLoader;
 
 class SettingsPageController
 {
-    protected Plugin $plugin;
-
-    public function __construct( Plugin $plugin )
-    {
-        $this->plugin = $plugin;
-    }
 
     public function addHooks(): void
     {
@@ -58,10 +53,10 @@ class SettingsPageController
     public function renderSettingsPage(): void
     {
         //error_log( '=== SettingsPageController::renderSettingsPage() ===' );
-        $this->plugin->renderView( 'settings-page', [
-            'availableModules' => $this->plugin->getAvailableModules(),
-            'activeModules'    => $this->plugin->getSettingsManager()->getActiveModuleSlugs(),
-            'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugsByModule(),
+        ViewLoader::render( 'settings-page', [
+            'availableModules' => WHx4::ctx()->getAvailableModules(),
+            'activeModules'    => WHx4::ctx()->getSettingsManager()->getActiveModuleSlugs(),
+            'enabledPostTypes' => WHx4::ctx()->getSettingsManager()->getEnabledPostTypeSlugsByModule(),
             //'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugs(),
         ]);
     }

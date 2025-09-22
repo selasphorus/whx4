@@ -2,20 +2,14 @@
 
 namespace atc\WHx4\Core;
 
-use atc\WHx4\Plugin;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
 
 // TODO: make this final class?
 abstract class Module implements ModuleInterface
 {
-    protected Plugin $plugin;
     protected ?string $moduleSlug = null;
-
-    public function setPlugin( Plugin $plugin ): void
-	{
-		$this->plugin = $plugin;
-	}
 
     /**
 	 * @return array<class-string>
@@ -39,7 +33,7 @@ abstract class Module implements ModuleInterface
 		//error_log( '=== Module class boot() for module: ' . $this->getSlug() . '===' );
         $this->registerDefaultViewRoot();
 
-        $enabledSlugs = $this->plugin
+        $enabledSlugs = WHx4::ctx()
 			->getSettingsManager()
 			->getEnabledPostTypeSlugsByModule()[ $this->getSlug() ] ?? [];
 
@@ -141,21 +135,5 @@ abstract class Module implements ModuleInterface
 		//error_log("postTypes: " . print_r($postTypes, true));
 
 		return $postTypes;
-	}
-
-	public function renderView( string $view, array $vars = [] ): void
-	{
-		$this->plugin->renderView( $view, $vars, $this->getSlug() );
-	}
-
-    public function getViewPath( string $view ): ?string
-	{
-		//return $this->plugin->getViewPath( $view, $this->getSlug() );
-		return $this->plugin->getViewPath( $view, ['module' => $this->getSlug()] );
-	}
-
-	public function renderViewToString( string $view, array $vars = [] ): string
-	{
-		return $this->plugin->renderViewToString( $view, $vars, $this->getSlug() );
 	}
 }

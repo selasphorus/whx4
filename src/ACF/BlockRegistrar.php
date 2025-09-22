@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\ACF;
 
-use atc\WHx4\Plugin;
+use atc\WHx4\Core\WHx4;
 
 class BlockRegistrar
 {
@@ -17,9 +17,8 @@ class BlockRegistrar
             return;
         }
 
-        $plugin = Plugin::getInstance();
-        $modules = $plugin->getActiveModules();
-        $postTypes = $plugin->getActivePostTypes();
+        $modules = WHx4::ctx()->getActiveModules();
+        $postTypes = WHx4::ctx()->getActivePostTypes();
 
         foreach ( $modules as $module ) {
             $blockDir = $module->getPath() . '/Blocks';
