@@ -15,7 +15,7 @@ abstract class PostTypeHandler extends BaseHandler
 	use AppliesTitleArgs;
 
 	// Property to store the post object
-    protected $post; // better private?
+    protected ?\WP_Post $post = null; //protected $post; // better private?
     protected const TYPE = 'post_type';
 
     // WIP
@@ -27,10 +27,16 @@ abstract class PostTypeHandler extends BaseHandler
     // END WIP
 
     // Constructor to set the config and post object
-    public function __construct( array $config = [], WP_Post|null $post = null )
+    /*public function __construct( array $config = [], WP_Post|null $post = null )
     {
         parent::__construct( $config, $post );
-    }
+    }*/
+    // Constructor
+	public function __construct(array $config = [], ?\WP_Post $post = null)
+	{
+		parent::__construct($config, $post);
+		$this->post = $post;
+	}
 
     public function boot(): void
 	{
@@ -39,7 +45,8 @@ abstract class PostTypeHandler extends BaseHandler
 
 	public function getPost(): ?\WP_Post
 	{
-		return $this->object instanceof \WP_Post ? $this->object : null;
+		//return $this->object instanceof \WP_Post ? $this->object : null;
+		return $this->post;
 	}
 
     public function getCapType(): array
@@ -128,6 +135,7 @@ abstract class PostTypeHandler extends BaseHandler
                 return null;
             }
         }
+        $this->post = $post;
 
         // Per-post cache
         $pid = (int) $post->ID;
