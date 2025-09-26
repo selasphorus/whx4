@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Modules\People\PostTypes;
 
+use WP_Post;
 use atc\WHx4\Core\PostTypeHandler;
 
 class Person extends PostTypeHandler
