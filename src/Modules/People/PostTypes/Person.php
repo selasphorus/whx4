@@ -161,18 +161,27 @@ class Person extends PostTypeHandler
 	}
 
 	//
-	protected function getPersonDates($post_id, $styled = false)
+	public function getSN(?WP_Post $post = null): string
+    {
+        $p = $post ?? $this->getPost();
+        return $p ? (string)get_post_meta($p->ID, 'secret_name', true) : 'Unknown';
+    }
+
+	protected function getPersonDates( ?WP_Post $post = null, $styled = false): string
 	{
 		error_log( '=== Person::getPersonDates() ===' );
-		error_log( 'post_id: ' . $post_id );
+        $p = $post ?? $this->getPost();
+        if ( empty($p) ) { return null; }
+        $pID = $p->ID;
+		//error_log( 'post_id: ' . $pID );
 
 		// Init vars
 		$info = ""; // init
 
 		// Try ACF get_field instead?
-		$birth_year = get_post_meta( $post_id, 'birth_year', true );
-		$death_year = get_post_meta( $post_id, 'death_year', true );
-		$dates = get_post_meta( $post_id, 'dates', true );
+		$birth_year = get_post_meta( $pID, 'birth_year', true );
+		$death_year = get_post_meta( $pID, 'death_year', true );
+		$dates = get_post_meta( $pID, 'dates', true );
 
 		if ( !empty($birth_year) && !empty($death_year) ) {
 			$info .= "(".$birth_year."-".$death_year.")";

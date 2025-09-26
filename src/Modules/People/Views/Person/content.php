@@ -13,7 +13,7 @@ $firstName = $handler?->getPostMeta('first_name', true) ?? '';
 $meta = $handler?->getPostMeta(); // array of all post meta
 
 // Person-specific data
-$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
+$dates = ($handler && method_exists($handler, 'getPersonDates')) ? $handler->getPersonDates() : '';
 $sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
@@ -153,7 +153,7 @@ Post ID: <pre><?php print_r($pID,true); ?></pre>
 Post Meta: <pre><?php print_r($meta,true); ?></pre>
 
 <?php
-//echo "color: " . $color . '<br />';
+echo "dates: " . $dates . '<br />';
 //echo "secret name: " . $sn . '<br />';
 //echo "getPostID: " . $handler->getPostID($post);
 ?>
