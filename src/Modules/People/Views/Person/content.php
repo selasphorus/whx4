@@ -4,18 +4,19 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
-$pID = $handler->getPostID();
-$meta = $handler->getPostMeta();
+$pID = $post->getPostID();
+$meta = $post->getPostMeta();
 
 // Person-specific data
 $color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
 $sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
+<div>
 <hr />
 Post ID: <pre><?php print_r($pID,true); ?></pre>
 Post Meta: <pre><?php print_r($meta,true); ?></pre>
-<hr />
+</div>
 
 <?php
 // This is a very, very rough draft -- much of the below should be broken up into additional methods in the Person class -- e.g. getPublications (to cover both compositions and other pubs? TBD)
