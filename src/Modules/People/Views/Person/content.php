@@ -37,13 +37,13 @@ if ( has_term( 'composers', 'person_category', $pID ) ) {
     $arr_obj_compositions = $handler->getRelatedPosts( $pID, 'repertoire', 'composer' );
     if ( $arr_obj_compositions ) {
 
-        $info .= "<h3>Compositions:</h3>";
+        echo "<h3>Compositions:</h3>";
 
         //$info .= "<p>arr_compositions (".count($arr_compositions)."): <pre>".print_r($arr_compositions, true)."</pre></p>";
         foreach ( $arr_obj_compositions as $composition ) {
             //$info .= $composition->post_title."<br />";
             $rep_info = get_rep_info( $composition->ID, 'display', false, true );
-            $info .= make_link( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
+            echo makeLink( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
         }
     }
 }
@@ -57,8 +57,8 @@ if ( is_dev_site() ) {
 
     if ( $arr_obj_editions ) {
 
-        $info .= '<div class="publications">';
-        $info .= "<h3>Publications:</h3>";
+        echo '<div class="publications">';
+        echo "<h3>Publications:</h3>";
 
         //$info .= "<p>arr_obj_editions (".count($arr_obj_editionss)."): <pre>".print_r($arr_obj_editions, true)."</pre></p>";
         foreach ( $arr_obj_editions as $edition ) {
@@ -75,15 +75,15 @@ if ( is_dev_site() ) {
 $arr_obj_sermons = $handler->getRelatedPosts( $pID, 'sermon', 'sermon_author' );
 if ( $arr_obj_sermons ) {
 
-    $info .= '<div class="devview sermons">';
-    $info .= "<h3>Sermons:</h3>";
+    echo '<div class="devview sermons">';
+    echo "<h3>Sermons:</h3>";
 
     foreach ( $arr_obj_sermons as $sermon ) {
-        //$info .= $sermon->post_title."<br />";
-        $info .= make_link( get_permalink($sermon->ID), $sermon->post_title, "TEST sermon title" )."<br />";
+        //echo $sermon->post_title."<br />";
+        echo make_link( get_permalink($sermon->ID), $sermon->post_title, "TEST sermon title" )."<br />";
     }
 
-    $info .= '</div>';
+    echo '</div>';
 }
 
 // Related Events
@@ -134,11 +134,11 @@ if ( is_dev_site() ) {
 $term_obj_list = get_the_terms( $pID, 'person_category' );
 if ( $term_obj_list ) {
     $terms_string = join(', ', wp_list_pluck($term_obj_list, 'name'));
-    $info .= '<div class="devview categories">';
+    echo '<div class="devview categories">';
     if ( $terms_string ) {
-        $info .= "<p>Categories: ".$terms_string."</p>";
+        echo "<p>Categories: ".$terms_string."</p>";
     }
-    $info .= '</div>';
+    echo '</div>';
 }
 ?>
 
