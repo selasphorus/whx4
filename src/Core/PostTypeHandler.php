@@ -210,7 +210,7 @@ abstract class PostTypeHandler extends BaseHandler
 		// Loop through the records returned
 		if ( $related->posts && count($related->posts) > 0 ) {
 
-			return $related_posts->posts;
+			return $related->posts;
 			/*
 			if ( $limit == 1 ) {
 				$p = $related->posts[0];
