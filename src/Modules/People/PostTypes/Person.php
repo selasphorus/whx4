@@ -58,8 +58,7 @@ class Person extends PostTypeHandler
 	{
 		// Init vars
 		$arr_info = array();
-		$display_name = "";
-		$ts_info = "";
+		$displayName = "";
 
 		// Defaults
 		$defaults = array(
@@ -84,60 +83,60 @@ class Person extends PostTypeHandler
 
 		if ( $override == "special_name" && $special_name ) {
 
-			$display_name = $special_name;
+			$displayName = $special_name;
 
 		} else if ( $override == "post_title" ) {
 
-			$display_name = get_the_title( $person_id );
+			$displayName = get_the_title( $person_id );
 
 		} else {
 
 			// Prefix
 			if ( $show_prefix ) {
 				$prefix = get_field('prefix',$person_id);
-				if ( $prefix ) { $display_name .= $prefix." "; }
+				if ( $prefix ) { $displayName .= $prefix." "; }
 			}
 
 			if ( $name_abbr == "abbr" && $show_prefix && !$prefix ) {
 				$name_abbr == "full"; // ?? or better to just use post_title? see e.g.
-				//$display_name = get_the_title( $person_id );
+				//$displayName = get_the_title( $person_id );
 			}
 
 			// First and middle names
 			if ( $name_abbr == "full" ) {
 				$first_name = get_post_meta( $person_id, 'first_name', true );
-				if ( $first_name ) { $display_name .= $first_name." "; }
+				if ( $first_name ) { $displayName .= $first_name." "; }
 				$middle_name = get_post_meta( $person_id, 'middle_name', true );
-				if ( $middle_name ) { $display_name .= $middle_name." "; }
+				if ( $middle_name ) { $displayName .= $middle_name." "; }
 			}
 
 			// Last name
 			$last_name = get_field('last_name',$person_id);
-			$display_name .= $last_name;
+			$displayName .= $last_name;
 
 			// Suffix
 			if ( $show_suffix ) {
 				$suffix = get_field('suffix',$person_id);
-				if ( $suffix ) { $display_name .= ", ".$suffix; }
+				if ( $suffix ) { $displayName .= ", ".$suffix; }
 			}
 
 			/*
 			// Job Title
 			if ( $show_job_title ) {
 				$job_title = get_field('job_title',$person_id);
-				if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
+				if ( $job_title ) { $displayName .= ", <em>".$job_title."</em>"; }
 			}*/
 
 			// Dates
 			// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
 			if ( $show_dates ) {
-				$display_name .= get_person_dates( $person_id, $styled );
+				$displayName .= get_person_dates( $person_id, $styled );
 			}
 
-			$display_name = trim($display_name);
+			$displayName = trim($displayName);
 
-			if ( empty($display_name) ) {
-				$display_name = get_the_title( $person_id );
+			if ( empty($displayName) ) {
+				$displayName = get_the_title( $person_id );
 			}
 
 		}
@@ -145,16 +144,16 @@ class Person extends PostTypeHandler
 		// Job Title
 		if ( $show_job_title ) {
 			$job_title = get_field('job_title',$person_id);
-			if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
+			if ( $job_title ) { $displayName .= ", <em>".$job_title."</em>"; }
 		}
 
 		if ( $url ) {
-			$display_name = make_link( $url, $display_name, get_the_title( $person_id ), null, '_blank' );
+			$displayName = makeLink( $url, $displayName, get_the_title( $person_id ), null, '_blank' );
 		}
 
 		// TODO: rethink this setup -- do we really need to always return the array? Probably better to add an optional arr return version for TS if needed
-		//return $display_name;
-		$arr_info['info'] = $display_name;
+		//return $displayName;
+		$arr_info['info'] = $displayName;
 		if ( $do_ts ) { $arr_info['ts_info'] = $ts_info; } else { $arr_info['ts_info'] = null; }
 
 		return $arr_info;
