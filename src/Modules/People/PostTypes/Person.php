@@ -167,7 +167,7 @@ class Person extends PostTypeHandler
         return $p ? (string)get_post_meta($p->ID, 'secret_name', true) : 'Unknown';
     }
 
-	protected function getPersonDates( ?WP_Post $post = null, $styled = false): string
+	public function getPersonDates( ?WP_Post $post = null, $styled = false): string
 	{
 		error_log( '=== Person::getPersonDates() ===' );
         $p = $post ?? $this->getPost();
