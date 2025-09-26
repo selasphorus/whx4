@@ -17,12 +17,6 @@ $color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor(
 $sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
-<div>
-<hr />
-Post ID: <pre><?php print_r($pID,true); ?></pre>
-Post Meta: <pre><?php print_r($meta,true); ?></pre>
-</div>
-
 <?php
 // This is a very, very rough draft -- much of the below should be broken up into additional methods in the Person class -- e.g. getPublications (to cover both compositions and other pubs? TBD)
 
@@ -153,6 +147,11 @@ if ( $term_obj_list ) {
 
 <div>
 Person view: content (partial/appended).
+
+<hr />
+Post ID: <pre><?php print_r($pID,true); ?></pre>
+Post Meta: <pre><?php print_r($meta,true); ?></pre>
+
 <?php
 //echo "color: " . $color . '<br />';
 //echo "secret name: " . $sn . '<br />';
