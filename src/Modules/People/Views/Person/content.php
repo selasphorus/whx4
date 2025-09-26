@@ -33,7 +33,7 @@ if ( $dates && $dates != "" && $dates != "(-)" ) {
 // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
 if ( has_term( 'composers', 'person_category', $post_id ) ) {
     // Get compositions
-    $arr_obj_compositions = PostTypeHandler::getRelatedPosts( $post_id, 'repertoire', 'composer' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_compositions = $handler->getRelatedPosts( $post_id, 'repertoire', 'composer' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
     if ( $arr_obj_compositions ) {
 
         $info .= "<h3>Compositions:</h3>";
@@ -52,7 +52,7 @@ if ( has_term( 'composers', 'person_category', $post_id ) ) {
 // Publications
 if ( is_dev_site() ) {
     // Editions
-    $arr_obj_editions = PostTypeHandler::getRelatedPosts( $post_id, 'edition', 'editor' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_editions = $handler->getRelatedPosts( $post_id, 'edition', 'editor' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
 
     if ( $arr_obj_editions ) {
 
@@ -71,7 +71,7 @@ if ( is_dev_site() ) {
 
 // Sermons
 // TODO: check if is in clergy category?
-$arr_obj_sermons = PostTypeHandler::getRelatedPosts( $post_id, 'sermon', 'sermon_author' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+$arr_obj_sermons = $handler->getRelatedPosts( $post_id, 'sermon', 'sermon_author' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
 if ( $arr_obj_sermons ) {
 
     $info .= '<div class="devview sermons">';
