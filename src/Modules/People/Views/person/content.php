@@ -4,6 +4,7 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
+$meta = $handler->getPostMeta();
 
 // Person-specific data
 $color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
@@ -32,7 +33,7 @@ if ( $dates && $dates != "" && $dates != "(-)" ) {
 // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
 if ( has_term( 'composers', 'person_category', $post_id ) ) {
     // Get compositions
-    $arr_obj_compositions = getRelatedPosts( $post_id, 'repertoire', 'composer' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_compositions = PostTypeHandler::getRelatedPosts( $post_id, 'repertoire', 'composer' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
     if ( $arr_obj_compositions ) {
 
         $info .= "<h3>Compositions:</h3>";
@@ -51,7 +52,7 @@ if ( has_term( 'composers', 'person_category', $post_id ) ) {
 // Publications
 if ( is_dev_site() ) {
     // Editions
-    $arr_obj_editions = getRelatedPosts( $post_id, 'edition', 'editor' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_editions = PostTypeHandler::getRelatedPosts( $post_id, 'edition', 'editor' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
 
     if ( $arr_obj_editions ) {
 
@@ -69,7 +70,8 @@ if ( is_dev_site() ) {
 }
 
 // Sermons
-$arr_obj_sermons = getRelatedPosts( $post_id, 'sermon', 'sermon_author' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+// TODO: check if is in clergy category?
+$arr_obj_sermons = PostTypeHandler::getRelatedPosts( $post_id, 'sermon', 'sermon_author' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
 if ( $arr_obj_sermons ) {
 
     $info .= '<div class="devview sermons">';
@@ -141,12 +143,9 @@ if ( $term_obj_list ) {
 
 <div>
 Person view: content (partial/appended).
-<?php //echo "color: " . $color; ?><br />
-<?php //echo "secret name: " . $sn; ?><br />
-<?php //echo "getPostID: " . $handler->getPostID($post); ?>
-</div>
-
-<div class="troubleshootingg">
-<?php //echo 'post: <pre>' . print_r($post,true) . '</pre>'; // ok ?>
-<?php //echo 'handler: <pre>' . print_r($handler,true) . '</pre>'; // ok ?>
+<?php
+//echo "color: " . $color . '<br />';
+//echo "secret name: " . $sn . '<br />';
+//echo "getPostID: " . $handler->getPostID($post);
+?>
 </div>

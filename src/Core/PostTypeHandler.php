@@ -163,7 +163,7 @@ abstract class PostTypeHandler extends BaseHandler
 
     public function getPostMeta()
     {
-        // WIP 09/22/25
+        return get_post_meta( $this->getPostID() );
     }
 
     // Method to get the post title

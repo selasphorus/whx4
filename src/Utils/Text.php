@@ -31,4 +31,21 @@ final class Text
     {
         return strtolower(preg_replace('/[A-Z]/', '-$0', lcfirst($value)));
     }
+
+    // Hyperlinks -- TODO: move this to separate class? maybe...
+
+    // Make hyperlink
+    function makeLink( $url, $text, $title = null, $class = null, $target = null) {
+
+        // TODO: sanitize URL?
+        $link = '<a href="'.$url.'"';
+        if ( $text && empty($title) ) { $title = $text; } // Use text as title if title is empty
+        if ( $title ) { $link .= ' title="'.$title.'"'; }
+        if ( $target ) { $link .= ' target="'.$target.'"'; }
+        if ( $class ) { $link .= ' class="'.$class.'"'; }
+        $link .= '>'.$text.'</a>';
+        //return '<a href="'.$url.'">'.$linktext.'</a>';
+
+        return $link;
+    }
 }
