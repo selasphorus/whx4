@@ -166,7 +166,7 @@ abstract class PostTypeHandler extends BaseHandler
     /**
 	 * Get the post ID, optionally for a provided post.
 	 */
-	public function getPostId(?\WP_Post $post = null): ?int
+	public static function getPostId(?\WP_Post $post = null): ?int
 	{
 		$p = $post ?? $this->getPost();
 		return $p ? (int)$p->ID : null;
