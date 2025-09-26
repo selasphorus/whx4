@@ -208,7 +208,7 @@ abstract class PostTypeHandler extends BaseHandler
 		$related = new WP_Query( $wp_args );
 
 		// Loop through the records returned
-		if ( $related->posts ) {
+		if ( $related->posts && count($related->posts) > 0 ) {
 
 			return $related_posts->posts;
 			/*
