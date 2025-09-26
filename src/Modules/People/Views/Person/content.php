@@ -4,6 +4,7 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
+$pID = $handler->getPostID();
 $meta = $handler->getPostMeta();
 
 // Person-specific data
@@ -24,16 +25,16 @@ $sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 // Dates
 /*
 // TODO: figure out where to put this -- probably appended to post_title?
-$dates = get_person_dates( $post_id, true );
+$dates = get_person_dates( $pID, true );
 if ( $dates && $dates != "" && $dates != "(-)" ) {
     $info .= $dates;
 }*/
 
 // Compositions
 // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
-if ( has_term( 'composers', 'person_category', $post_id ) ) {
+if ( has_term( 'composers', 'person_category', $pID ) ) {
     // Get compositions
-    $arr_obj_compositions = $handler->getRelatedPosts( $post_id, 'repertoire', 'composer' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_compositions = $handler->getRelatedPosts( $pID, 'repertoire', 'composer' );
     if ( $arr_obj_compositions ) {
 
         $info .= "<h3>Compositions:</h3>";
@@ -41,7 +42,7 @@ if ( has_term( 'composers', 'person_category', $post_id ) ) {
         //$info .= "<p>arr_compositions (".count($arr_compositions)."): <pre>".print_r($arr_compositions, true)."</pre></p>";
         foreach ( $arr_obj_compositions as $composition ) {
             //$info .= $composition->post_title."<br />";
-            $rep_info = get_rep_info( $composition->ID, 'display', false, true ); // ( $post_id = null, $format = 'display', $show_authorship = true, $show_title = true )
+            $rep_info = get_rep_info( $composition->ID, 'display', false, true );
             $info .= make_link( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
         }
     }
@@ -52,7 +53,7 @@ if ( has_term( 'composers', 'person_category', $post_id ) ) {
 // Publications
 if ( is_dev_site() ) {
     // Editions
-    $arr_obj_editions = $handler->getRelatedPosts( $post_id, 'edition', 'editor' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+    $arr_obj_editions = $handler->getRelatedPosts( $pID, 'edition', 'editor' );
 
     if ( $arr_obj_editions ) {
 
@@ -71,7 +72,7 @@ if ( is_dev_site() ) {
 
 // Sermons
 // TODO: check if is in clergy category?
-$arr_obj_sermons = $handler->getRelatedPosts( $post_id, 'sermon', 'sermon_author' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '1' )
+$arr_obj_sermons = $handler->getRelatedPosts( $pID, 'sermon', 'sermon_author' );
 if ( $arr_obj_sermons ) {
 
     $info .= '<div class="devview sermons">';
@@ -95,7 +96,7 @@ if ( is_dev_site() ) {
             array(
                 'key'		=> "personnel_XYZ_person", // name of custom field, with XYZ as a wildcard placeholder (must do this to avoid hashing)
                 'compare' 	=> 'LIKE',
-                'value' 	=> '"' . $post_id . '"', // matches exactly "123", not just 123. This prevents a match for "1234"
+                'value' 	=> '"' . $pID . '"', // matches exactly "123", not just 123. This prevents a match for "1234"
             )
         ),
         'orderby'	=> 'meta_value',
@@ -123,14 +124,14 @@ if ( is_dev_site() ) {
         }
         $info .= '</div>';
     } else {
-        $info .= "<!-- No related events found for post_id: $post_id -->";
+        $info .= "<!-- No related events found for post_id: $pID -->";
     }
     wp_reset_query();
     */
 }
 
 // Person Categories
-$term_obj_list = get_the_terms( $post_id, 'person_category' );
+$term_obj_list = get_the_terms( $pID, 'person_category' );
 if ( $term_obj_list ) {
     $terms_string = join(', ', wp_list_pluck($term_obj_list, 'name'));
     $info .= '<div class="devview categories">';
