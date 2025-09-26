@@ -33,7 +33,6 @@ abstract class PostTypeHandler extends BaseHandler
 
     public function boot(): void
 	{
-        // WIP 09/22/25
         add_filter( 'the_content', [ self::class, 'appendCustomContent' ], 15 );
 	}
 
@@ -161,6 +160,11 @@ abstract class PostTypeHandler extends BaseHandler
         return $this->getPost()->ID;
     }
 
+    public function getPostMeta()
+    {
+        // WIP 09/22/25
+    }
+
     // Method to get the post title
     public function get_post_title()
     {
@@ -173,6 +177,60 @@ abstract class PostTypeHandler extends BaseHandler
 		return [];
 	}
 
+	//
+	// TODO: add 'scope' parameter
+	function getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' ) { // $single = false
+
+		$info = null; // init
+
+		// If we don't have actual values for all parameters, there's not enough info to proceed
+		if ($post_id === null || $related_field_name === null || $related_post_type === null) { return null; }
+
+		$related_id = null; // init
+
+		// Set args
+		$wp_args = array(
+			'post_type'   => $related_post_type,
+			'post_status' => 'publish',
+			'posts_per_page' => $limit,
+			'meta_query' => array(
+				array(
+					'key'     => $related_field_name,
+					'value'   => $post_id
+				)
+			),
+			'orderby'        => 'title',
+			'order'            => 'ASC',
+		);
+
+		// Run query
+		$related = new WP_Query( $wp_args );
+
+		// Loop through the records returned
+		if ( $related->posts ) {
+
+			if ( $limit == 1 ) {
+				$p = $related->posts[0];
+				$info = $p->ID; // ok?
+			} else {
+				$info = $related_posts->posts;
+			}
+
+			/*
+			$info .= "<br />";
+			//$info .= "related_posts: ".print_r($related_posts,true);
+			$info .= "related_posts->posts:<pre>".print_r($related_posts->posts,true)."</pre>";
+			$info .= "wp_args:<pre>".print_r($wp_args,true)."</pre>";
+			*/
+
+		} else {
+			$info = "No matching posts found for wp_args: ".print_r($wp_args,true);
+		}
+
+		return $info;
+	}
+
+	//
 	public static function appendCustomContent( string $content ): string
 	{
 	    $post = get_post();
