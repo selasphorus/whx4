@@ -8,7 +8,8 @@ use atc\WHx4\Modules\Supernatural\Taxonomies\Habitat; // ???
 
 class Monster extends PostTypeHandler
 {
-	public function __construct(WP_Post|null $post = null) {
+	public function __construct(WP_Post|null $post = null)
+	{
 		$config = [
 			'slug'        => 'monster',
 			//'plural_slug' => 'monsters',
@@ -66,6 +67,9 @@ class Monster extends PostTypeHandler
 		return $html;
 	}
 
+	// TODO: revise towards more general getPostMeta method in PostTypeHandler, to avoid getting each meta record with a separate function
+	// (create separate functions only if further formatting or manipulation is required)
+	// WIP 09/22/25
     public function getColor(?WP_Post $post = null): string
     {
         $p = $post ?? $this->getPost();
