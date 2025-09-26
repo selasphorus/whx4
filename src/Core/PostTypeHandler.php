@@ -34,8 +34,9 @@ abstract class PostTypeHandler extends BaseHandler
     // Constructor
 	public function __construct(array $config = [], ?\WP_Post $post = null)
 	{
+		// WIP 09/26/25 -- trying to get getPostId method and sim working from CPT view files via handler
 		parent::__construct($config, $post);
-		$this->post = $post;
+		//$this->post = $post; // ???
 	}
 
     public function boot(): void
