@@ -27,7 +27,7 @@ class DateHelper {
      * @param int|null                     $year          Optional year fallback
      * @param int|string|null              $month         Optional month fallback
      * @param bool                         $asDateObjects If true, returns DateTimeImmutable objects
-     * @return array|DateTimeImmutable|string
+     * @return array|DateTimeImmutable|string     Array with 'startDate' and 'endDate' or single string if same
      */
     public static function normalizeDateInput( array $args = [] ): array|DateTimeImmutable|string
     {
@@ -38,44 +38,34 @@ class DateHelper {
             'month'         => null,
             'asDateObjects' => false,
         ] );
-        extract( $args );
+        extract( $args ); // TODO: maybe do this manually instead for safety?
 
         $now = new DateTimeImmutable();
+        $start = $now; // default to now
+        $end = null;
 
         if ( is_string( $scope ) ) {
             $scopeKey = strtolower( str_replace( ' ', '_', $scope ) );
 
             switch ( $scopeKey ) {
                 case 'today':
-                    return $asDateObjects ? $now : $now->format( 'Y-m-d' );
+                    $start = $now;
 
                 case 'this_week':
                     $start = $now->modify( 'monday this week' );
                     $end   = $now->modify( 'sunday this week' );
-                    return $asDateObjects
-                        ? [ 'startDate' => $start, 'endDate' => $end ]
-                        : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
 
                 case 'this_month':
                     $start = $now->modify( 'first day of this month' );
                     $end   = $now->modify( 'last day of this month' );
-                    return $asDateObjects
-                        ? [ 'startDate' => $start, 'endDate' => $end ]
-                        : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
 
                 case 'last_year':
                     $start = new DateTimeImmutable( 'first day of January last year' );
                     $end   = new DateTimeImmutable( 'last day of December last year' );
-                    return $asDateObjects
-                        ? [ 'startDate' => $start, 'endDate' => $end ]
-                        : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
 
                 case 'next_year':
                     $start = new DateTimeImmutable( 'first day of January next year' );
                     $end   = new DateTimeImmutable( 'last day of December next year' );
-                    return $asDateObjects
-                        ? [ 'startDate' => $start, 'endDate' => $end ]
-                        : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
 
                 case 'this_season':
                     $monthNow = (int) $now->format( 'n' );
@@ -88,16 +78,12 @@ class DateHelper {
                         $start = new DateTimeImmutable( ($yearNow - 1) . "-09-01" );
                         $end   = new DateTimeImmutable( "$yearNow-05-31" );
                     }
-
-                    return $asDateObjects
-                        ? [ 'startDate' => $start, 'endDate' => $end ]
-                        : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
             }
 
             // Easter YYYY support
             if ( preg_match( '/^easter\s+(\d{4})$/i', $scope, $matches ) ) {
                 $easter = self::calculateEasterDate( (int) $matches[1] );
-                return $asDateObjects ? $easter : $easter->format( 'Y-m-d' );
+                $start = $easter;
             }
         }
 
@@ -105,15 +91,27 @@ class DateHelper {
             return $asDateObjects ? DateTimeImmutable::createFromInterface( $date ) : $date->format( 'Y-m-d' );
         }
 
-        if ( is_string( $date ) && strpos( $date, ',' ) !== false ) {
-            [ $rawStart, $rawEnd ] = explode( ',', $date, 2 );
-            $start = self::parseFlexibleDate( trim( $rawStart ), $asDateObjects );
-            $end   = self::parseFlexibleDate( trim( $rawEnd ), $asDateObjects );
+        /*
+        // Date range in format "YYYY-mm-dd, YYYY-mm-dd"? Then set start, end dates
+        //if ( is_string( $date ) && strpos( $date, ',' ) !== false ) {
+        if ( preg_match( '/^\d{4}-\d{2}-\d{2},\s?\d{4}-\d{2}-\d{2}$/', $date ) ) {
+            [ $raw_start, $raw_end ] = explode( ',', $date, 2 );
+            $start = parseFlexibleDate( trim( $raw_start ) );
+            $end   = parseFlexibleDate( trim( $raw_end ) );
             return [ 'startDate' => $start, 'endDate' => $end ];
         }
+        */
 
+        /// ??? WIP ???
         if ( is_string( $date ) ) {
-            return self::parseFlexibleDate( $date, $asDateObjects );
+            if ( strpos( $date, ',' ) !== false ) {
+                [ $rawStart, $rawEnd ] = explode( ',', $date, 2 );
+                $start = self::parseFlexibleDate( trim( $rawStart ), $asDateObjects );
+                $end   = self::parseFlexibleDate( trim( $rawEnd ), $asDateObjects );
+                //return [ 'startDate' => $start, 'endDate' => $end ]; // ???
+            } else {
+                return self::parseFlexibleDate( $date, $asDateObjects );
+            }
         }
 
         if ( $month ) {
@@ -121,12 +119,19 @@ class DateHelper {
             $year  = $year ?? (int) $now->format( 'Y' );
             $start = DateTimeImmutable::createFromFormat( 'Y-m-d', "{$year}-{$month}-01" );
             $end   = $start->modify( 'last day of this month' );
+        }
+
+        if ( $start && $end ) {
+            // Both start and end are non-null => return an array
             return $asDateObjects
                 ? [ 'startDate' => $start, 'endDate' => $end ]
                 : [ 'startDate' => $start->format( 'Y-m-d' ), 'endDate' => $end->format( 'Y-m-d' ) ];
+        } else if ( $start ) {
+            // Only start is set => return single date object or string
+            return $asDateObjects ? $start : $start->format( 'Y-m-d' );
         }
 
-        return $asDateObjects ? $now : $now->format( 'Y-m-d' );
+        return $asDateObjects ? $now : $now->format( 'Y-m-d' ); // failsafe
     }
 
     /**
