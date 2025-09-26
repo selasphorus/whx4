@@ -4,8 +4,13 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
-$pID = $post->getPostID();
-$meta = $post->getPostMeta();
+$pID = $handler?->getPostId(); // or ->getPostId($post)
+
+// Specific meta (single value)
+$firstName = $handler?->getPostMeta('first_name', true) ?? '';
+
+// All meta
+$meta = $handler?->getPostMeta(); // array of all post meta
 
 // Person-specific data
 $color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';

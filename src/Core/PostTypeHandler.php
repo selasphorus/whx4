@@ -155,16 +155,31 @@ abstract class PostTypeHandler extends BaseHandler
 
     ///
 
-    // Method to get the post ID
-    public function getPostID()
-    {
-        return $this->getPost()->ID;
-    }
+    /**
+	 * Get the post ID, optionally for a provided post.
+	 */
+	public function getPostId(?\WP_Post $post = null): ?int
+	{
+		$p = $post ?? $this->getPost();
+		return $p ? (int)$p->ID : null;
+	}
 
-    public function getPostMeta()
-    {
-        return get_post_meta( $this->getPostID() );
-    }
+	/**
+	 * Get post meta. If $key is null, returns all meta (array).
+	 * If $key is provided, returns get_post_meta($id, $key, $single).
+	 * Returns [] (no key) or null (with key) when no post is set.
+	 */
+	public function getPostMeta(?string $key = null, bool $single = false, ?\WP_Post $post = null): mixed
+	{
+		$id = $this->getPostId($post);
+		if ($id === null) {
+			return $key === null ? [] : null;
+		}
+
+		return $key === null
+			? get_post_meta($id)
+			: get_post_meta($id, $key, $single);
+	}
 
     // Method to get the post title
     public function get_post_title()
