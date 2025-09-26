@@ -19,7 +19,7 @@ function get_related_event( $post_id = null, $post_type = null, $link = true, $l
     // If we don't have actual values for both parameters, there's not enough info to proceed
     if ($post_id === null || $post_type === null) { return null; }
 
-    $event_id = get_related_posts( $post_id, $post_type, 'event', 'single' ); // get_related_posts( $post_id = null, $related_post_type = null, $related_field_name = null, $return = 'all' )
+    $event_id = getRelatedPosts( $post_id, $post_type, 'event', '1' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' )
     //echo "event_id: $event_id; post_id: $post_id"; // tft
     //$ts_info .= "event_id: $event_id; post_id: post_id<br />"; // tft
 
@@ -800,7 +800,7 @@ function get_event_personnel( $atts = array() ) {
         $ts_info = str_replace('<!-- ','<code>',$ts_info);
         $ts_info = str_replace(' -->','</code><br />',$ts_info);
         $ts_info = str_replace("\n",'<br />',$ts_info);
-           //$ts_info .= '</div>';
+        //$ts_info .= '</div>';
     }*/
 
     $arr_info['info'] = $info;
@@ -916,7 +916,7 @@ function get_personnel_person ( $args = array() ) {
 
             $person_name = ""; // init
 
-            // Set up display args to pass to fcn get_person_display_name
+            // Set up display args to pass to fcn getPersonDisplayName
             $name_abbr = "full";
             $override = "none";
             $show_dates = false;
@@ -954,10 +954,10 @@ function get_personnel_person ( $args = array() ) {
             }
             $display_args['url'] = $personnel_url;
 
-            $ts_info .= "display_args for get_person_display_name: ".print_r($display_args, true)."<br />";
+            $ts_info .= "display_args for getPersonDisplayName: ".print_r($display_args, true)."<br />";
 
             // Get the display_name
-            $arr_person_name = get_person_display_name( $display_args );
+            $arr_person_name = getPersonDisplayName( $display_args );
             $person_name = $arr_person_name['info']."<br />";
             $ts_info .= $arr_person_name['ts_info'];
 
@@ -2008,11 +2008,11 @@ function set_row_authorship_display ( $item_ids = array() ) {
                     // Show name and dates for first instance of composer in program
                     $show_name = true;
                     $show_dates = true;
-                } else if ( ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) { // c && 
+                } else if ( ( $prev_row != $row || ( $prev_row == $row && $num != $prev_num+1 ) ) ) { // c &&
                     // If it's a mixed-composer program, then show name if this is a new row or non-consecutive in same row
-                    // WIP 08/25/25 -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above, 
+                    // WIP 08/25/25 -- mixed-composer issue. If service happens to have works all by one composer and ``$num_composers > 1` clause is enabled, above,
                     // then composer will be mistakenly hidden after first instance.
-                    // Having disabled this clause, however, there may now be issues with concert programs... 
+                    // Having disabled this clause, however, there may now be issues with concert programs...
                     $show_name = true;
                     $show_dates = false;
                 } else {
@@ -3587,21 +3587,20 @@ function whx4_placeholders( $replace, $EM_Event, $result ) {
     //
 
     // Get the event title formatted using our special function
+    //$event_title = $EM_Event->event_name;
+    //$event_title = remove_bracketed_info($event_title);
     $title_args = array( 'post' => $post_id, 'link' => $make_link, 'line_breaks' => false, 'show_subtitle' => $show_subtitle, 'echo' => false, 'hlevel' => $hlevel, 'hlevel_sub' => $hlevel_sub, 'called_by' => 'whx4_placeholders', 'do_ts' => $do_ts );
     if ( !is_singular('event_series') ) {
-
         if ( is_post_type_archive() || is_page('events') ) {
             $title_args['show_series_title'] = "wordy";
         } else {
             $title_args['show_series_title'] = "append";
         }
-
         /*if ( $result == '#_EVENTLINK' ) {
             $title_args['show_series_title'] = "append";
         } else {
             $title_args['show_series_title'] = "wordy";
         }*/
-
     }
     $event_title = sdg_post_title( $title_args );
     //$ts_info .= "title_args: ".print_r($title_args,true)."<br />"; // breaks layout?
@@ -3887,7 +3886,7 @@ function cat_em_placeholder_mod($replace, $EM_Category, $result){
 
     } else if ( $result == "#_CATEGORYPASTEVENTS" ) {
 
-        // Rebuild call to output function for past events so as to be able to set correct DESC order
+        // Rebuild call to output function for past events so as to be able to set correct DESC order (reverse chronological)
         $args = array( 'category' => $EM_Category->slug, 'scope'=> 'past', 'pagination'=>1, 'ajax'=>0 );
         $args['format_header'] = get_option('dbem_category_event_list_item_header_format');
         $args['format_footer'] = get_option('dbem_category_event_list_item_footer_format');
@@ -4241,7 +4240,7 @@ if ( isset($_REQUEST['scope']) ) {
 }
 */
 
-// WIP -- alt approach is via custom code in events-manager/classes/em-events.php -- search for "atc" (v 3.2.1...)
+// SEE INSTEAD -- custom code in events-manager/classes/em-events.php -- search for "atc" (v 3.2.1...)
 //add_filter('em_events_output_grouped_args','em_args_mod',1,3);
 function em_args_mod($args){
 
@@ -4473,7 +4472,7 @@ add_filter('em_cp_event_recurring_public','__return_true');
 // Event archives -- top-of-page content
 
 // Special Date Content
-function get_special_date_content( $the_date = null ) {
+function getSpecialDateContent( $the_date = null ) {
 
     // TS/logging setup
     if ( function_exists('devmode_active') ) { $do_ts = devmode_active( array("whx4", "events") ); } else { $do_ts = null; }
@@ -4491,7 +4490,7 @@ function get_special_date_content( $the_date = null ) {
     }
 
     /*
-    $ts_info = "get_special_date_content<br />";
+    $ts_info = "getSpecialDateContent<br />";
     $ts_info .= "the_date: '$the_date'<br />";
     $ts_info .= "print_r the_date: '".print_r($the_date, true)."'<br />"; // tft
     */
@@ -4548,7 +4547,7 @@ function get_special_date_content( $the_date = null ) {
 
     } else {
 
-        $ts_info .= "No posts found by fcn get_special_date_content for date $the_date<br />";
+        $ts_info .= "No posts found by fcn getSpecialDateContent for date $the_date<br />";
 
     }
 
@@ -4645,5 +4644,3 @@ function append_slug($data) {
 
 add_filter('wp_insert_post_data', 'append_slug', 10);
 */
-
-?>
