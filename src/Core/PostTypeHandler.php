@@ -179,9 +179,10 @@ abstract class PostTypeHandler extends BaseHandler
 
 	//
 	// TODO: add 'scope' parameter
-	function getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' ) { // $single = false
+	function getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' )
+	{ // $single = false
 
-		$info = null; // init
+		$arrPosts = []; // init
 
 		// If we don't have actual values for all parameters, there's not enough info to proceed
 		if ($post_id === null || $related_field_name === null || $related_post_type === null) { return null; }
@@ -209,13 +210,15 @@ abstract class PostTypeHandler extends BaseHandler
 		// Loop through the records returned
 		if ( $related->posts ) {
 
+			return $related_posts->posts;
+			/*
 			if ( $limit == 1 ) {
 				$p = $related->posts[0];
 				$info = $p->ID; // ok?
 			} else {
 				$info = $related_posts->posts;
 			}
-
+			*/
 			/*
 			$info .= "<br />";
 			//$info .= "related_posts: ".print_r($related_posts,true);
@@ -224,10 +227,10 @@ abstract class PostTypeHandler extends BaseHandler
 			*/
 
 		} else {
-			$info = "No matching posts found for wp_args: ".print_r($wp_args,true);
+			//$info = "No matching posts found for wp_args: ".print_r($wp_args,true);
 		}
 
-		return $info;
+		return $arrPosts;
 	}
 
 	//
