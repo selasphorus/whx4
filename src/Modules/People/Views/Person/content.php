@@ -51,7 +51,7 @@ if ( has_term( 'composers', 'person_category', $pID ) ) {
 // TODO: arranger, transcriber, translator, librettist
 
 // Publications
-if ( is_dev_site() ) {
+/*
     // Editions
     $arr_obj_editions = $handler->getRelatedPosts( $pID, 'edition', 'editor' );
 
@@ -68,7 +68,7 @@ if ( is_dev_site() ) {
 
         $info .= '</div>';
     }
-}
+*/
 
 // Sermons
 // TODO: check if is in clergy category?
@@ -87,7 +87,6 @@ if ( $arr_obj_sermons ) {
 }
 
 // Related Events
-if ( is_dev_site() ) {
     /*
     $wp_args = array(
         'posts_per_page'=> -1,
@@ -128,7 +127,6 @@ if ( is_dev_site() ) {
     }
     wp_reset_query();
     */
-}
 
 // Person Categories
 $term_obj_list = get_the_terms( $pID, 'person_category' );
