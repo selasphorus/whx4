@@ -135,7 +135,6 @@ abstract class PostTypeHandler extends BaseHandler
                 return null;
             }
         }
-        $this->post = $post;
 
         // Per-post cache
         $pid = (int) $post->ID;
