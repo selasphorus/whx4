@@ -146,14 +146,14 @@ if ( $term_obj_list ) {
 <div>
 Person view: content (partial/appended).
 
-<hr />
 <?php
 echo "postId: " . $postId . '<br />';
-echo "meta: <pre>" . print_r($meta,true) . '</pre>';
 echo "firstName: " . $firstName . '<br />';
 //echo "secret name: " . $sn . '<br />';
 echo "dates: " . $dates . '<br />';
-//echo "secret name: " . $sn . '<br />';
-//echo "getPostID: " . $handler->getPostID($post);
+?>
+<hr />
+<?php
+echo "meta: <pre>" . print_r($meta,true) . '</pre>';
 ?>
 </div>
