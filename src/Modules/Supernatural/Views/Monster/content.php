@@ -14,7 +14,7 @@ if ($handler) {
 <div>
 Monster view test -- content (partial/appended).
 <?php
-echo "postId: " . $postId;
+echo "postId: " . $postId . '<br />';
 echo "color: " . $color . '<br />';
 //echo "secret name: " . $sn . '<br />';
 ?>

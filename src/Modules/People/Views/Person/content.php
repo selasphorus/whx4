@@ -4,17 +4,20 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
-$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
-
-// Specific meta (single value)
-$firstName = $handler?->getPostMeta('first_name', true) ?? '';
-
-// All meta
-$meta = $handler?->getPostMeta(); // array of all post meta
+if ($handler) {
+    $postId = $handler->getPostId();
+    //$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
+    // Person-specific data
+    $firstName = $handler?->getPostMeta('first_name', true) ?? '';
+    $dates = (method_exists($handler, 'getPersonDates')) ? $handler->getPersonDates() : '';
+    //$meta = $handler?->getPostMeta(); // array of all post meta
+    //$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
+    //$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
+}
 
 // Person-specific data
-$dates = ($handler && method_exists($handler, 'getPersonDates')) ? $handler->getPersonDates() : '';
-$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
+
+//$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
 <?php
