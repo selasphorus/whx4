@@ -20,7 +20,7 @@ Monster view test -- content (partial/appended).
 
 <div class="troubleshootingg">
 <?php
-echo 'post: <pre>' . print_r($post,true) . '</pre>'; // ok
-echo 'handler: <pre>' . print_r($handler,true) . '</pre>'; // ok
+//echo 'post: <pre>' . print_r($post,true) . '</pre>'; // ok
+//echo 'handler: <pre>' . print_r($handler,true) . '</pre>'; // ok
 ?>
 </div>
