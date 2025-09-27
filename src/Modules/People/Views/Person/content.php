@@ -149,7 +149,7 @@ Person view: content (partial/appended).
 <hr />
 <?php
 echo "postId: " . $postId . '<br />';
-echo "meta: <pre>" . print_r($meta,true); . '</pre>';
+echo "meta: <pre>" . print_r($meta,true) . '</pre>';
 echo "firstName: " . $firstName . '<br />';
 //echo "secret name: " . $sn . '<br />';
 echo "dates: " . $dates . '<br />';
