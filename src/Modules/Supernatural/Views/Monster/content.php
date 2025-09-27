@@ -5,6 +5,7 @@ use atc\WHx4\Core\PostTypeHandler;
 $handler = PostTypeHandler::getHandlerForPost($post);
 if ($handler) {
     $postId = $handler->getPostId();
+    $meta = $handler->getPostMeta();
     // Monster-specific data
     $color  = (string)$handler->getPostMeta('monster_color', 'purple');
     //$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';

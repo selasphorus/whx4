@@ -5,23 +5,20 @@ use atc\WHx4\Core\PostTypeHandler;
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
 if ($handler) {
-    $pID = $handler->getPostId(); //$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
+    $postId = $handler->getPostId();
+    $meta = $handler->getPostMeta();
     // Person-specific data
-    $firstName = $handler?->getPostMeta('first_name', true) ?? '';
+    $firstName  = (string)$handler->getPostMeta('first_name', '');
     $dates = (method_exists($handler, 'getPersonDates')) ? $handler->getPersonDates() : '';
     //$meta = $handler?->getPostMeta(); // array of all post meta
     //$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
     //$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 }
-
-// Person-specific data
-
-//$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 ?>
 
 <?php
 // This is a very, very rough draft -- much of the below should be broken up into additional methods in the Person class -- e.g. getPublications (to cover both compositions and other pubs? TBD)
-
+/*
 // Group <> Titles & Associations
 // WIP
 
@@ -30,18 +27,17 @@ if ($handler) {
 // TODO: include theme-specific content? via apply_filters?
 
 // Dates
-/*
 // TODO: figure out where to put this -- probably appended to post_title?
-$dates = get_person_dates( $pID, true );
+$dates = get_person_dates( $postId, true );
 if ( $dates && $dates != "" && $dates != "(-)" ) {
     $info .= $dates;
 }*/
 
 // Compositions
 // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
-if ( has_term( 'composers', 'person_category', $pID ) ) {
+if ( has_term( 'composers', 'person_category', $postId ) ) {
     // Get compositions
-    $arr_obj_compositions = $handler->getRelatedPosts( $pID, 'repertoire', 'composer' );
+    $arr_obj_compositions = $handler->getRelatedPosts( $postId, 'repertoire', 'composer' );
     if ( $arr_obj_compositions ) {
 
         echo "<h3>Compositions:</h3>";
@@ -60,7 +56,7 @@ if ( has_term( 'composers', 'person_category', $pID ) ) {
 // Publications
 /*
     // Editions
-    $arr_obj_editions = $handler->getRelatedPosts( $pID, 'edition', 'editor' );
+    $arr_obj_editions = $handler->getRelatedPosts( $postId, 'edition', 'editor' );
 
     if ( $arr_obj_editions ) {
 
@@ -79,7 +75,7 @@ if ( has_term( 'composers', 'person_category', $pID ) ) {
 
 // Sermons
 // TODO: check if is in clergy category?
-$arr_obj_sermons = $handler->getRelatedPosts( $pID, 'sermon', 'sermon_author' );
+$arr_obj_sermons = $handler->getRelatedPosts( $postId, 'sermon', 'sermon_author' );
 if ( $arr_obj_sermons ) {
 
     echo '<div class="devview sermons">';
@@ -102,7 +98,7 @@ if ( $arr_obj_sermons ) {
             array(
                 'key'		=> "personnel_XYZ_person", // name of custom field, with XYZ as a wildcard placeholder (must do this to avoid hashing)
                 'compare' 	=> 'LIKE',
-                'value' 	=> '"' . $pID . '"', // matches exactly "123", not just 123. This prevents a match for "1234"
+                'value' 	=> '"' . $postId . '"', // matches exactly "123", not just 123. This prevents a match for "1234"
             )
         ),
         'orderby'	=> 'meta_value',
@@ -130,13 +126,13 @@ if ( $arr_obj_sermons ) {
         }
         $info .= '</div>';
     } else {
-        $info .= "<!-- No related events found for post_id: $pID -->";
+        $info .= "<!-- No related events found for post_id: $postId -->";
     }
     wp_reset_query();
     */
 
 // Person Categories
-$term_obj_list = get_the_terms( $pID, 'person_category' );
+$term_obj_list = get_the_terms( $postId, 'person_category' );
 if ( $term_obj_list ) {
     $terms_string = join(', ', wp_list_pluck($term_obj_list, 'name'));
     echo '<div class="devview categories">';
@@ -151,10 +147,11 @@ if ( $term_obj_list ) {
 Person view: content (partial/appended).
 
 <hr />
-Post ID: <pre><?php print_r($pID,true); ?></pre>
-Post Meta: <pre><?php //print_r($meta,true); ?></pre>
-
 <?php
+echo "postId: " . $postId . '<br />';
+echo "meta: <pre>" . print_r($meta,true); . '</pre>';
+echo "firstName: " . $firstName . '<br />';
+//echo "secret name: " . $sn . '<br />';
 echo "dates: " . $dates . '<br />';
 //echo "secret name: " . $sn . '<br />';
 //echo "getPostID: " . $handler->getPostID($post);

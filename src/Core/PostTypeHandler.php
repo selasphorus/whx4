@@ -188,33 +188,22 @@ abstract class PostTypeHandler extends BaseHandler
 	 * If $key is provided, returns get_post_meta($id, $key, $single).
 	 * Returns [] (no key) or null (with key) when no post is set.
 	 */
-	/*public function getPostMeta(?string $key = null, bool $single = false, ?\WP_Post $post = null): mixed
-	{
-		//$p = $post ?? self::getPost(); //$id = $this->getPostId($post);
-		$id = $post->ID ?? self::getPostID();
-		if ($id === null) {
-			return $key === null ? [] : null;
-		}
-
-		return $key === null
-			? get_post_meta($id)
-			: get_post_meta($id, $key, $single);
-	}*/
-	/**
-	 * Read a meta value for the current post.
-	 * @param string $key
-	 * @param mixed  $default
-	 * @return mixed
-	 */
-	public function getPostMeta(string $key, mixed $default = null): mixed
+	public function getPostMeta(?string $key = null, mixed $default = null): mixed
 	{
 		$id = $this->getPostId();
 		if ($id <= 0) {
 			return $default;
 		}
+
+		if ($key === null) {
+			// Return all meta for this post
+			return get_post_meta($id);
+		}
+
 		$val = get_post_meta($id, $key, true);
 		return ($val === '' || $val === null) ? $default : $val;
 	}
+
 
     // Method to get the post title
     /*public function get_post_title()
