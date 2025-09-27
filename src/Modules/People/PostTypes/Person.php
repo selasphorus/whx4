@@ -170,13 +170,13 @@ class Person extends PostTypeHandler
 	public function getPersonDates( ?WP_Post $post = null, $styled = false): string
 	{
 		error_log( '=== Person::getPersonDates() ===' );
+
+		$info = ""; // init
+
         $p = $post ?? $this->getPost();
-        if ( empty($p) ) { return null; }
+        if ( empty($p) ) { return $info; }
         $pID = $p->ID;
 		//error_log( 'post_id: ' . $pID );
-
-		// Init vars
-		$info = ""; // init
 
 		// Try ACF get_field instead?
 		$birth_year = get_post_meta( $pID, 'birth_year', true );
