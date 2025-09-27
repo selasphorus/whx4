@@ -6,13 +6,14 @@ $handler = PostTypeHandler::getHandlerForPost($post);
 if ($handler) {
     $postId = $handler->getPostId();
     // Monster-specific data
-    $color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
+    $color  = (string)$handler->getPostMeta('monster_color', 'purple');
+    //$color = ($handler && method_exists($handler, 'getColor')) ? $handler->getColor() : '';
     //$sn = ($handler && method_exists($handler, 'getSN')) ? $handler->getSN() : '';
 }
 ?>
 
 <div>
-Monster view test -- content (partial/appended).
+Monster view test -- content (partial/appended).<br />
 <?php
 echo "postId: " . $postId . '<br />';
 echo "color: " . $color . '<br />';

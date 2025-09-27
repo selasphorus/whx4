@@ -32,9 +32,8 @@ abstract class PostTypeHandler extends BaseHandler
     // Constructor
 	public function __construct(array $config = [], ?\WP_Post $post = null)
 	{
-		// WIP 09/26/25 -- trying to get getPostId method and sim working from CPT view files via handler
 		parent::__construct($config, $post);
-		//$this->post = $post; // ???
+		$this->post = $post instanceof \WP_Post ? $post : null;
 	}
 
     public function boot(): void
@@ -42,10 +41,17 @@ abstract class PostTypeHandler extends BaseHandler
         add_filter( 'the_content', [ self::class, 'appendCustomContent' ], 15 );
 	}
 
+	// Optional explicit setter (handy for guarantees/safety-net)
+	public function setPost(?\WP_Post $post): static
+	{
+		$this->post = $post instanceof \WP_Post ? $post : null;
+		return $this;
+	}
+
 	public function getPost(): ?\WP_Post
 	{
-		return $this->object instanceof \WP_Post ? $this->object : null;
-		//return $this->post;
+		//return $this->object instanceof \WP_Post ? $this->object : null;
+		return $this->post;
 	}
 
     public function getCapType(): array
@@ -152,6 +158,11 @@ abstract class PostTypeHandler extends BaseHandler
         // Handlers in Rex accept (WP_Post|null $post = null)
         /** @var self $instance */
         $instance = new $class($post);
+
+        // Safety-net: force the post onto the instance
+		if (method_exists($instance, 'setPost')) {
+			$instance->setPost($post);
+		}
 
         return self::$perPostCache[$pid] = $instance;
     }
