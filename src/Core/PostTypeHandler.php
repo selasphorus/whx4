@@ -166,9 +166,10 @@ abstract class PostTypeHandler extends BaseHandler
     /**
 	 * Get the post ID, optionally for a provided post.
 	 */
-	public static function getPostId(?\WP_Post $post = null): ?int
+	public function getPostId(?\WP_Post $post = null): ?int
 	{
-		$p = $post ?? $this->getPost();
+		$p = $post ?? self::getPost();
+		//$p = $post ?? $this->getPost();
 		return $p ? (int)$p->ID : null;
 	}
 
@@ -179,7 +180,8 @@ abstract class PostTypeHandler extends BaseHandler
 	 */
 	public function getPostMeta(?string $key = null, bool $single = false, ?\WP_Post $post = null): mixed
 	{
-		$id = $this->getPostId($post);
+		//$p = $post ?? self::getPost(); //$id = $this->getPostId($post);
+		$id = $post->ID ?? self::getPostID();
 		if ($id === null) {
 			return $key === null ? [] : null;
 		}
@@ -190,10 +192,10 @@ abstract class PostTypeHandler extends BaseHandler
 	}
 
     // Method to get the post title
-    public function get_post_title()
+    /*public function get_post_title()
     {
         return get_the_title($this->getPostID());
-    }
+    }*/
 
     //public function getCustomTitleArgs(): array
 	public function getCustomTitleArgs( \WP_Post $post ): array
@@ -204,8 +206,7 @@ abstract class PostTypeHandler extends BaseHandler
 	//
 	// TODO: add 'scope' parameter
 	function getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' )
-	{ // $single = false
-
+	{
 		$arrPosts = []; // init
 
 		// If we don't have actual values for all parameters, there's not enough info to proceed
@@ -221,7 +222,7 @@ abstract class PostTypeHandler extends BaseHandler
 			'meta_query' => array(
 				array(
 					'key'     => $related_field_name,
-					'value'   => $post_id
+					'value'   => $post_id,
 				)
 			),
 			'orderby'        => 'title',
@@ -257,7 +258,7 @@ abstract class PostTypeHandler extends BaseHandler
 		return $arrPosts;
 	}
 
-	//
+	// TODO: modify to allow for before/after/replace of $content with custom content(?)
 	public static function appendCustomContent( string $content ): string
 	{
 	    $post = get_post();
