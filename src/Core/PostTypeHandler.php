@@ -15,16 +15,14 @@ abstract class PostTypeHandler extends BaseHandler
 	use AppliesTitleArgs;
 
 	// Property to store the post object
-    //protected ?\WP_Post $post = null; //protected $post; // better private?
+    protected ?\WP_Post $post = null; //protected $post; // better private?
     protected const TYPE = 'post_type';
 
-    // WIP
     /** @var array<string,string> Cache: post_type => handler FQCN */
     protected static array $handlerClassCache = [];
 
     /** @var array<int,self> Cache: post_id => handler instance */
     protected static array $perPostCache = [];
-    // END WIP
 
     // Constructor to set the config and post object
     /*public function __construct( array $config = [], WP_Post|null $post = null )
@@ -122,20 +120,17 @@ abstract class PostTypeHandler extends BaseHandler
      * Returns a concrete subclass of PostTypeHandler, cached per post ID.
      */
     //public static function getHandlerForPost(WP_Post|int|null $post = null): ?self
-    public static function getHandlerForPost(WP_Post $post): ?self
+    public static function getHandlerForPost(WP_Post $post): ?static
     {
         // Normalize $post
-        if ($post === null) {
-            $post = get_post();
-            if (!$post instanceof WP_Post) {
-                return null;
-            }
-        } elseif (is_int($post)) {
-            $post = get_post($post);
-            if (!$post instanceof WP_Post) {
-                return null;
-            }
-        }
+		if ($post === null) {
+			$post = get_post();
+		} elseif (is_int($post)) {
+			$post = get_post($post);
+		}
+		if (!$post instanceof \WP_Post) {
+			return null;
+		}
 
         // Per-post cache
         $pid = (int) $post->ID;
@@ -144,15 +139,15 @@ abstract class PostTypeHandler extends BaseHandler
         }
 
         // Resolve handler class for this CPT
-        $pt = $post->post_type; //get_post_type($post);
-        if (!$pt) {
-            return null;
-        }
+        $pt = $post->post_type ?: get_post_type($post);
+		if (!$pt) {
+			return null;
+		}
 
         $class = self::getHandlerClassForPostType($pt);
-        if (!$class) {
-            return null;
-        }
+        if (!$class || !class_exists($class)) {
+			return null;
+		}
 
         // Handlers in Rex accept (WP_Post|null $post = null)
         /** @var self $instance */
@@ -163,22 +158,26 @@ abstract class PostTypeHandler extends BaseHandler
 
     ///
 
+    public function getPostId(): int
+	{
+		return $this->post instanceof \WP_Post ? (int) $this->post->ID : 0;
+	}
     /**
 	 * Get the post ID, optionally for a provided post.
 	 */
-	public function getPostId(?\WP_Post $post = null): ?int
+	/*public function getPostId(?\WP_Post $post = null): ?int
 	{
 		$p = $post ?? self::getPost();
 		//$p = $post ?? $this->getPost();
 		return $p ? (int)$p->ID : null;
-	}
+	}*/
 
 	/**
 	 * Get post meta. If $key is null, returns all meta (array).
 	 * If $key is provided, returns get_post_meta($id, $key, $single).
 	 * Returns [] (no key) or null (with key) when no post is set.
 	 */
-	public function getPostMeta(?string $key = null, bool $single = false, ?\WP_Post $post = null): mixed
+	/*public function getPostMeta(?string $key = null, bool $single = false, ?\WP_Post $post = null): mixed
 	{
 		//$p = $post ?? self::getPost(); //$id = $this->getPostId($post);
 		$id = $post->ID ?? self::getPostID();
@@ -189,6 +188,21 @@ abstract class PostTypeHandler extends BaseHandler
 		return $key === null
 			? get_post_meta($id)
 			: get_post_meta($id, $key, $single);
+	}*/
+	/**
+	 * Read a meta value for the current post.
+	 * @param string $key
+	 * @param mixed  $default
+	 * @return mixed
+	 */
+	public function getPostMeta(string $key, mixed $default = null): mixed
+	{
+		$id = $this->getPostId();
+		if ($id <= 0) {
+			return $default;
+		}
+		$val = get_post_meta($id, $key, true);
+		return ($val === '' || $val === null) ? $default : $val;
 	}
 
     // Method to get the post title

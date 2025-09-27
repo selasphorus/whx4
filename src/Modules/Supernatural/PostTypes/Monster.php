@@ -72,8 +72,12 @@ class Monster extends PostTypeHandler
 	// WIP 09/22/25
     public function getColor(?WP_Post $post = null): string
     {
-        $p = $post ?? $this->getPost();
-        return $p ? (string)get_post_meta($p->ID, 'monster_color', true) : 'orange';
+        /*$p = $post ?? $this->getPost();
+        return $p ? (string)get_post_meta($p->ID, 'monster_color', true) : 'orange';*/
+        if ($post instanceof \WP_Post) {
+			$this->post = $post; // if you allow swapping in a different post
+		}
+		return (string) $this->getPostMeta('monster_color', 'orange');
     }
 
     public function getSN(?WP_Post $post = null): string
