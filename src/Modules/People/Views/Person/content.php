@@ -5,8 +5,7 @@ use atc\WHx4\Core\PostTypeHandler;
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
 if ($handler) {
-    $postId = $handler->getPostId();
-    //$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
+    $pID = $handler->getPostId(); //$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
     // Person-specific data
     $firstName = $handler?->getPostMeta('first_name', true) ?? '';
     $dates = (method_exists($handler, 'getPersonDates')) ? $handler->getPersonDates() : '';
@@ -153,7 +152,7 @@ Person view: content (partial/appended).
 
 <hr />
 Post ID: <pre><?php print_r($pID,true); ?></pre>
-Post Meta: <pre><?php print_r($meta,true); ?></pre>
+Post Meta: <pre><?php //print_r($meta,true); ?></pre>
 
 <?php
 echo "dates: " . $dates . '<br />';
