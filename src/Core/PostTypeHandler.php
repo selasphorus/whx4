@@ -15,7 +15,7 @@ abstract class PostTypeHandler extends BaseHandler
 	use AppliesTitleArgs;
 
 	// Property to store the post object
-    protected ?\WP_Post $post = null; //protected $post; // better private?
+    //protected ?\WP_Post $post = null; //protected $post; // better private?
     protected const TYPE = 'post_type';
 
     // WIP
@@ -46,8 +46,8 @@ abstract class PostTypeHandler extends BaseHandler
 
 	public function getPost(): ?\WP_Post
 	{
-		//return $this->object instanceof \WP_Post ? $this->object : null;
-		return $this->post;
+		return $this->object instanceof \WP_Post ? $this->object : null;
+		//return $this->post;
 	}
 
     public function getCapType(): array
