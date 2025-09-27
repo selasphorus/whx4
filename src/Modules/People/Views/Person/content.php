@@ -4,8 +4,7 @@ use atc\WHx4\Core\PostTypeHandler;
 
 /** @var WP_Post $post */
 $handler = PostTypeHandler::getHandlerForPost($post);
-$pID = PostTypeHandler::getPostId($post);
-//$pID = $handler->getPostId(); // or ->getPostId($post)
+$pID = $handler?->getPostId(); // or ->getPostId($post) -- ??
 
 // Specific meta (single value)
 $firstName = $handler?->getPostMeta('first_name', true) ?? '';
