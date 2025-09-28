@@ -30,7 +30,7 @@ final class PostQuery
 
         // Apply scope helpers (today/this_week/etc.)
         if (!empty($params['scope'])) {
-            $args = $this->scopes->apply($args, (string)$params['scope']);
+            //$args = $this->scopes->apply($args, (string)$params['scope']); // wip
         }
 
         // Allow the active CPT handler to refine args
@@ -46,8 +46,8 @@ final class PostQuery
          * Final, global escape hatch (site-level).
          * Filter name keeps your prefix and allows per-type specialization.
          */
-        $args = apply_filters('rex_query_args', $args, $params);
-        $args = apply_filters("rex_query_args_{$ptype}", $args, $params);
+        $args = apply_filters('whx4_query_args', $args, $params);
+        $args = apply_filters("whx4_query_args_{$ptype}", $args, $params);
 
         $q = new WP_Query($args);
 
