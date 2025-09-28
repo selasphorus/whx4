@@ -24,7 +24,7 @@ class CoreServices
         ]);
 
         foreach ( $services as $class ) {
-            error_log( 'About to attempt to load and boot class: ' . $class );
+            //error_log( 'About to attempt to load and boot class: ' . $class );
             if ( is_string( $class ) && method_exists( $class, 'boot' ) ) {
                 $class::boot();
             } else {
