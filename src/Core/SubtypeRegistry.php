@@ -17,20 +17,20 @@ final class SubtypeRegistry
 
     public static function register(): void
     {
-        error_log( '=== SubtypeRegistry::register() ===' );
+        //error_log( '=== SubtypeRegistry::register() ===' );
         add_action('init', [self::class, 'collect'], BootOrder::SUBTYPES);
     }
 
     public static function collect(): void
     {
-        error_log( '=== SubtypeRegistry::collect() ===' );
+        //error_log( '=== SubtypeRegistry::collect() ===' );
         self::$subtypes = [];
         $providers = apply_filters('whx4_register_subtypes', []);
         //error_log( 'providers: ' . print_r($providers, true) );
 
         foreach ($providers as $provider) {
             if ($provider instanceof SubtypeInterface) {
-                error_log( 'subtype provider: ' . $provider->getSlug() . ' is a valid SubtypeInterface.');
+                //error_log( 'subtype provider: ' . $provider->getSlug() . ' is a valid SubtypeInterface.');
                 $pt   = $provider->getPostType();
                 $slug = $provider->getSlug();
                 self::$subtypes[$pt][$slug] = [

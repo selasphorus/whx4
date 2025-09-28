@@ -25,11 +25,11 @@ class FieldGroupLoader
 
     public function bootstrap(): void
     {
-        error_log( '=== FieldGroupLoader::bootstrap() ===' );
+        //error_log( '=== FieldGroupLoader::bootstrap() ===' );
 
         // Abort if no modules have been booted
         if ( !WHx4::ctx()->modulesBooted() ) {
-            error_log( '=== no modules booted yet => abort ===' );
+            //error_log( '=== no modules booted yet => abort ===' );
             return;
         }
 
@@ -40,7 +40,7 @@ class FieldGroupLoader
 
     public function registerAll(): void
     {
-        error_log( '=== registerAll field groups ===' );
+        //error_log( '=== registerAll field groups ===' );
         foreach( WHx4::ctx()->getActiveModules() as $moduleClass ) {
             $this->registerFieldsForModule( $moduleClass );
         }

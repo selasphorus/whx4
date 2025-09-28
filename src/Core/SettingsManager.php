@@ -39,7 +39,7 @@ final class SettingsManager
      */
     public function ensureInitialized(array $availableModules): void //, array $allPostTypesByModule
     {
-        error_log( '=== SettingsManager::ensureInitialized() ===' );
+        e//rror_log( '=== SettingsManager::ensureInitialized() ===' );
         $opt = $this->getOption();
 
         $needsSeeding =
@@ -50,7 +50,7 @@ final class SettingsManager
             //&& get_option('whx4_initialized', 0) !== 1;
 
         if (!$needsSeeding) {
-            error_log( 'NOT needsSeeding' );
+            //error_log( 'NOT needsSeeding' );
             return;
         }
 
@@ -59,8 +59,8 @@ final class SettingsManager
         //$defaultModules = $this->getDefaultActiveModules(array_keys($availableModules));
         $defaultModules = $availableModules;
         $defaultSlugs = array_keys($availableModules);
-        error_log( 'defaultModules:' . print_r($defaultModules, true) );
-        error_log( 'defaultSlugs:' . print_r($defaultSlugs, true) );
+        //error_log( 'defaultModules:' . print_r($defaultModules, true) );
+        //error_log( 'defaultSlugs:' . print_r($defaultSlugs, true) );
 
         // Enable all known post types for each active module
         $enabled = [];
@@ -68,7 +68,7 @@ final class SettingsManager
         foreach( $defaultModules as $moduleSlug => $moduleClass ) {
             $module = class_exists( $moduleClass ) ? new $moduleClass() : null;
             $postTypes = $module ? $module->getPostTypes() : [];
-            error_log( 'postTypes for moduleSlug: ' . $moduleSlug . ':' . print_r($postTypes, true) );
+            //error_log( 'postTypes for moduleSlug: ' . $moduleSlug . ':' . print_r($postTypes, true) );
             //foreach ( $postTypes as $slug => $label ) :
             $enabled[$moduleSlug] = array_keys($postTypes);
             //$enabled[$moduleSlug] = array_values($allPostTypesByModule[$moduleSlug] ?? []);
@@ -89,7 +89,7 @@ final class SettingsManager
      */
     public function getDefaultActiveModules(array $allModules): array
     {
-        error_log( '=== SettingsManager::getDefaultActiveModules() ===' );
+        //error_log( '=== SettingsManager::getDefaultActiveModules() ===' );
         $allModuleSlugs = array_keys($allModules);
         $defaultSlugs = apply_filters('whx4_default_active_modules', $allModuleSlugs);
         //return array_values(array_unique(array_filter($defaults, 'is_string')));

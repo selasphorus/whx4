@@ -39,7 +39,7 @@ final class ViewLoader
     {
         $key = Text::slugify($moduleSlug); // just in case
         $viewRoot = rtrim( $absolutePath, '/' );
-        error_log( '=== viewRoot for moduleSlug/key: ' . $key . ' is: ' . $viewRoot . '===' );
+        //error_log( '=== viewRoot for moduleSlug/key: ' . $key . ' is: ' . $viewRoot . '===' );
         self::$moduleViewRoots[ $key ] = $viewRoot;
     }
 
@@ -113,13 +113,13 @@ final class ViewLoader
      */
     protected static function generateSearchPaths(string $view, array $specs = []): array
     {
-        error_log( '=== generateSearchPaths for view: ' . $view . ' with specs: ' . print_r($specs,true) . '===' );
+        //error_log( '=== generateSearchPaths for view: ' . $view . ' with specs: ' . print_r($specs,true) . '===' );
         $paths       = [];
         $kind        = Text::slugify($specs['kind'] ?? '');
         $module      = Text::slugify($specs['module'] ?? '');
         $postType    = Text::slugify($specs['post_type'] ?? '');
         $allowTheme  = $specs['allow_theme'] ?? true;
-        error_log( 'kind: ' . $kind . '' );
+        //error_log( 'kind: ' . $kind . '' );
         //error_log( 'module: ' . $module . '' );
         //error_log( 'postType: ' . $postType . '' );
 
