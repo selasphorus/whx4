@@ -1,5 +1,5 @@
 <?php
-namespace atc\Whx4\Core\Shortcodes;
+namespace atc\WHx4\Core\Shortcodes;
 
 //use atc\Whx4\Core\Contracts\ShortcodeInterface;
 
