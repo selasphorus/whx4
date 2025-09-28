@@ -39,7 +39,7 @@ final class SettingsManager
      */
     public function ensureInitialized(array $availableModules): void //, array $allPostTypesByModule
     {
-        e//rror_log( '=== SettingsManager::ensureInitialized() ===' );
+        //error_log( '=== SettingsManager::ensureInitialized() ===' );
         $opt = $this->getOption();
 
         $needsSeeding =
