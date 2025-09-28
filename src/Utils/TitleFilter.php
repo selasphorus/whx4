@@ -8,6 +8,7 @@ class TitleFilter
 {
     public static function boot(): void
     {
+        error_log( '=== TitleFilter::boot() ===' );
         //add_filter( 'the_title', [ self::class, 'filterTitle' ], 10, 2 );
     }
 

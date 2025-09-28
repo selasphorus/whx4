@@ -19,13 +19,13 @@ class FieldGroupLoader
     public function register(): void
     {
         if ( $this->registered ) return;
-        add_action( 'init', [$this, 'bootstrap'], BootOrder::CPTS );
+        add_action( 'init', [$this, 'boot'], BootOrder::CPTS );
         $this->registered = true;
     }
 
-    public function bootstrap(): void
+    public function boot(): void
     {
-        //error_log( '=== FieldGroupLoader::bootstrap() ===' );
+        error_log( '=== FieldGroupLoader::boot() ===' );
 
         // Abort if no modules have been booted
         if ( !WHx4::ctx()->modulesBooted() ) {
