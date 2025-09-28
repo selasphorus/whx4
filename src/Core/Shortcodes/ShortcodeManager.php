@@ -18,6 +18,7 @@ final class ShortcodeManager
 
     public static function boot(): void
     {
+        error_log( '=== ShortcodeManager::boot() ===' );
         // Modules/add-ons add their shortcode classes via this filter.
         $classes = array_values(array_filter(
             (array)apply_filters('whx4_register_shortcodes', []),

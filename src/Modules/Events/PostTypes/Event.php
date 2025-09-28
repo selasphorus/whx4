@@ -70,6 +70,9 @@ class Event extends PostTypeHandler implements QueryContributor
 
 	public function adjustQueryArgs(array $args, array $params): array
     {
+        error_log( '=== Event::adjustQueryArgs() ===' );
+        //error_log( 'args: ' . print_r($args,true) . '; params: ' . print_r($params,true) );
+
         $dateStart = isset($params['date_start']) ? (string)$params['date_start'] : null;
         $dateEnd   = isset($params['date_end']) ? (string)$params['date_end'] : null;
 
