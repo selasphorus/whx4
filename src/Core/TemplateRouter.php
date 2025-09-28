@@ -17,6 +17,7 @@ final class TemplateRouter
      */
     public static function boot(): void
     {
+        error_log( '=== TemplateRouter::boot() ===' );
         add_filter('single_template', [self::class, 'route'], 20, 1);
         add_filter('archive_template', [self::class, 'route'], 20, 1);
     }
