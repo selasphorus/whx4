@@ -5,36 +5,32 @@ use atc\WHx4\Core\Contracts\ShortcodeInterface;
 
 final class ShortcodeManager
 {
-    /** @var array<int, class-string<Shortcode>> */
-    private array $classes;
-
-    private function __construct(array $classes)
-    {
-        $this->classes = $classes;
-    }
-
     public static function boot(): void
     {
-        error_log( '=== ShortcodeManager::boot() ===' );
-        // Modules/add-ons add their shortcode classes via this filter.
-        $classes = array_values(array_filter(
-            (array)apply_filters('whx4_register_shortcodes', []),
-            static fn($fqcn) => is_string($fqcn) && class_exists($fqcn) && is_subclass_of($fqcn, ShortcodeInterface::class)
-        ));
+        error_log('=== ShortcodeManager::boot() ===');
 
-        $mgr = new self($classes);
+        if (did_action('init')) {
+            self::registerAll();
+            return;
+        }
 
-        add_action('init', static function() use ($mgr): void {
-            $mgr->registerAll();
-        });
+        // Late priority to give modules time to register their filters.
+        add_action('init', [self::class, 'registerAll'], 99);
     }
 
-    private function registerAll(): void
+    public static function registerAll(): void
     {
-        error_log( '=== ShortcodeManager::registerAll() ===' );
-        foreach ($this->classes as $fqcn) {
-            error_log( 'fqcn: ' . $fqcn );
-            /** @var Shortcode $instance */
+        error_log('=== ShortcodeManager::registerAll() ===');
+
+        $classes = array_values(array_filter(
+            (array) apply_filters('whx4_register_shortcodes', []),
+            static fn ($fqcn) => is_string($fqcn)
+                && class_exists($fqcn)
+                && is_subclass_of($fqcn, ShortcodeInterface::class)
+        ));
+
+        foreach ($classes as $fqcn) {
+            error_log('fqcn: ' . $fqcn);
             $instance = new $fqcn();
             add_shortcode($fqcn::tag(), [$instance, 'handle']);
         }
