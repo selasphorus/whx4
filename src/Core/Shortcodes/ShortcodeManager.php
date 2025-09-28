@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 namespace atc\Whx4\Core\Shortcodes;
 
 //use atc\Whx4\Core\Contracts\ShortcodeInterface;
