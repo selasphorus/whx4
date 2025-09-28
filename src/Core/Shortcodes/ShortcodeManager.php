@@ -31,7 +31,9 @@ final class ShortcodeManager
 
     private function registerAll(): void
     {
+        error_log( '=== ShortcodeManager::registerAll() ===' );
         foreach ($this->classes as $fqcn) {
+            error_log( 'fqcn: ' . $fqcn );
             /** @var Shortcode $instance */
             $instance = new $fqcn();
             add_shortcode($fqcn::tag(), [$instance, 'handle']);
