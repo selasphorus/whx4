@@ -11,6 +11,7 @@ final class SupernaturalModule extends BaseModule
 {
     public function boot(): void
     {
+        error_log( '=== SupernaturalModule::boot() ===' );
         $this->registerDefaultViewRoot();
 
         parent::boot();
