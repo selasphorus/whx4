@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace atc\WHx4\Modules\Events\Shortcodes;
 
 use WP_Post;
-use atc\WHx4\WHx4;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\ViewLoader;
 use atc\WHx4\Core\Query\PostQuery;
 use atc\WHx4\Core\Contracts\ShortcodeInterface;
