@@ -19,7 +19,7 @@ final class ShortcodeManager
         // Modules/add-ons add their shortcode classes via this filter.
         $classes = array_values(array_filter(
             (array)apply_filters('whx4_register_shortcodes', []),
-            static fn($fqcn) => is_string($fqcn) && class_exists($fqcn) && is_subclass_of($fqcn, Shortcode::class)
+            static fn($fqcn) => is_string($fqcn) && class_exists($fqcn) && is_subclass_of($fqcn, ShortcodeInterface::class)
         ));
 
         $mgr = new self($classes);
