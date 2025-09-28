@@ -8,6 +8,6 @@ trait AppliesTitleArgs
 {
     protected function applyTitleArgs( string $postType, array $args ): void
     {
-        TitleFilter::setGlobalArgsForPostType( $postType, $args );
+        //TitleFilter::setGlobalArgsForPostType( $postType, $args );
     }
 }
