@@ -8,6 +8,7 @@ use atc\WHx4\Modules\Events\PostTypes\Event;
 //use atc\WHx4\Modules\Events\PostTypes\EventSeries;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 use atc\WHx4\Modules\Events\Utils\AjaxController;
+use atc\WHx4\Core\Shortcodes\ShortcodeManager;
 
 final class EventsModule extends BaseModule
 {
@@ -18,11 +19,14 @@ final class EventsModule extends BaseModule
         EventInstances::register();
         AjaxController::register();
         //
+        ShortcodeManager::add(\atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class);
+
+		// Keep filter for 3P extensibility (optional)
+		/*
         add_filter('whx4_register_shortcodes', static function(array $classes): array {
             $classes[] = \atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class;
             return $classes;
-        });
-
+        });*/
     }
 
     public function getPostTypeHandlerClasses(): array
