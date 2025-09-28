@@ -19,6 +19,7 @@ final class EventsModule extends BaseModule
         EventInstances::register();
         AjaxController::register();
         //
+        error_log('EventsModule::boot -> calling ShortcodeManager::add');
         ShortcodeManager::add(\atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class);
 
 		// Keep filter for 3P extensibility (optional)

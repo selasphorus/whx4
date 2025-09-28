@@ -26,6 +26,8 @@ final class ShortcodeManager
     public static function add(string $fqcn): void
     {
         error_log('=== ShortcodeManager::add() ===');
+        error_log('ShortcodeManager::add called for ' . $fqcn . '; init? ' . did_action('init'));
+
         self::$registry[$fqcn] = $fqcn;
 
         // If init already fired, validate & register now (no timing worries).
