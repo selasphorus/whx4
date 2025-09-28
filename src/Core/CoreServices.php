@@ -17,7 +17,7 @@ class CoreServices
         error_log( '=== CoreServices::boot() ===' );
         $services = apply_filters( 'whx4_core_services', [
             TitleFilter::class,
-            FieldGroupLoader::class,
+            //FieldGroupLoader::class,
             TemplateRouter::class,
             ShortcodeManager::class,
             // Add more core classes here as needed
