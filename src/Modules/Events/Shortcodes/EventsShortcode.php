@@ -42,7 +42,6 @@ final class EventsShortcode implements ShortcodeInterface
         // Resolve services via WHx4::ctx()
         $ctx   = WHx4::ctx();
         $query = new PostQuery($ctx);
-        $views = ViewLoader::instance();
 
         $params = [
             'post_type'      => self::CPT,
@@ -80,6 +79,17 @@ final class EventsShortcode implements ShortcodeInterface
         // View key follows your cascade: Modules/Events/Views/event/{view}.php
         $viewKey = 'event/'.$atts['view'];
 
-        return $views->render('Events', $viewKey, $vars);
+        //return $views->render('Events', $viewKey, $vars);
+        
+        /*$html = ViewLoader::renderToString( 'content',
+            // vars
+            [ 'post' => $post ],
+            // specs
+            [ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
+        );
+        //*/
+        
+        $html = "<h3>TEST</h3>";
+        return $html;
     }
 }
