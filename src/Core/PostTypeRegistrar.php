@@ -133,7 +133,7 @@ class PostTypeRegistrar
 				// Only register if it doesn't already exist
 				$this->registerCPT( $handler );
 			} else {
-			    error_log( 'already post_type_exists: '.$slug );
+			    //error_log( 'already post_type_exists: '.$slug );
         	}
         	//$handler->boot();
         }

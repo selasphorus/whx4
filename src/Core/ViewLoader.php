@@ -94,7 +94,7 @@ final class ViewLoader
                 //error_log( '=== File found at path: ' . $path . '===' );
                 return $path;
             }
-            error_log( 'No file_exists at path: ' . $path . '' );
+            //error_log( 'No file_exists at path: ' . $path . '' );
         }
 
         return null;
