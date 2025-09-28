@@ -7,6 +7,7 @@ namespace atc\WHx4\Core\Query;
 use WP_Query;
 use atc\WHx4\Core\Contracts\PluginContext; //???
 use atc\WHx4\Core\Contracts\QueryContributor;
+use atc\WHx4\Query\ScopedQueryBuilder;
 
 final class PostQuery
 {
@@ -14,7 +15,7 @@ final class PostQuery
         private PluginContext $ctx,
         private ?ScopedQueryBuilder $scopes = null
     ) {
-        $this->scopes = $this->scopes ?: new ScopedQueryBuilder();
+        //$this->scopes = $this->scopes ?: new ScopedQueryBuilder();
     }
 
     /**
