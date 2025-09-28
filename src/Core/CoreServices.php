@@ -27,6 +27,10 @@ class CoreServices
             error_log( 'About to attempt to load and boot class: ' . $class );
             if ( is_string( $class ) && method_exists( $class, 'boot' ) ) {
                 $class::boot();
+            } else {
+                if ( !is_string( $class ) ) { error_log( 'class: ' . $class . ' -- NOT a string!'); }
+                if ( !method_exists( $class, 'boot' ) ) { error_log( 'class: ' . $class . ' boot method not found!'); }
+                if ( !class_exists( $class) ) { error_log( 'class: ' . $class . ' -- DOES NOT EXIST!'); }
             }
         }
     }
