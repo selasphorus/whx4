@@ -14,6 +14,7 @@ class CoreServices
      */
     public static function boot(): void
     {
+        error_log( '=== CoreServices::boot() ===' );
         $services = apply_filters( 'whx4_core_services', [
             TitleFilter::class,
             FieldGroupLoader::class,
@@ -23,6 +24,7 @@ class CoreServices
         ]);
 
         foreach ( $services as $class ) {
+            error_log( 'About to attempt to load and boot class: ' . $class );
             if ( is_string( $class ) && method_exists( $class, 'boot' ) ) {
                 $class::boot();
             }
