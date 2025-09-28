@@ -17,6 +17,12 @@ final class EventsModule extends BaseModule
         parent::boot();
         EventInstances::register();
         AjaxController::register();
+        //
+        add_filter('whx4_register_shortcodes', static function(array $classes): array {
+            $classes[] = \atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class;
+            return $classes;
+        });
+
     }
 
     public function getPostTypeHandlerClasses(): array

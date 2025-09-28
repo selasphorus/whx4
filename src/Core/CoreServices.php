@@ -5,6 +5,7 @@ namespace atc\WHx4\Core;
 use atc\WHx4\Utils\TitleFilter;
 use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\TemplateRouter;
+use atc\Whx4\Core\Shortcodes\ShortcodeManager;
 
 class CoreServices
 {
@@ -17,6 +18,7 @@ class CoreServices
             TitleFilter::class,
             FieldGroupLoader::class,
             TemplateRouter::class,
+            ShortcodeManager::class,
             // Add more core classes here as needed
         ]);
 

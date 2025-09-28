@@ -3,10 +3,11 @@
 namespace atc\WHx4\Modules\Events\PostTypes;
 
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Core\Contracts\QueryContributor;
 use atc\WHx4\Helpers\FieldDisplayHelpers;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
-class Event extends PostTypeHandler
+class Event extends PostTypeHandler implements QueryContributor
 {
     /*public function getSlug(): string
     {
@@ -14,16 +15,16 @@ class Event extends PostTypeHandler
             [
                 'when' => static fn() => Plugins::classExists('\EM_Event')
                     || Plugins::isActive('events-manager/events-manager.php'),
-                'then' => 'rex_event',
+                'then' => 'whx4_event',
             ],
             [
                 'when' => static fn() => Plugins::isActive('the-events-calendar/the-events-calendar.php'),
-                'then' => 'rex_event',
+                'then' => 'whx4_event',
             ],
         ]);
 
-        // Allow explicit override if needed. -- Example: add_filter('rex/events/event_slug', fn() => 'my_event');
-        return (string) apply_filters('rex/events/event_slug', $slug);
+        // Allow explicit override if needed. -- Example: add_filter('whx4/events/event_slug', fn() => 'my_event');
+        return (string) apply_filters('whx4/events/event_slug', $slug);
     }*/
 
     //
@@ -66,6 +67,74 @@ class Event extends PostTypeHandler
 			return FieldDisplayHelpers::formatArrayForDisplay( $value );
 		}, 10 );
 	}
+
+	public function adjustQueryArgs(array $args, array $params): array
+    {
+        $dateStart = isset($params['date_start']) ? (string)$params['date_start'] : null;
+        $dateEnd   = isset($params['date_end']) ? (string)$params['date_end'] : null;
+
+        // Ensure array shells exist
+        $meta = isset($args['meta_query']) && is_array($args['meta_query'])
+            ? $args['meta_query']
+            : ['relation' => 'AND'];
+
+        $tax  = isset($args['tax_query']) && is_array($args['tax_query'])
+            ? $args['tax_query']
+            : [];
+
+        // Default: hide past events unless explicitly requested
+        if (empty($params['include_past'])) {
+            $meta[] = [
+                'key'     => 'end_date',
+                'value'   => current_time('Y-m-d'),
+                'compare' => '>=',
+                'type'    => 'DATE',
+            ];
+        }
+
+        // If a date range is provided, use OVERLAP logic:
+        // (event.start_date <= range_end) AND (event.end_date >= range_start)
+        if ($dateStart || $dateEnd) {
+            $rangeStart = $dateStart ?: '0001-01-01';
+            $rangeEnd   = $dateEnd   ?: '9999-12-31';
+
+            $meta[] = [
+                'key'     => 'start_date',
+                'value'   => $rangeEnd,
+                'compare' => '<=',
+                'type'    => 'DATE',
+            ];
+            $meta[] = [
+                'key'     => 'end_date',
+                'value'   => $rangeStart,
+                'compare' => '>=',
+                'type'    => 'DATE',
+            ];
+        }
+
+        // Optional category filter via params: event_category=slug or [slugs]
+        if (!empty($params['event_category'])) {
+            $tax[] = [
+                'taxonomy' => 'event_category',
+                'field'    => 'slug',
+                'terms'    => (array)$params['event_category'],
+            ];
+        }
+
+        // Sensible ordering for events: soonest first, then publish date.
+        $args['meta_key']  = 'start_date';
+        $args['meta_type'] = 'DATE';
+        $args['orderby']   = ['meta_value' => 'ASC', 'date' => 'DESC'];
+        $args['order']     = 'ASC';
+
+        $args['meta_query'] = $meta;
+        if ($tax) {
+            $args['tax_query'] = $tax;
+        }
+
+        // Let sites adjust just the Events query if needed.
+        return apply_filters('whx4_events_adjusted_query_args', $args, $params);
+    }
 
 	public function generateRruleFromFields( $post_id ): void
 	{
@@ -175,9 +244,9 @@ class Event extends PostTypeHandler
 	*/
 
 	/**
- * Decide the CPT slug at runtime, with legacy + new filters.
- * Default: 'event'; use 'rex_event' if a known events plugin is active.
- */
+	 * Decide the CPT slug at runtime, with legacy + new filters.
+	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
+	 */
 	protected function resolveSlug(): string
 	{
 		$base = $this->conflictingEventsPluginActive() ? 'whx4_event' : 'event';

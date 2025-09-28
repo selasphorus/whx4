@@ -67,23 +67,16 @@ class Monster extends PostTypeHandler
 		return $html;
 	}
 
-	// TODO: revise towards more general getPostMeta method in PostTypeHandler, to avoid getting each meta record with a separate function
-	// (create separate functions only if further formatting or manipulation is required)
-	// WIP 09/22/25
-    public function getColor(?WP_Post $post = null): string
-    {
-        /*$p = $post ?? $this->getPost();
-        return $p ? (string)get_post_meta($p->ID, 'monster_color', true) : 'orange';*/
-        if ($post instanceof \WP_Post) {
-			$this->setPost($post);
-		}
-		return (string) $this->getPostMeta('monster_color', 'orange');
-    }
+	// TODO: remove this function -- here now only as a simple working example. For future, just go straight to getPostMeta and
+	// create separate functions only if further formatting or manipulation is required.
+	public function getColor(): string
+	{
+		return (string)$this->getPostMeta('monster_color', 'orange');
+	}
 
-    public function getSN(?WP_Post $post = null): string
+    public function getSN(): string
     {
-        $p = $post ?? $this->getPost();
-        return $p ? (string)get_post_meta($p->ID, 'secret_name', true) : 'Unknown';
+        return (string)$this->getPostMeta('secret_name', 'orange');
     }
 
 }

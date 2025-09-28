@@ -217,11 +217,26 @@ abstract class PostTypeHandler extends BaseHandler
 		return [];
 	}
 
-	//
-	// TODO: add 'scope' parameter
-	function getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' )
+	// WIP -- maybe this goes elsewhere?
+	function getRelatedPosts( $args = [] )
 	{
-		$arrPosts = []; // init
+		// Defaults
+		$defaults = array(
+			'post_id'           => null,
+			'related_post_type' => null,
+			'related_field_name'=> null,
+			'limit'             => "-1",
+			'scope'             => null,
+		);
+		$args = wp_parse_args( $args, $defaults );
+		// TBD: use extract? maybe not as safe, though
+		$post_id = $args['post_id'];
+		$related_post_type = $args['related_post_type'];
+		$related_field_name = $args['related_field_name'];
+		$limit = $args['limit'];
+		$scope = $args['scope'];
+		//
+		$arrPosts = [];
 
 		// If we don't have actual values for all parameters, there's not enough info to proceed
 		if ($post_id === null || $related_field_name === null || $related_post_type === null) { return null; }
