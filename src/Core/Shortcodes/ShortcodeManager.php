@@ -3,7 +3,7 @@ namespace atc\WHx4\Core\Shortcodes;
 
 use atc\WHx4\Core\Contracts\ShortcodeInterface;
 
-final class whx4
+final class ShortcodeManager
 {
     /** @var array<class-string<ShortcodeInterface>, class-string<ShortcodeInterface>> */
     private static array $registry = [];
