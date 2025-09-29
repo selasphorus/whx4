@@ -27,6 +27,15 @@ final class PostQuery
     public function find(array $params): array
     {
         $args = $this->normalize($params);
+        
+        // Query vars override args set otherwise
+        // WIP 09/28/25
+        if ( get_query_var('scope') ) {
+			$scope = get_query_var('scope');
+			//$ts_info .= "scope via query_var: ".print_r($scope,true)."<br />";
+		} else {
+			//$ts_info .= "scope query_var not set<br />";
+		}
 
         // Apply scope helpers (today/this_week/etc.)
         if (!empty($params['scope'])) {
