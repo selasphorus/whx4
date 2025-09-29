@@ -169,8 +169,7 @@ class Person extends PostTypeHandler
 
 	public function getPersonDates(?WP_Post $post = null, $styled = false): string
 	{
-		error_log( '=== Person::getPersonDates() ===' );
-
+		//error_log( '=== Person::getPersonDates() ===' );
 		$info = ""; // init
 
         $p = $post ?? $this->getPost();
