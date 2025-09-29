@@ -23,6 +23,8 @@ final class EventsShortcode implements ShortcodeInterface
     /** @param array<string,mixed> $atts */
     public function render(array $atts, string $content = '', string $tag = ''): string
     {
+        $info = "";
+
         $atts = shortcode_atts([
             'scope'           => '',
             'date_start'      => '',
@@ -34,7 +36,8 @@ final class EventsShortcode implements ShortcodeInterface
             'view'            => 'list',
             'post_status'     => 'publish',
         ], $atts, $tag ?: self::tag());
-
+        $info .= "atts: <pre>" . print_r($atts, true) . "</pre>"; // tft
+        //
         $paged = (int) ($atts['paged'] !== '' ? $atts['paged'] : get_query_var('paged', 1));
         $cats  = array_filter(array_map('trim', $atts['event_category'] !== '' ? explode(',', (string)$atts['event_category']) : []));
         $includePast = in_array(strtolower((string)$atts['include_past']), ['1','true','yes'], true);
@@ -54,6 +57,7 @@ final class EventsShortcode implements ShortcodeInterface
             'include_past'   => $includePast,
             'post_status'    => (string)$atts['post_status'],
         ];
+        $info .= "params: <pre>" . print_r($params, true) . "</pre>"; // tft
 
         $result = $query->find($params);
         $posts  = $result['posts'];
@@ -74,6 +78,7 @@ final class EventsShortcode implements ShortcodeInterface
                 'max_pages' => $result['max_pages'],
                 'paged'     => $params['paged'],
             ],
+            'info'       => $info,
         ];
 
         //renderToString(string $view, array $vars = [], array $specs = [])
