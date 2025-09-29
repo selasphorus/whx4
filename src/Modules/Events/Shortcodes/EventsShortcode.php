@@ -36,7 +36,7 @@ final class EventsShortcode implements ShortcodeInterface
             'view'            => 'list',
             'post_status'     => 'publish',
         ], $atts, $tag ?: self::tag());
-        $info .= "atts: <pre>" . print_r($atts, true) . "</pre>"; // tft
+        //$info .= "atts: <pre>" . print_r($atts, true) . "</pre>"; // tft
         //
         $paged = (int) ($atts['paged'] !== '' ? $atts['paged'] : get_query_var('paged', 1));
         $cats  = array_filter(array_map('trim', $atts['event_category'] !== '' ? explode(',', (string)$atts['event_category']) : []));
