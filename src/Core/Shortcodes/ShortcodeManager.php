@@ -42,7 +42,7 @@ final class ShortcodeManager
         // Merge explicit registry and filter-provided classes
         $viaFilter  = (array)apply_filters('whx4_register_shortcodes', []);
         $candidates = array_unique(array_merge(array_values(self::$registry), $viaFilter));
-		error_log('Shortcode candidates: ' . json_encode($candidates, JSON_UNESCAPED_SLASHES));
+        error_log('Shortcode candidates: ' . json_encode($candidates, JSON_UNESCAPED_SLASHES));
 
         foreach ($candidates as $fqcn) {
             self::registerClass($fqcn);
@@ -53,7 +53,7 @@ final class ShortcodeManager
     {
         error_log('=== ShortcodeManager::registerClass() ===');
         error_log('About to attempt registration of shortcode class: ' . $fqcn);
-        
+
         if (!class_exists($fqcn)) {
             return;
         }
@@ -70,7 +70,7 @@ final class ShortcodeManager
         }
 
         $instance = new $fqcn();
-        add_shortcode($tag, [$instance, 'handle']);
+        add_shortcode($tag, [$instance, 'render']);
 
         self::$registeredByTag[$tag] = $fqcn;
     }

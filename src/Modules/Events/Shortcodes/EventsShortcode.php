@@ -21,7 +21,7 @@ final class EventsShortcode implements ShortcodeInterface
     }
 
     /** @param array<string,mixed> $atts */
-    public function handle(array $atts, string $content = '', string $tag = ''): string
+    public function render(array $atts, string $content = '', string $tag = ''): string
     {
         $atts = shortcode_atts([
             'scope'           => '',
@@ -76,21 +76,15 @@ final class EventsShortcode implements ShortcodeInterface
             ],
         ];
 
-        // View key follows your cascade: Modules/Events/Views/event/{view}.php
-        $viewKey = 'event/'.$atts['view'];
-
-        //return $views->render('Events', $viewKey, $vars);
         //renderToString(string $view, array $vars = [], array $specs = [])
         $html = ViewLoader::renderToString( 'list',
             // vars
-            $vars,
-            //[ 'post' => $post ],
+            $vars, //[ 'post' => $post ],
             // specs
             [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
         );
         //
-        
-        //$html = "<h3>TEST</h3>";
+
         return $html;
     }
 }
