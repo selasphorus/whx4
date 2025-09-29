@@ -77,7 +77,7 @@ final class ViewLoader
             return ob_get_clean();
         }
 
-        return '<div class="notice notice-error"><p>' .
+        return '<div class="troubleshooting notice notice-error"><p>' .
             esc_html("View not found: {$view} (kind: {$kind}, module: {$module}, post_type: {$ptype})") .
             '</p></div>';
     }
