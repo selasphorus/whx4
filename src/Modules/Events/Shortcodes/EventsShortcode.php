@@ -86,7 +86,7 @@ final class EventsShortcode implements ShortcodeInterface
             $vars,
             //[ 'post' => $post ],
             // specs
-            //[ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
+            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
         );
         //
         
