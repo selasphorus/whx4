@@ -61,6 +61,7 @@ final class EventsShortcode implements ShortcodeInterface
 
         $result = $query->find($params);
         $posts  = $result['posts'];
+        $info .= "posts: <pre>" . print_r($posts, true) . "</pre>"; // tft
 
         // Factory so views can call handler methods safely.
         $handlerFactory = function(WP_Post $post) use ($ctx) {

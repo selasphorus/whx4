@@ -7,7 +7,7 @@
 <div class="whx4-events whx4-events--list">
     <?php if(!$posts): ?>
         <p>No events found.</p>
-        <p>info: <?php echo $info; ?></p>
+        <p>info: <br /><?php echo $info; ?></p>
     <?php else: ?>
         <ul class="whx4-events__items">
             <?php foreach($posts as $post): ?>
