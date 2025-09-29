@@ -80,16 +80,17 @@ final class EventsShortcode implements ShortcodeInterface
         $viewKey = 'event/'.$atts['view'];
 
         //return $views->render('Events', $viewKey, $vars);
-        
-        /*$html = ViewLoader::renderToString( 'content',
+        //renderToString(string $view, array $vars = [], array $specs = [])
+        $html = ViewLoader::renderToString( 'list',
             // vars
-            [ 'post' => $post ],
+            $vars,
+            //[ 'post' => $post ],
             // specs
-            [ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
+            //[ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
         );
-        //*/
+        //
         
-        $html = "<h3>TEST</h3>";
+        //$html = "<h3>TEST</h3>";
         return $html;
     }
 }
