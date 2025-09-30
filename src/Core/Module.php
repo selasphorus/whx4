@@ -5,6 +5,7 @@ namespace atc\WHx4\Core;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
+use atc\WHx4\Core\Shortcodes\ShortcodeManager;
 
 // TODO: make this final class?
 abstract class Module implements ModuleInterface
@@ -65,6 +66,9 @@ abstract class Module implements ModuleInterface
 			}
 			$handler->boot();
 		}
+
+		error_log('Module::boot -> calling ShortcodeManager::add');
+        ShortcodeManager::add(atc\WHx4\Core\Shortcodes\WHx4ListShortcode::class);
     }
 
 	public function getSlug(): string
