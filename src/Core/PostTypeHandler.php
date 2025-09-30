@@ -53,6 +53,8 @@ abstract class PostTypeHandler extends BaseHandler
 		//return $this->object instanceof \WP_Post ? $this->object : null;
 		return $this->post;
 	}
+	
+	public static function allowedUrlParams(): array { return []; }
 
     public function getCapType(): array
     {
@@ -88,8 +90,6 @@ abstract class PostTypeHandler extends BaseHandler
     {
         return $this->getConfig()['menu_icon'] ?? 'dashicons-superhero';
     }
-
-    //// WIP
 
     /**
      * Get the handler FQCN for a CPT slug, or null if not Rex-managed.
