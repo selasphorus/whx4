@@ -7,25 +7,10 @@ use atc\WHx4\Core\Contracts\QueryContributor;
 use atc\WHx4\Helpers\FieldDisplayHelpers;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
-class Event extends PostTypeHandler implements QueryContributor
+class Event extends PostTypeHandler implements QueryContributor, ListDisplayableInterface
 {
-    /*public function getSlug(): string
-    {
-        $slug = EnvSwitch::value('event', [
-            [
-                'when' => static fn() => Plugins::classExists('\EM_Event')
-                    || Plugins::isActive('events-manager/events-manager.php'),
-                'then' => 'whx4_event',
-            ],
-            [
-                'when' => static fn() => Plugins::isActive('the-events-calendar/the-events-calendar.php'),
-                'then' => 'whx4_event',
-            ],
-        ]);
-
-        // Allow explicit override if needed. -- Example: add_filter('whx4/events/event_slug', fn() => 'my_event');
-        return (string) apply_filters('whx4/events/event_slug', $slug);
-    }*/
+    public const META_START_DATE = 'start_date';
+    public const META_END_DATE   = 'end_date';
 
     //
     public function __construct(WP_Post|null $post = null)
@@ -68,6 +53,27 @@ class Event extends PostTypeHandler implements QueryContributor
 		}, 10 );
 	}
 
+	// WIP re transition from EM
+    /*
+    public function getSlug(): string
+    {
+        $slug = EnvSwitch::value('event', [
+            [
+                'when' => static fn() => Plugins::classExists('\EM_Event')
+                    || Plugins::isActive('events-manager/events-manager.php'),
+                'then' => 'whx4_event',
+            ],
+            [
+                'when' => static fn() => Plugins::isActive('the-events-calendar/the-events-calendar.php'),
+                'then' => 'whx4_event',
+            ],
+        ]);
+
+        // Allow explicit override if needed. -- Example: add_filter('whx4/events/event_slug', fn() => 'my_event');
+        return (string) apply_filters('whx4/events/event_slug', $slug);
+    }*/
+
+	// Obsolete? TBC
 	public function adjustQueryArgs(array $args, array $params): array
     {
         error_log( '=== Event::adjustQueryArgs() ===' );
@@ -137,6 +143,116 @@ class Event extends PostTypeHandler implements QueryContributor
 
         // Let sites adjust just the Events query if needed.
         return apply_filters('whx4_events_adjusted_query_args', $args, $params);
+    }
+
+    public function getDisplayVariants(): array
+    {
+        return [
+            'all'     => ['list','table','archive'],
+            'default' => 'list',
+            // Optional per-variant options:
+            'options' => [
+                'table' => ['columns' => ['date','title','category']],
+                'list'  => ['show_excerpt' => false],
+            ],
+        ];
+    }
+
+    public function getListArgSchema(): array
+    {
+        return [
+            //'type'           => ['type'=>'enum','enum'=>['event'],'default'=>'event'],
+            'start'          => ['type'=>'date'],
+            'end'            => ['type'=>'date'],
+            'event_category' => ['type'=>'string'],
+            'orderby'        => ['type'=>'enum','enum'=>['start','title','date'],'default'=>'start'],
+            'order'          => ['type'=>'enum','enum'=>['ASC','DESC'],'default'=>'ASC'],
+            'paged'          => ['type'=>'int','default'=>get_query_var('paged') ?: 1],
+            'per_page'       => ['type'=>'int','default'=>10],
+        ];
+    }
+
+    public function renderItems(array $posts, array $atts, string $variant): string
+    {
+        return match ($variant) {
+            'table'   => $this->renderTable($posts, $atts),
+            'archive' => $this->renderArchive($posts, $atts), // e.g., year/month groupings
+            default   => $this->renderList($posts, $atts),
+        };
+    }
+
+    // keep your existing renderList(), plus a simple table renderer…
+    private function renderTable(array $posts, array $atts): string
+    {
+        if (!$posts) {
+            return '<div class="rex-list rex-list--event is-empty">No events found.</div>';
+        }
+        $out = '<table class="rex-list rex-list--event"><thead><tr><th>Date</th><th>Title</th></tr></thead><tbody>';
+        foreach ($posts as $p) {
+            $start = get_post_meta($p->ID, 'rex_events_start', true);
+            $out  .= '<tr><td>' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</td>';
+            $out  .= '<td><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a></td></tr>';
+        }
+        return $out . '</tbody></table>';
+    }
+
+    public function buildListQueryArgs(array $a): array
+    {
+        $meta = [];
+        if ( $a['start'] ) {
+            $meta[] = ['key'=>'rex_events_start','value'=>$a['start'],'compare'=>'>=','type'=>'DATE'];
+        }
+        if ( $a['end'] ) {
+            $meta[] = ['key'=>'rex_events_start','value'=>$a['end'],'compare'=>'<=','type'=>'DATE'];
+        }
+
+        $tax = [];
+        if ( ! empty($a['event_category']) ) {
+            $tax[] = [
+                'taxonomy' => 'event_category',
+                'field'    => 'slug',
+                'terms'    => sanitize_title($a['event_category']),
+            ];
+        }
+
+        $orderby = match ($a['orderby']) {
+            'start' => ['meta_value' => $a['order']],
+            'title' => ['title' => $a['order']],
+            default => ['date' => $a['order']],
+        };
+
+        return [
+            'post_type'      => $this->getSlug(),
+            'post_status'    => 'publish',
+            'meta_key'       => $a['orderby'] === 'start' ? 'rex_events_start' : null,
+            'meta_query'     => $meta ?: null,
+            'tax_query'      => $tax ?: null,
+            'orderby'        => key($orderby),
+            'order'          => current($orderby),
+            'paged'          => $a['paged'],
+            'posts_per_page' => $a['per_page'],
+            'no_found_rows'  => false,
+        ];
+    }
+
+    public function renderList(array $posts, array $atts): string
+    {
+        if ( ! $posts ) {
+            return '<div class="rex-list rex-list--event is-empty">No events found.</div>';
+        }
+
+        $out = '<ul class="rex-list rex-list--event">';
+        foreach ( $posts as $p ) {
+            $start = get_post_meta($p->ID, 'rex_events_start', true);
+            $out  .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a>';
+            if ( $start ) {
+                $out .= ' <time datetime="' . esc_attr($start) . '">' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</time>';
+            }
+            $out  .= '</li>';
+        }
+        $out .= '</ul>';
+
+        return $out;
     }
 
 	public function generateRruleFromFields( $post_id ): void
