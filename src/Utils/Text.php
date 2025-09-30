@@ -32,6 +32,48 @@ final class Text
         return strtolower(preg_replace('/[A-Z]/', '-$0', lcfirst($value)));
     }
 
+    /**
+     * Convert a string to lower_snake_case.
+     *
+     * - Inserts separators at camelCase / StudlyCaps boundaries (incl. acronyms).
+     * - Replaces any non-alphanumeric runs with the separator.
+     * - Collapses repeated separators and trims from both ends.
+     * - Lowercases (mb_strtolower if available).
+     */
+    public static function snake(string $value, string $separator = '_'): string
+    {
+        //return strtolower(str_replace(' ', '_', trim($value))); // original inadequate version ffr
+
+        $v = trim($value);
+        if ($v === '') {
+            return '';
+        }
+
+        // Split StudlyCaps/acronyms and camelCase boundaries.
+        $v = preg_replace('/([A-Z]+)([A-Z][a-z])/', '$1' . $separator . '$2', $v);
+        $v = preg_replace('/([a-z\d])([A-Z])/', '$1' . $separator . '$2', $v);
+
+        // Replace non-alphanumeric runs with the separator.
+        $v = preg_replace('/[^A-Za-z0-9]+/u', $separator, $v);
+
+        // Collapse repeated separators.
+        $sep = preg_quote($separator, '/');
+        $v = preg_replace('/' . $sep . '+/', $separator, $v);
+
+        // Trim separators from both ends.
+        $v = trim($v, $separator);
+
+        // Lowercase.
+        if (function_exists('mb_strtolower')) {
+            $v = mb_strtolower($v, 'UTF-8');
+        } else {
+            $v = strtolower($v);
+        }
+
+        return $v;
+    }
+
+
     // Hyperlinks -- TODO: move this to separate class? maybe...
 
     // Make hyperlink
