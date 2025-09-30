@@ -7,7 +7,7 @@ use atc\WHx4\Core\Contracts\QueryContributor;
 use atc\WHx4\Helpers\FieldDisplayHelpers;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
-class Event extends PostTypeHandler implements QueryContributor, ListDisplayableInterface
+class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
     public const META_START_DATE = 'start_date';
     public const META_END_DATE   = 'end_date';
