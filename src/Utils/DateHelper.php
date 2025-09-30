@@ -4,8 +4,11 @@ namespace atc\WHx4\Utils;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Exception;
+use atc\WHx4\Core\WHx4;
 use atc\WHx4\Query\ScopedDateResolver;
+
 
 class DateHelper
 {
@@ -163,14 +166,124 @@ class DateHelper
     }
 
     /**
+     * Resolve the site timezone with sensible fallbacks.
+     *
+     * Order of precedence:
+     * 1) WHx4 context (if available) via WHx4::ctx()->getTimezone()
+     * 2) WordPress helper wp_timezone()
+     * 3) WordPress options: timezone_string, then gmt_offset
+     * 4) PHP ini setting, else UTC
+     */
+    public static function siteTimezone(): DateTimeZone
+    {
+        // 1) WHx4 context (soft dependency; ignore if unavailable)
+        try {
+            if (class_exists(WHx4::class)) {
+                $ctx = WHx4::ctx();
+                if ($ctx && method_exists($ctx, 'getTimezone')) {
+                    $tz = $ctx->getTimezone();
+                    if ($tz instanceof DateTimeZone) {
+                        return $tz;
+                    }
+                }
+            }
+        } catch (\Throwable) {
+            // noop: fall through to WP/PHP fallbacks
+        }
+
+        // 2) WordPress helper (handles timezone_string OR gmt_offset)
+        if (function_exists('wp_timezone')) {
+            /** @var DateTimeZone $wpTz */
+            $wpTz = wp_timezone();
+            return $wpTz;
+        }
+
+        // 3a) WP option: timezone_string
+        if (function_exists('get_option')) {
+            $tzString = (string) get_option('timezone_string', '');
+            if ($tzString !== '') {
+                try {
+                    return new DateTimeZone($tzString);
+                } catch (Exception) {
+                    // fall through
+                }
+            }
+
+            // 3b) WP option: gmt_offset (best-effort mapping)
+            $offset = (float) get_option('gmt_offset', 0.0);
+            if ($offset !== 0.0) {
+                $name = timezone_name_from_abbr('', (int) round($offset * 3600), 0);
+                if ($name !== false) {
+                    try {
+                        return new DateTimeZone($name);
+                    } catch (Exception) {
+                        // fall through
+                    }
+                }
+            }
+        }
+
+        // 4) PHP ini fallback, then UTC
+        $iniTz = (string) (ini_get('date.timezone') ?: '');
+        try {
+            return new DateTimeZone($iniTz !== '' ? $iniTz : 'UTC');
+        } catch (Exception) {
+            return new DateTimeZone('UTC');
+        }
+    }
+
+    /**
      * Calculate Easter Sunday for a given year (kept for convenience; ScopedDateResolver uses its own internal helper).
      *
      * @param int $year
      * @return DateTimeImmutable
      */
-    public static function calculateEasterDate( int $year ): DateTimeImmutable
+    /*private static function calculateEasterDate(int $year, DateTimeZone $tz): DateTimeImmutable
     {
-        $timestamp = easter_date( $year );
-        return ( new DateTimeImmutable() )->setTimestamp( $timestamp );
+        $ts = function_exists('easter_date') ? easter_date($year) : strtotime('+' . (easter_days($year) ?? 0) . " days", strtotime("$year-03-21"));
+        $utc = (new DateTimeImmutable())->setTimestamp($ts);
+        return $utc->setTimezone($tz);
+    }*/
+    public static function calculateEasterDate(int $year, ?DateTimeZone $tz = null): DateTimeImmutable
+    {
+        $tz = $tz ?? self::siteTimezone();
+
+        // 1) Prefer native easter_date() when available
+        try {
+            if (function_exists('easter_date')) {
+                $ts = easter_date($year);                     // epoch for Easter at 00:00:00 *UTC*
+                $ymd = (new DateTimeImmutable('@' . $ts))
+                    ->setTimezone(new DateTimeZone('UTC'))
+                    ->format('Y-m-d');                        // Normalize to a date string (UTC)
+
+                $dt = DateTimeImmutable::createFromFormat('!Y-m-d', $ymd, $tz); // local midnight in $tz
+                if ($dt instanceof DateTimeImmutable) {
+                    return $dt;                               // already 00:00:00 in $tz
+                }
+            }
+        } catch (\Throwable $e) {
+            // fall through to algorithm
+        }
+
+        // 2) Fallback: Meeus/Jones/Butcher algorithm (Gregorian)
+        $a = $year % 19;
+        $b = intdiv($year, 100);
+        $c = $year % 100;
+        $d = intdiv($b, 4);
+        $e = $b % 4;
+        $f = intdiv($b + 8, 25);
+        $g = intdiv($b - $f + 1, 3);
+        $h = (19 * $a + $b - $d - $g + 15) % 30;
+        $i = intdiv($c, 4);
+        $k = $c % 4;
+        $l = (32 + 2 * $e + 2 * $i - $h - $k) % 7;
+        $m = intdiv($a + 11 * $h + 22 * $l, 451);
+        $month = intdiv($h + $l - 7 * $m + 114, 31);         // 3 = March, 4 = April
+        $day = (($h + $l - 7 * $m + 114) % 31) + 1;
+
+        $ymd = sprintf('%04d-%02d-%02d', $year, $month, $day);
+        $dt = DateTimeImmutable::createFromFormat('!Y-m-d', $ymd, $tz);
+        return $dt instanceof DateTimeImmutable ? $dt : new DateTimeImmutable($ymd, $tz);
     }
+
 }
