@@ -83,7 +83,8 @@ class ScopedDateResolver
             : new DateTimeImmutable('now', $tz);
 
         //
-        $start = null; $end = null; $explicit = false;
+        $start = null; $end = null;
+        $explicit = false;
 
         // ---- Array scope (explicit range) handling ---------------------------------
         if (is_array($scope)) {
@@ -130,25 +131,25 @@ class ScopedDateResolver
             return $cache[$cacheKey];
         }
 
-        // 4) Special case: "easter 2025" style scopes.. TBD: add additional special scopes? (string scopes only)
+        // Special case: "easter 2025" style scopes.. TBD: add additional special scopes? (string scopes only)
         if (is_string($scope) && preg_match('/^easter_(\d{4})$/', Text::snake($scope), $m)) { //'/^easter\s+(\d{4})$/i'
             $y = (int)$m[1];
             $e = DateHelper::calculateEasterDate($y, $tz);
             $start = $e->setTime(0, 0, 0);
             $end = $e->setTime(23, 59, 59);
+            $explicit = true;
         }
 
-        // 5) Dispatch to the resolver for the requested scope. If invalid, default to 'today'
-        $key      = Text::snake($scope);               // e.g. "This Week" → "this_week"
-        $resolver = $scopeResolvers[$key] ?? $scopeResolvers['today'] ?? null;
+        // Dispatch to the resolver only for string scopes (skip if explicit array already set start/end). If invalid, default to 'today'
+        if (!$explicit) {
+            $key      = Text::snake((string)$scope);               // e.g. "This Week" → "this_week"
+            $resolver = $scopeResolvers[$key] ?? $scopeResolvers['today'] ?? null;
+            $range = $resolver ? $resolver() : ['start' => null, 'end' => null];
+            $start = $range['start'] ?? null;
+            $end   = $range['end']   ?? null;
+         }
 
-        // These closures take no arguments; they already captured $now/$options via `use (...)`
-        $range = $resolver ? $resolver() : ['start' => null, 'end' => null]; //$range = (array)call_user_func($resolvers[$key], $options);
-
-        $start = $range['start'] ?? null;
-        $end   = $range['end']   ?? null;
-
-        // 6) Mode + inclusive-end flags (default DATE + inclusive end-of-day)
+        // Mode + inclusive-end flags (default DATE + inclusive end-of-day)
         $inclusiveEnd = array_key_exists('inclusive_end', $options) ? (bool)$options['inclusive_end'] : true;
         // In DATE mode, snap to day edges; in DATETIME mode, leave times as-is.
         if ($mode === 'DATE') {
@@ -156,17 +157,17 @@ class ScopedDateResolver
             if ($end && $inclusiveEnd) { $end = $end->setTime(23, 59, 59); } //$end = DateTimeImmutable::createFromInterface($end)->setTime(23, 59, 59);
         }
 
+        // Build result (and populate cache for string scopes)
         $result = [
             'start' => $start instanceof DateTimeInterface ? DateTimeImmutable::createFromInterface($start) : null,
             'end'   => $end   instanceof DateTimeInterface ? DateTimeImmutable::createFromInterface($end)   : null,
         ];
 
-        if (empty($options['no_cache'])) {
+        if (is_string($scope) && empty($options['no_cache'])) {
             $cache[$cacheKey] = $result;
         }
 
         return $result;
-
     }
 
     // ----- Internals -----------------------------------------------------
