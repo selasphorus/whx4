@@ -8,6 +8,7 @@ use WP_Query;
 use atc\WHx4\Core\Contracts\PluginContext; //???
 use atc\WHx4\Core\Contracts\QueryContributor;
 use atc\WHx4\Query\ScopedQueryBuilder;
+use smith\Rex\Http\UrlParamBridge;
 
 final class PostQuery
 {
@@ -27,17 +28,9 @@ final class PostQuery
     public function find(array $params): array
     {
         $args = $this->normalize($params);
-        
-        // Query vars override args set otherwise
-        // WIP 09/28/25
-        if ( get_query_var('scope') ) {
-			$scope = get_query_var('scope');
-			//$ts_info .= "scope via query_var: ".print_r($scope,true)."<br />";
-		} else {
-			//$ts_info .= "scope query_var not set<br />";
-		}
 
         // Apply scope helpers (today/this_week/etc.)
+        // WIP 09/28/25
         if (!empty($params['scope'])) {
             //$args = $this->scopes->apply($args, (string)$params['scope']); // wip
         }
@@ -101,4 +94,13 @@ final class PostQuery
 
         return $args;
     }
+
+    public static function fromRequest(string $targetHandlerClass, array $baseArgs, ?array $only = null, ?array $source = null): self
+    {
+        $source = $source ?? $_GET;
+        $urlArgs = UrlParamBridge::fromSource($targetHandlerClass, $source, $only);
+        $args = UrlParamBridge::merge($targetHandlerClass, $baseArgs, $urlArgs);
+        return new self($args);
+    }
+
 }
