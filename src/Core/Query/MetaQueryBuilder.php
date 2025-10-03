@@ -41,11 +41,15 @@ final class MetaQueryBuilder
      */
     public static function build(array $spec): array
     {
+        error_log( '=== MetaQueryBuilder::build() ===' );
+        error_log( 'spec: ' . print_r($spec, true) );
+
         $relation = QueryHelpers::normalizeRelation($spec['relation'] ?? 'AND');
         $clauses  = $spec['clauses'] ?? [];
 
         $built = [];
         foreach ($clauses as $clauseSpec) {
+            error_log( 'clauseSpec: ' . print_r($clauseSpec, true) );
             $clause = self::makeClause($clauseSpec);
             if ($clause === null) {
                 continue; // Skip invalid/unknown clauses silently (debug logging belongs elsewhere).
