@@ -72,7 +72,7 @@ final class PostQuery
             'post_type'      => $p['post_type'],
             'post_status'    => $p['post_status'],
             'paged'          => $p['paged'],
-            'posts_per_page' => $p['posts_per_page'],
+            'posts_per_page' => $p['limit'],
             'order'          => $p['order'],
             'orderby'        => $p['orderby'],
             'no_found_rows'  => false,
