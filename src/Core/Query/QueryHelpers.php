@@ -14,7 +14,7 @@ final class QueryHelpers
      * @param 'AND'|'OR'|string $relation
      * @return 'AND'|'OR'
      */
-    private static function normalizeRelation(string $relation): string
+    public static function normalizeRelation(string $relation): string
     {
         $r = strtoupper(trim($relation));
         return $r === 'OR' ? 'OR' : 'AND';
