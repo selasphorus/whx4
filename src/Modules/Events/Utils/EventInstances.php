@@ -37,6 +37,7 @@ class EventInstances
 
     public static function renderMetaBox( \WP_Post $post ): void
     {
+        $info = "";
         /*$instances = self::getInstancesForPost( $post->ID );
         $excluded = self::getExcludedDates( $post->ID );
         $replacements = self::getReplacementMap( $post->ID );*/
@@ -46,6 +47,7 @@ class EventInstances
         $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
         //$replacements = maybe_unserialize( get_post_meta( $postID, 'whx4_events_replaced_dates', true ) ?: []; );
         $replacements = [];
+        if ( !is_array($excluded) ) { $info .= "excluded NOT is_array: " . print_r($excluded,true); $excluded = []; } // tft
 
         foreach ( $instances as $date ) {
             $dateStr = $date->format( 'Y-m-d' );
@@ -57,6 +59,7 @@ class EventInstances
             'instances'   => $instances,
             'excluded'    => $excluded,
             'replacements'=> $replacements,
+            'info'        => $info,
         ];
 
         ViewLoader::render(
