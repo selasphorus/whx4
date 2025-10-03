@@ -103,9 +103,9 @@ final class EventsShortcode implements ShortcodeInterface
         $query  = new PostQuery();
         $result = $query->find($params);
         $posts = $result['posts'] ?? [];
-        $info .= "posts: <pre>" . print_r($posts, true) . "</pre>";
-        $info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
-
+        $info .= "[" . $result['found'] . "] posts found: <pre>" . print_r($posts, true) . "</pre>";
+        //$info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
+        $info .= "query_request: <pre>" . $result['query_request'] . "</pre>";
         //
         $pagination = [
             'found'     => $result['found']     ?? 0,
