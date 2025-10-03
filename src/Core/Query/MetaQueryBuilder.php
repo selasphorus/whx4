@@ -74,7 +74,7 @@ final class MetaQueryBuilder
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
         $metaType   = self::normalizeMetaType($spec);
 
-        error_log( 'spec: ' . print($spec, true) );
+        error_log( 'spec: ' . print_r($spec, true) );
         error_log( 'clauseType: ' . $clauseType . '; metaType: ' . $metaType );
 
         switch ($clauseType) {
