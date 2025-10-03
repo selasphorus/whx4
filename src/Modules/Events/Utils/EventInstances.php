@@ -52,12 +52,18 @@ class EventInstances
             //$replacements[ $dateStr ] = self::getDetachedPostId( $postID, $dateStr ); // WIP
         }
 
-        ViewLoader::render( 'event-instances-columnar-list', [
+        $vars = [
             'post_id'     => $postID,
             'instances'   => $instances,
             'excluded'    => $excluded,
             'replacements'=> $replacements,
-        ], 'events' );
+        ];
+
+        ViewLoader::render(
+            'event-instances-columnar-list',
+            $vars,
+            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ] // specs
+        );
     }
 
     public static function getInstanceDivHtml( int $postID, string $date ): string
@@ -80,7 +86,7 @@ class EventInstances
         ];
 
         ViewLoader::render(
-            'event-instance-div', // view
+            'event-instance-div',
             $vars,
             [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ] // specs
         );
