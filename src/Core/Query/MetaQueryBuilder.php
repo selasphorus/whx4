@@ -222,7 +222,7 @@ final class MetaQueryBuilder
         } else {
             $group[] = $endCond;
         }
-        error_log( 'group: ' . print($group, true) );
+        error_log( 'group: ' . print_r($group, true) );
         return ['__group' => $group];
     }
 
