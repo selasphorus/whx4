@@ -70,8 +70,12 @@ final class MetaQueryBuilder
      */
     private static function makeClause(array $spec): ?array
     {
+        error_log( '=== MetaQueryBuilder::makeClause() ===' );
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
         $metaType   = self::normalizeMetaType($spec);
+
+        error_log( 'spec: ' . print($spec, true) );
+        error_log( 'clauseType: ' . $clauseType . '; metaType: ' . $metaType );
 
         switch ($clauseType) {
             case 'equals':
@@ -94,7 +98,7 @@ final class MetaQueryBuilder
                 return self::assembleClause(
                     (string)$spec['key'],
                     'IN',
-                    array_map(static fn($v) => self::formatValue($v, $type), array_values($spec['value'])), // Each element in the array may be DateTimeInterface.
+                    array_map(static fn($v) => self::formatValue($v, $metaType), array_values($spec['value'])), // Each element in the array may be DateTimeInterface.
                     $metaType
                 );
 
@@ -186,14 +190,23 @@ final class MetaQueryBuilder
      */
     private static function makeOverlapGroup(array $spec, ?string $metaType, bool $endOptional=false): ?array
     {
+        error_log( '=== MetaQueryBuilder::makeOverlapGroup() ===' );
+
         if (!QueryHelpers::requireFields($spec, ['start_key', 'end_key', 'start', 'end'])) {
             return null;
         }
 
         $group = ['relation' => 'AND'];
 
+        error_log( 'spec[end]: ' . print($spec['end'], true) );
+        error_log( 'spec[start]: ' . print($spec['start'], true) );
+
         $endValue   = self::formatValue($spec['end'], $metaType);
         $startValue = self::formatValue($spec['start'], $metaType);
+
+        error_log( 'metaType: ' . print($metaType, true) );
+        error_log( 'endValue: ' . print($endValue, true) );
+        error_log( 'startValue: ' . print($startValue, true) );
 
         // start_key <= end
         $group[] = self::assembleClause((string)$spec['start_key'], '<=', $endValue, $metaType);
@@ -209,7 +222,7 @@ final class MetaQueryBuilder
         } else {
             $group[] = $endCond;
         }
-
+        error_log( 'group: ' . print($group, true) );
         return ['__group' => $group];
     }
 
