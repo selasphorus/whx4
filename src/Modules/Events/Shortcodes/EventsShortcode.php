@@ -125,6 +125,7 @@ final class EventsShortcode implements ShortcodeInterface
             'handler'    => $handlerFactory,
             'atts'       => $atts,
             'pagination' => $pagination,
+            'info' => $info,
         ];
 
         return ViewLoader::renderToString(
