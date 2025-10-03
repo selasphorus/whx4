@@ -49,7 +49,7 @@ class EventInstances
 
         foreach ( $instances as $date ) {
             $dateStr = $date->format( 'Y-m-d' );
-            $replacements[ $dateStr ] = self::getDetachedPostId( $postID, $dateStr );
+            //$replacements[ $dateStr ] = self::getDetachedPostId( $postID, $dateStr ); // WIP
         }
 
         ViewLoader::render( 'event-instances-columnar-list', [
