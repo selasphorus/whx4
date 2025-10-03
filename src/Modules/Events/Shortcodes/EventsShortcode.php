@@ -82,7 +82,7 @@ final class EventsShortcode implements ShortcodeInterface
 
             // Hint for PostQuery when sorting by meta_value:
             // set meta_key to the event start key so WP can sort efficiently.
-            'meta_key'    => $atts['orderby'] === 'meta_value' ? 'start_date' : null,
+            'meta_key'    => $atts['orderby'] === 'meta_value' ? 'whx4_events_start_date' : null,
 
             // Date mapping for events (range semantics).
             'date_meta'   => [
