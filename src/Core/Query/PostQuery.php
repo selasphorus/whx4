@@ -106,7 +106,7 @@ final class PostQuery
             'found'     => (int)$q->found_posts,
             'max_pages' => (int)$q->max_num_pages,
             'args'      => $args,
-            'query_request'=> $info .= $q->request;
+            'query_request'=> $q->request,
         ];
     }
 
