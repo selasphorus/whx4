@@ -33,7 +33,7 @@ final class QueryHelpers
      * @param array<string,mixed> $spec
      * @param list<string>        $fields
      */
-    private static function requireFields(array $spec, array $fields): bool
+    public static function requireFields(array $spec, array $fields): bool
     {
         foreach ($fields as $field) {
             if (!array_key_exists($field, $spec)) {
