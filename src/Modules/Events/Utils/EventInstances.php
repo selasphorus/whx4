@@ -72,12 +72,18 @@ class EventInstances
             'actions' => self::getAvailableActions( $postID, $date ), // if needed
         ];
 
-        ViewLoader::render( 'event-instance-div', [
+        $vars = [
             'post_id'     => $postID,
             'instances'   => $instances,
             'excluded'    => $excluded,
             //'replacements'=> $replacements,
-        ], 'events' );
+        ];
+
+        ViewLoader::render(
+            'event-instance-div', // view
+            $vars,
+            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ] // specs
+        );
 
         return ob_get_clean();
     }
