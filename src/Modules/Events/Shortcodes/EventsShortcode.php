@@ -118,7 +118,7 @@ final class EventsShortcode implements ShortcodeInterface
         // Choose a view variant by atts['view'].
         // Expect your ViewLoader to resolve "events/{list|grid|table}.php" (or similar).
         $viewVariant = in_array($atts['view'], ['list','grid','table'], true) ? $atts['view'] : 'list';
-        $view = "events/{$viewVariant}";
+        $view = "{$viewVariant}"; //$view = "events/{$viewVariant}";
 
         $vars = [
             'posts'      => $posts,
