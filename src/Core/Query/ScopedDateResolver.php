@@ -51,7 +51,7 @@ class ScopedDateResolver
         DATETIME: time-granularity. You don’t coerce to day edges; ranges can be hour/minute precise
         e.g. last_24_hours → now-24h … now, this_hour → HH:00:00 … HH:59:59.
         */
-        $mode = strtoupper((string)($options['mode'] ?? 'DATE'));
+        $mode = isset($options['mode']) ? strtoupper(trim((string)$options['mode'])) : 'DATE';
         if ($mode !== 'DATE' && $mode !== 'DATETIME') {
             throw new InvalidArgumentException('ScopedDateResolver: options.mode must be DATE or DATETIME.');
         }
@@ -146,10 +146,21 @@ class ScopedDateResolver
             if ($end && $inclusiveEnd) { $end = $end->setTime(23, 59, 59); } //$end = DateTimeImmutable::createFromInterface($end)->setTime(23, 59, 59);
         }
 
+        // Format start/end according to mode and return strings (not DateTime objects).
+        $format = ($mode === 'DATE') ? 'Y-m-d' : 'Y-m-d H:i:s';
+
         // Build result (and populate cache for string scopes)
+        $startOut = ($start instanceof DateTimeInterface)
+            ? DateTimeImmutable::createFromInterface($start)->format($format)
+            : null;
+
+        $endOut = ($end instanceof DateTimeInterface)
+            ? DateTimeImmutable::createFromInterface($end)->format($format)
+            : null;
+
         $result = [
-            'start' => $start instanceof DateTimeInterface ? DateTimeImmutable::createFromInterface($start) : null,
-            'end'   => $end   instanceof DateTimeInterface ? DateTimeImmutable::createFromInterface($end)   : null,
+            'start' => $startOut,
+            'end'   => $endOut,
         ];
 
         if (is_string($scope) && empty($options['no_cache'])) {

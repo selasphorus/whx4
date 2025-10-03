@@ -70,20 +70,21 @@ final class MetaQueryBuilder
      */
     private static function makeClause(array $spec): ?array
     {
-        $type = isset($spec['type']) ? (string)$spec['type'] : '';
+        $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
+        $metaType   = self::normalizeMetaType($spec);
 
-        switch ($type) {
+        switch ($clauseType) {
             case 'equals':
                 // key = value
-                return self::makeSimpleComparison($spec, '=');
+                return self::makeSimpleComparison($spec, '=', $metaType);
 
             case 'gte':
                 // key >= value
-                return self::makeSimpleComparison($spec, '>=');
+                return self::makeSimpleComparison($spec, '>=', $metaType);
 
             case 'lte':
                 // key <= value
-                return self::makeSimpleComparison($spec, '<=');
+                return self::makeSimpleComparison($spec, '<=', $metaType);
 
             case 'in':
                 // key IN (values[])
@@ -93,8 +94,8 @@ final class MetaQueryBuilder
                 return self::assembleClause(
                     (string)$spec['key'],
                     'IN',
-                    array_values($spec['value']),
-                    self::normalizeCast($spec)
+                    array_map(static fn($v) => self::formatValue($v, $type), array_values($spec['value'])), // Each element in the array may be DateTimeInterface.
+                    $metaType
                 );
 
             case 'like':
@@ -102,11 +103,12 @@ final class MetaQueryBuilder
                 if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
                     return null;
                 }
+                $val = self::formatValue($spec['value'], $metaType);
                 return self::assembleClause(
                     (string)$spec['key'],
                     'LIKE',
-                    '%' . (string)$spec['value'] . '%',
-                    self::normalizeCast($spec)
+                    '%'.(string)$val.'%',
+                    $metaType
                 );
 
             case 'range':
@@ -114,11 +116,13 @@ final class MetaQueryBuilder
                 if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('min', $spec) || !array_key_exists('max', $spec)) {
                     return null;
                 }
+                $min = self::formatValue($spec['min'], $metaType);
+                $max = self::formatValue($spec['max'], $metaType);
                 return self::assembleClause(
                     (string)$spec['key'],
                     'BETWEEN',
-                    [$spec['min'], $spec['max']],
-                    self::normalizeCast($spec)
+                    [$min, $max],
+                    $metaType
                 );
 
             case 'exists':
@@ -136,8 +140,9 @@ final class MetaQueryBuilder
                 return self::assembleClause((string)$spec['key'], 'NOT EXISTS');
 
             case 'overlapRange':
-                // (start_key <= end) AND (end_key >= start) AND start_key EXISTS AND end_key EXISTS
-                return self::makeOverlapGroup($spec);
+                // (start_key <= end) AND (end_key >= start) [+ optionally allow missing end_key]
+                $endOptional  = !empty($spec['end_optional']);
+                return self::makeOverlapGroup($spec, $metaType, $endOptional);
 
             case 'custom':
                 // Raw WP meta_query clause passthrough
@@ -154,7 +159,7 @@ final class MetaQueryBuilder
      *
      * @param array{key?:string,value?:mixed,cast?:string} $spec
      */
-    private static function makeSimpleComparison(array $spec, string $op): ?array
+    private static function makeSimpleComparison(array $spec, string $op, ?string $metaType): ?array
     {
         if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
             return null;
@@ -162,8 +167,8 @@ final class MetaQueryBuilder
         return self::assembleClause(
             (string)$spec['key'],
             $op,
-            $spec['value'],
-            self::normalizeCast($spec)
+            self::formatValue($spec['value'], $metaType), // value might be a DateTimeInterface. Pre-format it based on cast.
+            $metaType
         );
     }
 
@@ -179,37 +184,50 @@ final class MetaQueryBuilder
      * @param array{start_key?:string,end_key?:string,start?:mixed,end?:mixed,cast?:string} $spec
      * @return array{__group:array<string,mixed>}|null
      */
-    private static function makeOverlapGroup(array $spec): ?array
+    private static function makeOverlapGroup(array $spec, ?string $metaType, bool $endOptional=false): ?array
     {
         if (!QueryHelpers::requireFields($spec, ['start_key', 'end_key', 'start', 'end'])) {
             return null;
         }
 
-        $type = self::normalizeCast($spec);
         $group = ['relation' => 'AND'];
 
+        $endValue   = self::formatValue($spec['end'], $metaType);
+        $startValue = self::formatValue($spec['start'], $metaType);
+
         // start_key <= end
-        $group[] = self::assembleClause((string)$spec['start_key'], '<=', $spec['end'], $type);
+        $group[] = self::assembleClause((string)$spec['start_key'], '<=', $endValue, $metaType);
 
-        // end_key >= start
-        $group[] = self::assembleClause((string)$spec['end_key'], '>=', $spec['start'], $type);
+        // end_key >= start (or allow missing end_key when enabled)
+        $endCond = self::assembleClause((string)$spec['end_key'], '>=', $startValue, $metaType);
 
-        // Key existence guards
-        $group[] = self::assembleClause((string)$spec['start_key'], 'EXISTS');
-        $group[] = self::assembleClause((string)$spec['end_key'], 'EXISTS');
+        if ($endOptional) {
+            $group[] = array_merge(['relation' => 'OR'], [
+                $endCond,
+                self::assembleClause((string)$spec['end_key'], 'NOT EXISTS'),
+            ]);
+        } else {
+            $group[] = $endCond;
+        }
 
         return ['__group' => $group];
     }
 
     /**
-     * The one true place where a WP-style meta_query clause array is assembled.
-     * - Includes 'value' only when meaningful (not for EXISTS/NOT EXISTS).
-     * - Includes 'type' only when provided and relevant (not for EXISTS/NOT EXISTS).
+     * Assemble a single WP meta_query clause.
+     *
+     * IMPORTANT naming:
+     * - $metaType is the **WP meta comparison type** (a cast): 'DATE'|'DATETIME'|'NUMERIC'|'CHAR'|'BINARY'|'DECIMAL'|'SIGNED'|'UNSIGNED'.
+     *   This is DIFFERENT from the spec's clause discriminator (e.g. 'equals','in', etc.).
+     *
+     * Rules:
+     * - Only include 'value' when the compare operator needs it (not for EXISTS/NOT EXISTS).
+     * - Only include 'type' when a value is present AND the meta type is valid.
      *
      * @param mixed $value
      * @return array<string,mixed>
      */
-    private static function assembleClause(string $key, string $compare, $value = null, ?string $type = null): array
+    private static function assembleClause(string $key, string $compare, $value = null, ?string $metaType = null): array
     {
         $clause = [
             'key'     => $key,
@@ -219,8 +237,10 @@ final class MetaQueryBuilder
         $needsValue = !in_array($compare, ['EXISTS', 'NOT EXISTS'], true);
         if ($needsValue) {
             $clause['value'] = $value;
-            if ($type !== null) {
-                $clause['type'] = $type;
+
+            $normalized = self::sanitizeMetaType($metaType);
+            if ($normalized !== null) {
+                $clause['type'] = $normalized;
             }
         }
 
@@ -228,14 +248,65 @@ final class MetaQueryBuilder
     }
 
     /**
-     * Extract optional cast (WP 'type') if present.
+     * Extract and normalize the WP meta comparison type ('type' in WP parlance) from a spec.
+     * Accepts a 'meta_type' field in the input spec; returns UPPERCASE allowed values or null.
+     *
+     * Allowed: NUMERIC, CHAR, BINARY, DATE, DATETIME, DECIMAL, SIGNED, UNSIGNED
+     * Common aliases mapped:
+     *   int|integer|number  -> NUMERIC
+     *   string|text         -> CHAR
      *
      * @param array<string,mixed> $spec
      */
-    private static function normalizeCast(array $spec): ?string
+    private static function normalizeMetaType(array $spec): ?string
     {
-        return isset($spec['cast']) ? (string)$spec['cast'] : null;
+        $raw = isset($spec['meta_type']) ? (string)$spec['meta_type'] : ''; //$raw = isset($spec['cast']) ? (string)$spec['cast'] : '';
+        return self::sanitizeMetaType($raw);
     }
+
+    /**
+     * Normalize/validate a WP meta type token.
+     * Returns the UPPERCASE allowed token, or null if invalid/empty.
+     */
+    private static function sanitizeMetaType(?string $metaType): ?string
+    {
+        if ($metaType === null || $metaType === '') {
+            return null;
+        }
+
+        $token = strtoupper(trim($metaType));
+
+        // Alias map for friendlier inputs
+        $aliases = [
+            'INT' => 'NUMERIC',
+            'INTEGER' => 'NUMERIC',
+            'NUMBER' => 'NUMERIC',
+            'FLOAT' => 'DECIMAL', // WP supports DECIMAL; map float to DECIMAL
+            'DOUBLE' => 'DECIMAL',
+            'STRING' => 'CHAR',
+            'TEXT' => 'CHAR',
+        ];
+        if (isset($aliases[$token])) {
+            $token = $aliases[$token];
+        }
+
+        // Allow-list from WP docs
+        $allowed = ['NUMERIC','CHAR','BINARY','DATE','DATETIME','DECIMAL','SIGNED','UNSIGNED'];
+
+        return in_array($token, $allowed, true) ? $token : null;
+    }
+
+
+    // Format values for use in WP_Query
+    private static function formatValue($value, ?string $metaType)
+    {
+        if ($value instanceof \DateTimeInterface) {
+            $isDate = is_string($metaType) && strtoupper(trim($metaType)) === 'DATE';
+            return $isDate ? $value->format('Y-m-d') : $value->format('Y-m-d H:i:s');
+        }
+        return $value; // numeric/string/array okay
+    }
+
 
     /**
      * Merge multiple MetaQueryBuilder specs into a single flat spec.

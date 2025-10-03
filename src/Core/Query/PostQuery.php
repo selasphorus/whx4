@@ -53,9 +53,9 @@ final class PostQuery
         }
 
         // Resolve scope (string or {start,end}) via ScopedDateResolver.
-        //$cast      = isset($dateMeta['cast']) ? (string)$dateMeta['cast'] : null;
-        //$resolved  = self::resolveScope($scope, $cast); // ['start'=>?, 'end'=>?] or null
-        $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['cast'] ?? null);
+        //$metaType      = isset($dateMeta['meta_type']) ? (string)$dateMeta['meta_type'] : null;
+        //$resolved  = self::resolveScope($scope, $metaType); // ['start'=>?, 'end'=>?] or null
+        $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['meta_type'] ?? null);
         //$dateMetaSpec  = self::dateMetaSpecFromBounds($dateMeta, $resolved);
         $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
 
@@ -78,9 +78,14 @@ final class PostQuery
             'no_found_rows'  => false,
         ];
 
-        if ($p['orderby'] === 'meta_value' && $p['meta_key'] && $p['meta_key'] != '' ) {
-            // TODO: check if is_string meta_key, deal w/ numeric ordering possibility
+        if ( ($p['orderby'] === 'meta_value' || $p['orderby'] === 'meta_value_num') && $p['meta_key'] && $p['meta_key'] != '' ) {
             $args['meta_key'] = $p['meta_key'];
+            if (!empty($p['date_meta']['meta_type'])) {
+                $mt = strtoupper(trim((string)$p['date_meta']['meta_type']));
+                if (in_array($mt, ['DATE','DATETIME','NUMERIC','SIGNED','UNSIGNED','DECIMAL','BINARY','CHAR'], true)) {
+                    $args['meta_type'] = $mt;
+                }
+            }
         }
 
         if ($metaQuery !== []) {
@@ -206,8 +211,11 @@ final class PostQuery
         if (isset($dateMetaIn['end_key'])) {
             $dateMeta['end_key'] = (string)$dateMetaIn['end_key'];
         }
-        if (isset($dateMetaIn['cast'])) {
-            $dateMeta['cast'] = (string)$dateMetaIn['cast'];
+        if (isset($dateMetaIn['meta_type'])) {
+            $dateMeta['meta_type'] = (string)$dateMetaIn['meta_type'];
+        }
+        if (isset($dateMetaIn['end_optional'])) {
+            $dateMeta['end_optional'] = (bool)$dateMetaIn['end_optional'];
         }
 
         // 8) User-provided meta spec (MetaQueryBuilder format) or []
@@ -285,8 +293,8 @@ final class PostQuery
      * Build a minimal MetaQueryBuilder spec from date mapping + resolved window.
      *
      * Accepted mappings:
-     * - ['key' => 'transaction_date', 'cast' => 'DATE'] + scope → range
-     * - ['start_key' => 'start_date', 'end_key' => 'end_date', 'cast' => 'DATETIME'] + scope → overlapRange
+     * - ['key' => 'transaction_date', 'meta_type' => 'DATE'] + scope → range
+     * - ['start_key' => 'start_date', 'end_key' => 'end_date', 'meta_type' => 'DATETIME'] + scope → overlapRange
      *
      * @param array{
      *   key?:string,
@@ -303,7 +311,7 @@ final class PostQuery
             return []; // no date filtering requested
         }
 
-        $cast = isset($dateMeta['cast']) ? (string)$dateMeta['cast'] : null;
+        $metaType = isset($dateMeta['meta_type']) ? (string)$dateMeta['meta_type'] : null;
 
         // Range over a single date key.
         if (!empty($dateMeta['key'])) {
@@ -314,7 +322,7 @@ final class PostQuery
                     'key'  => (string)$dateMeta['key'],
                     'min'  => $dateBounds['start'],
                     'max'  => $dateBounds['end'],
-                    'cast' => $cast,
+                    'meta_type' => $metaType,
                 ]],
             ];
         }
@@ -329,7 +337,8 @@ final class PostQuery
                     'end_key'    => (string)$dateMeta['end_key'],
                     'start'      => $dateBounds['start'],
                     'end'        => $dateBounds['end'],
-                    'cast'       => $cast,
+                    'meta_type'       => $metaType,
+                    'end_optional' => !empty($dateMeta['end_optional']),
                 ]],
             ];
         }
