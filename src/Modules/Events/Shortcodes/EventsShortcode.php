@@ -88,7 +88,7 @@ final class EventsShortcode implements ShortcodeInterface
             'date_meta'   => [
                 'start_key' => 'whx4_events_start_date', //'start_date',
                 'end_key'   => 'whx4_events_end_date', //'end_date',
-                'cast'      => 'DATE', // events are typically DATETIME, not DATE -- yes??? review acf fields setup...
+                'data_type' => 'DATE', // events are typically DATETIME, not DATE -- yes??? review acf fields setup...
             ],
 
             // Scope (string or {start,end} array or null)
