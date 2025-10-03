@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace atc\WHx4\Core\Query;
 
-use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Exception;
-use InvalidArgumentException; // ???
-use atc\WHx4\Core\WHx4;
+use Exception; // for the defensive catch (Exception $e) when creating DateTimeZone
+use InvalidArgumentException; // for the explicit throw on bad args
 use atc\WHx4\Utils\Text;
 use atc\WHx4\Utils\DateHelper;
 
@@ -42,8 +40,6 @@ class ScopedDateResolver
      *     @var DateTimeZone       $tz      Timezone override. Default: site timezone.
      * }
      * @return array{start: DateTimeImmutable|null, end: DateTimeImmutable|null}
-     // OR
-     * @return array{start:string,end:string}
      */
     public static function resolve(string|array $scope, array $options = []): array
     {
@@ -86,7 +82,7 @@ class ScopedDateResolver
         $start = null; $end = null;
         $explicit = false;
 
-        // ---- Array scope (explicit range) handling ---------------------------------
+        // Array scope (explicit range) handling ---------------------------------
         if (is_array($scope)) {
             $sIn = $scope['start'] ?? $scope['startDate'] ?? null;
             $eIn = $scope['end']   ?? $scope['endDate']   ?? null;
@@ -112,7 +108,7 @@ class ScopedDateResolver
             $explicit = true; // skip resolver dispatch & cache; fall through to rounding return
         }
 
-        // ---- Request-scoped memoization (string scopes only) -----------------------
+        // Request-scoped memoization (string scopes only) -----------------------
         if (is_string($scope)) {
             static $cache = [];
             $cacheKey = self::buildCacheKey($scope, $options, $tz, $now);
@@ -123,13 +119,6 @@ class ScopedDateResolver
 
         // Get resolvers (defaults + filters)
         $scopeResolvers = self::registeredScopes($now, $options);
-
-        // Request-scoped memoization (skip if explicitly disabled)
-        static $cache = [];
-        $cacheKey = self::buildCacheKey(is_string($scope) ? $scope : 'custom', $options, $tz, $now);
-        if (empty($options['no_cache']) && isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
-        }
 
         // Special case: "easter 2025" style scopes.. TBD: add additional special scopes? (string scopes only)
         if (is_string($scope) && preg_match('/^easter_(\d{4})$/', Text::snake($scope), $m)) { //'/^easter\s+(\d{4})$/i'
@@ -194,7 +183,7 @@ class ScopedDateResolver
              *       $scopes['next_90_days'] = function($now) {
              *           $start = self::atStartOfDay($now);
              *           $end   = $start->add(new DateInterval('P90D'));
-             *           return [$start, $end];
+             *           return ['start'=> $start, 'end'=> $end]; //return [$start, $end];
              *       };
              *       return $scopes;
              *   });
