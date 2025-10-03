@@ -87,7 +87,7 @@ final class MetaQueryBuilder
 
             case 'in':
                 // key IN (values[])
-                if (!self::requireFields($spec, ['key', 'value']) || !is_array($spec['value']) || $spec['value'] === []) {
+                if (!QueryHelpers::requireFields($spec, ['key', 'value']) || !is_array($spec['value']) || $spec['value'] === []) {
                     return null;
                 }
                 return self::assembleClause(
@@ -99,7 +99,7 @@ final class MetaQueryBuilder
 
             case 'like':
                 // key LIKE %value%
-                if (!self::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
+                if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
                     return null;
                 }
                 return self::assembleClause(
@@ -111,7 +111,7 @@ final class MetaQueryBuilder
 
             case 'range':
                 // key BETWEEN min AND max (inclusive)
-                if (!self::requireFields($spec, ['key']) || !array_key_exists('min', $spec) || !array_key_exists('max', $spec)) {
+                if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('min', $spec) || !array_key_exists('max', $spec)) {
                     return null;
                 }
                 return self::assembleClause(
@@ -123,14 +123,14 @@ final class MetaQueryBuilder
 
             case 'exists':
                 // EXISTS (no value/type)
-                if (!self::requireFields($spec, ['key'])) {
+                if (!QueryHelpers::requireFields($spec, ['key'])) {
                     return null;
                 }
                 return self::assembleClause((string)$spec['key'], 'EXISTS');
 
             case 'notExists':
                 // NOT EXISTS (no value/type)
-                if (!self::requireFields($spec, ['key'])) {
+                if (!QueryHelpers::requireFields($spec, ['key'])) {
                     return null;
                 }
                 return self::assembleClause((string)$spec['key'], 'NOT EXISTS');
@@ -156,7 +156,7 @@ final class MetaQueryBuilder
      */
     private static function makeSimpleComparison(array $spec, string $op): ?array
     {
-        if (!self::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
+        if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
             return null;
         }
         return self::assembleClause(
@@ -181,7 +181,7 @@ final class MetaQueryBuilder
      */
     private static function makeOverlapGroup(array $spec): ?array
     {
-        if (!self::requireFields($spec, ['start_key', 'end_key', 'start', 'end'])) {
+        if (!QueryHelpers::requireFields($spec, ['start_key', 'end_key', 'start', 'end'])) {
             return null;
         }
 
