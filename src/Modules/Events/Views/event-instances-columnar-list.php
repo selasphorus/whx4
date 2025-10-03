@@ -17,7 +17,7 @@ foreach ( $instances as $date ):
     <div class="whx4-instance-actions">
 
     <?php
-    if ( $replacements[ $date_str ] ) {
+    if ( isset($replacements[ $date_str ] ) ) {
         echo '<a href="' . esc_url( get_edit_post_link( $replacements[ $date_str ] ) ) . '" target="_blank" class="button">Edit replacement</a>';
     } elseif ( $is_excluded ) {
         echo '<span class="icon-button disabled"><img src="'.WHX4_PLUGIN_URL.'assets/graphics/excluded.png" alt="Excluded"></span>&nbsp;';
