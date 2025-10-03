@@ -31,7 +31,7 @@ final class PostQuery
      *     key?:string,
      *     start_key?:string,
      *     end_key?:string,
-     *     data_type?:'DATE'|'DATETIME'|'NUMERIC'|string
+     *     meta_type?:'DATE'|'DATETIME'|'NUMERIC'|string
      *   },
      *   // tax filters
      *   tax?:array<string,array<int,string>>
@@ -53,7 +53,7 @@ final class PostQuery
         }
 
         // Resolve scope (string or {start,end}) via ScopedDateResolver.
-        $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['data_type'] ?? null);
+        $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['meta_type'] ?? null);
         //$dateMetaSpec  = self::dateMetaSpecFromBounds($dateMeta, $resolved);
         $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
 
@@ -78,8 +78,8 @@ final class PostQuery
 
         if ( ($p['orderby'] === 'meta_value' || $p['orderby'] === 'meta_value_num') && $p['meta_key'] && $p['meta_key'] != '' ) {
             $args['meta_key'] = $p['meta_key'];
-            if (!empty($p['date_meta']['data_type'])) {
-                $mt = strtoupper(trim((string)$p['date_meta']['data_type']));
+            if (!empty($p['date_meta']['meta_type'])) {
+                $mt = strtoupper(trim((string)$p['date_meta']['meta_type']));
                 if (in_array($mt, ['NUMERIC','BINARY','CHAR','DATE','DATETIME','DECIMAL','SIGNED','TIME','UNSIGNED'], true)) {
                     $args['meta_type'] = $mt;
                 }
@@ -131,7 +131,7 @@ final class PostQuery
      *   orderby?:string,
      *   meta_key?:string|null,
      *   scope?:string|array|null,
-     *   date_meta?:array{key?:string,start_key?:string,end_key?:string,data_type?:string},
+     *   date_meta?:array{key?:string,start_key?:string,end_key?:string,meta_type?:string},
      *   meta?:array,
      *   tax?:array<string,mixed>
      * } $params
@@ -144,7 +144,7 @@ final class PostQuery
      *   orderby:string,
      *   meta_key:?string,
      *   scope:string|array|null,
-     *   date_meta:array{key?:string,start_key?:string,end_key?:string,data_type?:string},
+     *   date_meta:array{key?:string,start_key?:string,end_key?:string,meta_type?:string},
      *   meta:array,
      *   tax:array<string,array<int,string>>
      * }
@@ -309,7 +309,7 @@ final class PostQuery
             return []; // no date filtering requested
         }
 
-        $metaType = isset($dateMeta['data_type']) ? (string)$dateMeta['data_type'] : null;
+        $metaType = isset($dateMeta['meta_type']) ? (string)$dateMeta['meta_type'] : null;
 
         // Range over a single date key.
         if (!empty($dateMeta['key'])) {
