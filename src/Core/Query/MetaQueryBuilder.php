@@ -198,15 +198,15 @@ final class MetaQueryBuilder
 
         $group = ['relation' => 'AND'];
 
-        error_log( 'spec[end]: ' . print($spec['end'], true) );
-        error_log( 'spec[start]: ' . print($spec['start'], true) );
+        error_log( 'spec[end]: ' . print_r($spec['end'], true) );
+        error_log( 'spec[start]: ' . print_r($spec['start'], true) );
 
         $endValue   = self::formatValue($spec['end'], $metaType);
         $startValue = self::formatValue($spec['start'], $metaType);
 
-        error_log( 'metaType: ' . print($metaType, true) );
-        error_log( 'endValue: ' . print($endValue, true) );
-        error_log( 'startValue: ' . print($startValue, true) );
+        error_log( 'metaType: ' . print_r($metaType, true) );
+        error_log( 'endValue: ' . print_r($endValue, true) );
+        error_log( 'startValue: ' . print_r($startValue, true) );
 
         // start_key <= end
         $group[] = self::assembleClause((string)$spec['start_key'], '<=', $endValue, $metaType);
