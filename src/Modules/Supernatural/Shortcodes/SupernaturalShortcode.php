@@ -3,7 +3,6 @@
 namespace atc\WHx4\Modules\Supernatural\Shortcodes;
 
 use atc\WHx4\Core\Contracts\ShortcodeInterface;
-use atc\WHx4\Core\Shortcodes\ShortcodeBase;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Utils\ClassInfo;
 
