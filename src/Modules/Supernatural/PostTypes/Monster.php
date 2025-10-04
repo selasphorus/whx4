@@ -75,7 +75,7 @@ class Monster extends PostTypeHandler
 
     public function getSN(): string
     {
-        return (string)$this->getPostMeta('secret_name', 'orange');
+        return (string)$this->getPostMeta('secret_name', 'Unknown');
     }
 
 }
