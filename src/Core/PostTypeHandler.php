@@ -208,17 +208,18 @@ abstract class PostTypeHandler extends BaseHandler
             ],
         ];
 
-        if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
+        //if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
             $payload['debug'] = [
                 'args'          => $result['args']          ?? [],
                 'query_request' => $result['query_request'] ?? '',
                 'params'        => $params,
                 'filters'       => $normalized,
             ];
-        }
+        //}
 
         /** @var array $filtered */
-        $filtered = apply_filters('whx4_generic_result', $payload, $params, $normalized, static::getQuerySpec());
+        //$filtered = apply_filters('whx4_generic_result', $payload, $params, $normalized, static::getQuerySpec());
+        $filtered = $payload; // tft
         return $filtered;
     }
 
