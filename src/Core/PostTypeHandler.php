@@ -202,7 +202,7 @@ abstract class PostTypeHandler extends BaseHandler
         $payload = [
             'posts'      => $result['posts'] ?? [],
             'pagination' => [
-                'found'     => $result['found']     ?? 0,
+                'found'     => $result['found']     ?? 0, // maybe move this up a level? i.e. not part of pagination array
                 'max_pages' => $result['max_pages'] ?? 0,
                 'paged'     => $normalized['paged'],
             ],

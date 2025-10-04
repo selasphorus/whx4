@@ -104,6 +104,7 @@ final class PostQuery
         // 5) Run the query.
         $q = new WP_Query($args);
 
+        // TODO: see PostTypeHandler find() method re alternate return format -- reconcile the two
         return [
             'posts'     => $q->posts ?: [],
             'found'     => (int)$q->found_posts,
