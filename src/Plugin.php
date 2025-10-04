@@ -36,6 +36,8 @@ final class Plugin implements PluginContext
 	protected array $availableModules = [];
     protected array $activeModules = [];
     protected array $activePostTypes = [];
+    /** @var array<string, ModuleInterface> */
+    private array $moduleInstances = [];
     //
     protected bool $modulesLoaded = false;
     protected bool $modulesBooted = false;
@@ -354,10 +356,26 @@ final class Plugin implements PluginContext
         return $this->activeModules;
     }
     
-    public function getModule(string $key): ?ModuleInterface
+	public function getModule(string $key): ?ModuleInterface
 	{
-		$modules = $this->getActiveModules();
-		return $modules[$key] ?? null;
+		if (isset($this->moduleInstances[$key])) {
+			return $this->moduleInstances[$key];
+		}
+	
+		$active = $this->getActiveModules(); // returns class strings (by design)
+		$moduleDef = $active[$key] ?? null;
+	
+		if ($moduleDef instanceof ModuleInterface) {
+			return $this->moduleInstances[$key] = $moduleDef;
+		}
+	
+		if (is_string($moduleDef) && class_exists($moduleDef)) {
+			// If your modules need dependencies, wire them here.
+			$instance = new $moduleDef();
+			return $this->moduleInstances[$key] = $instance;
+		}
+	
+		return null;
 	}
 
     public function bootActiveModules(): int
