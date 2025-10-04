@@ -6,6 +6,7 @@ namespace atc\WHx4\Modules\Events\Shortcodes;
 
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\PostTypeHandler;
+use atc\WHx4\Modules\Events\PostTypes\Event;
 use atc\WHx4\Core\ViewLoader;
 use atc\WHx4\Core\Query\PostQuery;
 use atc\WHx4\Core\Contracts\ShortcodeInterface;
@@ -20,8 +21,43 @@ final class EventsShortcode implements ShortcodeInterface
         return 'whx4_events';
     }
 
+    public function render(array $atts = [], string $content = '', string $tag = ''): string
+    {
+        // Merge with canonical defaults from the CPT handler (parent-powered).
+        $atts = shortcode_atts(Event::queryDefaults(), $atts, $tag);
+
+        // Run the unified query pipeline.
+        $result = Event::find($atts);
+        $posts  = $result['posts'] ?? [];
+
+        // Pagination info for the view.
+        $pagination = $result['pagination'] ?? ['found' => 0, 'max_pages' => 0, 'paged' => 1];
+
+        // Handler factory so views can call CPT methods safely.
+        $handlerFactory = [PostTypeHandler::class, 'getHandlerForPost'];
+
+        // Choose a view variant (list|grid|table); fall back to list.
+        $viewVariant = in_array($atts['view'], ['list', 'grid', 'table'], true) ? $atts['view'] : 'list';
+        $view = $viewVariant;
+
+        $vars = [
+            'posts'      => $posts,
+            'handler'    => $handlerFactory,
+            'atts'       => $atts,
+            'pagination' => $pagination,
+            // Optionally pass debug through when REX_DEBUG is on:
+            'debug'      => $result['debug'] ?? null,
+        ];
+
+        return ViewLoader::renderToString(
+            $view,
+            $vars,
+            ['kind' => 'partial', 'module' => 'events', 'post_type' => 'event']
+        );
+    }
+
     /** @param array<string,mixed> $atts */
-    public function render(array $atts = [], string $content = '', string $tag = ''): string //$tag ?: self::tag()
+    public function renderV1(array $atts = [], string $content = '', string $tag = ''): string //$tag ?: self::tag()
     {
         $info = "";
 

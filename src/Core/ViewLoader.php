@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 namespace atc\WHx4\Core;
+// TODO: move this and ViewKind to atc\WHx4\Core\View\ ?
+
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\ViewKind;
 use atc\WHx4\Utils\Text;

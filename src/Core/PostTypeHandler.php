@@ -1,10 +1,12 @@
 <?php
 
 namespace atc\WHx4\Core;
+// TODO: move this and BaseHandler to atc\WHx4\Core\Handlers\ ?
 
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
+use atc\WHx4\Core\Query\PostQuery;
 //
 use atc\WHx4\Utils\ClassInfo;
 
@@ -52,6 +54,179 @@ abstract class PostTypeHandler extends BaseHandler
 		return $this->post;
 	}
 
+	    /**
+     * Child classes must describe their query spec:
+     * - cpt (string)
+     * - date_meta: ['key' OR 'start_key'+'end_key', 'meta_type' => 'DATE'|'DATETIME'|'NUMERIC']
+     * - taxonomies: [ 'event_category', ... ] (optional)
+     * - defaults: ['limit','order','orderby','view'] (optional)
+     * - allowed_orderby: [...] (optional)
+     * - default_view: 'list'|'grid'|'table' (optional)
+     */
+    abstract protected static function getQuerySpec(): array;
+
+    public static function queryDefaults(): array
+    {
+        $spec = static::getQuerySpec();
+        $defaults = array_merge([
+            'post_type'      => $spec['cpt'] ?? '',
+            'post_status'    => 'publish',
+            'view'           => $spec['default_view'] ?? 'list',
+            'limit'          => $spec['defaults']['limit']  ?? 10,
+            'order'          => $spec['defaults']['order']  ?? 'ASC',
+            'orderby'        => $spec['defaults']['orderby']?? 'meta_value',
+            'scope'          => '',
+            'paged'          => '',
+        ], self::taxonomyDefaultInputs($spec));
+
+        /** @var array $filtered */
+        $filtered = apply_filters('whx4_generic_query_defaults', $defaults, $spec);
+        return $filtered;
+    }
+
+    public static function normalizeFilters(array $input): array
+    {
+        $spec = static::getQuerySpec();
+        $in = array_merge(static::queryDefaults(), $input);
+
+        $qv = (int) get_query_var('paged');
+        $paged = $in['paged'] !== '' ? (int) $in['paged'] : ($qv > 0 ? $qv : 1);
+        if ($paged < 1) { $paged = 1; }
+
+        $order = strtoupper((string) $in['order']);
+        if (!in_array($order, ['ASC','DESC'], true)) { $order = 'ASC'; }
+
+        $allowedOrderby = $spec['allowed_orderby'] ?? ['meta_value','date','title','menu_order','modified'];
+        $orderby = (string) $in['orderby'];
+        if (!in_array($orderby, $allowedOrderby, true)) {
+            $orderby = $spec['defaults']['orderby'] ?? 'meta_value';
+        }
+
+        // Scope (string) or explicit {start,end}
+        $scope = null;
+        if ($in['scope'] !== '') {
+            $scope = (string) $in['scope'];
+        } elseif (($in['start_date'] ?? '') !== '' || ($in['end_date'] ?? '') !== '') {
+            $scope = [
+                'start' => $in['start_date'] !== '' ? (string) $in['start_date'] : null,
+                'end'   => $in['end_date']   !== '' ? (string) $in['end_date']   : null,
+            ];
+        }
+
+        // Taxonomy inputs: accept CSV per taxonomy key
+        $taxInputs = self::parseTaxInputs($spec, $in);
+
+        $normalized = [
+            'post_type'   => (string) $in['post_type'],
+            'post_status' => (string) $in['post_status'],
+            'view'        => in_array($in['view'], ['list','grid','table'], true) ? $in['view'] : ($spec['default_view'] ?? 'list'),
+            'limit'       => max(1, (int) $in['limit']),
+            'order'       => $order,
+            'orderby'     => $orderby,
+            'scope'       => $scope,
+            'tax_inputs'  => $taxInputs, // map: taxonomy => [slugs]
+            'paged'       => $paged,
+        ];
+
+        /** @var array $filtered */
+        $filtered = apply_filters('whx4_generic_normalize_filters', $normalized, $input, $spec);
+        return $filtered;
+    }
+
+    public static function buildQueryParams(array $filters): array
+    {
+        $spec = static::getQuerySpec();
+        $tax = [];
+        foreach (($filters['tax_inputs'] ?? []) as $taxonomy => $slugs) {
+            if (!empty($slugs)) {
+                $tax[$taxonomy] = $slugs;
+            }
+        }
+
+        // Date meta spec: either single 'key' or start/end keys
+        $dateMeta = $spec['date_meta'] ?? [];
+        $metaKeyForSort = $filters['orderby'] === 'meta_value'
+            ? ($dateMeta['key'] ?? $dateMeta['start_key'] ?? null)
+            : null;
+
+        $params = [
+            'post_type'      => $filters['post_type'],
+            'post_status'    => $filters['post_status'],
+            'paged'          => $filters['paged'],
+            'posts_per_page' => $filters['limit'],
+            'order'          => $filters['order'],
+            'orderby'        => $filters['orderby'],
+            'meta_key'       => $metaKeyForSort,
+            'date_meta'      => $dateMeta ?: null,
+            'scope'          => $filters['scope'],
+            'tax'            => $tax,
+        ];
+
+        /** @var array $filtered */
+        $filtered = apply_filters('whx4_generic_query_params', $params, $filters, $spec);
+        return $filtered;
+    }
+
+    public static function find(array $filters): array
+    {
+        $normalized = static::normalizeFilters($filters);
+        $params = static::buildQueryParams($normalized);
+
+        $query  = new PostQuery();
+        $result = $query->find($params);
+
+        $payload = [
+            'posts'      => $result['posts'] ?? [],
+            'pagination' => [
+                'found'     => $result['found']     ?? 0,
+                'max_pages' => $result['max_pages'] ?? 0,
+                'paged'     => $normalized['paged'],
+            ],
+        ];
+
+        if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
+            $payload['debug'] = [
+                'args'          => $result['args']          ?? [],
+                'query_request' => $result['query_request'] ?? '',
+                'params'        => $params,
+                'filters'       => $normalized,
+            ];
+        }
+
+        /** @var array $filtered */
+        $filtered = apply_filters('whx4_generic_result', $payload, $params, $normalized, static::getQuerySpec());
+        return $filtered;
+    }
+
+    /** @internal: helper to build empty tax inputs from spec */
+    protected static function taxonomyDefaultInputs(array $spec): array
+    {
+        $out = [];
+        foreach ($spec['taxonomies'] ?? [] as $tax) {
+            $out[$tax] = '';
+        }
+        // Also allow optional start_date/end_date passthrough for explicit windows
+        $out['start_date'] = '';
+        $out['end_date'] = '';
+        return $out;
+    }
+
+    /** @internal: turn CSV strings into arrays per taxonomy key */
+    protected static function parseTaxInputs(array $spec, array $in): array
+    {
+        $map = [];
+        foreach ($spec['taxonomies'] ?? [] as $tax) {
+            $raw = isset($in[$tax]) ? (string) $in[$tax] : '';
+            if ($raw === '') {
+                $map[$tax] = [];
+                continue;
+            }
+            $map[$tax] = array_values(array_filter(array_map('trim', explode(',', $raw))));
+        }
+        return $map;
+    }
+
+
 	public static function allowedUrlParams(): array { return []; }
 
     public function getCapType(): array
@@ -90,7 +265,7 @@ abstract class PostTypeHandler extends BaseHandler
     }
 
     /**
-     * Get the handler FQCN for a CPT slug, or null if not Rex-managed.
+     * Get the handler FQCN for a CPT slug, or null if not WHx4-managed.
      */
     public static function getHandlerClassForPostType(string $postType): ?string
     {

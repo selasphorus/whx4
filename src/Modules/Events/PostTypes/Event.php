@@ -9,11 +9,6 @@ use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
-    // WIP
-    public const META_START_DATE = 'start_date';
-    public const META_END_DATE   = 'end_date';
-
-    //
     public function __construct(?\WP_Post $post = null)
     {
 		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
@@ -53,6 +48,29 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			return FieldDisplayHelpers::formatArrayForDisplay( $value );
 		}, 10 );
 	}
+
+	protected static function getQuerySpec(): array
+    {
+        return [
+            'cpt' => 'whx4_event',
+            'date_meta' => [
+                // Current storage model: separate DATE fields; revisit DATETIME later
+                'start_key' => 'whx4_events_start_date',
+                'end_key'   => 'whx4_events_end_date',
+                'meta_type' => 'DATE', // Keep DATE for now; revisit DATETIME later
+            ],
+            'taxonomies' => [ 'event_category' ],
+            'defaults' => [
+                'limit'  => 10,
+                'order'  => 'ASC',
+                'orderby'=> 'meta_value',
+                'scope'=> 'this_year', // ???
+            ],
+            'allowed_orderby' => ['meta_value','date','title','menu_order','modified'],
+            'default_view'    => 'list',
+        ];
+    }
+
 
 	// WIP re transition from EM
     /*
@@ -186,11 +204,11 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     private function renderTable(array $posts, array $atts): string
     {
         if (!$posts) {
-            return '<div class="rex-list rex-list--event is-empty">No events found.</div>';
+            return '<div class="whx4-list whx4-list--event is-empty">No events found.</div>';
         }
-        $out = '<table class="rex-list rex-list--event"><thead><tr><th>Date</th><th>Title</th></tr></thead><tbody>';
+        $out = '<table class="whx4-list whx4-list--event"><thead><tr><th>Date</th><th>Title</th></tr></thead><tbody>';
         foreach ($posts as $p) {
-            $start = get_post_meta($p->ID, 'rex_events_start', true);
+            $start = get_post_meta($p->ID, 'whx4_events_start', true);
             $out  .= '<tr><td>' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</td>';
             $out  .= '<td><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a></td></tr>';
         }
@@ -201,10 +219,10 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     {
         $meta = [];
         if ( $a['start'] ) {
-            $meta[] = ['key'=>'rex_events_start','value'=>$a['start'],'compare'=>'>=','type'=>'DATE'];
+            $meta[] = ['key'=>'whx4_events_start','value'=>$a['start'],'compare'=>'>=','type'=>'DATE'];
         }
         if ( $a['end'] ) {
-            $meta[] = ['key'=>'rex_events_start','value'=>$a['end'],'compare'=>'<=','type'=>'DATE'];
+            $meta[] = ['key'=>'whx4_events_start','value'=>$a['end'],'compare'=>'<=','type'=>'DATE'];
         }
 
         $tax = [];
@@ -225,7 +243,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         return [
             'post_type'      => $this->getSlug(),
             'post_status'    => 'publish',
-            'meta_key'       => $a['orderby'] === 'start' ? 'rex_events_start' : null,
+            'meta_key'       => $a['orderby'] === 'start' ? 'whx4_events_start' : null,
             'meta_query'     => $meta ?: null,
             'tax_query'      => $tax ?: null,
             'orderby'        => key($orderby),
@@ -239,12 +257,12 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     public function renderList(array $posts, array $atts): string
     {
         if ( ! $posts ) {
-            return '<div class="rex-list rex-list--event is-empty">No events found.</div>';
+            return '<div class="whx4-list whx4-list--event is-empty">No events found.</div>';
         }
 
-        $out = '<ul class="rex-list rex-list--event">';
+        $out = '<ul class="whx4-list whx4-list--event">';
         foreach ( $posts as $p ) {
-            $start = get_post_meta($p->ID, 'rex_events_start', true);
+            $start = get_post_meta($p->ID, 'whx4_events_start', true);
             $out  .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a>';
             if ( $start ) {
                 $out .= ' <time datetime="' . esc_attr($start) . '">' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</time>';
