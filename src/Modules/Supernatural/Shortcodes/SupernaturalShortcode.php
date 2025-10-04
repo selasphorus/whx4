@@ -25,6 +25,8 @@ final class SupernaturalShortcode implements ShortcodeInterface
         }
 
         $stats = $module->getModuleStats();
+        $blueMonsterPosts  = $module->findMonstersByColor('blue') ?? [];
+
         
         // Handler factory so views can call CPT methods safely.
         //$handlerFactory = [PostTypeHandler::class, 'getHandlerForPost'];
@@ -41,6 +43,7 @@ final class SupernaturalShortcode implements ShortcodeInterface
             //'atts'       => $atts,
             //'pagination' => $pagination,
             'stats' => $stats,
+            'blueMonsterPosts' => $blueMonsterPosts,
             //'info' => $info, // for TS -- deprecate in favor of:
             // Optionally pass debug through when WHX4_DEBUG is on:
             'debug'      => $result['debug'] ?? null,
