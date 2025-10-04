@@ -73,11 +73,11 @@ abstract class PostTypeHandler extends BaseHandler
 
     public static function queryDefaults(): array
     {
-        error_log( "PostTypeHandler::queryDefaults" );
+        //error_log( "PostTypeHandler::queryDefaults" );
         $spec = static::getQuerySpec();
-        if ( isset($spec['cpt']) ) { error_log( "spec['cpt']: " . $spec['cpt'] ); } else { error_log( "spec['cpt'] not set" ); }
+        //if ( isset($spec['cpt']) ) { error_log( "spec['cpt']: " . $spec['cpt'] ); } else { error_log( "spec['cpt'] not set" ); }
         $ptype = $spec['cpt'] ?? (static::resolvePostTypeFromContext() ?? '');
-        error_log( "ptype: " . $ptype );
+        //error_log( "ptype: " . $ptype );
 
         $defaults = array_merge([
             'post_type'      => $ptype,
@@ -97,13 +97,13 @@ abstract class PostTypeHandler extends BaseHandler
 
     protected static function resolvePostTypeFromContext(): ?string
 	{
-		error_log( "PostTypeHandler::resolvePostTypeFromContext" );
+		//error_log( "PostTypeHandler::resolvePostTypeFromContext" );
 		try {
 			$ctx = WHx4::ctx();
 			$map = is_array($ctx->getActivePostTypes()) ? $ctx->getActivePostTypes() : [];
 			foreach ($map as $ptype => $class) {
 				if ($class === static::class) {
-					error_log( "resolvePostTypeFromContext returning ptype: " . $ptype );
+					//error_log( "resolvePostTypeFromContext returning ptype: " . $ptype );
 					return (string) $ptype;
 				}
 			}

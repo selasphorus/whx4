@@ -28,7 +28,7 @@ final class EventsShortcode implements ShortcodeInterface
         // Merge with canonical defaults from the CPT handler (parent-powered).
         $atts = shortcode_atts(Event::queryDefaults(), $atts, $tag);
         //$atts = shortcode_atts(PostTypeHandler::queryDefaults(), $atts, $tag);
-        $atts['date_meta']['key'] ='whx4_events_start_date'; // tft
+        //$atts['date_meta']['key'] ='whx4_events_start_date'; // tft
 
         // Run the unified query pipeline.
         $result = Event::find($atts);
@@ -40,9 +40,9 @@ final class EventsShortcode implements ShortcodeInterface
         // Troubleshooting info
         $info .= "[" . $result['pagination']['found'] . "] posts found<br />";
         //$info .= "posts: <pre>" . print_r($posts, true) . "</pre>";
-        $info .= "atts: <pre>" . print_r($atts, true) . "</pre>";
+        //$info .= "atts: <pre>" . print_r($atts, true) . "</pre>";
         $info .= "wp_args: <pre>" . print_r($result['debug']['args'], true) . "</pre>";
-        $info .= "query_request: <pre>" . $result['debug']['query_request'] . "</pre>";
+        //$info .= "query_request: <pre>" . $result['debug']['query_request'] . "</pre>";
 
         // Handler factory so views can call CPT methods safely.
         $handlerFactory = [PostTypeHandler::class, 'getHandlerForPost'];
