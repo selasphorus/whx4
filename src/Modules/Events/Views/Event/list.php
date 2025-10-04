@@ -6,6 +6,7 @@
 ?>
 <div class="whx4-events whx4-events--list">
     <p class="troubleshooting">info: <br /><?php echo $info; ?></p>
+    <p class="troubleshooting">debug: <pre><?php print_r($debug, true); ?></pre></p>
     <?php if(!$posts): ?>
         <p>No events found.</p>
     <?php else: ?>

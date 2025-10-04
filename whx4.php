@@ -28,6 +28,7 @@ define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
 // -- perhaps revisit this alternate approach to constants if things get too messy here.
 define( 'WHX4_TEXTDOMAIN', 'whx4' );
 define( 'WHX4_VERSION', '2.0.0' );
+define( 'WHX4_DEBUG', true ); // tft!
 
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
