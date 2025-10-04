@@ -52,6 +52,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	protected static function getQuerySpec(): array
     {
         return [
+            //'cpt' => $this->resolveSlug(),?
             'cpt' => 'whx4_event',
             'date_meta' => [
                 // Current storage model: separate DATE fields; revisit DATETIME later
@@ -70,7 +71,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             'default_view'    => 'list',
         ];
     }
-
 
 	// WIP re transition from EM
     /*

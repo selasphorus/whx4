@@ -54,22 +54,29 @@ abstract class PostTypeHandler extends BaseHandler
 		return $this->post;
 	}
 
-	    /**
-     * Child classes must describe their query spec:
-     * - cpt (string)
-     * - date_meta: ['key' OR 'start_key'+'end_key', 'meta_type' => 'DATE'|'DATETIME'|'NUMERIC']
-     * - taxonomies: [ 'event_category', ... ] (optional)
-     * - defaults: ['limit','order','orderby','view'] (optional)
-     * - allowed_orderby: [...] (optional)
-     * - default_view: 'list'|'grid'|'table' (optional)
-     */
-    abstract protected static function getQuerySpec(): array;
+	 /**
+	 * Optional spec hook. Child classes override this only if they need
+	 * custom query behavior (date ranges, CPT-specific defaults, etc.).
+	 *
+	 * Expected keys if provided:
+	 * - 'cpt' (string)
+	 * - 'date_meta' => ['key' OR 'start_key'+'end_key', 'meta_type' => 'DATE'|'DATETIME'|'NUMERIC']
+	 * - 'taxonomies' => [ 'event_category', ... ]
+	 * - 'defaults'   => ['limit','order','orderby','view']
+	 * - 'allowed_orderby' => [...]
+	 * - 'default_view'    => 'list'|'grid'|'table'
+	 */
+	protected static function getQuerySpec(): array
+	{
+		return [];
+	}
 
     public static function queryDefaults(): array
     {
         $spec = static::getQuerySpec();
         $defaults = array_merge([
-            'post_type'      => $spec['cpt'] ?? '',
+            //'post_type'      => $spec['cpt'] ?? '',
+            'post_type' => $spec['cpt'] ?? (static::resolvePostTypeFromContext() ?? ''),
             'post_status'    => 'publish',
             'view'           => $spec['default_view'] ?? 'list',
             'limit'          => $spec['defaults']['limit']  ?? 10,
@@ -83,6 +90,23 @@ abstract class PostTypeHandler extends BaseHandler
         $filtered = apply_filters('whx4_generic_query_defaults', $defaults, $spec);
         return $filtered;
     }
+
+    protected static function resolvePostTypeFromContext(): ?string
+	{
+		try {
+			$ctx = WHx4::ctx();
+			$map = is_array($ctx->getActivePostTypes()) ? $ctx->getActivePostTypes() : [];
+			foreach ($map as $ptype => $class) {
+				if ($class === static::class) {
+					return (string) $ptype;
+				}
+			}
+		} catch (\Throwable $e) {
+			// ignore; return null
+		}
+		return null;
+	}
+
 
     public static function normalizeFilters(array $input): array
     {
@@ -263,6 +287,7 @@ abstract class PostTypeHandler extends BaseHandler
     {
         return $this->getConfig()['menu_icon'] ?? 'dashicons-superhero';
     }
+
 
     /**
      * Get the handler FQCN for a CPT slug, or null if not WHx4-managed.
