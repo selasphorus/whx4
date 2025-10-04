@@ -2,14 +2,13 @@
 
 namespace atc\WHx4\Modules\Core\PostTypes;
 
-use WP_Post; // Is this necessary?
 use atc\WHx4\Core\PostTypeHandler; //use atc\WHx4\Core\PostTypes\PostTypeHandler;
 
 // This handler stub is necessary to faciliate the registration of Subtypes of core WP post types
 
 final class Page extends PostTypeHandler
 {
-    public function __construct(WP_Post|null $post=null)
+    public function __construct(?\WP_Post $post=null)
     {
         $config = [
             'slug'   => 'page',

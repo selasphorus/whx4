@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace atc\WHx4\Modules\Events\Shortcodes;
 
-use WP_Post;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\PostTypeHandler;
 use atc\WHx4\Core\ViewLoader;
@@ -104,6 +103,8 @@ final class EventsShortcode implements ShortcodeInterface
         $query  = new PostQuery();
         $result = $query->find($params);
         $posts = $result['posts'] ?? [];
+
+        // Troubleshooting info
         $info .= "[" . $result['found'] . "] posts found: <pre>" . print_r($posts, true) . "</pre>";
         $info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
         $info .= "query_request: <pre>" . $result['query_request'] . "</pre>";

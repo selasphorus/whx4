@@ -7,7 +7,7 @@ use atc\WHx4\Core\PostTypeHandler;
 // TODO: phase out this post type, migrate admin_notes to more general "Notes" posttype?
 class AdminNote extends PostTypeHandler
 {
-    public function __construct(WP_Post|null $post = null) {
+    public function __construct(?\WP_Post $post = null) {
         $config = [
             'slug'        => 'admin_note',
             //'plural_slug' => 'admin_notes',

@@ -9,11 +9,12 @@ use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
+    // WIP
     public const META_START_DATE = 'start_date';
     public const META_END_DATE   = 'end_date';
 
     //
-    public function __construct(WP_Post|null $post = null)
+    public function __construct(?\WP_Post $post = null)
     {
 		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
 		$slug = $this->resolveSlug();

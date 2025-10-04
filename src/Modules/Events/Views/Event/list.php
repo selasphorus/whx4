@@ -1,13 +1,13 @@
 <?php
 /** @var WP_Post[] $posts */
-/** @var callable $handler */ // function(WP_Post): ?PostTypeHandler
+/** @var callable $handler */ // function(\WP_Post): ?PostTypeHandler
 /** @var array{found:int,max_pages:int,paged:int} $pagination */
 /** @var array<string,mixed> $atts */
 ?>
 <div class="whx4-events whx4-events--list">
+    <p class="troubleshooting">info: <br /><?php echo $info; ?></p>
     <?php if(!$posts): ?>
         <p>No events found.</p>
-        <p>info: <br /><?php echo $info; ?></p>
     <?php else: ?>
         <ul class="whx4-events__items">
             <?php foreach($posts as $post): ?>

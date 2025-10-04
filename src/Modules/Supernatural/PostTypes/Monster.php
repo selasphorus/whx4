@@ -2,13 +2,12 @@
 
 namespace atc\WHx4\Modules\Supernatural\PostTypes;
 
-use WP_Post;
 use atc\WHx4\Core\PostTypeHandler;
 use atc\WHx4\Modules\Supernatural\Taxonomies\Habitat; // ???
 
 class Monster extends PostTypeHandler
 {
-	public function __construct(WP_Post|null $post = null)
+	public function __construct(?\WP_Post $post = null)
 	{
 		$config = [
 			'slug'        => 'monster',
@@ -49,7 +48,7 @@ class Monster extends PostTypeHandler
 	}
 	*/
 
-	//public function getCustomContent(WP_Post $post): string
+	//public function getCustomContent(\WP_Post $post): string
 	public function getCustomContent()
 	{
 		//return "Hello, Monster!";

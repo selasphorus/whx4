@@ -11,7 +11,7 @@ abstract class BaseHandler
 
     protected array $config = [];
     protected const TYPE = 'post_type'; //protected string $type = 'post_type';
-    protected \WP_Post|\WP_Term|null $object = null; //protected WP_Post|WP_Term|null $object = null;
+    protected \WP_Post|\WP_Term|null $object = null;
 
     public function __construct(array $config = [], \WP_Post|\WP_Term|null $object = null)
 	{
@@ -36,16 +36,16 @@ abstract class BaseHandler
         return $this->config;
     }
 
-    public function getObject(): WP_Post|WP_Term|null {
+    public function getObject(): \WP_Post|\WP_Term|null {
         return $this->object;
     }
 
     public function isPost(): bool {
-        return $this->object instanceof WP_Post;
+        return $this->object instanceof \WP_Post;
     }
 
     public function isTerm(): bool {
-        return $this->object instanceof WP_Term;
+        return $this->object instanceof \WP_Term;
     }
 
     // Fun with meta

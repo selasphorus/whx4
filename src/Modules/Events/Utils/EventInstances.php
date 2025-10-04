@@ -2,7 +2,6 @@
 
 namespace atc\WHx4\Modules\Events\Utils;
 
-use WP_Post;
 use WP_Query;
 use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Utils\RepeaterChangeDetector;
@@ -116,7 +115,7 @@ class EventInstances
         }
 
         $original = get_post( $event_id );
-        if ( ! $original instanceof WP_Post || $original->post_type !== 'whx4_event' ) { // 'event'
+        if ( ! $original instanceof \WP_Post || $original->post_type !== 'whx4_event' ) { // 'event'
             return;
         }
 
@@ -184,7 +183,7 @@ class EventInstances
         //return $query->have_posts() ? (int) $query->posts[0] : null;
     }
 
-    public static function maybeAddDetachedNotice( WP_Post $post ): void
+    public static function maybeAddDetachedNotice( \WP_Post $post ): void
     {
         if ( $post->post_type !== 'whx4_event' ) {
             return;

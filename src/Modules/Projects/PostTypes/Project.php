@@ -6,7 +6,7 @@ use atc\WHx4\Core\PostTypeHandler;
 
 class Project extends PostTypeHandler
 {
-    public function __construct(WP_Post|null $post = null) {
+    public function __construct(?\WP_Post $post = null) {
         $config = [
             'slug'        => 'project',
             //'plural_slug' => 'projects',

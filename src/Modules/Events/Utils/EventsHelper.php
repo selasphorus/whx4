@@ -1,7 +1,6 @@
 <?php
 namespace atc\WHx4\Modules\Events\Utils;
 
-use WP_Post;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
 class EventsHelper

@@ -2,8 +2,6 @@
 
 namespace atc\WHx4\Core;
 
-use WP_Post;
-use WP_Query;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\BaseHandler;
 use atc\WHx4\Core\Traits\AppliesTitleArgs;
@@ -25,7 +23,7 @@ abstract class PostTypeHandler extends BaseHandler
     protected static array $perPostCache = [];
 
     // Constructor to set the config and post object
-    /*public function __construct( array $config = [], WP_Post|null $post = null )
+    /*public function __construct( array $config = [], ?\WP_Post $post = null )
     {
         parent::__construct( $config, $post );
     }*/
@@ -33,7 +31,7 @@ abstract class PostTypeHandler extends BaseHandler
 	public function __construct(array $config = [], ?\WP_Post $post = null)
 	{
 		parent::__construct($config, $post);
-		$this->post = $post instanceof \WP_Post ? $post : null;
+		$this->post = $post;
 	}
 
     public function boot(): void
@@ -42,18 +40,18 @@ abstract class PostTypeHandler extends BaseHandler
 	}
 
 	// Optional explicit setter (handy for guarantees/safety-net)
+	// TBD: is this still needed? Redundant w/ constructor...
 	public function setPost(?\WP_Post $post): static
 	{
-		$this->post = $post instanceof \WP_Post ? $post : null;
+		$this->post = $post;
 		return $this;
 	}
 
 	public function getPost(): ?\WP_Post
 	{
-		//return $this->object instanceof \WP_Post ? $this->object : null;
 		return $this->post;
 	}
-	
+
 	public static function allowedUrlParams(): array { return []; }
 
     public function getCapType(): array
@@ -125,8 +123,8 @@ abstract class PostTypeHandler extends BaseHandler
      * Get the handler instance for a post (or current global $post).
      * Returns a concrete subclass of PostTypeHandler, cached per post ID.
      */
-    //public static function getHandlerForPost(WP_Post|int|null $post = null): ?self
-    public static function getHandlerForPost(WP_Post $post): ?static
+    //public static function getHandlerForPost(\WP_Post|int|null $post = null): ?self
+    public static function getHandlerForPost(\WP_Post $post): ?static
     {
         // Normalize $post
 		if ($post === null) {
@@ -155,7 +153,7 @@ abstract class PostTypeHandler extends BaseHandler
 			return null;
 		}
 
-        // Handlers in Rex accept (WP_Post|null $post = null)
+        // Handlers in WHx4 accept (?\WP_Post $post = null)
         /** @var self $instance */
         $instance = new $class($post);
 
@@ -293,7 +291,7 @@ abstract class PostTypeHandler extends BaseHandler
 	    $post = get_post();
 	    $postType = get_post_type();
 
-		if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query()  || !$post instanceof WP_Post) {
+		if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query()  || !$post instanceof \WP_Post) {
 			return $content;
 		}
 
@@ -315,7 +313,7 @@ abstract class PostTypeHandler extends BaseHandler
         return $content . $extra;
 	}
 
-	//public function getCustomContent(WP_Post $post): string
+	//public function getCustomContent(\WP_Post $post): string
 	public function getCustomContent()
 	{
 		$post_id = $this->getPostID();
