@@ -97,7 +97,7 @@ final class EventsShortcode implements ShortcodeInterface
             // Tax filters (slug field by default)
             'tax'         => $cats ? ['event_category' => $cats] : [],
         ];
-        $info .= "params: <pre>" . print_r($params, true) . "</pre>";
+        //$info .= "params: <pre>" . print_r($params, true) . "</pre>";
 
         // Run the query
         $query  = new PostQuery();
@@ -105,9 +105,10 @@ final class EventsShortcode implements ShortcodeInterface
         $posts = $result['posts'] ?? [];
 
         // Troubleshooting info
-        $info .= "[" . $result['found'] . "] posts found: <pre>" . print_r($posts, true) . "</pre>";
-        $info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
-        $info .= "query_request: <pre>" . $result['query_request'] . "</pre>";
+        $info .= "[" . $result['found'] . "] posts found";
+        //$info .= "<pre>" . print_r($posts, true) . "</pre>";
+        //$info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
+        //$info .= "query_request: <pre>" . $result['query_request'] . "</pre>";
         //
         $pagination = [
             'found'     => $result['found']     ?? 0,
