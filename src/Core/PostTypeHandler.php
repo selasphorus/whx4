@@ -98,6 +98,7 @@ abstract class PostTypeHandler extends BaseHandler
 			$map = is_array($ctx->getActivePostTypes()) ? $ctx->getActivePostTypes() : [];
 			foreach ($map as $ptype => $class) {
 				if ($class === static::class) {
+					error_log( "resolvePostTypeFromContext returning ptype: " . $ptype );
 					return (string) $ptype;
 				}
 			}
