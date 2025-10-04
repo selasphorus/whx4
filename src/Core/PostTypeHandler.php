@@ -73,10 +73,15 @@ abstract class PostTypeHandler extends BaseHandler
 
     public static function queryDefaults(): array
     {
+        error_log( "PostTypeHandler::queryDefaults" );
         $spec = static::getQuerySpec();
+        $ptype = $spec['cpt'] ?? (static::resolvePostTypeFromContext() ?? '');
+        //
+        error_log( "spec['cpt']: " . $spec['cpt'] );
+        error_log( "ptype: " . $ptype );
+
         $defaults = array_merge([
-            //'post_type'      => $spec['cpt'] ?? '',
-            'post_type' => $spec['cpt'] ?? (static::resolvePostTypeFromContext() ?? ''),
+            'post_type'      => $ptype,
             'post_status'    => 'publish',
             'view'           => $spec['default_view'] ?? 'list',
             'limit'          => $spec['defaults']['limit']  ?? 10,
@@ -93,6 +98,7 @@ abstract class PostTypeHandler extends BaseHandler
 
     protected static function resolvePostTypeFromContext(): ?string
 	{
+		error_log( "PostTypeHandler::resolvePostTypeFromContext" );
 		try {
 			$ctx = WHx4::ctx();
 			$map = is_array($ctx->getActivePostTypes()) ? $ctx->getActivePostTypes() : [];
