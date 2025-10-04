@@ -84,28 +84,42 @@ class ScopedDateResolver
 
         // Array scope (explicit range) handling ---------------------------------
         if (is_array($scope)) {
-            $sIn = $scope['start'] ?? $scope['startDate'] ?? null;
-            $eIn = $scope['end']   ?? $scope['endDate']   ?? null;
 
-            if ($sIn instanceof DateTimeInterface) {
-                $start = DateTimeImmutable::createFromInterface($sIn)->setTimezone($tz);
-            } elseif (is_string($sIn) && $sIn !== '') {
-                $start = DateHelper::parseFlexibleDate($sIn, true)->setTimezone($tz);
-            } elseif (is_string($scope['date'] ?? '') && $eIn === null) {
-                $start = DateHelper::parseFlexibleDate((string)$scope['date'], true)->setTimezone($tz);
+            // Years array → min..max inclusive window
+            if (isset($scope['years']) && is_array($scope['years']) && $scope['years']) {
+                $ys = array_values(array_filter(array_map('intval', $scope['years'])));
+                if (!empty($ys)) {
+                    sort($ys);
+                    $y1 = (int)$ys[0];
+                    $y2 = (int)$ys[count($ys) - 1];
+                    $start = new DateTimeImmutable(sprintf('%04d-01-01', $y1), $tz);
+                    $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y2), $tz);
+                    $explicit = true;
+                }
+            } else {
+                $sIn = $scope['start'] ?? $scope['startDate'] ?? null;
+                $eIn = $scope['end']   ?? $scope['endDate']   ?? null;
+
+                if ($sIn instanceof DateTimeInterface) {
+                    $start = DateTimeImmutable::createFromInterface($sIn)->setTimezone($tz);
+                } elseif (is_string($sIn) && $sIn !== '') {
+                    $start = DateHelper::parseFlexibleDate($sIn, true)->setTimezone($tz);
+                } elseif (is_string($scope['date'] ?? '') && $eIn === null) {
+                    $start = DateHelper::parseFlexibleDate((string)$scope['date'], true)->setTimezone($tz);
+                }
+
+                if ($eIn instanceof DateTimeInterface) {
+                    $end = DateTimeImmutable::createFromInterface($eIn)->setTimezone($tz);
+                } elseif (is_string($eIn) && $eIn !== '') {
+                    $end = DateHelper::parseFlexibleDate($eIn, true)->setTimezone($tz);
+                } elseif (is_string($scope['range'] ?? '') && strpos((string)$scope['range'], ',') !== false) {
+                    [$a, $b] = array_map('trim', explode(',', (string)$scope['range'], 2));
+                    $start = DateHelper::parseFlexibleDate($a, true)->setTimezone($tz);
+                    $end   = DateHelper::parseFlexibleDate($b, true)->setTimezone($tz);
+                }
+
+                $explicit = true; // skip resolver dispatch & cache; fall through to rounding return
             }
-
-            if ($eIn instanceof DateTimeInterface) {
-                $end = DateTimeImmutable::createFromInterface($eIn)->setTimezone($tz);
-            } elseif (is_string($eIn) && $eIn !== '') {
-                $end = DateHelper::parseFlexibleDate($eIn, true)->setTimezone($tz);
-            } elseif (is_string($scope['range'] ?? '') && strpos((string)$scope['range'], ',') !== false) {
-                [$a, $b] = array_map('trim', explode(',', (string)$scope['range'], 2));
-                $start = DateHelper::parseFlexibleDate($a, true)->setTimezone($tz);
-                $end   = DateHelper::parseFlexibleDate($b, true)->setTimezone($tz);
-            }
-
-            $explicit = true; // skip resolver dispatch & cache; fall through to rounding return
         }
 
         // Request-scoped memoization (string scopes only) -----------------------
