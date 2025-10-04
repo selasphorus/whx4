@@ -3,6 +3,8 @@
 namespace atc\WHx4\Modules\Supernatural;
 
 use atc\WHx4\Core\Module as BaseModule;
+use atc\WHx4\Core\Shortcodes\ShortcodeManager;
+
 use atc\WHx4\Modules\Supernatural\PostTypes\Monster;
 use atc\WHx4\Modules\Supernatural\PostTypes\Enchanter;
 use atc\WHx4\Modules\Supernatural\PostTypes\Spell;
@@ -19,6 +21,9 @@ final class SupernaturalModule extends BaseModule
         //ViewLoader::registerModuleViewRoot( 'supernatural', __DIR__ . '/views' ); // default
         // Override with custom path
         //ViewLoader::registerModuleViewRoot( 'supernatural', WP_CONTENT_DIR . '/shared-supernatural-views' );
+        
+        // Register shortcodes
+        ShortcodeManager::add(\atc\WHx4\Modules\Supernatural\Shortcodes\SupernaturalShortcode::class);
     }
 
     /*
@@ -41,5 +46,12 @@ final class SupernaturalModule extends BaseModule
             //Spell::class,
         ];
     }
-
+    
+    public function getModuleStats(): array
+    {
+        return [
+            'monsters'   => wp_count_posts('monster')->publish ?? 0,
+            //'enchanters' => wp_count_posts('enchanter')->publish ?? 0,
+        ];
+    }
 }

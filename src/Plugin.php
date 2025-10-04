@@ -353,9 +353,13 @@ final class Plugin implements PluginContext
         $this->loadActiveModules();
         return $this->activeModules;
     }
+    
+    public function getModule(string $key): ?ModuleInterface
+	{
+		$modules = $this->getActiveModules();
+		return $modules[$key] ?? null;
+	}
 
-
-    //public function bootModules(): void
     public function bootActiveModules(): int
     {
         //error_log( '=== Plugin::bootActiveModules() ===' );
