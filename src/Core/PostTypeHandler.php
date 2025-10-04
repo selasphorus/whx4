@@ -77,7 +77,7 @@ abstract class PostTypeHandler extends BaseHandler
         $spec = static::getQuerySpec();
         $ptype = $spec['cpt'] ?? (static::resolvePostTypeFromContext() ?? '');
         //
-        error_log( "spec['cpt']: " . $spec['cpt'] );
+        if ( isset($spec['cpt']) ) { error_log( "spec['cpt']: " . $spec['cpt'] ); } else { error_log( "spec['cpt'] not set" ); }
         error_log( "ptype: " . $ptype );
 
         $defaults = array_merge([
