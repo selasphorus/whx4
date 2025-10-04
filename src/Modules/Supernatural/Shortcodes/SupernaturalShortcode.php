@@ -19,7 +19,7 @@ final class SupernaturalShortcode implements ShortcodeInterface
     {
         $ctx = WHx4::ctx();
         $key    = ClassInfo::getModuleKey(self::class);   // 'supernatural'
-        $module = Rex::ctx()->getModule($key);
+        $module = $ctx->getModule($key);
         //$module = $ctx->getModule('supernatural'); // get active module instance
 
         if (!$module) {
