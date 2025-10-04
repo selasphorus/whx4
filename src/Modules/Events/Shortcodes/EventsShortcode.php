@@ -28,6 +28,7 @@ final class EventsShortcode implements ShortcodeInterface
         // Merge with canonical defaults from the CPT handler (parent-powered).
         $atts = shortcode_atts(Event::queryDefaults(), $atts, $tag);
         //$atts = shortcode_atts(PostTypeHandler::queryDefaults(), $atts, $tag);
+        $atts['date_meta']['key'] ='whx4_events_start_date'; // tft
 
         // Run the unified query pipeline.
         $result = Event::find($atts);
