@@ -9,7 +9,8 @@ use atc\WHx4\Utils\ClassInfo;
 
 final class SupernaturalShortcode implements ShortcodeInterface
 {
-    public function getTag(): string
+    //public function getTag(): string
+    public function tag(): string
     {
         return 'whoa_supernatural';
     }
