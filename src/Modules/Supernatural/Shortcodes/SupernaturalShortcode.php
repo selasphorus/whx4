@@ -31,9 +31,9 @@ final class SupernaturalShortcode implements ShortcodeInterface
 
         ob_start(); ?>
         <div class="rex-supernatural">
-            <!--p><strong>Random Creature:</strong> <?= esc_html($name) ?></p-->
+            <!--p><strong>Random Creature:</strong> <?= //esc_html($name) ?></p-->
             <p><strong>Monsters:</strong> <?= (int)$stats['monsters'] ?></p>
-            <!--p><strong>Enchanters:</strong> <?= (int)$stats['enchanters'] ?></p-->
+            <!--p><strong>Enchanters:</strong> <?= //(int)$stats['enchanters'] ?></p-->
         </div>
         <?php
         return ob_get_clean();
