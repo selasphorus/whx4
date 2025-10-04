@@ -13,10 +13,10 @@ interface SubtypeInterface
     public function getLabel(): string;    // e.g. 'Employers'
     public function getTermArgs(): array;  // optional extras for wp_insert_term()
     public function getTermSlug(): string; // lets you keep plural display label separate from singular term slug
-    public function getQuerySpec(array $overrides = []): array; // implemented by trait
-    public function find(array $overrides = []): array;
+    public function getQuerySpec(array $overrides = []): array; // implemented by trait: SubtypeDefaults
+    public function find(array $overrides = []): array; // implemented by trait: SubtypeQueryHelpers
     
     // For possible future use
-    public function isMetaBacked(): bool;
-    public function getBackingKeyOrTax(): string; // taxonomy name OR meta key
+    //public function isMetaBacked(): bool;
+    //public function getBackingKeyOrTax(): string; // taxonomy name OR meta key
 }
