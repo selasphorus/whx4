@@ -120,6 +120,23 @@ class ScopedDateResolver
         // Get resolvers (defaults + filters)
         $scopeResolvers = self::registeredScopes($now, $options);
 
+        // Year and year-range strings (e.g. "2025", "2022-2025", "2022,2025")
+        if (is_string($scope) && !$explicit) {
+            $s = trim($scope);
+            if (preg_match('/^(?<y>\d{4})$/', $s, $m)) {
+                $y = (int)$m['y'];
+                $start = new DateTimeImmutable(sprintf('%04d-01-01', $y), $tz);
+                $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y), $tz);
+                $explicit = true;
+            } elseif (preg_match('/^(?<a>\d{4})\s*[-,]\s*(?<b>\d{4})$/', $s, $m)) {
+                $a = (int)$m['a']; $b = (int)$m['b'];
+                $y1 = min($a, $b); $y2 = max($a, $b);
+                $start = new DateTimeImmutable(sprintf('%04d-01-01', $y1), $tz);
+                $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y2), $tz);
+                $explicit = true;
+            }
+        }
+
         // Special case: "easter 2025" style scopes.. TBD: add additional special scopes? (string scopes only)
         if (is_string($scope) && preg_match('/^easter_(\d{4})$/', Text::snake($scope), $m)) { //'/^easter\s+(\d{4})$/i'
             $y = (int)$m[1];
