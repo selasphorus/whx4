@@ -22,20 +22,20 @@ final class SubtypeRegistry
     // Normalize providers, store instance + meta, no side-effects
     public static function collect(): void
     {
-        //error_log( '=== SubtypeRegistry::collect() ===' );
+        error_log( '=== SubtypeRegistry::collect() ===' );
         //self::$subtypes = [];
         self::$instances = [];
         self::$meta = [];
         
         // 1) Gather providers
         $providers = apply_filters('whx4_register_subtypes', []);  // array of SubtypeInterface|class-string
-        //error_log( 'providers: ' . print_r($providers, true) );
+        error_log( 'providers: ' . print_r($providers, true) );
         
         foreach ($providers as $provider) {
 			$instance = is_string($provider) ? (class_exists($provider) ? new $provider() : null) : $provider;
 			if (!$instance instanceof SubtypeInterface) {
 				// quietly skip invalid entries; optionally log under REX_DEBUG
-				//error_log( 'subtype provider: ' . $provider->getSlug() . ' is NOT a valid SubtypeInterface.');
+				error_log( 'subtype provider: ' . $provider->getSlug() . ' is NOT a valid SubtypeInterface.');
 				continue;
 			}
 	
@@ -73,8 +73,6 @@ final class SubtypeRegistry
         do_action('whx4_subtypes_collected', self::$meta, self::$instances);
     }
     
-    
-
     /** @return array<string, array{label:string, args:array}> */
     public static function getForPostType(string $postType): array
     {
@@ -84,6 +82,8 @@ final class SubtypeRegistry
     // Resolvers
 	public static function resolve(string $postType, string $slug): ?SubtypeInterface
 	{
+		error_log( '=== SubtypeRegistry::resolve() ===' );
+		error_log( 'Attempting to resolve subtype with postType: ' . $postType . ' and slug: ' . $slug);
 		return self::$instances[$postType][$slug] ?? null;
 	}
 	
