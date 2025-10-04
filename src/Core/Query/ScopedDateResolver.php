@@ -84,28 +84,42 @@ class ScopedDateResolver
 
         // Array scope (explicit range) handling ---------------------------------
         if (is_array($scope)) {
-            $sIn = $scope['start'] ?? $scope['startDate'] ?? null;
-            $eIn = $scope['end']   ?? $scope['endDate']   ?? null;
 
-            if ($sIn instanceof DateTimeInterface) {
-                $start = DateTimeImmutable::createFromInterface($sIn)->setTimezone($tz);
-            } elseif (is_string($sIn) && $sIn !== '') {
-                $start = DateHelper::parseFlexibleDate($sIn, true)->setTimezone($tz);
-            } elseif (is_string($scope['date'] ?? '') && $eIn === null) {
-                $start = DateHelper::parseFlexibleDate((string)$scope['date'], true)->setTimezone($tz);
+            // Years array → min..max inclusive window
+            if (isset($scope['years']) && is_array($scope['years']) && $scope['years']) {
+                $ys = array_values(array_filter(array_map('intval', $scope['years'])));
+                if (!empty($ys)) {
+                    sort($ys);
+                    $y1 = (int)$ys[0];
+                    $y2 = (int)$ys[count($ys) - 1];
+                    $start = new DateTimeImmutable(sprintf('%04d-01-01', $y1), $tz);
+                    $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y2), $tz);
+                    $explicit = true;
+                }
+            } else {
+                $sIn = $scope['start'] ?? $scope['startDate'] ?? null;
+                $eIn = $scope['end']   ?? $scope['endDate']   ?? null;
+
+                if ($sIn instanceof DateTimeInterface) {
+                    $start = DateTimeImmutable::createFromInterface($sIn)->setTimezone($tz);
+                } elseif (is_string($sIn) && $sIn !== '') {
+                    $start = DateHelper::parseFlexibleDate($sIn, true)->setTimezone($tz);
+                } elseif (is_string($scope['date'] ?? '') && $eIn === null) {
+                    $start = DateHelper::parseFlexibleDate((string)$scope['date'], true)->setTimezone($tz);
+                }
+
+                if ($eIn instanceof DateTimeInterface) {
+                    $end = DateTimeImmutable::createFromInterface($eIn)->setTimezone($tz);
+                } elseif (is_string($eIn) && $eIn !== '') {
+                    $end = DateHelper::parseFlexibleDate($eIn, true)->setTimezone($tz);
+                } elseif (is_string($scope['range'] ?? '') && strpos((string)$scope['range'], ',') !== false) {
+                    [$a, $b] = array_map('trim', explode(',', (string)$scope['range'], 2));
+                    $start = DateHelper::parseFlexibleDate($a, true)->setTimezone($tz);
+                    $end   = DateHelper::parseFlexibleDate($b, true)->setTimezone($tz);
+                }
+
+                $explicit = true; // skip resolver dispatch & cache; fall through to rounding return
             }
-
-            if ($eIn instanceof DateTimeInterface) {
-                $end = DateTimeImmutable::createFromInterface($eIn)->setTimezone($tz);
-            } elseif (is_string($eIn) && $eIn !== '') {
-                $end = DateHelper::parseFlexibleDate($eIn, true)->setTimezone($tz);
-            } elseif (is_string($scope['range'] ?? '') && strpos((string)$scope['range'], ',') !== false) {
-                [$a, $b] = array_map('trim', explode(',', (string)$scope['range'], 2));
-                $start = DateHelper::parseFlexibleDate($a, true)->setTimezone($tz);
-                $end   = DateHelper::parseFlexibleDate($b, true)->setTimezone($tz);
-            }
-
-            $explicit = true; // skip resolver dispatch & cache; fall through to rounding return
         }
 
         // Request-scoped memoization (string scopes only) -----------------------
@@ -119,6 +133,23 @@ class ScopedDateResolver
 
         // Get resolvers (defaults + filters)
         $scopeResolvers = self::registeredScopes($now, $options);
+
+        // Year and year-range strings (e.g. "2025", "2022-2025", "2022,2025")
+        if (is_string($scope) && !$explicit) {
+            $s = trim($scope);
+            if (preg_match('/^(?<y>\d{4})$/', $s, $m)) {
+                $y = (int)$m['y'];
+                $start = new DateTimeImmutable(sprintf('%04d-01-01', $y), $tz);
+                $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y), $tz);
+                $explicit = true;
+            } elseif (preg_match('/^(?<a>\d{4})\s*[-,]\s*(?<b>\d{4})$/', $s, $m)) {
+                $a = (int)$m['a']; $b = (int)$m['b'];
+                $y1 = min($a, $b); $y2 = max($a, $b);
+                $start = new DateTimeImmutable(sprintf('%04d-01-01', $y1), $tz);
+                $end   = new DateTimeImmutable(sprintf('%04d-12-31', $y2), $tz);
+                $explicit = true;
+            }
+        }
 
         // Special case: "easter 2025" style scopes.. TBD: add additional special scopes? (string scopes only)
         if (is_string($scope) && preg_match('/^easter_(\d{4})$/', Text::snake($scope), $m)) { //'/^easter\s+(\d{4})$/i'
