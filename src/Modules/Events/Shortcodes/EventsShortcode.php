@@ -33,15 +33,15 @@ final class EventsShortcode implements ShortcodeInterface
         $result = Event::find($atts);
         $posts  = $result['posts'] ?? [];
 
+        // Pagination info for the view.
+        $pagination = $result['pagination'] ?? ['found' => 0, 'max_pages' => 0, 'paged' => 1];
+
         // Troubleshooting info
         $info .= "[" . $result['pagination']['found'] . "] posts found";
-        //$info .= "<pre>" . print_r($posts, true) . "</pre>";
+        $info .= "<pre>" . print_r($posts, true) . "</pre>";
         $info .= "atts: <pre>" . print_r($atts, true) . "</pre>";
         //$info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
         //$info .= "query_request: <pre>" . $result['query_request'] . "</pre>";
-
-        // Pagination info for the view.
-        $pagination = $result['pagination'] ?? ['found' => 0, 'max_pages' => 0, 'paged' => 1];
 
         // Handler factory so views can call CPT methods safely.
         $handlerFactory = [PostTypeHandler::class, 'getHandlerForPost'];
