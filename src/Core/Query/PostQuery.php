@@ -114,7 +114,7 @@ final class PostQuery
         ];
     }
 
-        /**
+    /**
      * Normalize loose $params into a canonical PostQuery contract (spec only).
      * - Validates post type against active types (falls back to 'post').
      * - Coerces paging/limit and ordering.
