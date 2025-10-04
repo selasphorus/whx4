@@ -55,7 +55,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             //'cpt' => $this->resolveSlug(),?
             'cpt' => 'whx4_event',
             'date_meta' => [
+                // TODO: rethink the default and field types
                 // Current storage model: separate DATE fields; revisit DATETIME later
+                //'key' => 'whx4_events_start_date',
                 'start_key' => 'whx4_events_start_date',
                 'end_key'   => 'whx4_events_end_date',
                 'meta_type' => 'DATE', // Keep DATE for now; revisit DATETIME later
