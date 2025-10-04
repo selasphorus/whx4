@@ -34,7 +34,7 @@ final class EventsShortcode implements ShortcodeInterface
         $posts  = $result['posts'] ?? [];
 
         // Troubleshooting info
-        $info .= "[" . $result['found'] . "] posts found";
+        $info .= "[" . $result['pagination']['found'] . "] posts found";
         //$info .= "<pre>" . print_r($posts, true) . "</pre>";
         $info .= "atts: <pre>" . print_r($atts, true) . "</pre>";
         //$info .= "wp_args: <pre>" . print_r($result['args'], true) . "</pre>";
