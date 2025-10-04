@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\Supernatural;
 
 use atc\WHx4\Core\Module as BaseModule;
+use atc\WHx4\Core\Query\PostQuery;
 use atc\WHx4\Core\Shortcodes\ShortcodeManager;
 
 use atc\WHx4\Modules\Supernatural\PostTypes\Monster;
@@ -53,5 +54,28 @@ final class SupernaturalModule extends BaseModule
             'monsters'   => wp_count_posts('monster')->publish ?? 0,
             //'enchanters' => wp_count_posts('enchanter')->publish ?? 0,
         ];
+    }
+    
+    /**
+     * @return \WP_Post[]  All Monster posts matching the color.
+     * This is a sample function to show a module-level find method by meta_key
+     */
+    public function findMonstersByColor(string $color, array $options = []): array
+    {
+        $defaults = [
+            'per_page'  => -1,        // all
+            'orderby'   => 'title',
+            'order'     => 'ASC',
+        ];
+
+        $params = array_replace($defaults, $options, [
+            'post_type' => 'monster',
+            // Generic MetaQueryBuilder spec (equals)
+            'meta'      => [
+                ['key' => 'monster_color', 'equals' => $color],
+            ],
+        ]);
+
+        return PostQuery::find($params);
     }
 }
