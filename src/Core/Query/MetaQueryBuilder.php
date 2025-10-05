@@ -75,6 +75,32 @@ final class MetaQueryBuilder
     private static function makeClause(array $spec): ?array
     {
         error_log( '=== MetaQueryBuilder::makeClause() ===' );
+        
+        // TEMP debug
+		if (!isset($spec['key'])) {
+			error_log('[MetaQB::makeClause] missing key: ' . print_r($spec, true));
+			return null;
+		}
+	
+		// Handle shorthand: equals
+		if (array_key_exists('equals', $spec)) {
+			$value = $spec['equals'];
+			if ($value === '' || $value === null) {
+				error_log('[MetaQB::makeClause] equals empty for key=' . $spec['key']);
+				return null;
+			}
+			$clause = [
+				'key'     => (string)$spec['key'],
+				'value'   => $value,
+				'compare' => '=',
+			];
+			/*if (!empty($spec['cast'])) {
+				$clause['type'] = QueryHelpers::normalizeCast($spec['cast']); // if you have this
+			}*/
+			return $clause;
+		}
+    
+    
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
         $metaType   = self::normalizeMetaType($spec);
 
