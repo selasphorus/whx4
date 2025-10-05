@@ -107,6 +107,10 @@ abstract class Module implements ModuleInterface
 		if (!$class || !is_subclass_of($class, PostTypeHandler::class)) {
 			return ['posts' => [], 'pagination' => ['found' => 0, 'max_pages' => 0, 'paged' => $filters['paged'] ?? 1], 'debug' => ['error' => 'handler missing']];
 		}
+		
+		error_log('[findViaHandler] postType=' . $postType);
+		error_log('[findViaHandler] class=' . (($class ?? 'NULL')));
+		error_log('[findViaHandler] filters=' . json_encode($filters, JSON_UNESCAPED_SLASHES));
 	
 		/** @var class-string<PostTypeHandler> $class */
 		return $class::find($filters);
