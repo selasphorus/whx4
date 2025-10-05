@@ -16,6 +16,8 @@ final class SupernaturalShortcode implements ShortcodeInterface
 
     public function render(array $atts = [], string $content = '', string $tag = ''): string
     {
+        $info = "";
+        
         $ctx = WHx4::ctx();
         $key = ClassInfo::getModuleKey(self::class); // 'supernatural'
         $module = $ctx->getModule($key);
