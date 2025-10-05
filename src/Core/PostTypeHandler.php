@@ -181,6 +181,8 @@ abstract class PostTypeHandler extends BaseHandler
         error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true));
         
         $spec = static::getQuerySpec();
+        error_log('[buildQueryParams::find] spec: ' . print_r($spec, true));
+        
         $tax = [];
         foreach (($normalized['tax_inputs'] ?? []) as $taxonomy => $slugs) {
             if (!empty($slugs)) {
@@ -230,14 +232,17 @@ abstract class PostTypeHandler extends BaseHandler
 			$params['tax'] = $tax;
 		}
 		
+		error_log('[buildQueryParams::find] params: ' . print_r($params, true));
+		
 		// Trim nulls while preserving 0/false
 		$params = array_filter(
 			$params,
 			static fn($v) => $v !== null && ($v !== [] || is_array($v) === false)
 		);
+		error_log('[buildQueryParams::find] params after trim: ' . print_r($params, true));
 
         /** @var array $filtered */
-        $filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
+        //$filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
         
         error_log('[buildQueryParams::find] filtered: ' . print_r($filtered, true));
         return $filtered;
