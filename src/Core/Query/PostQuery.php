@@ -360,7 +360,7 @@ final class PostQuery
         
         // Range over a single date key.
         if (!empty($dateMeta['key'])) {
-            if ( strpos()$dateMeta['key'], 'years') !== false ) {
+            if ( strpos($dateMeta['key'], 'years') !== false ) {
                 $startYear = (int)substr((string)$dateBounds['start'], 0, 4);
                 $endYear   = (int)substr((string)$dateBounds['end'], 0, 4);
                 $years     = range($startYear, $endYear); // [1948, 1949, 1950]
