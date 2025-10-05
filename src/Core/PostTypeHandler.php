@@ -178,7 +178,7 @@ abstract class PostTypeHandler extends BaseHandler
 
     public static function buildQueryParams(array $normalized): array
     {
-        error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true));
+        error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true)); // ok
         
         $spec = static::getQuerySpec();
         error_log('[buildQueryParams::find] spec: ' . print_r($spec, true));
@@ -191,7 +191,9 @@ abstract class PostTypeHandler extends BaseHandler
         }
 
         // Date meta spec: either single 'key' or start/end keys
-        $dateMeta = $spec['date_meta'] ?? [];
+        // Prioritize passed params over CPT spec(?)
+        if ( isset($normalized['date_meta']) ) { $dateMeta = $normalized['date_meta']; } elseif ( isset($spec['date_meta']) ) { $dateMeta = $spec['date_meta']; }
+        //$dateMeta = $spec['date_meta'] ?? [];
         $metaKeyForSort = $normalized['orderby'] === 'meta_value'
             ? ($dateMeta['key'] ?? $dateMeta['start_key'] ?? null)
             : null;
