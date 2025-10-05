@@ -16,6 +16,12 @@ final class MonsterFields implements FieldGroupInterface
             'title' => 'Monster Details',
             'fields' => [
                 [
+                    'key' => 'field_monster_color',
+                    'label' => 'Color',
+                    'name' => 'monster_color',
+                    'type' => 'text',
+                ],
+                [
                     'key' => 'field_secret_name',
                     'label' => 'Secret Name',
                     'name' => 'secret_name',
