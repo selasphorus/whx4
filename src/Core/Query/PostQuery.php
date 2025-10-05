@@ -205,7 +205,7 @@ final class PostQuery
 			$limit = (int) $params['posts_per_page'];
 		} elseif (isset($params['per_page'])) {
 			$limit = (int) $params['per_page'];
-		} elseif (empty($params['nopaging']) {
+		} elseif (empty($params['nopaging'])) {
 		    // If caller didn't set pagination, apply (filterable) defaults.
 			$limit = (int) get_option('posts_per_page', 10);
 			// TODO/Optional: add filters for overriding this default, e.g.:
