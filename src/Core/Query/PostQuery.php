@@ -6,6 +6,7 @@ namespace atc\WHx4\Core\Query;
 
 use WP_Query;
 use atc\WHx4\Core\WHx4;
+use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Core\Query\MetaQueryBuilder;
 //use atc\WHx4\Core\Contracts\QueryContributor;
 //use atc\WHx4\Query\ScopedDateResolver;
@@ -51,8 +52,10 @@ final class PostQuery
         $ptype = $p['post_type'];
         
         // 1) Resolve scope → date meta spec
-        $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['meta_type'] ?? null);
+        $dateMeta = $p['date_meta'] ?? [];
+        $dateBounds = self::resolveScope($p['scope'] ?? null, $dateMeta['meta_type'] ?? null);
         $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
+        // WIP...
         
         // 2) Build combined meta_query spec
         $metaSpec  = $p['meta'] ?? [];
@@ -337,114 +340,98 @@ final class PostQuery
         // $range['start'], $range['end'] are DateTimeImmutable|null*/
 
     /**
-     * Build a minimal MetaQueryBuilder spec from date mapping + resolved window.
-     *
-     * Accepted mappings:
-     * - ['key' => 'transaction_date', 'meta_type' => 'DATE'] + scope → range
-     * - ['start_key' => 'start_date', 'end_key' => 'end_date', 'meta_type' => 'DATETIME'] + scope → overlapRange
-     *
-     * @param array{
-     *   key?:string,
-     *   start_key?:string,
-     *   end_key?:string,
-     *   cast?:string
-     * } $dateMeta
-     * @param array{start:mixed,end:mixed}|null $dateBounds
-     * @return array{relation?:'AND'|'OR',clauses?:array<int,array<string,mixed>>}
-     */
-    private static function dateMetaSpecFromBounds(array $dateMeta, ?array $dateBounds): array
-    {
-        error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
-        error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
-        
-        if ($dateBounds === null) {
-            return []; // no date filtering requested
-        }
-
-        $metaType = isset($dateMeta['meta_type']) ? (string)$dateMeta['meta_type'] : null;
-        
-        // WIP Deal w/ the possibility of a field that stores an array of values, so we need to build an "IN" clause, i.e. in_array
-        // For example: years_active; years_of_employment
-        $keyType = isset($dateMeta['key_type']) ? (string)$dateMeta['key_type'] : null;
-        //error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta[key] keyType: ' . $keyType);
-        
-        // Range over a single date key.
-        if (!empty($dateMeta['key'])) {
-            if ( strpos($dateMeta['key'], 'years') !== false ) {
-                error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta[key] contains "years": ' . $dateMeta['key']);
-                $startYear = (int)substr((string)$dateBounds['start'], 0, 4);
-                $endYear   = (int)substr((string)$dateBounds['end'], 0, 4);
-                $years     = range($startYear, $endYear); // [1948, 1949, 1950]
-                error_log('[PostQuery::dateMetaSpecFromBounds] years: ' . print_r($years, true));
-            }
-            if (!empty($keyType)) {
-				if ($years && $keyType == 'rows') {
-					return [
-						'relation' => 'AND',
-						'clauses'  => [
-							[
-								'type'  => 'in',
-								'key'   => (string)$dateMeta['key'],
-								'value' => $years,      // [1948, 1949, 1950]
-								'cast'  => 'NUMERIC',   // optional but nice
-							],
-						],
-					];
-				} elseif ($years && $keyType == 'serialized') {
-				    return [
-						'relation' => 'AND',
-						'clauses'  => [
-							[
-								'type'   => 'containsSerialized',
-								'key'    => (string)$dateMeta['key'], // e.g. 'years_active',
-								'values' => $years, // [1948,1949,1950]
-								'cast'  => 'NUMERIC',
-							],
-						],
-					];
-				} else if ($keyType == 'array') {
-					return [
-						'relation' => 'AND',
-						'clauses'  => [[
-							'type' => 'in',
-							'key'  => (string)$dateMeta['key'],
-							'min'  => $dateBounds['start'],
-							'max'  => $dateBounds['end'],
-							'meta_type' => $metaType,
-						]],
-					];
-				}
+	 * Build the meta spec for a resolved scope window and a date_meta config.
+	 *
+	 * Accepted mappings, e.g.:
+	 * - ['key' => 'transaction_date', 'meta_type' => 'DATE'] + scope → range
+	 * - ['start_key' => 'start_date', 'end_key' => 'end_date', 'meta_type' => 'DATETIME'] + scope → overlapRange
+	 *
+	 * @param array{
+	 *    key?:string,
+	 *    start_key?:string,
+	 *    end_key?:string,
+	 *    meta_type?:'DATE'|'DATETIME'|'NUMERIC',
+	 *    key_type?:'single'|'rows'|'serialized'
+	 *    cast?:string -- ???
+	 * } $dateMeta
+	 * @param array{start:?string,end:?string}|null $dateBounds
+	 * @return array{relation?:'AND'|'OR',clauses?:array<int,array<string,mixed>>}
+	 */
+	private static function dateMetaSpecFromBounds(array $dateMeta, ?array $dateBounds): array
+	{
+		if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
+		    error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
+		    error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
+		}
+		
+		// No scope -> no date filtering requested
+		if ( empty($dateBounds) || ($dateBounds['start'] ?? null) === null && ($dateBounds['end'] ?? null) === null) {
+			return ['relation' => 'AND', 'clauses' => []];
+		}
+		
+		// Normalize
+		$metaType = isset($dateMeta['meta_type']) ? strtoupper((string)$dateMeta['meta_type']) : 'DATE';
+		$keyType  = isset($dateMeta['key_type']) ? strtolower((string)$dateMeta['key_type']) : 'single';
+		//
+		$key      = isset($dateMeta['key']) ? (string)$dateMeta['key'] : null;
+		$startKey = isset($dateMeta['start_key']) ? (string)$dateMeta['start_key'] : null;
+		$endKey   = isset($dateMeta['end_key']) ? (string)$dateMeta['end_key'] : null;
+		//error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta[key] keyType: ' . $keyType);
+		
+		// NUMERIC (year-based) storage (single/rows/serialized)
+		// Treat scope bounds as a years window and delegate to MetaQueryBuilder.
+		if ($metaType === 'NUMERIC') { //if ($metaType && strtoupper($metaType) === 'NUMERIC' && !empty($key)) {
+			// Expect a single meta key that stores a year (single/rows/serialized)
+			if (!is_string($key) || $key === '') {
+				// No usable key → noop
+				return ['relation' => 'AND', 'clauses' => []];
 			}
-            return [
-                'relation' => 'AND',
-                'clauses'  => [[
-                    'type' => 'range',
-                    'key'  => (string)$dateMeta['key'],
-                    'min'  => $dateBounds['start'],
-                    'max'  => $dateBounds['end'],
-                    'meta_type' => $metaType,
-                ]],
-            ];
-        }
-
-        // Overlap over start/end keys.
-        if (!empty($dateMeta['start_key']) && !empty($dateMeta['end_key'])) {
-            return [
-                'relation' => 'AND',
-                'clauses'  => [[
-                    'type'       => 'overlapRange',
-                    'start_key'  => (string)$dateMeta['start_key'],
-                    'end_key'    => (string)$dateMeta['end_key'],
-                    'start'      => $dateBounds['start'],
-                    'end'        => $dateBounds['end'],
-                    'meta_type'  => $metaType,
-                    'end_optional' => !empty($dateMeta['end_optional']),
-                ]],
-            ];
-        }
-
-        return [];
-    }
+		
+			// Convert bounds to years window and build clauses accordingly
+			$window = DateHelper::yearsWindow($dateBounds);
+			/*
+			$window = DateHelper::yearsWindow([
+				'start' => $dateBounds['start'] ?? null,
+				'end'   => $dateBounds['end'] ?? null,
+			]);
+			*/
+			return MetaQueryBuilder::fromYearsWindow($key, $keyType, $window, 'NUMERIC');
+		}
+	
+		// Single point-in-time meta (e.g., event_date, transaction_date)
+		if (is_string($key) && $key !== '' && !$startKey && !$endKey) { //if (!empty($key)) {
+			// Build a BETWEEN (date or datetime) using $bounds['start']..$bounds['end']
+			return [
+				'relation' => 'AND',
+				'clauses'  => [[
+					'type' => 'range',
+					'key'  => $key,
+					'min'  => $dateBounds['start'],
+					'max'  => $dateBounds['end'],
+					'cast' => $metaType, // 'DATE' or 'DATETIME' // 'meta_type' => $metaType,
+				]],
+			];
+		}
+	
+		// Span storage (e.g., events with start_key/end_key) -- build overlap over start/end keys.
+		if (!empty($startKey) && !empty($endKey)) { //if (is_string($startKey) && $startKey !== '' && is_string($endKey) && $endKey !== '') {
+			return [
+				'relation' => 'AND',
+				'clauses'  => [[
+					'type'       => 'overlapRange',
+					'start_key'  => $startKey,
+					'end_key'    => $endKey,
+					'start'      => $dateBounds['start'],
+					'end'        => $dateBounds['end'],
+					'cast' => $metaType, //'meta_type'  => $metaType,
+					'end_optional' => !empty($dateMeta['end_optional']),
+				]],
+			];
+		}
+	
+		// Fallback: nothing to build
+		return ['relation' => 'AND', 'clauses' => []];
+	}
 
     /**
      * Translate a simple "taxonomy => [terms]" map into WP tax_query.

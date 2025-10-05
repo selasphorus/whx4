@@ -350,7 +350,6 @@ final class MetaQueryBuilder
         return in_array($token, $allowed, true) ? $token : null;
     }
 
-
     // Format values for use in WP_Query
     private static function formatValue($value, ?string $metaType)
     {
@@ -360,7 +359,82 @@ final class MetaQueryBuilder
         }
         return $value; // numeric/string/array okay
     }
-
+    
+    /**
+	 * Build a meta_query spec for matching a year window against different storage styles.
+	 *
+	 * @param string $key       Meta key that stores the year(s).
+	 * @param string $keyType   'single'|'rows'|'serialized'
+	 * @param array{min:int,max:int,years:int[]} $win  From DateHelper::yearsWindow()
+	 * @param string $metaType  Usually 'NUMERIC' (ignored for non-numeric comparisons)
+	 * @return array            A normalized spec consumable by MetaQueryBuilder::build()
+	 */
+	public static function fromYearsWindow(string $key, string $keyType, array $win, string $metaType = 'NUMERIC'): array
+	{
+		// Empty window → no-op spec
+		if (empty($win['years'])) {
+			return ['relation' => 'AND', 'clauses' => []];
+		}
+	
+		$keyType = strtolower(trim($keyType));
+	
+		// 1) Single numeric year per post (e.g., years_active = 1950)
+		if ($keyType === 'single') {
+			return [
+				'relation' => 'AND',
+				'clauses'  => [[
+					'type' => 'range',
+					'key'  => $key,
+					'min'  => (int)$win['min'],
+					'max'  => (int)$win['max'],
+					'cast' => strtoupper($metaType) === 'NUMERIC' ? 'NUMERIC' : null,
+				]],
+			];
+		}
+	
+		// 2) Rows: one meta row per year (multiple entries for the same key)
+		// Prefer a single IN over many OR equals clauses.
+		if ($keyType === 'rows') {
+			return [
+				'relation' => 'AND',
+				'clauses'  => [[
+					'type'  => 'in',
+					'key'   => $key,
+					'value' => array_values(array_map('intval', $win['years'])),
+					// cast not required for IN on numeric strings; WP will compare as strings.
+					// Add 'cast' => 'NUMERIC' here only if your data is stored as pure ints and you need strictness.
+				]],
+			];
+		}
+	
+		// 3) Serialized array (e.g., ACF checkbox) — match exact element tokens via LIKE on `"YYYY"`
+		// Build OR of LIKE clauses to avoid partials.
+		if ($keyType === 'serialized') {
+			$clauses = [];
+			foreach ($win['years'] as $y) {
+				$clauses[] = [
+					'type'  => 'like',
+					'key'   => $key,
+					'value' => '"' . (int)$y . '"',
+				];
+			}
+			return [
+				'relation' => 'OR',
+				'clauses'  => $clauses,
+			];
+		}
+	
+		// Fallback: treat unknown key_type like 'rows'
+		return [
+			'relation' => 'AND',
+			'clauses'  => [[
+				'type'  => 'in',
+				'key'   => $key,
+				'value' => array_values(array_map('intval', $win['years'])),
+			]],
+		];
+	}
+	
 
     /**
      * Merge multiple MetaQueryBuilder specs into a single flat spec.
