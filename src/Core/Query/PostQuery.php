@@ -42,6 +42,7 @@ final class PostQuery
      */
     public function find(array $params): array
     {
+        error_log('[PostQuery::find] params: ' . print_r($params, true));
         $p = $this->normalizeContract($params);
 
         // Allow the active CPT handler to refine args -- ???
@@ -53,11 +54,11 @@ final class PostQuery
         
         // 2) Build combined meta_query spec
         $metaSpec  = $p['meta'] ?? [];
-        error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . json_encode($metaSpec, JSON_UNESCAPED_SLASHES));
+        error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . print_r($metaSpec, true));
         $combinedMetaSpec  = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $metaSpec], 'AND'); // $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
-        error_log('[PostQuery::find] combinedMetaSpec: ' . json_encode($combinedMetaSpec, JSON_UNESCAPED_SLASHES));
+        error_log('[PostQuery::find] combinedMetaSpec: ' . print_r($combinedMetaSpec, true));
         $metaQuery = $combinedMetaSpec ? MetaQueryBuilder::build($combinedMetaSpec) : []; // $metaQuery = MetaQueryBuilder::build($combinedMetaSpec);
-        error_log('[PostQuery::find] metaQuery: ' . json_encode($metaQuery, JSON_UNESCAPED_SLASHES));
+        error_log('[PostQuery::find] metaQuery: ' . print_r($metaQuery, true));
         /*if (!empty($p['meta'])) {
             $args['meta_query'] = MetaQueryBuilder::fromSpec($p['meta'])->toWp();
         }*/
