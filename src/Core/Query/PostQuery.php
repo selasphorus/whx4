@@ -44,6 +44,8 @@ final class PostQuery
     {
         error_log('[PostQuery::find] params: ' . print_r($params, true));
         $p = $this->normalizeContract($params);
+        
+        error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
 
         // Allow the active CPT handler to refine args -- ???
         $ptype = $p['post_type'];
