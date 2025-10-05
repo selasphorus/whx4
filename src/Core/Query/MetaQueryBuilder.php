@@ -436,9 +436,17 @@ final class MetaQueryBuilder
 				];*/
 				
 			}
-			return [
+			/*return [
 				'relation' => 'OR',
 				'clauses'  => $clauses,
+			];*/
+			// Wrap in a nested OR group so higher-level merges (AND) don't flatten it.
+			return [
+			    'relation' => 'AND',
+			    'clauses'  => [[
+			        'relation' => 'OR',
+			        'clauses'  => $clauses,
+			    ]],
 			];
 		}
 		
