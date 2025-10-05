@@ -41,10 +41,28 @@ final class PostQuery
      *
      * @return array{ posts: \WP_Post[], found: int, max_pages: int, args: array }
      */
+    // TODO: consider pros/cons of making this a static function
     public function find(array $params): array
     {
         error_log('[PostQuery::find] params: ' . print_r($params, true));
+        // First, ensure normalized contract
         $p = $this->normalizeContract($params);
+		$p = self::normalizeContract($params);
+		
+		// If caller didn't set pagination, apply filterable defaults.
+		if (!isset($p['posts_per_page']) && empty($p['nopaging'])) {
+			$defaultPpp = (int) get_option('posts_per_page', 10);
+			$defaultPpp = (int) apply_filters('rex_query_default_posts_per_page', $defaultPpp, $p);
+		
+			if (!empty($p['post_type']) && is_string($p['post_type'])) {
+				$defaultPpp = (int) apply_filters("rex_{$p['post_type']}_query_default_posts_per_page", $defaultPpp, $p);
+			}
+		
+			$p['posts_per_page'] = $defaultPpp;
+		}
+		
+		
+
         
         error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
 
@@ -75,11 +93,34 @@ final class PostQuery
         $taxQuery  = TaxQueryBuilder::build($taxMap); //$taxQuery  = self::buildTaxQuery($taxMap);
 
         // 4) Assemble basic WP_Query args
+        
+        // Normalize pagination aliases & edge-cases once.
+        // WIP 10/5
+        $params = \smith\Rex\Core\Query\QueryHelpers::normalizePagination($params);
+
+        // normalize pagination aliases
+        $nopaging = false;
+		if (isset($p['limit'])) {
+			$posts_per_page = (int) $p['limit'];
+			if ( $p['limit'] == -1 ) { $nopaging = true; }
+		}
+		if (isset($p['posts_per_page'])) {
+			$posts_per_page = (int) $p['posts_per_page'];
+			// support "-1" for all results
+			if (($p['posts_per_page'] ?? null) === -1) {
+				$nopaging = true;
+			}
+		}
+		if (isset($p['per_page']) && !isset($p['posts_per_page'])) {
+			$posts_per_page = (int) $p['per_page'];
+		}
+		
         $args = [
             'post_type'      => $p['post_type'],
             'post_status'    => $p['post_status'],
+            'nopaging'       => $nopaging,
             'paged'          => $p['paged'],
-            'posts_per_page' => $p['limit'],
+            'posts_per_page' => $posts_per_page, //$p['limit'],
             'order'          => $p['order'],
             'orderby'        => $p['orderby'],
             'no_found_rows'  => false,
@@ -190,15 +231,27 @@ final class PostQuery
         // 2) Paging + limit (contract uses `limit`, NOT posts_per_page)
         $paged = isset($params['paged']) ? max(1, (int)$params['paged']) : 1; //$paged = max(1, (int)($params['paged'] ?? 1));
 
-        // Prefer 'limit'; allow 'posts_per_page' as a backwards-compat alias if 'limit' not provided.
+        // Prefer 'limit'; allow 'posts_per_page' and 'per_page' as aliases if 'limit' not provided.
         if (isset($params['limit'])) {
-            $limit = (int)$params['limit'];
-        } elseif (isset($params['posts_per_page'])) {
-            $limit = (int)$params['posts_per_page'];
-        } else {
-            $limit = 10;
-        }
-        $limit = max(1, $limit);
+			$limit = (int) $params['limit'];
+		} elseif (isset($params['posts_per_page'])) {
+			$limit = (int) $params['posts_per_page'];
+		} elseif (isset($params['per_page'])) {
+			$limit = (int) $params['per_page'];
+		} else {
+			$limit = 10;
+		}
+		
+		// Support "-1" (all) and/or explicit nopaging
+		$nopaging = !empty($params['nopaging']) || $limit === -1;
+		if ($nopaging) {
+			$limit = -1;
+			$paged = 0;
+		} else {
+			$limit = max(1, $limit);
+		}
+		
+		///
 
         // 3) Ordering
         $orderRaw = (string)($params['order'] ?? 'DESC');
@@ -291,6 +344,8 @@ final class PostQuery
             'post_status' => $postStatus,
             'paged'       => $paged,
             'limit'       => $limit,
+            'posts_per_page' => $limit,   // mirror for downstream paths that expect WP-style arg
+            'nopaging'    => $nopaging,
             'order'       => $order,
             'orderby'     => $orderby,
             'meta_key'    => $metaKey,

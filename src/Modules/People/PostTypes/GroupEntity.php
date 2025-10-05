@@ -36,6 +36,31 @@ class GroupEntity extends PostTypeHandler
 			//'append'         => 'TESTTF',
 		]);*/
 	}
+	
+	protected static function getQuerySpec(): array
+    {
+        return [
+            //'cpt' => $this->resolveSlug(),?
+            'cpt' => 'group',
+            /*'date_meta' => [
+                // TODO/WIP: rethink the default and field types
+                // Current storage model: separate DATE fields; revisit DATETIME later
+                'key' => 'whx4_events_start_date',
+                //'start_key' => 'whx4_events_start_date',
+                //'end_key'   => 'whx4_events_end_date',
+                'meta_type' => 'DATE', // Keep DATE for now; revisit DATETIME later
+            ],*/
+            'taxonomies' => [ 'group_category' ],
+            'defaults' => [
+                'limit'  => 10,
+                'order'  => 'ASC',
+                'orderby'=> 'meta_value',
+                //'scope'=> 'this_year', // ???
+            ],
+            'allowed_orderby' => ['meta_value','date','title','menu_order','modified'],
+            'default_view'    => 'list',
+        ];
+    }
 
 	public function getCPTContent()
 	{

@@ -217,6 +217,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         return $out . '</tbody></table>';
     }
 
+    // Deprecated -- Delete?
     public function buildListQueryArgs(array $a): array
     {
         $meta = [];
@@ -250,9 +251,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             'tax_query'      => $tax ?: null,
             'orderby'        => key($orderby),
             'order'          => current($orderby),
-            'paged'          => $a['paged'],
-            'posts_per_page' => $a['per_page'],
-            'no_found_rows'  => false,
+            //'paged'          => $a['paged'],
+            //'posts_per_page' => $a['per_page'],
+            //'no_found_rows'  => false,
         ];
     }
 

@@ -83,11 +83,11 @@ abstract class PostTypeHandler extends BaseHandler
             'post_type'      => $ptype,
             'post_status'    => 'publish',
             'view'           => $spec['default_view'] ?? 'list',
-            'limit'          => $spec['defaults']['limit']  ?? 10,
+            //'limit'          => $spec['defaults']['limit']  ?? 10,
             'order'          => $spec['defaults']['order']  ?? 'ASC',
             'orderby'        => $spec['defaults']['orderby']?? 'meta_value',
-            'scope'          => '',
-            'paged'          => '',
+            //'scope'          => '',
+            //'paged'          => '',
         ], self::taxonomyDefaultInputs($spec));
 
         /** @var array $filtered */
@@ -218,7 +218,7 @@ abstract class PostTypeHandler extends BaseHandler
 			'post_type'      => (string)$normalized['post_type'],
 			'post_status'    => (string)$normalized['post_status'],
 			'paged'          => (int)$normalized['paged'],
-			'posts_per_page' => (int)$normalized['limit'],
+			'posts_per_page' => (int)$normalized['limit'], // ?
 			'order'          => (string)$normalized['order'],
 			'orderby'        => $orderby,
 			'meta_key'       => $metaKeyForSort,   // may be null; OK

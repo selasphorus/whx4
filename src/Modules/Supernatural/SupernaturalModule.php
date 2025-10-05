@@ -64,6 +64,7 @@ final class SupernaturalModule extends BaseModule
 	{
 		$postType = 'monster';
 		
+		// NTS: The array_replace() function replaces the values of the first array with the values from following arrays.
 		$filters = array_replace([
 			'post_type' => $postType,
 			'meta'      => [
