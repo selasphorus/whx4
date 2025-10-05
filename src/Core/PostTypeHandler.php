@@ -60,7 +60,7 @@ abstract class PostTypeHandler extends BaseHandler
 	 *
 	 * Expected keys if provided:
 	 * - 'cpt' (string)
-	 * - 'date_meta' => ['key' OR 'start_key'+'end_key', 'meta_type' => 'DATE'|'DATETIME'|'NUMERIC']
+	 * - 'date_meta' => ['key' OR 'start_key'+'end_key', 'meta_type' => 'DATE'|'DATETIME'|'NUMERIC', 'key_type' => 'single'|'rows'|'serialized'] -- TODO: detect field type from key?
 	 * - 'taxonomies' => [ 'event_category', ... ]
 	 * - 'defaults'   => ['limit','order','orderby','view']
 	 * - 'allowed_orderby' => [...]

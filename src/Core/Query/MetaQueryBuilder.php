@@ -158,6 +158,17 @@ final class MetaQueryBuilder
                     [$min, $max],
                     $metaType
                 );
+                
+            case 'containsAnySerialized':
+				// expects: key, values (array of scalars)
+				if (!self::has($spec, ['key', 'values']) || !is_array($spec['values']) || $spec['values'] === []) {
+					return null;
+				}
+				$group = ['relation' => 'OR'];
+				foreach ($spec['values'] as $val) {
+					$group[] = self::assembleClause((string)$spec['key'], 'LIKE', '"' . (string)$val . '"');
+				}
+				return ['__group' => $group];
 
             case 'exists':
                 // EXISTS (no value/type)

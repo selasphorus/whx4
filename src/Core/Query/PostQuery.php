@@ -353,9 +353,52 @@ final class PostQuery
         }
 
         $metaType = isset($dateMeta['meta_type']) ? (string)$dateMeta['meta_type'] : null;
-
+        
+        // WIP Deal w/ the possibility of a field that stores an array of values, so we need to build an "IN" clause, i.e. in_array
+        // For example: years_active; years_of_employment
+        $keyType = isset($dateMeta['key_type']) ? (string)$dateMeta['key_type'] : null;
+        
         // Range over a single date key.
         if (!empty($dateMeta['key'])) {
+            if ( strpos()$dateMeta['key'], 'years') !== false ) {
+                $startYear = (int)substr((string)$dateBounds['start'], 0, 4);
+                $endYear   = (int)substr((string)$dateBounds['end'], 0, 4);
+                $years     = range($startYear, $endYear); // [1948, 1949, 1950]
+            }
+            if (!empty($keyType) {
+				if ($years && $keyType == 'rows') {
+					return [
+						'relation' => 'AND',
+						'clauses'  => [
+							[
+								'type'  => 'in',
+								'key'   => (string)$dateMeta['key'],
+								'value' => $years,      // [1948, 1949, 1950]
+								'cast'  => 'NUMERIC',   // optional but nice
+							],
+						],
+					];
+				} else if ($years && $keyType == 'serialized') {	
+					'clauses'  => [
+						[
+							'type'   => 'containsAnySerialized',
+							'key'    => 'years_active',
+							'values' => $years, // [1948,1949,1950]
+						],
+					],
+				} else if ($keyType == 'array') {
+					return [
+						'relation' => 'AND',
+						'clauses'  => [[
+							'type' => 'in',
+							'key'  => (string)$dateMeta['key'],
+							'min'  => $dateBounds['start'],
+							'max'  => $dateBounds['end'],
+							'meta_type' => $metaType,
+						]],
+					];
+				}
+			}
             return [
                 'relation' => 'AND',
                 'clauses'  => [[
