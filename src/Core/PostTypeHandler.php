@@ -238,6 +238,8 @@ abstract class PostTypeHandler extends BaseHandler
 
         /** @var array $filtered */
         $filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
+        
+        error_log('[buildQueryParams::find] filtered: ' . print_r($filtered, true));
         return $filtered;
     }
     
