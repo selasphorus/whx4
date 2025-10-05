@@ -148,6 +148,9 @@ abstract class PostTypeHandler extends BaseHandler
             ];
         }
         
+        // Date Meta
+        $dateMeta = (isset($in['date_meta']) && is_array($in['date_meta'])) ? $in['date_meta'] : [];
+        
         // Meta
         $meta = (isset($in['meta']) && is_array($in['meta'])) ? $in['meta'] : [];
 
@@ -162,7 +165,7 @@ abstract class PostTypeHandler extends BaseHandler
             'order'       => $order,
             'orderby'     => $orderby,
             'scope'       => $scope,
-            'date_meta'   => $date_meta, // ??? wip
+            'date_meta'   => $dateMeta, // ??? wip
             'meta'        => $meta,
             'tax_inputs'  => $taxInputs, // map: taxonomy => [slugs]
             'paged'       => $paged,
