@@ -159,7 +159,7 @@ final class MetaQueryBuilder
                     $metaType
                 );
                 
-            case 'containsAnySerialized':
+            case 'containsSerialized':
 				// expects: key, values (array of scalars)
 				if (!self::has($spec, ['key', 'values']) || !is_array($spec['values']) || $spec['values'] === []) {
 					return null;

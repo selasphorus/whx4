@@ -348,6 +348,9 @@ final class PostQuery
      */
     private static function dateMetaSpecFromBounds(array $dateMeta, ?array $dateBounds): array
     {
+        error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
+        error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
+        
         if ($dateBounds === null) {
             return []; // no date filtering requested
         }
@@ -357,13 +360,16 @@ final class PostQuery
         // WIP Deal w/ the possibility of a field that stores an array of values, so we need to build an "IN" clause, i.e. in_array
         // For example: years_active; years_of_employment
         $keyType = isset($dateMeta['key_type']) ? (string)$dateMeta['key_type'] : null;
+        //error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta[key] keyType: ' . $keyType);
         
         // Range over a single date key.
         if (!empty($dateMeta['key'])) {
             if ( strpos($dateMeta['key'], 'years') !== false ) {
+                error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta[key] contains "years": ' . $dateMeta['key']);
                 $startYear = (int)substr((string)$dateBounds['start'], 0, 4);
                 $endYear   = (int)substr((string)$dateBounds['end'], 0, 4);
                 $years     = range($startYear, $endYear); // [1948, 1949, 1950]
+                error_log('[PostQuery::dateMetaSpecFromBounds] years: ' . print_r($years, true));
             }
             if (!empty($keyType)) {
 				if ($years && $keyType == 'rows') {
@@ -378,13 +384,13 @@ final class PostQuery
 							],
 						],
 					];
-				} else if ($years && $keyType == 'serialized') {
+				} elseif ($years && $keyType == 'serialized') {
 				    return [
 						'relation' => 'AND',
 						'clauses'  => [
 							[
-								'type'   => 'containsAnySerialized',
-								'key'    => 'years_active',
+								'type'   => 'containsSerialized',
+								'key'    => (string)$dateMeta['key'], // e.g. 'years_active',
 								'values' => $years, // [1948,1949,1950]
 							],
 						],
