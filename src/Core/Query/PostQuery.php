@@ -96,6 +96,8 @@ final class PostQuery
             $args['tax_query'] = $taxQuery;
         }
         
+        error_log('[PostQuery::find] args BEFORE adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
+        
         // 5) Allow the active CPT handler to refine args (AFTER base args are built)
         $handlerClass = WHx4::ctx()->getActivePostTypes()[$ptype] ?? null;
         if ($handlerClass && is_a($handlerClass, QueryContributor::class, true)) {
@@ -103,6 +105,8 @@ final class PostQuery
             $contrib = new $handlerClass();
             $args = $contrib->adjustQueryArgs($args, $p);
         }
+        
+        error_log('[PostQuery::find] args AFTER adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
 
         // 6) Final site-level filters
         /**
