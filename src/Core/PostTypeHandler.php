@@ -178,6 +178,8 @@ abstract class PostTypeHandler extends BaseHandler
 
     public static function buildQueryParams(array $normalized): array
     {
+        error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true));
+        
         $spec = static::getQuerySpec();
         $tax = [];
         foreach (($normalized['tax_inputs'] ?? []) as $taxonomy => $slugs) {
