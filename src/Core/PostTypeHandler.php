@@ -118,11 +118,16 @@ abstract class PostTypeHandler extends BaseHandler
     {
         $spec = static::getQuerySpec();
         $in = array_merge(static::queryDefaults(), $input);
-
+        
+        // Limit (per-page)
+        $limit = isset($in['limit']) ? (int)$in['limit'] : (isset($in['per_page']) ? (int)$in['per_page'] : 10);
+        
+        // Pagination
         $qv = (int) get_query_var('paged');
         $paged = $in['paged'] !== '' ? (int) $in['paged'] : ($qv > 0 ? $qv : 1);
         if ($paged < 1) { $paged = 1; }
-
+        
+        // Order
         $order = strtoupper((string) $in['order']);
         if (!in_array($order, ['ASC','DESC'], true)) { $order = 'ASC'; }
 
@@ -153,7 +158,7 @@ abstract class PostTypeHandler extends BaseHandler
             'post_type'   => (string) $in['post_type'],
             'post_status' => (string) $in['post_status'],
             'view'        => in_array($in['view'], ['list','grid','table'], true) ? $in['view'] : ($spec['default_view'] ?? 'list'),
-            'limit'       => max(1, (int) $in['limit']),
+            'limit'       => max(1, (int) $limit), //max(1, (int) $in['limit']),
             'order'       => $order,
             'orderby'     => $orderby,
             'scope'       => $scope,
@@ -167,11 +172,11 @@ abstract class PostTypeHandler extends BaseHandler
         return $filtered;
     }
 
-    public static function buildQueryParams(array $filters): array
+    public static function buildQueryParams(array $normalized): array
     {
         $spec = static::getQuerySpec();
         $tax = [];
-        foreach (($filters['tax_inputs'] ?? []) as $taxonomy => $slugs) {
+        foreach (($normalized['tax_inputs'] ?? []) as $taxonomy => $slugs) {
             if (!empty($slugs)) {
                 $tax[$taxonomy] = $slugs;
             }
@@ -179,25 +184,54 @@ abstract class PostTypeHandler extends BaseHandler
 
         // Date meta spec: either single 'key' or start/end keys
         $dateMeta = $spec['date_meta'] ?? [];
-        $metaKeyForSort = $filters['orderby'] === 'meta_value'
+        $metaKeyForSort = $normalized['orderby'] === 'meta_value'
             ? ($dateMeta['key'] ?? $dateMeta['start_key'] ?? null)
             : null;
-
+        
+        //
+        $orderby = $normalized['orderby'];
+		$metaKeyForSort = null;
+		
+		if ($orderby === 'meta_value') {
+			$metaKeyForSort = $dateMeta['key'] ?? $dateMeta['start_key'] ?? null;
+		
+			if ($metaKeyForSort === null) {
+				// No meta key to sort on → fall back
+				$orderby = $spec['defaults']['orderby'] ?? 'date';
+			} elseif (($dateMeta['cast'] ?? null) === 'NUMERIC') {
+				// Numeric date/meta → use meta_value_num for correct sort
+				$orderby = 'meta_value_num';
+			}
+		}
+        
         $params = [
-            'post_type'      => $filters['post_type'],
-            'post_status'    => $filters['post_status'],
-            'paged'          => $filters['paged'],
-            'posts_per_page' => $filters['limit'],
-            'order'          => $filters['order'],
-            'orderby'        => $filters['orderby'],
-            'meta_key'       => $metaKeyForSort,
-            'date_meta'      => $dateMeta ?: null,
-            'scope'          => $filters['scope'],
-            'tax'            => $tax,
-        ];
+			'post_type'      => (string)$normalized['post_type'],
+			'post_status'    => (string)$normalized['post_status'],
+			'paged'          => (int)$normalized['paged'],
+			'posts_per_page' => (int)$normalized['limit'],
+			'order'          => (string)$normalized['order'],
+			'orderby'        => $orderby,
+			'meta_key'       => $metaKeyForSort,   // may be null; OK
+			'date_meta'      => $dateMeta ?: null, // consumed downstream
+			'scope'          => $normalized['scope'], // string|array|null; OK
+		];
+		
+        if (!empty($normalized['meta'])) {
+            $params['meta'] = $normalized['meta'];
+        }
+        
+        if ($tax) {
+			$params['tax'] = $tax;
+		}
+		
+		// Trim nulls while preserving 0/false
+		$params = array_filter(
+			$params,
+			static fn($v) => $v !== null && ($v !== [] || is_array($v) === false)
+		);
 
         /** @var array $filtered */
-        $filtered = apply_filters('whx4_generic_query_params', $params, $filters, $spec);
+        $filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
         return $filtered;
     }
 

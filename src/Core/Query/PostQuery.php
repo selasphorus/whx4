@@ -6,6 +6,7 @@ namespace atc\WHx4\Core\Query;
 
 use WP_Query;
 use atc\WHx4\Core\WHx4;
+use atc\WHx4\Core\Query\MetaQueryBuilder;
 //use atc\WHx4\Core\Contracts\QueryContributor;
 //use atc\WHx4\Query\ScopedDateResolver;
 //use atc\WHx4\Http\UrlParamBridge;
@@ -45,21 +46,18 @@ final class PostQuery
 
         // Allow the active CPT handler to refine args -- ???
         $ptype = $p['post_type'];
-        $handlerClass = WHx4::ctx()->getActivePostTypes()[$ptype] ?? null;
-        if ($handlerClass && is_a($handlerClass, QueryContributor::class, true)) {
-            /** @var QueryContributor $contrib */
-            $contrib = new $handlerClass();
-            $args = $contrib->adjustQueryArgs($args, $p);
-        }
-
-        // Resolve scope (string or {start,end}) via ScopedDateResolver.
+        
+        // 1) Resolve scope → date meta spec
         $dateBounds = self::resolveScope($p['scope'], $p['date_meta']['meta_type'] ?? null);
-        //$dateMetaSpec  = self::dateMetaSpecFromBounds($dateMeta, $resolved);
         $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
-
-        // Build combined meta_query spec
-        $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
-        $metaQuery        = MetaQueryBuilder::build($combinedMetaSpec);
+        
+        // 2) Build combined meta_query spec
+        $metaSpec  = $p['meta'] ?? [];
+        $combinedMetaSpec  = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $metaSpec], 'AND'); // $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
+        $metaQuery = $combinedMetaSpec ? MetaQueryBuilder::build($combinedMetaSpec) : []; // $metaQuery = MetaQueryBuilder::build($combinedMetaSpec);
+        /*if (!empty($p['meta'])) {
+            $args['meta_query'] = MetaQueryBuilder::fromSpec($p['meta'])->toWp();
+        }*/
 
         // 3) Build tax_query from simple map (taxonomy => [terms]) — uses TaxQueryBuilder when available.
         $taxMap    = $p['tax'] ?? [];
@@ -75,24 +73,38 @@ final class PostQuery
             'orderby'        => $p['orderby'],
             'no_found_rows'  => false,
         ];
-
-        if ( ($p['orderby'] === 'meta_value' || $p['orderby'] === 'meta_value_num') && $p['meta_key'] && $p['meta_key'] != '' ) {
-            $args['meta_key'] = $p['meta_key'];
-            if (!empty($p['date_meta']['meta_type'])) {
-                $mt = strtoupper(trim((string)$p['date_meta']['meta_type']));
-                if (in_array($mt, ['NUMERIC','BINARY','CHAR','DATE','DATETIME','DECIMAL','SIGNED','TIME','UNSIGNED'], true)) {
-                    $args['meta_type'] = $mt;
-                }
-            }
-        }
-
+        
+        // 4a) meta_key/meta_type only when applicable
+		if (
+			($p['orderby'] === 'meta_value' || $p['orderby'] === 'meta_value_num')
+			&& !empty($p['meta_key'])
+		) {
+			$args['meta_key'] = $p['meta_key'];
+			if (!empty($p['date_meta']['meta_type'])) {
+				$mt = strtoupper(trim((string)$p['date_meta']['meta_type']));
+				if (in_array($mt, ['NUMERIC','BINARY','CHAR','DATE','DATETIME','DECIMAL','SIGNED','TIME','UNSIGNED'], true)) {
+					$args['meta_type'] = $mt;
+				}
+			}
+		}
+		
+		//
         if ($metaQuery !== []) {
             $args['meta_query'] = $metaQuery;
         }
         if ($taxQuery !== []) {
             $args['tax_query'] = $taxQuery;
         }
+        
+        // 5) Allow the active CPT handler to refine args (AFTER base args are built)
+        $handlerClass = WHx4::ctx()->getActivePostTypes()[$ptype] ?? null;
+        if ($handlerClass && is_a($handlerClass, QueryContributor::class, true)) {
+            /** @var QueryContributor $contrib */
+            $contrib = new $handlerClass();
+            $args = $contrib->adjustQueryArgs($args, $p);
+        }
 
+        // 6) Final site-level filters
         /**
          * Final, global escape hatch (site-level).
          * Filter name keeps your prefix and allows per-type specialization.
