@@ -94,6 +94,46 @@ abstract class PostTypeHandler extends BaseHandler
         $filtered = apply_filters('whx4_generic_query_defaults', $defaults, $spec);
         return $filtered;
     }
+    
+    ///// URL parameters stuff
+
+    // WIP! 10/5/25
+	public static function allowedUrlParams(): array { return []; } // default empty -- set per CPT
+
+	/**
+	 * URL-param: scope → lightweight token normalization.
+	 * Semantics are enforced later by ScopedDateResolver.
+	 */
+	public static function sanitizeScopeParam(mixed $value): ?string
+	{
+		if ($value === null) { return null; }
+		if (is_array($value)) { $value = reset($value); }
+		$value = strtolower(trim((string)$value));
+		if ($value === '') { return null; }
+		$value = preg_replace('/[^a-z0-9,_-]/', '', $value) ?? '';
+		return $value !== '' ? $value : null;
+	}
+	
+	/**
+	 * URL-param: generic taxonomy terms (slugs).
+	 * Accepts single string or CSV/array, returns unique slug array.
+	 */
+	public static function sanitizeTermSlugsParam(mixed $value): array
+	{
+		$raw = [];
+		if (is_array($value)) { $raw = $value; }
+		elseif ($value !== null && $value !== '') { $raw = explode(',', (string)$value); }
+	
+		$slugs = [];
+		foreach ($raw as $item) {
+			$slug = strtolower(trim((string)$item));
+			$slug = preg_replace('/[^a-z0-9_-]/', '', $slug) ?? '';
+			if ($slug !== '') { $slugs[] = $slug; }
+		}
+		return array_values(array_unique($slugs));
+	}
+	
+	//////// END URL parameters stuff
 
     protected static function resolvePostTypeFromContext(): ?string
 	{
@@ -112,7 +152,6 @@ abstract class PostTypeHandler extends BaseHandler
 		}
 		return null;
 	}
-
 
     public static function normalizeFilters(array $input): array
     {
@@ -317,9 +356,6 @@ abstract class PostTypeHandler extends BaseHandler
         }
         return $map;
     }
-
-
-	public static function allowedUrlParams(): array { return []; }
 
     public function getCapType(): array
     {

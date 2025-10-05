@@ -23,8 +23,14 @@ final class UrlParamBridge
     /**
      * Collect from $_GET by default.
      */
+    //UrlParamBridge::collect(string $targetHandlerClass, array $source = $_GET, ?array $only = null): array
+    /*
+    Looks up ::allowedUrlParams() on the target handler, sanitizes source values, returns normalized inputs ready for PostQuery 
+    (e.g., ['scope' => '2024', 'tax' => ['transaction_type' => ['income']]]).
+    */
     public static function collect(string $targetHandlerClass, ?array $only = null): array
     {
+        //error_log( '=== UrlParamBridge::collect for targetHandlerClass: ' . $targetHandlerClass . ' (only: ' . $only . ') ===' );
         return self::fromSource($targetHandlerClass, $_GET, $only);
     }
 
