@@ -365,7 +365,7 @@ final class PostQuery
                 $endYear   = (int)substr((string)$dateBounds['end'], 0, 4);
                 $years     = range($startYear, $endYear); // [1948, 1949, 1950]
             }
-            if (!empty($keyType) {
+            if (!empty($keyType)) {
 				if ($years && $keyType == 'rows') {
 					return [
 						'relation' => 'AND',
