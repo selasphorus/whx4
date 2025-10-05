@@ -111,9 +111,14 @@ abstract class Module implements ModuleInterface
 		error_log('[findViaHandler] postType=' . $postType);
 		error_log('[findViaHandler] class=' . (($class ?? 'NULL')));
 		error_log('[findViaHandler] filters=' . json_encode($filters, JSON_UNESCAPED_SLASHES));
-	
+		
 		/** @var class-string<PostTypeHandler> $class */
-		return $class::find($filters);
+		$result = $class::find($filters);
+		
+		error_log('[findViaHandler] result.debug=' . json_encode($result['debug'] ?? [], JSON_UNESCAPED_SLASHES));
+		return $result;
+		
+		
 	}
 
 	protected function detectModuleSlugFromNamespace(): string
