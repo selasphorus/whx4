@@ -237,6 +237,9 @@ final class PostQuery
         if (isset($dateMetaIn['meta_type'])) {
             $dateMeta['meta_type'] = (string)$dateMetaIn['meta_type'];
         }
+        if (isset($dateMetaIn['key_type'])) {
+            $dateMeta['key_type'] = (string)$dateMetaIn['key_type'];
+        }
         if (isset($dateMetaIn['end_optional'])) {
             $dateMeta['end_optional'] = (bool)$dateMetaIn['end_optional'];
         }
@@ -311,7 +314,10 @@ final class PostQuery
         }
 
         // Prefer DATE windowing when explicitly hinted; otherwise default to DATETIME.
-        $mode = (is_string($castHint) && strtoupper(trim($castHint)) === 'DATE') ? 'DATE' : 'DATETIME';
+        //$mode = (is_string($castHint) && strtoupper(trim($castHint)) === 'DATE') ? 'DATE' : 'DATETIME';
+        // Treat NUMERIC like DATE for windowing (year-based comparisons).
+        $hint = is_string($castHint) ? strtoupper(trim($castHint)) : null;
+        $mode = ($hint === 'DATE' || $hint === 'NUMERIC') ? 'DATE' : 'DATETIME';
 
         try {
             /** @var array{start:mixed,end:mixed} $bounds */
@@ -392,6 +398,7 @@ final class PostQuery
 								'type'   => 'containsSerialized',
 								'key'    => (string)$dateMeta['key'], // e.g. 'years_active',
 								'values' => $years, // [1948,1949,1950]
+								'cast'  => 'NUMERIC',
 							],
 						],
 					];

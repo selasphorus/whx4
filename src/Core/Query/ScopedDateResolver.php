@@ -86,6 +86,7 @@ class ScopedDateResolver
         if (is_array($scope)) {
 
             // Years array → min..max inclusive window
+            // TODO: build in option to search serialized years in Y format instead of forcing Y-m-d format
             if (isset($scope['years']) && is_array($scope['years']) && $scope['years']) {
                 $ys = array_values(array_filter(array_map('intval', $scope['years'])));
                 if (!empty($ys)) {

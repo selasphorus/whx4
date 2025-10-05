@@ -164,6 +164,55 @@ class DateHelper
             return null;
         }
     }
+    
+    /**
+	 * Convert resolved scope bounds (strings like 'YYYY-mm-dd' or 'YYYY-mm-dd HH:ii:ss')
+	 * into a year window.
+	 *
+	 * @param array{start:?string,end:?string} $bounds
+	 * @return array{min:int,max:int,years:int[]}
+	 */
+	public static function yearsWindow(array $bounds): array
+	{
+		$startY = self::extractYear($bounds['start'] ?? null);
+		$endY   = self::extractYear($bounds['end'] ?? null);
+	
+		if ($startY === null && $endY === null) {
+			return ['min' => 0, 'max' => 0, 'years' => []];
+		}
+	
+		// If one side is missing, use the other.
+		if ($startY === null) {
+			$startY = $endY;
+		}
+		if ($endY === null) {
+			$endY = $startY;
+		}
+	
+		$min = (int)min($startY, $endY);
+		$max = (int)max($startY, $endY);
+	
+		return [
+			'min'   => $min,
+			'max'   => $max,
+			'years' => $min <= $max ? range($min, $max) : [],
+		];
+	}
+	
+	/**
+	 * Extract a 4-digit year from a date/datetime string (returns null if none).
+	 */
+	private static function extractYear(?string $value): ?int
+	{
+		if (!is_string($value) || $value === '') {
+			return null;
+		}
+		if (preg_match('/^\s*(\d{4})\b/', $value, $m) === 1) {
+			return (int)$m[1];
+		}
+		return null;
+	}
+
 
     /**
      * Resolve the site timezone with sensible fallbacks.
