@@ -407,23 +407,41 @@ final class MetaQueryBuilder
 			];
 		}
 	
-		// 3) Serialized array (e.g., ACF checkbox) — match exact element tokens via LIKE on `"YYYY"`
+		// 3) Serialized array (e.g., ACF checkbox) — match integer or exact string element tokens via LIKE on `"YYYY"`
+		// Covers: s:<len>:"YYYY";  and  i:YYYY;
 		// Build OR of LIKE clauses to avoid partials.
+		// We use OR of LIKE clauses (WP adds wildcards), so values must NOT include % here.
 		if ($keyType === 'serialized') {
 			$clauses = [];
 			foreach ($win['years'] as $y) {
+			    $y = (int)$y;
+			    // String token: s:<len>:"YYYY";  — we match the stable tail part `:"YYYY";`
+			    $clauses[] = [
+			        'type'  => 'like',
+			        'key'   => $key,
+			        'value' => ':"' . $y . '";',
+			    ];
+			    // Integer token: i:YYYY;
+			    $clauses[] = [
+			        'type'  => 'like',
+			        'key'   => $key,
+			        'value' => 'i:' . $y . ';',
+			    ];
+				/*
+				// v1:
 				$clauses[] = [
 					'type'  => 'like',
 					'key'   => $key,
 					'value' => '"' . (int)$y . '"',
-				];
+				];*/
+				
 			}
 			return [
 				'relation' => 'OR',
 				'clauses'  => $clauses,
 			];
 		}
-	
+		
 		// Fallback: treat unknown key_type like 'rows'
 		return [
 			'relation' => 'AND',
