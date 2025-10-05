@@ -67,7 +67,7 @@ final class SupernaturalModule extends BaseModule
 		$filters = array_replace([
 			'post_type' => $postType,
 			'meta'      => [
-				['key' => 'color', 'equals' => $color],
+				['key' => 'monster_color', 'equals' => $color],
 			],
 			'per_page'  => -1,
 			'orderby'   => 'title',
