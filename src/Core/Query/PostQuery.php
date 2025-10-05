@@ -239,12 +239,30 @@ final class PostQuery
             $dateMeta['end_optional'] = (bool)$dateMetaIn['end_optional'];
         }
 
-        // 8) User-provided meta spec (MetaQueryBuilder format) or []
-        $metaSpecIn = $params['meta'] ?? [];
-        $metaSpec = (is_array($metaSpecIn) && isset($metaSpecIn['clauses']) && is_array($metaSpecIn['clauses']))
-            ? $metaSpecIn
-            : [];
-
+        // 8) User-provided meta spec (accept full spec OR shorthand)
+		$metaSpecIn = $params['meta'] ?? [];
+		$metaSpec = [];
+		
+		if (is_array($metaSpecIn)) {
+			$hasClauses = isset($metaSpecIn['clauses']) && is_array($metaSpecIn['clauses']);
+		
+			if ($hasClauses) {
+				// Already a MetaQueryBuilder spec
+				$metaSpec = $metaSpecIn;
+			} elseif ($metaSpecIn !== []) {
+				// Shorthand → wrap as a standard spec
+				$isAssoc = static function(array $a): bool {
+					return array_keys($a) !== range(0, count($a) - 1);
+				};
+		
+				$clauses = $isAssoc($metaSpecIn) ? [$metaSpecIn] : $metaSpecIn;
+				$metaSpec = [
+					'relation' => 'AND',
+					'clauses'  => $clauses,
+				];
+			}
+		}
+		
         // 9) Taxonomy map: ensure "taxonomy => [slugs...]" (trimmed, non-empty) // ensure "taxonomy => [terms...]" (slugs by default)
         // check if isset($params['tax'])?
         $taxIn = is_array($params['tax'] ?? null) ? $params['tax'] : [];
