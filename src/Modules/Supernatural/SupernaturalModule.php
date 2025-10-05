@@ -61,21 +61,19 @@ final class SupernaturalModule extends BaseModule
      * This is a sample function to show a module-level find method by meta_key
      */
     public function findMonstersByColor(string $color, array $options = []): array
-    {
-        $defaults = [
-            'per_page'  => -1,        // all
-            'orderby'   => 'title',
-            'order'     => 'ASC',
-        ];
-
-        $params = array_replace($defaults, $options, [
-            'post_type' => 'monster',
-            // Generic MetaQueryBuilder spec (equals)
-            'meta'      => [
-                ['key' => 'monster_color', 'equals' => $color],
-            ],
-        ]);
-
-        return PostQuery::find($params);
-    }
+	{
+		$postType = 'monster';
+		
+		$filters = array_replace([
+			'post_type' => $postType,
+			'meta'      => [
+				['key' => 'color', 'equals' => $color],
+			],
+			'per_page'  => -1,
+			'orderby'   => 'title',
+			'order'     => 'ASC',
+		], $options);
+	
+		return $this->findViaHandler($postType, $filters);
+	}
 }

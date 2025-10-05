@@ -5,6 +5,7 @@ namespace atc\WHx4\Core;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Core\Contracts\ModuleInterface;
 use atc\WHx4\Core\ViewLoader;
+use atc\WHx4\Core\PostTypeHandler;
 use atc\WHx4\Core\Shortcodes\ShortcodeManager;
 
 // TODO: make this final class?
@@ -87,7 +88,6 @@ abstract class Module implements ModuleInterface
 		return ucwords( str_replace( '_', ' ', $name ) );
 	}
 
-
 	protected function registerDefaultViewRoot(): void
 	{
 		$slug = $this->detectModuleSlugFromNamespace();
@@ -97,6 +97,19 @@ abstract class Module implements ModuleInterface
 			$moduleDir = dirname( $reflector->getFileName() );
 			ViewLoader::registerModuleViewRoot( $slug, $moduleDir . '/Views' );
 		}
+	}
+	
+	protected function findViaHandler(string $postType, array $filters): array
+	{
+		$map   = WHx4::ctx()->getActivePostTypes(); // ['monster' => Monster::class, ...]
+		$class = $map[$postType] ?? null;
+	
+		if (!$class || !is_subclass_of($class, PostTypeHandler::class)) {
+			return ['posts' => [], 'pagination' => ['found' => 0, 'max_pages' => 0, 'paged' => $filters['paged'] ?? 1], 'debug' => ['error' => 'handler missing']];
+		}
+	
+		/** @var class-string<PostTypeHandler> $class */
+		return $class::find($filters);
 	}
 
 	protected function detectModuleSlugFromNamespace(): string
