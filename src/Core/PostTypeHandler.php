@@ -142,6 +142,9 @@ abstract class PostTypeHandler extends BaseHandler
                 'end'   => $in['end_date']   !== '' ? (string) $in['end_date']   : null,
             ];
         }
+        
+        // Meta
+        $meta = (isset($in['meta']) && is_array($in['meta'])) ? $in['meta'] : [];
 
         // Taxonomy inputs: accept CSV per taxonomy key
         $taxInputs = self::parseTaxInputs($spec, $in);
@@ -154,6 +157,7 @@ abstract class PostTypeHandler extends BaseHandler
             'order'       => $order,
             'orderby'     => $orderby,
             'scope'       => $scope,
+            'meta'        => $meta,
             'tax_inputs'  => $taxInputs, // map: taxonomy => [slugs]
             'paged'       => $paged,
         ];
