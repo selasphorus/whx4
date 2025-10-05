@@ -70,7 +70,7 @@ final class SupernaturalModule extends BaseModule
 			'meta'      => [
 				['key' => 'monster_color', 'equals' => $color],
 			],
-			'per_page'  => -1,
+			'limit'  => -1,
 			'orderby'   => 'title',
 			'order'     => 'ASC',
 		], $options);

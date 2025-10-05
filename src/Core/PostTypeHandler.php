@@ -218,7 +218,7 @@ abstract class PostTypeHandler extends BaseHandler
 			'post_type'      => (string)$normalized['post_type'],
 			'post_status'    => (string)$normalized['post_status'],
 			'paged'          => (int)$normalized['paged'],
-			'posts_per_page' => (int)$normalized['limit'], // ?
+			'posts_per_page' => (int)$normalized['limit'], // ??? WIP
 			'order'          => (string)$normalized['order'],
 			'orderby'        => $orderby,
 			'meta_key'       => $metaKeyForSort,   // may be null; OK

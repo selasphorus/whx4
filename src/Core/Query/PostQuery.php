@@ -47,8 +47,7 @@ final class PostQuery
     {
         error_log('[PostQuery::find] params: ' . print_r($params, true));
         // First, ensure normalized contract
-        $p = $this->normalizeContract($params);
-		//$p = self::normalizeContract($params);
+        $p = $this->normalizeContract($params); //$p = self::normalizeContract($params);
 		
         error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
 
@@ -82,9 +81,9 @@ final class PostQuery
         $args = [
             'post_type'      => $p['post_type'],
             'post_status'    => $p['post_status'],
-            'nopaging'       => $nopaging,
+            'nopaging'       => $p['nopaging'], //$nopaging,
             'paged'          => $p['paged'],
-            'posts_per_page' => $posts_per_page, //$p['limit'],
+            'posts_per_page' => $p['limit'], //$posts_per_page,
             'order'          => $p['order'],
             'orderby'        => $p['orderby'],
             'no_found_rows'  => false,

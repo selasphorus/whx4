@@ -178,8 +178,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             ],
         ];
     }
-
-    public function getListArgSchema(): array
+    
+    // WIP -- obsolete?
+    /*public function getListArgSchema(): array
     {
         return [
             //'type'           => ['type'=>'enum','enum'=>['event'],'default'=>'event'],
@@ -191,7 +192,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             'paged'          => ['type'=>'int','default'=>get_query_var('paged') ?: 1],
             'per_page'       => ['type'=>'int','default'=>10],
         ];
-    }
+    }*/
 
     public function renderItems(array $posts, array $atts, string $variant): string
     {
