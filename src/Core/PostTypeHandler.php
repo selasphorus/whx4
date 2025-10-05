@@ -162,6 +162,7 @@ abstract class PostTypeHandler extends BaseHandler
             'order'       => $order,
             'orderby'     => $orderby,
             'scope'       => $scope,
+            'date_meta'   => $date_meta, // ??? wip
             'meta'        => $meta,
             'tax_inputs'  => $taxInputs, // map: taxonomy => [slugs]
             'paged'       => $paged,
@@ -234,11 +235,17 @@ abstract class PostTypeHandler extends BaseHandler
         $filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
         return $filtered;
     }
-
+    
+    // TODO: standardize terminology for "find" methods -- filters? params?
     public static function find(array $filters): array
     {
+        error_log('[PostTypeHandler::find] filters: ' . print_r($filters, true));
+        
         $normalized = static::normalizeFilters($filters);
+        error_log('[PostTypeHandler::find] normalized filters: ' . print_r($normalized, true));
+        
         $params = static::buildQueryParams($normalized);
+        error_log('[PostTypeHandler::find] params: ' . print_r($params, true));
 
         $query  = new PostQuery();
         $result = $query->find($params);
