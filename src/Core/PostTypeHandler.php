@@ -123,9 +123,10 @@ abstract class PostTypeHandler extends BaseHandler
         $limit = isset($in['limit']) ? (int)$in['limit'] : (isset($in['per_page']) ? (int)$in['per_page'] : 10);
         
         // Pagination
-        $qv = (int) get_query_var('paged');
-        $paged = $in['paged'] !== '' ? (int) $in['paged'] : ($qv > 0 ? $qv : 1);
-        if ($paged < 1) { $paged = 1; }
+		$qv    = (int) get_query_var('paged');
+		$paged = isset($in['paged']) && $in['paged'] !== '' ? (int) $in['paged'] : ( $qv > 0 ? $qv : 1 );
+		if ( $paged < 1 ) { $paged = 1; }
+
         
         // Order
         $order = strtoupper((string) $in['order']);
@@ -139,9 +140,9 @@ abstract class PostTypeHandler extends BaseHandler
 
         // Scope (string) or explicit {start,end}
         $scope = null;
-        if ($in['scope'] !== '') {
+        if (isset($in['scope']) && $in['scope'] !== '') { // change to !empty?
             $scope = (string) $in['scope'];
-        } elseif (($in['start_date'] ?? '') !== '' || ($in['end_date'] ?? '') !== '') {
+        } elseif ( isset($in['start_date']) && isset($in['end_date']) && ($in['start_date'] ?? '') !== '' || ($in['end_date'] ?? '') !== '') {
             $scope = [
                 'start' => $in['start_date'] !== '' ? (string) $in['start_date'] : null,
                 'end'   => $in['end_date']   !== '' ? (string) $in['end_date']   : null,
