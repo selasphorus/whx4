@@ -7,6 +7,7 @@ namespace atc\WHx4\Core\Query;
 use WP_Query;
 use atc\WHx4\Core\WHx4;
 use atc\WHx4\Utils\DateHelper;
+use atc\WHx4\Core\Query\QueryHelpers;
 use atc\WHx4\Core\Query\MetaQueryBuilder;
 //use atc\WHx4\Core\Contracts\QueryContributor;
 //use atc\WHx4\Query\ScopedDateResolver;
@@ -47,23 +48,8 @@ final class PostQuery
         error_log('[PostQuery::find] params: ' . print_r($params, true));
         // First, ensure normalized contract
         $p = $this->normalizeContract($params);
-		$p = self::normalizeContract($params);
+		//$p = self::normalizeContract($params);
 		
-		// If caller didn't set pagination, apply filterable defaults.
-		if (!isset($p['posts_per_page']) && empty($p['nopaging'])) {
-			$defaultPpp = (int) get_option('posts_per_page', 10);
-			$defaultPpp = (int) apply_filters('rex_query_default_posts_per_page', $defaultPpp, $p);
-		
-			if (!empty($p['post_type']) && is_string($p['post_type'])) {
-				$defaultPpp = (int) apply_filters("rex_{$p['post_type']}_query_default_posts_per_page", $defaultPpp, $p);
-			}
-		
-			$p['posts_per_page'] = $defaultPpp;
-		}
-		
-		
-
-        
         error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
 
         // Allow the active CPT handler to refine args -- ???
@@ -92,29 +78,7 @@ final class PostQuery
         $taxMap    = $p['tax'] ?? [];
         $taxQuery  = TaxQueryBuilder::build($taxMap); //$taxQuery  = self::buildTaxQuery($taxMap);
 
-        // 4) Assemble basic WP_Query args
-        
-        // Normalize pagination aliases & edge-cases once.
-        // WIP 10/5
-        $params = \smith\Rex\Core\Query\QueryHelpers::normalizePagination($params);
-
-        // normalize pagination aliases
-        $nopaging = false;
-		if (isset($p['limit'])) {
-			$posts_per_page = (int) $p['limit'];
-			if ( $p['limit'] == -1 ) { $nopaging = true; }
-		}
-		if (isset($p['posts_per_page'])) {
-			$posts_per_page = (int) $p['posts_per_page'];
-			// support "-1" for all results
-			if (($p['posts_per_page'] ?? null) === -1) {
-				$nopaging = true;
-			}
-		}
-		if (isset($p['per_page']) && !isset($p['posts_per_page'])) {
-			$posts_per_page = (int) $p['per_page'];
-		}
-		
+        // 4) Assemble basic WP_Query args		
         $args = [
             'post_type'      => $p['post_type'],
             'post_status'    => $p['post_status'],
@@ -228,9 +192,12 @@ final class PostQuery
             $ptype = 'post';
         }
 
-        // 2) Paging + limit (contract uses `limit`, NOT posts_per_page)
-        $paged = isset($params['paged']) ? max(1, (int)$params['paged']) : 1; //$paged = max(1, (int)($params['paged'] ?? 1));
+        // 2) Paging and limit (aka 'posts_per_page')
+        $paged = isset($params['paged']) ? max(1, (int)$params['paged']) : 1;
 
+        // Normalize pagination aliases & edge-cases once.
+        //$params = QueryHelpers::normalizePagination($params);
+        
         // Prefer 'limit'; allow 'posts_per_page' and 'per_page' as aliases if 'limit' not provided.
         if (isset($params['limit'])) {
 			$limit = (int) $params['limit'];
@@ -238,8 +205,13 @@ final class PostQuery
 			$limit = (int) $params['posts_per_page'];
 		} elseif (isset($params['per_page'])) {
 			$limit = (int) $params['per_page'];
-		} else {
-			$limit = 10;
+		} elseif (empty($params['nopaging']) {
+		    // If caller didn't set pagination, apply (filterable) defaults.
+			$limit = (int) get_option('posts_per_page', 10);
+			// TODO/Optional: add filters for overriding this default, e.g.:
+			//$limit = (int) apply_filters('whx4_query_default_posts_per_page', $limit, $params);
+			//if ($ptype) { $limit = (int) apply_filters("whx4_{$ptype}_query_default_posts_per_page", $limit, $params); }
+			//$limit = 10;
 		}
 		
 		// Support "-1" (all) and/or explicit nopaging
@@ -250,8 +222,6 @@ final class PostQuery
 		} else {
 			$limit = max(1, $limit);
 		}
-		
-		///
 
         // 3) Ordering
         $orderRaw = (string)($params['order'] ?? 'DESC');
