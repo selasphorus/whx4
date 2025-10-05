@@ -179,10 +179,10 @@ abstract class PostTypeHandler extends BaseHandler
 
     public static function buildQueryParams(array $normalized): array
     {
-        error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true)); // ok
+        //error_log('[buildQueryParams::find] normalized: ' . print_r($normalized, true)); // ok
         
         $spec = static::getQuerySpec();
-        error_log('[buildQueryParams::find] spec: ' . print_r($spec, true));
+        //error_log('[buildQueryParams::find] spec: ' . print_r($spec, true));
         
         $tax = [];
         foreach (($normalized['tax_inputs'] ?? []) as $taxonomy => $slugs) {
@@ -235,33 +235,33 @@ abstract class PostTypeHandler extends BaseHandler
 			$params['tax'] = $tax;
 		}
 		
-		error_log('[buildQueryParams::find] params: ' . print_r($params, true));
+		//error_log('[buildQueryParams::find] params: ' . print_r($params, true));
 		
 		// Trim nulls while preserving 0/false
 		$params = array_filter(
 			$params,
 			static fn($v) => $v !== null && ($v !== [] || is_array($v) === false)
 		);
-		error_log('[buildQueryParams::find] params after trim: ' . print_r($params, true));
+		//error_log('[buildQueryParams::find] params after trim: ' . print_r($params, true));
 
         /** @var array $filtered */
         //$filtered = apply_filters('whx4_generic_query_params', $params, $normalized, $spec);
         $filtered = $params; // tft
         
-        error_log('[buildQueryParams::find] filtered: ' . print_r($filtered, true));
+        //error_log('[buildQueryParams::find] filtered: ' . print_r($filtered, true));
         return $filtered;
     }
     
     // TODO: standardize terminology for "find" methods -- filters? params?
     public static function find(array $filters): array
     {
-        error_log('[PostTypeHandler::find] filters: ' . print_r($filters, true));
+        //error_log('[PostTypeHandler::find] filters: ' . print_r($filters, true));
         
         $normalized = static::normalizeFilters($filters);
-        error_log('[PostTypeHandler::find] normalized filters: ' . print_r($normalized, true));
+        //error_log('[PostTypeHandler::find] normalized filters: ' . print_r($normalized, true));
         
         $params = static::buildQueryParams($normalized);
-        error_log('[PostTypeHandler::find] params: ' . print_r($params, true));
+        //error_log('[PostTypeHandler::find] params: ' . print_r($params, true));
 
         $query  = new PostQuery();
         $result = $query->find($params);

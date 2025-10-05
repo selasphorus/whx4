@@ -97,7 +97,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	// Obsolete? TBC
 	public function adjustQueryArgs(array $args, array $params): array
     {
-        error_log( '=== Event::adjustQueryArgs() ===' );
+        //error_log( '=== Event::adjustQueryArgs() ===' );
         //error_log( 'args: ' . print_r($args,true) . '; params: ' . print_r($params,true) );
 
         $dateStart = isset($params['date_start']) ? (string)$params['date_start'] : null;

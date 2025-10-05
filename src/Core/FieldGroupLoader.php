@@ -25,7 +25,7 @@ class FieldGroupLoader
 
     public function boot(): void
     {
-        error_log( '=== FieldGroupLoader::boot() ===' );
+        //error_log( '=== FieldGroupLoader::boot() ===' );
 
         // Abort if no modules have been booted
         if ( !WHx4::ctx()->modulesBooted() ) {

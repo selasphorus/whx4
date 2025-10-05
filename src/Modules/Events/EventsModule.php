@@ -14,7 +14,7 @@ final class EventsModule extends BaseModule
 {
     public function boot(): void
     {
-        error_log( '=== EventsModule::boot() ===' );
+        //error_log( '=== EventsModule::boot() ===' );
         $this->registerDefaultViewRoot();
         parent::boot();
         EventInstances::register();

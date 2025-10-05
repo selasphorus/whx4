@@ -14,7 +14,7 @@ class CoreServices
      */
     public static function boot(): void
     {
-        error_log( '=== CoreServices::boot() ===' );
+        //error_log( '=== CoreServices::boot() ===' );
         $services = apply_filters( 'whx4_core_services', [
             TitleFilter::class,
             //FieldGroupLoader::class,

@@ -174,7 +174,7 @@ class Person extends PostTypeHandler
         $p = $post ?? $this->getPost();
         if ( empty($p) ) { return "no post found"; } // $info
         $pID = $p->ID;
-		error_log( 'post_id: ' . $pID );
+		//error_log( 'post_id: ' . $pID );
 
 		// Try ACF get_field instead?
 		$birth_year = get_post_meta( $pID, 'birth_year', true );

@@ -104,8 +104,8 @@ final class MetaQueryBuilder
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
         $metaType   = self::normalizeMetaType($spec);
 
-        error_log( 'spec: ' . print_r($spec, true) );
-        error_log( 'clauseType: ' . $clauseType . '; metaType: ' . $metaType );
+        //error_log( 'spec: ' . print_r($spec, true) );
+        //error_log( 'clauseType: ' . $clauseType . '; metaType: ' . $metaType );
 
         switch ($clauseType) {
             case 'equals':
@@ -250,15 +250,15 @@ final class MetaQueryBuilder
 
         $group = ['relation' => 'AND'];
 
-        error_log( 'spec[end]: ' . print_r($spec['end'], true) );
-        error_log( 'spec[start]: ' . print_r($spec['start'], true) );
+        //error_log( 'spec[end]: ' . print_r($spec['end'], true) );
+        //error_log( 'spec[start]: ' . print_r($spec['start'], true) );
 
         $endValue   = self::formatValue($spec['end'], $metaType);
         $startValue = self::formatValue($spec['start'], $metaType);
 
-        error_log( 'metaType: ' . print_r($metaType, true) );
-        error_log( 'endValue: ' . print_r($endValue, true) );
-        error_log( 'startValue: ' . print_r($startValue, true) );
+        //error_log( 'metaType: ' . print_r($metaType, true) );
+        //error_log( 'endValue: ' . print_r($endValue, true) );
+        //error_log( 'startValue: ' . print_r($startValue, true) );
 
         // start_key <= end
         $group[] = self::assembleClause((string)$spec['start_key'], '<=', $endValue, $metaType);
@@ -274,7 +274,7 @@ final class MetaQueryBuilder
         } else {
             $group[] = $endCond;
         }
-        error_log( 'group: ' . print_r($group, true) );
+        //error_log( 'group: ' . print_r($group, true) );
         return ['__group' => $group];
     }
 

@@ -45,11 +45,11 @@ final class PostQuery
     // TODO: consider pros/cons of making this a static function
     public function find(array $params): array
     {
-        error_log('[PostQuery::find] params: ' . print_r($params, true));
+        //error_log('[PostQuery::find] params: ' . print_r($params, true));
         // First, ensure normalized contract
         $p = $this->normalizeContract($params); //$p = self::normalizeContract($params);
 		
-        error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
+        //error_log('[PostQuery::find] params (p) AFTER normalizeContract: ' . print_r($p, true));
 
         // Allow the active CPT handler to refine args -- ???
         $ptype = $p['post_type'];
@@ -62,13 +62,13 @@ final class PostQuery
         
         // 2) Build combined meta_query spec
         $metaSpec  = $p['meta'] ?? [];
-        error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . print_r($metaSpec, true));
+        //error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . print_r($metaSpec, true));
         
         $combinedMetaSpec  = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $metaSpec], 'AND'); // $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
-        error_log('[PostQuery::find] combinedMetaSpec: ' . print_r($combinedMetaSpec, true));
+        //error_log('[PostQuery::find] combinedMetaSpec: ' . print_r($combinedMetaSpec, true));
         
         $metaQuery = $combinedMetaSpec ? MetaQueryBuilder::build($combinedMetaSpec) : []; // $metaQuery = MetaQueryBuilder::build($combinedMetaSpec);
-        error_log('[PostQuery::find] metaQuery: ' . print_r($metaQuery, true));
+        //error_log('[PostQuery::find] metaQuery: ' . print_r($metaQuery, true));
         /*if (!empty($p['meta'])) {
             $args['meta_query'] = MetaQueryBuilder::fromSpec($p['meta'])->toWp();
         }*/
@@ -111,7 +111,7 @@ final class PostQuery
             $args['tax_query'] = $taxQuery;
         }
         
-        error_log('[PostQuery::find] args BEFORE adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
+        //error_log('[PostQuery::find] args BEFORE adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
         
         // 5) Allow the active CPT handler to refine args (AFTER base args are built)
         $handlerClass = WHx4::ctx()->getActivePostTypes()[$ptype] ?? null;
@@ -121,7 +121,7 @@ final class PostQuery
             $args = $contrib->adjustQueryArgs($args, $p);
         }
         
-        error_log('[PostQuery::find] args AFTER adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
+        //error_log('[PostQuery::find] args AFTER adjustQueryArgs: ' . json_encode($args, JSON_UNESCAPED_SLASHES));
 
         // 6) Final site-level filters
         /**
@@ -384,8 +384,8 @@ final class PostQuery
 	private static function dateMetaSpecFromBounds(array $dateMeta, ?array $dateBounds): array
 	{
 		if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
-		    error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
-		    error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
+		    //error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
+		    //error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
 		}
 		
 		// No scope -> no date filtering requested

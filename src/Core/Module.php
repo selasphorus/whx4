@@ -68,7 +68,7 @@ abstract class Module implements ModuleInterface
 			$handler->boot();
 		}
 
-		error_log('Module::boot -> calling ShortcodeManager::add');
+		//error_log('Module::boot -> calling ShortcodeManager::add');
         ShortcodeManager::add(atc\WHx4\Core\Shortcodes\WHx4ListShortcode::class);
     }
 
@@ -108,17 +108,15 @@ abstract class Module implements ModuleInterface
 			return ['posts' => [], 'pagination' => ['found' => 0, 'max_pages' => 0, 'paged' => $filters['paged'] ?? 1], 'debug' => ['error' => 'handler missing']];
 		}
 		
-		error_log('[findViaHandler] postType=' . $postType);
-		error_log('[findViaHandler] class=' . (($class ?? 'NULL')));
-		error_log('[findViaHandler] filters=' . json_encode($filters, JSON_UNESCAPED_SLASHES));
+		//error_log('[findViaHandler] postType=' . $postType);
+		//error_log('[findViaHandler] class=' . (($class ?? 'NULL')));
+		//error_log('[findViaHandler] filters=' . json_encode($filters, JSON_UNESCAPED_SLASHES));
 		
 		/** @var class-string<PostTypeHandler> $class */
 		$result = $class::find($filters);
 		
-		error_log('[findViaHandler] result.debug=' . json_encode($result['debug'] ?? [], JSON_UNESCAPED_SLASHES));
+		//error_log('[findViaHandler] result.debug=' . json_encode($result['debug'] ?? [], JSON_UNESCAPED_SLASHES));
 		return $result;
-		
-		
 	}
 
 	protected function detectModuleSlugFromNamespace(): string

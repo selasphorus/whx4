@@ -65,7 +65,7 @@ final class ViewLoader
     public static function renderToString(string $view, array $vars = [], array $specs = []): string
     {
         //error_log( '=== renderToString for view: ' . $view . ' with vars: ' . print_r($vars,true) . ' and spec: ' . print_r($specs,true) . '===' );
-        error_log( '=== renderToString for view: ' . $view . ' with spec: ' . print_r($specs,true) . '===' );
+        //error_log( '=== renderToString for view: ' . $view . ' with spec: ' . print_r($specs,true) . '===' );
         $path = self::getViewPath($view, $specs);
         //
         $kind   = self::normalizeKind($specs['kind'] ?? null);
