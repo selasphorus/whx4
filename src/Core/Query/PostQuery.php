@@ -53,8 +53,11 @@ final class PostQuery
         
         // 2) Build combined meta_query spec
         $metaSpec  = $p['meta'] ?? [];
+        error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . json_encode($metaSpec, JSON_UNESCAPED_SLASHES));
         $combinedMetaSpec  = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $metaSpec], 'AND'); // $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
+        error_log('[PostQuery::find] combinedMetaSpec: ' . json_encode($combinedMetaSpec, JSON_UNESCAPED_SLASHES));
         $metaQuery = $combinedMetaSpec ? MetaQueryBuilder::build($combinedMetaSpec) : []; // $metaQuery = MetaQueryBuilder::build($combinedMetaSpec);
+        error_log('[PostQuery::find] metaQuery: ' . json_encode($metaQuery, JSON_UNESCAPED_SLASHES));
         /*if (!empty($p['meta'])) {
             $args['meta_query'] = MetaQueryBuilder::fromSpec($p['meta'])->toWp();
         }*/
