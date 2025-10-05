@@ -378,14 +378,17 @@ final class PostQuery
 							],
 						],
 					];
-				} else if ($years && $keyType == 'serialized') {	
-					'clauses'  => [
-						[
-							'type'   => 'containsAnySerialized',
-							'key'    => 'years_active',
-							'values' => $years, // [1948,1949,1950]
+				} else if ($years && $keyType == 'serialized') {
+				    return [
+						'relation' => 'AND',
+						'clauses'  => [
+							[
+								'type'   => 'containsAnySerialized',
+								'key'    => 'years_active',
+								'values' => $years, // [1948,1949,1950]
+							],
 						],
-					],
+					];
 				} else if ($keyType == 'array') {
 					return [
 						'relation' => 'AND',
