@@ -320,7 +320,7 @@ abstract class PostTypeHandler extends BaseHandler
                 'query_request' => $result['query_request'] ?? '',
                 'params'        => $params,
                 'filters'       => $normalized,
-                //'scope'      => $scope, // wip
+                'scope'      => $filters['scope'], // wip -- pass it back so we can keep track of final scope after qv checks etc.
             ];
         //}
 
