@@ -304,6 +304,8 @@ abstract class PostTypeHandler extends BaseHandler
 
         $query  = new PostQuery();
         $result = $query->find($params);
+        
+        if ( isset($params['scope']) ) { $scope = $params['scope']; } elseif ( isset($filters['scope']) ) { $scope = $filters['scope']; } else { $scope = ""; }
 
         $payload = [
             'posts'      => $result['posts'] ?? [],
@@ -320,7 +322,7 @@ abstract class PostTypeHandler extends BaseHandler
                 'query_request' => $result['query_request'] ?? '',
                 'params'        => $params,
                 'filters'       => $normalized,
-                'scope'      => $filters['scope'], // wip -- pass it back so we can keep track of final scope after qv checks etc.
+                'scope'      => $scope, // wip -- pass it back so we can keep track of final scope after qv checks etc.
             ];
         //}
 
