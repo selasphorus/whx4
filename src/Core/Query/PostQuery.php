@@ -74,10 +74,29 @@ final class PostQuery
         /*if (!empty($p['meta'])) {
             $args['meta_query'] = MetaQueryBuilder::fromSpec($p['meta'])->toWp();
         }*/
-
-        // 3) Build tax_query from simple map (taxonomy => [terms]) — uses TaxQueryBuilder when available.
-        $taxMap    = $p['tax'] ?? [];
-        $taxQuery  = TaxQueryBuilder::build($taxMap); //$taxQuery  = self::buildTaxQuery($taxMap);
+		
+		// 3) Build tax_query from either a simple map or a full spec
+		$taxSpec = $p['tax'] ?? [];
+		if ($taxSpec !== []) {
+			if (!isset($taxSpec['clauses'])) {
+				// Convert simple map: taxonomy => [terms]
+				$clauses = [];
+				foreach ($taxSpec as $taxonomy => $terms) {
+					$clauses[] = [
+						'taxonomy' => (string)$taxonomy,
+						'terms'    => $terms,
+						'field'    => 'slug',   // your map uses slugs; change to 'term_id' if you pass IDs
+						'operator' => 'IN',
+					];
+				}
+				$taxSpec = ['relation' => 'AND', 'clauses' => $clauses];
+			}
+		
+			$taxQuery = TaxQueryBuilder::build($taxSpec);
+			if (!empty($taxQuery)) {
+				$args['tax_query'] = $taxQuery;
+			}
+		}
 
         // 4) Assemble basic WP_Query args		
         $args = [
@@ -302,10 +321,14 @@ final class PostQuery
         $taxOut = [];
         foreach ($taxIn as $taxonomy => $terms) {
             $list = is_array($terms) ? $terms : [$terms];
-            $list = array_values(array_filter(array_map(
+            /*$list = array_values(array_filter(array_map(
                 static fn($t) => is_string($t) ? trim($t) : '',
                 $list
-            ), static fn($t) => $t !== ''));
+            ), static fn($t) => $t !== ''));*/
+            $list = array_values(array_filter(array_map(
+			    static fn($t) => is_scalar($t) ? trim((string)$t) : '',
+			    $list
+			), static fn($t) => $t !== ''));
             if ($list !== []) {
                 $taxOut[(string)$taxonomy] = $list;
             }
@@ -329,6 +352,31 @@ final class PostQuery
 
         return $args;
     }
+    
+    /*private function normalizeTaxSpec(array $tax): array
+	{
+		if ($tax === [] || isset($tax['clauses'])) {
+			// Already a full spec or empty
+			return $tax;
+		}
+	
+		// Convert simple map: ['document_category' => ['tax_forms','paystubs']]
+		$clauses = [];
+		foreach ($tax as $taxonomy => $terms) {
+			if (!is_array($terms)) { $terms = [$terms]; }
+			$terms = array_values(array_filter(array_map('strval', $terms), static fn($t) => $t !== ''));
+			if ($terms === []) { continue; }
+			$clauses[] = [
+				'taxonomy' => (string)$taxonomy,
+				'terms'    => $terms,
+				'field'    => 'slug',   // your map uses slugs
+				'operator' => 'IN',
+			];
+		}
+	
+		return $clauses ? ['relation' => 'AND', 'clauses' => $clauses] : [];
+	}*/
+
 
     /**
      * Resolve a scope (string or {start,end}) into concrete date bounds.
