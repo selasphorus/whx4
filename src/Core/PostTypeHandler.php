@@ -651,6 +651,9 @@ abstract class PostTypeHandler extends BaseHandler
 	 */
 	public static function getScopeFromRequest(array $atts = [], string $default = 'this_year')
 	{
+		error_log( "PostTypeHandler::getScopeFromRequest" );
+		error_log('[getScopeFromRequest] atts: ' . print_r($atts, true));
+		
 		$scope = $atts['scope'] ?? $default;
 	
 		// Prefer query_var (avoids notices), then GET fallback
