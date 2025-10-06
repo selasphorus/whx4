@@ -9,6 +9,7 @@ use atc\WHx4\Core\WHx4;
 use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Core\Query\QueryHelpers;
 use atc\WHx4\Core\Query\MetaQueryBuilder;
+use atc\WHx4\Core\Query\TaxQueryBuilder;
 //use atc\WHx4\Core\Contracts\QueryContributor;
 //use atc\WHx4\Query\ScopedDateResolver;
 use atc\WHx4\Http\UrlParamBridge;
