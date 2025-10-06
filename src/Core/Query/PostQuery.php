@@ -109,7 +109,7 @@ final class PostQuery
         if ($metaQuery !== []) {
             $args['meta_query'] = $metaQuery;
         }
-        if ($taxQuery !== []) {
+        if (!empty($taxQuery)) { //if ($taxQuery !== []) {
             $args['tax_query'] = $taxQuery;
         }
         

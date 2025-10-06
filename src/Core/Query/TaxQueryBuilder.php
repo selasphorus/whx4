@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace atc\WHx4\Core\Query;
 
+use atc\WHx4\Core\Query\QueryHelpers;
+
 final class TaxQueryBuilder
 {
     public static function build(array $spec): array
