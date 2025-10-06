@@ -55,6 +55,7 @@ final class PostQuery
         $ptype = $p['post_type'];
         
         // 1) Resolve scope → date meta spec
+        $scope = $p['scope'];
         $dateMeta = $p['date_meta'] ?? [];
         $dateBounds = self::resolveScope($p['scope'] ?? null, $dateMeta['meta_type'] ?? null);
         $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
@@ -141,6 +142,7 @@ final class PostQuery
             'found'     => (int)$q->found_posts,
             'max_pages' => (int)$q->max_num_pages,
             'args'      => $args,
+            'scope'      => $scope, // wip
             'query_request'=> $q->request,
         ];
     }

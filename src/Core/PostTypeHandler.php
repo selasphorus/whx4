@@ -294,7 +294,7 @@ abstract class PostTypeHandler extends BaseHandler
     // TODO: standardize terminology for "find" methods -- filters? params?
     public static function find(array $filters): array
     {
-        //error_log('[PostTypeHandler::find] filters: ' . print_r($filters, true));
+        error_log('[PostTypeHandler::find] filters: ' . print_r($filters, true));
         
         $normalized = static::normalizeFilters($filters);
         //error_log('[PostTypeHandler::find] normalized filters: ' . print_r($normalized, true));
@@ -320,6 +320,7 @@ abstract class PostTypeHandler extends BaseHandler
                 'query_request' => $result['query_request'] ?? '',
                 'params'        => $params,
                 'filters'       => $normalized,
+                //'scope'      => $scope, // wip
             ];
         //}
 
