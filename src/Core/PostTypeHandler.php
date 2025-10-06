@@ -640,5 +640,32 @@ abstract class PostTypeHandler extends BaseHandler
 		return $info;
 
 	}
+	
+	/**
+	 * Resolve scope from $atts with optional override from query vars.
+	 *
+	 * Order of precedence: $atts['scope'] → query_var('rex_scope'|'scope') → $_GET → $default
+	 *
+	 * @param array<string,mixed> $atts
+	 * @return string|array|null  Sanitized scope (string like "2020-2025" or array form), or null if none.
+	 */
+	public static function getScopeFromRequest(array $atts = [], string $default = 'this_year')
+	{
+		$scope = $atts['scope'] ?? $default;
+	
+		// Prefer query_var (avoids notices), then GET fallback
+		$qv = get_query_var('whx4_scope', '');
+		if ($qv === '') { $qv = get_query_var('scope', ''); }
+		if ($qv === '' && isset($_GET['whx4_scope'])) { $qv = (string) $_GET['whx4_scope']; }
+		if ($qv === '' && isset($_GET['scope']))     { $qv = (string) $_GET['scope']; }
+	
+		$sanitized = static::sanitizeScopeParam($qv);
+		if ($sanitized !== null) {
+			$scope = $sanitized;
+		}
+	
+		return $scope;
+	}
+
 }
 
