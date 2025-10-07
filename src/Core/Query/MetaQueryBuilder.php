@@ -323,6 +323,7 @@ final class MetaQueryBuilder
      *
      * @param array<string,mixed> $spec
      */
+    // TODO: combine this, probably, with sanitizeMetaType method, below? TBD.
     private static function normalizeMetaType(array $spec): ?string
     {
         $raw = isset($spec['meta_type']) ? (string)$spec['meta_type'] : ''; //$raw = isset($spec['cast']) ? (string)$spec['cast'] : '';
@@ -364,10 +365,21 @@ final class MetaQueryBuilder
     // Format values for use in WP_Query
     private static function formatValue($value, ?string $metaType)
     {
+        $type = is_string($metaType) ? strtoupper(trim($metaType)) : null; // trim etc probably unnecessary since already sanitized...
+        
         if ($value instanceof \DateTimeInterface) {
-            $isDate = is_string($metaType) && strtoupper(trim($metaType)) === 'DATE';
-            return $isDate ? $value->format('Y-m-d') : $value->format('Y-m-d H:i:s');
+            if ($type === 'NUMERIC') {
+				return $value->format('Ymd');        // for ACF date_picker storage
+			}
+			return $type === 'DATE'
+				? $value->format('Y-m-d')
+				: $value->format('Y-m-d H:i:s');     // DATETIME (default)
         }
+	
+		if (is_array($value)) {
+			return array_map(static fn($v) => self::formatValue($v, $type), $value);
+		}
+		
         return $value; // numeric/string/array okay
     }
     
