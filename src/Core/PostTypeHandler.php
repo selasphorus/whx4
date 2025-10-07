@@ -661,8 +661,8 @@ abstract class PostTypeHandler extends BaseHandler
 		// Prefer query_var (avoids notices), then GET fallback
 		$qv = get_query_var('scope');
 		if (empty($qv)) { $qv = get_query_var('whx4_scope'); }
-		if (empty($qv)) && isset($_GET['scope'])) { $qv = (string) $_GET['scope']; }
-		if (empty($qv)) && isset($_GET['whx4_scope'])) { $qv = (string) $_GET['whx4_scope']; }
+		if (empty($qv) && isset($_GET['scope'])) { $qv = (string) $_GET['scope']; }
+		if (empty($qv) && isset($_GET['whx4_scope'])) { $qv = (string) $_GET['whx4_scope']; }
 		
 		if (!empty($qv)){
 		    $sanitized = static::sanitizeScopeParam($qv);
