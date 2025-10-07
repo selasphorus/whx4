@@ -22,14 +22,14 @@ final class SubtypeRegistry
     // Normalize providers, store instance + meta, no side-effects
     public static function collect(): void
     {
-        error_log( '=== SubtypeRegistry::collect() ===' );
+        //error_log( '=== SubtypeRegistry::collect() ===' );
         //self::$subtypes = [];
         self::$instances = [];
         self::$meta = [];
         
         // 1) Gather providers
         $providers = apply_filters('whx4_register_subtypes', []);  // array of SubtypeInterface|class-string
-        error_log( 'providers: ' . print_r($providers, true) );
+        //error_log( 'providers: ' . print_r($providers, true) );
         
         foreach ($providers as $provider) {
 			$instance = is_string($provider) ? (class_exists($provider) ? new $provider() : null) : $provider;
