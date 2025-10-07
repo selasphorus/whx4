@@ -666,6 +666,8 @@ abstract class PostTypeHandler extends BaseHandler
 		if ($sanitized !== null) {
 			$scope = $sanitized;
 		}
+		
+		error_log('[getScopeFromRequest] returning scope: ' . $scope);
 	
 		return $scope;
 	}
