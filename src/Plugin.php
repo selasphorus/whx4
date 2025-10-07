@@ -492,7 +492,7 @@ final class Plugin implements PluginContext
 						//$postTypeClasses[ $postTypeSlug ] = $postTypeHandlerClass; //$className;
 						$this->activePostTypes[ $postTypeSlug ] = $postTypeHandlerClass;
 					} else {
-						error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
+						//error_log("Post type '$postTypeSlug' from module '$moduleSlug' is not enabled.");
 					}
 					/*
 					if (
