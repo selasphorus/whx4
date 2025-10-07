@@ -106,6 +106,8 @@ abstract class PostTypeHandler extends BaseHandler
 	 */
 	public static function sanitizeScopeParam(mixed $value): ?string
 	{
+	    error_log('[sanitizeScopeParam] value (as received): ' . $value);
+
 		if ($value === null) { return null; }
 		if (is_array($value)) { $value = reset($value); }
 		$value = strtolower(trim((string)$value));
