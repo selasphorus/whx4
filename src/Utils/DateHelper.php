@@ -291,6 +291,7 @@ class DateHelper
 	 */
 	public static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
 	{
+		error_log('[DateHelper::normalizeForMetaType] value: ' . $value . '; metaType: ' . $metaType);
 		$type = is_string($metaType) ? strtoupper(trim($metaType)) : null;
 	
 		if (is_array($value)) {
