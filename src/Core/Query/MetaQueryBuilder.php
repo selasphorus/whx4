@@ -318,8 +318,8 @@ final class MetaQueryBuilder
     }
 
     /**
-     * Extract and normalize the WP meta comparison type ('type' in WP parlance) from a spec.
-     * Accepts a 'meta_type' field in the input spec; returns UPPERCASE allowed values or null.
+     * Normalize/validate a WP meta type token.
+     * Returns the UPPERCASE allowed token, or null if invalid/empty. 
      *
      * Allowed: NUMERIC, CHAR, BINARY, DATE, DATETIME, DECIMAL, SIGNED, UNSIGNED
      * Common aliases mapped:
@@ -328,18 +328,7 @@ final class MetaQueryBuilder
      *
      * @param array<string,mixed> $spec
      */
-    // TODO: combine this, probably, with sanitizeMetaType method, below? TBD.
-    private static function normalizeMetaType(array $spec): ?string
-    {
-        $raw = isset($spec['meta_type']) ? (string)$spec['meta_type'] : ''; //$raw = isset($spec['cast']) ? (string)$spec['cast'] : '';
-        return self::sanitizeMetaType($raw);
-    }
-
-    /**
-     * Normalize/validate a WP meta type token.
-     * Returns the UPPERCASE allowed token, or null if invalid/empty.
-     */
-    private static function sanitizeMetaType(?string $metaType): ?string
+    private static function normalizeMetaType(?string $metaType): ?string
     {
         if ($metaType === null || $metaType === '') {
             return null;
