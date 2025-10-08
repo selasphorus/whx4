@@ -472,6 +472,8 @@ final class PostQuery
 		    // Convert bounds to years window and build clauses accordingly
 		    $window = DateHelper::yearsWindow($dateBounds);
 		    return MetaQueryBuilder::fromYearsWindow($key, $keyType, $window, 'NUMERIC');
+		} else if ($metaType === 'NUMERIC') {
+		    error_log('[PostQuery::dateMetaSpecFromBounds] metaType is NUMERIC => need to format for ACF: ' . print_r($dateBounds, true));
 		}
 	
 		// Single point-in-time meta (e.g., event_date, transaction_date)
@@ -484,7 +486,7 @@ final class PostQuery
 					'key'  => $key,
 					'min'  => $dateBounds['start'],
 					'max'  => $dateBounds['end'],
-					'cast' => $metaType, // 'DATE' or 'DATETIME' // 'meta_type' => $metaType,
+					'cast' => $metaType, // 'DATE' or 'DATETIME' or 'NUMERIC' (for ACF yyyymmdd format)
 				]],
 			];
 		}
