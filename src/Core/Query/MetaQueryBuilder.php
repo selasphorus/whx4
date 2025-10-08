@@ -103,7 +103,9 @@ final class MetaQueryBuilder
     
     
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
-        $metaType   = self::normalizeMetaType($spec);
+        $metaType   = self::normalizeMetaType($spec['meta_type']);
+        error_log( '[MetaQB::makeClause] spec[meta_type]: ' . $spec['meta_type'] );
+        error_log( '[MetaQB::makeClause] metaType: ' . $metaType );
 
         //error_log( 'spec: ' . print_r($spec, true) );
         //error_log( 'clauseType: ' . $clauseType . '; metaType: ' . $metaType );
@@ -368,6 +370,7 @@ final class MetaQueryBuilder
     // Format values for use in WP_Query
     private static function formatValue($value, ?string $metaType)
 	{
+		error_log('[MQB::formatValue] value: ' . $value . '; metaType: ' . $metaType);
 		return DateHelper::normalizeForMetaType($value, $metaType);
 	}
     
