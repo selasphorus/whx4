@@ -367,6 +367,7 @@ final class MetaQueryBuilder
     // Format values for use in WP_Query
     private static function formatValue($value, ?string $metaType)
     {
+        error_log('[MetaQB::formatValue] value: ' . print_r($value, true) . "; metaType: " . $metaType);
         $type = is_string($metaType) ? strtoupper(trim($metaType)) : null; // trim etc probably unnecessary since already sanitized...
         
         if ($value instanceof \DateTimeInterface) {
@@ -376,6 +377,8 @@ final class MetaQueryBuilder
 			return $type === 'DATE'
 				? $value->format('Y-m-d')
 				: $value->format('Y-m-d H:i:s');     // DATETIME (default)
+        } else {
+            error_log('[MetaQB::formatValue] value NOT is instanceof DateTimeInterface');
         }
 	
 		if (is_array($value)) {
