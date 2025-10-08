@@ -71,7 +71,7 @@ final class PostQuery
         //error_log('[PostQuery::find] metaSpec BEFORE mergeSpecs: ' . print_r($metaSpec, true));
         
         $combinedMetaSpec  = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $metaSpec], 'AND'); // $combinedMetaSpec = MetaQueryBuilder::mergeSpecs([$dateMetaSpec, $p['meta']], 'AND');
-        //error_log('[PostQuery::find] combinedMetaSpec: ' . print_r($combinedMetaSpec, true));
+        error_log('[PostQuery::find] combinedMetaSpec: ' . print_r($combinedMetaSpec, true));
         
         $metaQuery = $combinedMetaSpec ? MetaQueryBuilder::build($combinedMetaSpec) : []; // $metaQuery = MetaQueryBuilder::build($combinedMetaSpec);
         //error_log('[PostQuery::find] metaQuery: ' . print_r($metaQuery, true));

@@ -213,7 +213,17 @@ class DateHelper
 		return null;
 	}
 	
-	///
+	/// Really necessary? TBD -- feels redundant
+	public static function isDateLike(string $s): bool
+	{
+	    if ($s === '') { return false; }
+	    if (preg_match('/^\d{8}$/', $s)) { return true; }                       // Ymd
+	    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $s)) { return true; }           // Y-m-d
+	    if (preg_match('/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}$/', $s)) {     // Y-m-d HH:MM:SS
+	        return true;
+	    }
+	    return strtotime($s) !== false;
+	}
 
 	public static function isYmd(string $s): bool
 	{
@@ -281,14 +291,7 @@ class DateHelper
 		return $dt->format('Y-m-d H:i:s');
 	}
 	
-	/**
-	 * Normalize a scalar or array value into the correct storage string(s) for a WP meta_query,
-	 * based on $metaType: 'NUMERIC' (ACF date_picker → Ymd), 'DATE', or 'DATETIME' (default).
-	 *
-	 * @param mixed $value
-	 * @param ?string $metaType
-	 * @return mixed
-	 */
+	/*
 	public static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
 	{
 		error_log('[DateHelper::normalizeForMetaType] value: ' . $value . '; metaType: ' . $metaType);
@@ -315,9 +318,9 @@ class DateHelper
 			? self::toDateTime($value)
 			: $value;
 	}
+	*/
 	
 	///
-
 
     /**
      * Resolve the site timezone with sensible fallbacks.

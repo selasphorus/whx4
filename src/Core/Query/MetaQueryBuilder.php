@@ -103,8 +103,14 @@ final class MetaQueryBuilder
     
     
         $clauseType = isset($spec['type']) ? (string)$spec['type'] : '';
-        $metaType   = self::normalizeMetaType($spec['meta_type']);
-        error_log( '[MetaQB::makeClause] spec[meta_type]: ' . $spec['meta_type'] );
+        /*if ( isset($spec['meta_type']) ) {
+            $metaType = self::normalizeMetaType($spec['meta_type']);
+            error_log( '[MetaQB::makeClause] spec[meta_type]: ' . $spec['meta_type'] );
+        } else {
+            $metaType = "";
+        }*/
+        $metaType = self::normalizeMetaType($spec['meta_type'] ?? $spec['cast'] ?? null);
+        
         error_log( '[MetaQB::makeClause] metaType: ' . $metaType );
 
         //error_log( 'spec: ' . print_r($spec, true) );
@@ -360,7 +366,36 @@ final class MetaQueryBuilder
     private static function formatValue($value, ?string $metaType)
 	{
 		error_log('[MQB::formatValue] value: ' . $value . '; metaType: ' . $metaType);
-		return DateHelper::normalizeForMetaType($value, $metaType);
+		return self::normalizeForMetaType($value, $metaType);
+	}
+	
+	/**
+	 * Normalize a scalar or array value into the correct storage string(s) for a WP meta_query,
+	 * based on $metaType: 'NUMERIC' (ACF date_picker → Ymd), 'DATE', or 'DATETIME' (default).
+	 * Moved FROM DateHelper class with the thought that other non-date metatypes might eventually become relevant
+	 *
+	 * @param mixed $value
+	 * @param ?string $metaType
+	 * @return mixed
+	 */
+	private static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
+	{
+	    error_log('[MQB::normalizeForMetaType] value: ' . $value . '; metaType: ' . $metaType);
+	    $type = is_string($metaType) ? strtoupper(trim($metaType)) : null;
+	    
+	    if (is_array($value)) {
+	        return array_map(static fn($v) => self::normalizeForMetaType($v, $metaType), $value);
+	    }
+	    
+	    // Only normalize if DateTimeInterface or looks like a date/time string.
+	    if ($value instanceof \DateTimeInterface || (is_string($value) && DateHelper::isDateLike($value))) {
+	        if ($type === 'NUMERIC')    { return DateHelper::toYmd($value); }
+	        if ($type === 'DATE')       { return DateHelper::toDate($value); }
+	        /* default → DATETIME */      return DateHelper::toDateTime($value);
+	    }
+	    
+	    // Non-date scalars (ints, floats, non-date strings) pass through unchanged.
+	    return $value;
 	}
     
     /**
