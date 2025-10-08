@@ -150,8 +150,10 @@ final class MetaQueryBuilder
                 if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('min', $spec) || !array_key_exists('max', $spec)) {
                     return null;
                 }
+                error_log('[MQB::makeClause] spec[min]: ' . $spec['min']);
                 $min = self::formatValue($spec['min'], $metaType);
                 $max = self::formatValue($spec['max'], $metaType);
+                error_log('[MQB::makeClause] formatted min: ' . $min);
                 return self::assembleClause(
                     (string)$spec['key'],
                     'BETWEEN',
