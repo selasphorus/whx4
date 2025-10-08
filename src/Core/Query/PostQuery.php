@@ -459,22 +459,19 @@ final class PostQuery
 		
 		// NUMERIC (year-based) storage (single/rows/serialized)
 		// Treat scope bounds as a years window and delegate to MetaQueryBuilder.
-		if ($metaType === 'NUMERIC') { //if ($metaType && strtoupper($metaType) === 'NUMERIC' && !empty($key)) {
-			// Expect a single meta key that stores a year (single/rows/serialized)
-			if (!is_string($key) || $key === '') {
-				// No usable key → noop
-				return ['relation' => 'AND', 'clauses' => []];
-			}
 		
-			// Convert bounds to years window and build clauses accordingly
-			$window = DateHelper::yearsWindow($dateBounds);
-			/*
-			$window = DateHelper::yearsWindow([
-				'start' => $dateBounds['start'] ?? null,
-				'end'   => $dateBounds['end'] ?? null,
-			]);
-			*/
-			return MetaQueryBuilder::fromYearsWindow($key, $keyType, $window, 'NUMERIC');
+		// NUMERIC meta_type can mean either:
+		// (A) years-only storage  → numeric_years=true (delegates to yearsWindow helper), OR
+		// (B) ACF date_picker (Ymd) → numeric_years=false|unset (handled below as a normal range with cast=NUMERIC).
+		if ($metaType === 'NUMERIC' && !empty($dateMeta['numeric_years'])) {
+		    // Expect a single meta key that stores a year (single/rows/serialized)
+		    if (!is_string($key) || $key === '') {
+		        // No usable key → noop
+		        return ['relation' => 'AND', 'clauses' => []];
+		    }
+		    // Convert bounds to years window and build clauses accordingly
+		    $window = DateHelper::yearsWindow($dateBounds);
+		    return MetaQueryBuilder::fromYearsWindow($key, $keyType, $window, 'NUMERIC');
 		}
 	
 		// Single point-in-time meta (e.g., event_date, transaction_date)
