@@ -366,7 +366,7 @@ final class MetaQueryBuilder
     private static function formatValue($value, ?string $metaType)
 	{
 		error_log('[MQB::formatValue] value: ' . $value . '; metaType: ' . $metaType);
-		return self::normalizeForMetaType($value, $metaType);
+		return self::normalizeValueForMetaType($value, $metaType);
 	}
 	
 	/**
@@ -378,13 +378,13 @@ final class MetaQueryBuilder
 	 * @param ?string $metaType
 	 * @return mixed
 	 */
-	private static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
+	private static function normalizeValueForMetaType(mixed $value, ?string $metaType): mixed
 	{
-	    error_log('[MQB::normalizeForMetaType] value: ' . $value . '; metaType: ' . $metaType);
+	    error_log('[MQB::normalizeValueForMetaType] value: ' . $value . '; metaType: ' . $metaType);
 	    $type = is_string($metaType) ? strtoupper(trim($metaType)) : null;
 	    
 	    if (is_array($value)) {
-	        return array_map(static fn($v) => self::normalizeForMetaType($v, $metaType), $value);
+	        return array_map(static fn($v) => self::normalizeValueForMetaType($v, $metaType), $value);
 	    }
 	    
 	    // Only normalize if DateTimeInterface or looks like a date/time string.

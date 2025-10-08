@@ -291,6 +291,7 @@ class DateHelper
 		return $dt->format('Y-m-d H:i:s');
 	}
 	
+	// OLD version of new MetaQueryBuilder::normalizeForMetaType
 	/*
 	public static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
 	{
