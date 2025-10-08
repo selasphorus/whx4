@@ -394,6 +394,8 @@ final class MetaQueryBuilder
 	 */
 	public static function fromYearsWindow(string $key, string $keyType, array $win, string $metaType = 'NUMERIC'): array
 	{
+		error_log('[fromYearsWindow] key: ' . $key . '; keyType: ' . $keyType  . '; metaType: ' . $metaType . '');
+		
 		// Empty window → no-op spec
 		if (empty($win['years'])) {
 			return ['relation' => 'AND', 'clauses' => []];
