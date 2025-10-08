@@ -308,7 +308,7 @@ final class MetaQueryBuilder
         if ($needsValue) {
             $clause['value'] = $value;
 
-            $normalized = self::sanitizeMetaType($metaType);
+            $normalized = self::normalizeMetaType($metaType);
             if ($normalized !== null) {
                 $clause['type'] = $normalized;
             }
