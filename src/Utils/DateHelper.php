@@ -212,6 +212,110 @@ class DateHelper
 		}
 		return null;
 	}
+	
+	///
+
+	public static function isYmd(string $s): bool
+	{
+		return (bool)preg_match('/^\d{8}$/', $s); // YYYYMMDD
+	}
+	
+	public static function isDate(string $s): bool
+	{
+		return (bool)preg_match('/^\d{4}-\d{2}-\d{2}$/', $s); // YYYY-MM-DD
+	}
+	
+	public static function isDateTime(string $s): bool
+	{
+		return (bool)preg_match('/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}$/', $s); // YYYY-MM-DD HH:MM:SS or T
+	}
+	
+	public static function toYmd(string|\DateTimeInterface $v): string
+	{
+		if ($v instanceof \DateTimeInterface) {
+			return $v->format('Ymd');
+		}
+		if (self::isYmd($v)) {
+			return $v;
+		}
+		if (self::isDate($v) || self::isDateTime($v)) {
+			return str_replace('-', '', substr($v, 0, 10));
+		}
+		$dt = self::parseFlexibleDate($v, true);
+		return $dt->format('Ymd');
+	}
+	
+	public static function toDate(string|\DateTimeInterface $v): string
+	{
+		if ($v instanceof \DateTimeInterface) {
+			return $v->format('Y-m-d');
+		}
+		if (self::isDate($v)) {
+			return $v;
+		}
+		if (self::isYmd($v)) {
+			return substr($v, 0, 4) . '-' . substr($v, 4, 2) . '-' . substr($v, 6, 2);
+		}
+		if (self::isDateTime($v)) {
+			return substr($v, 0, 10);
+		}
+		$dt = self::parseFlexibleDate($v, true);
+		return $dt->format('Y-m-d');
+	}
+	
+	public static function toDateTime(string|\DateTimeInterface $v): string
+	{
+		if ($v instanceof \DateTimeInterface) {
+			return $v->format('Y-m-d H:i:s');
+		}
+		if (self::isDateTime($v)) {
+			return str_replace('T', ' ', $v);
+		}
+		if (self::isDate($v)) {
+			return $v . ' 00:00:00';
+		}
+		if (self::isYmd($v)) {
+			return self::toDate($v) . ' 00:00:00';
+		}
+		$dt = self::parseFlexibleDate($v, true);
+		return $dt->format('Y-m-d H:i:s');
+	}
+	
+	/**
+	 * Normalize a scalar or array value into the correct storage string(s) for a WP meta_query,
+	 * based on $metaType: 'NUMERIC' (ACF date_picker → Ymd), 'DATE', or 'DATETIME' (default).
+	 *
+	 * @param mixed $value
+	 * @param ?string $metaType
+	 * @return mixed
+	 */
+	public static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
+	{
+		$type = is_string($metaType) ? strtoupper(trim($metaType)) : null;
+	
+		if (is_array($value)) {
+			return array_map(static fn($v) => self::normalizeForMetaType($v, $metaType), $value);
+		}
+	
+		if ($type === 'NUMERIC') {
+			return is_string($value) || $value instanceof \DateTimeInterface
+				? self::toYmd($value)
+				: $value;
+		}
+	
+		if ($type === 'DATE') {
+			return is_string($value) || $value instanceof \DateTimeInterface
+				? self::toDate($value)
+				: $value;
+		}
+	
+		// default → DATETIME
+		return is_string($value) || $value instanceof \DateTimeInterface
+			? self::toDateTime($value)
+			: $value;
+	}
+	
+	///
 
 
     /**

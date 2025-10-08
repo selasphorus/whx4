@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace atc\WHx4\Core\Query;
 
 use atc\WHx4\Core\Query\QueryHelpers;
+use atc\WHx4\Utils\DateHelper;
 
 /**
  * MetaQueryBuilder
@@ -366,27 +367,9 @@ final class MetaQueryBuilder
 
     // Format values for use in WP_Query
     private static function formatValue($value, ?string $metaType)
-    {
-        error_log('[MetaQB::formatValue] value: ' . print_r($value, true) . "; metaType: " . $metaType);
-        $type = is_string($metaType) ? strtoupper(trim($metaType)) : null; // trim etc probably unnecessary since already sanitized...
-        
-        if ($value instanceof \DateTimeInterface) {
-            if ($type === 'NUMERIC') {
-				return $value->format('Ymd');        // for ACF date_picker storage
-			}
-			return $type === 'DATE'
-				? $value->format('Y-m-d')
-				: $value->format('Y-m-d H:i:s');     // DATETIME (default)
-        } else {
-            error_log('[MetaQB::formatValue] value NOT is instanceof DateTimeInterface');
-        }
-	
-		if (is_array($value)) {
-			return array_map(static fn($v) => self::formatValue($v, $type), $value);
-		}
-		
-        return $value; // numeric/string/array okay
-    }
+	{
+		return DateHelper::normalizeForMetaType($value, $metaType);
+	}
     
     /**
 	 * Build a meta_query spec for matching a year window against different storage styles.
