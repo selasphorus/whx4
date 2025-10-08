@@ -231,6 +231,7 @@ final class MetaQueryBuilder
         if (!QueryHelpers::requireFields($spec, ['key']) || !array_key_exists('value', $spec)) {
             return null;
         }
+        
         return self::assembleClause(
             (string)$spec['key'],
             $op,
@@ -309,6 +310,19 @@ final class MetaQueryBuilder
             'key'     => $key,
             'compare' => $compare,
         ];
+        /*
+		$mt = self::normalizeMetaType($spec['meta_type'] ?? $spec['cast'] ?? null);
+		$clause = [
+			'key'     => (string)$spec['key'],
+			'value'   => self::formatValue($value, $mt),
+			'compare' => '=',
+		];
+		if ($mt !== '') {
+		$clause['type'] = $mt;
+		
+		//if (in_array($metaType, ['NUMERIC','DATE','DATETIME'], true)) { $clause['type'] = $metaType; }
+		}*/
+
 
         $needsValue = !in_array($compare, ['EXISTS', 'NOT EXISTS'], true);
         if ($needsValue) {
