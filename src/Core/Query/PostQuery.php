@@ -285,11 +285,14 @@ final class PostQuery
         if (isset($dateMetaIn['end_key'])) {
             $dateMeta['end_key'] = (string)$dateMetaIn['end_key'];
         }
+        if (isset($dateMetaIn['key_type'])) {
+            $dateMeta['key_type'] = (string)$dateMetaIn['key_type'];
+        }
         if (isset($dateMetaIn['meta_type'])) {
             $dateMeta['meta_type'] = (string)$dateMetaIn['meta_type'];
         }
-        if (isset($dateMetaIn['key_type'])) {
-            $dateMeta['key_type'] = (string)$dateMetaIn['key_type'];
+        if (isset($dateMetaIn['numeric_years'])) {
+            $dateMeta['numeric_years'] = (bool)$dateMetaIn['numeric_years'];
         }
         if (isset($dateMetaIn['end_optional'])) {
             $dateMeta['end_optional'] = (bool)$dateMetaIn['end_optional'];
