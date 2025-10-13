@@ -439,7 +439,7 @@ final class PostQuery
 	private static function dateMetaSpecFromBounds(array $dateMeta, ?array $dateBounds): array
 	{
 		if (defined('WHX4_DEBUG') && WHX4_DEBUG) {
-		    //error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
+		    error_log('[PostQuery::dateMetaSpecFromBounds] dateMeta: ' . print_r($dateMeta, true));
 		    //error_log('[PostQuery::dateMetaSpecFromBounds] dateBounds: ' . print_r($dateBounds, true));
 		}
 		
@@ -480,6 +480,7 @@ final class PostQuery
 	
 		// Single point-in-time meta (e.g., event_date, transaction_date)
 		if (is_string($key) && $key !== '' && !$startKey && !$endKey) { //if (!empty($key)) {
+		    error_log('[PostQuery::dateMetaSpecFromBounds] Single point-in-time meta with key: ' . $key);
 			// Build a BETWEEN (date or datetime) using $bounds['start']..$bounds['end']
 			return [
 				'relation' => 'AND',
@@ -495,6 +496,7 @@ final class PostQuery
 	
 		// Span storage (e.g., events with start_key/end_key) -- build overlap over start/end keys.
 		if (!empty($startKey) && !empty($endKey)) { //if (is_string($startKey) && $startKey !== '' && is_string($endKey) && $endKey !== '') {
+		    error_log('[PostQuery::dateMetaSpecFromBounds] startKey: ' . $startKey . '; endKey: ' . $endKey);
 			return [
 				'relation' => 'AND',
 				'clauses'  => [[
