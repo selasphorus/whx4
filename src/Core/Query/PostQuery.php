@@ -451,6 +451,7 @@ final class PostQuery
 		// Normalize
 		$metaType = isset($dateMeta['meta_type']) ? strtoupper((string)$dateMeta['meta_type']) : 'DATE';
 		$keyType  = isset($dateMeta['key_type']) ? strtolower((string)$dateMeta['key_type']) : 'single';
+		$numericYears  = isset($dateMeta['numeric_years']) ? $dateMeta['numeric_years'] : null;
 		//
 		$key      = isset($dateMeta['key']) ? (string)$dateMeta['key'] : null;
 		$startKey = isset($dateMeta['start_key']) ? (string)$dateMeta['start_key'] : null;
@@ -463,7 +464,7 @@ final class PostQuery
 		// NUMERIC meta_type can mean either:
 		// (A) years-only storage  → numeric_years=true (delegates to yearsWindow helper), OR
 		// (B) ACF date_picker (Ymd) → numeric_years=false|unset (handled below as a normal range with cast=NUMERIC).
-		if ($metaType === 'NUMERIC' && !empty($dateMeta['numeric_years'])) {
+		if ($metaType === 'NUMERIC' && !empty($numericYears)) {
 		    // Expect a single meta key that stores a year (single/rows/serialized)
 		    if (!is_string($key) || $key === '') {
 		        // No usable key → noop

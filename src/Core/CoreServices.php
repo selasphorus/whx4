@@ -6,6 +6,7 @@ use atc\WHx4\Utils\TitleFilter;
 use atc\WHx4\Core\FieldGroupLoader;
 use atc\WHx4\Core\TemplateRouter;
 use atc\WHx4\Core\Shortcodes\ShortcodeManager;
+use atc\WHx4\Core\Assets\AssetManager;
 
 class CoreServices
 {
@@ -20,7 +21,7 @@ class CoreServices
             //FieldGroupLoader::class,
             TemplateRouter::class,
             ShortcodeManager::class,
-            // Add more core classes here as needed
+            AssetManager::class,
         ]);
 
         foreach ( $services as $class ) {
