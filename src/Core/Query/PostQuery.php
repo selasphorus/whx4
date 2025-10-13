@@ -59,7 +59,7 @@ final class PostQuery
         $scope = $p['scope'];
         $dateMeta = $p['date_meta'] ?? [];
         $dateBounds = self::resolveScope($p['scope'] ?? null, $dateMeta['meta_type'] ?? null);
-        $dateMetaSpec  = self::dateMetaSpecFromBounds($p['date_meta'], $dateBounds);
+        $dateMetaSpec  = self::dateMetaSpecFromBounds($dateMeta, $dateBounds);
         error_log('[PostQuery::find] scope: ' . print_r($scope, true));
         error_log('[PostQuery::find] dateMeta: ' . print_r($dateMeta, true));
         error_log('[PostQuery::find] dateBounds: ' . print_r($dateBounds, true));
