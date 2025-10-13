@@ -36,10 +36,6 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-// WIP >> OOP
-
-//error_log( '=== WHx4 test: did this run? ===' );
-
 // Via Composer
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
