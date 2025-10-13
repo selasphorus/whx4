@@ -465,6 +465,7 @@ final class PostQuery
 		// (A) years-only storage  → numeric_years=true (delegates to yearsWindow helper), OR
 		// (B) ACF date_picker (Ymd) → numeric_years=false|unset (handled below as a normal range with cast=NUMERIC).
 		if ($metaType === 'NUMERIC' && !empty($numericYears)) {
+		    error_log('[PostQuery::dateMetaSpecFromBounds] numericYears is TRUE.');
 		    // Expect a single meta key that stores a year (single/rows/serialized)
 		    if (!is_string($key) || $key === '') {
 		        // No usable key → noop
