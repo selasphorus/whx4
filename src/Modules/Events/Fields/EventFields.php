@@ -148,6 +148,33 @@ final class EventFields implements FieldGroupInterface
                 ],
                 // START recurrence rules WIP
                 [
+                    'key' => 'field_whx4_events_recurrence_tab',
+                    'label' => 'Recurrence Rules',
+                    'name' => '',
+                    'aria-label' => '',
+                    'type' => 'tab',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '10',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'placement' => 'top',
+                    'endpoint' => 0,
+                    'selected' => 0,                    
+                    'conditional_logic' => [
+                        [
+                            [
+                                'field' => 'field_whx4_events_is_recurring',
+                                'operator' => '==',
+                                'value' => '1',
+                            ]
+                        ]
+                    ],
+                ],
+                [
                     'key' => 'field_whx4_events_recurrence_human',
                     'label' => 'Repeats',
                     'name' => 'whx4_events_recurrence_human',
