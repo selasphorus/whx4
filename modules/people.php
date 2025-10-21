@@ -250,11 +250,12 @@ function get_cpt_person_content( $post_id = null ) {
 	$term_obj_list = get_the_terms( $post_id, 'person_category' );
 	if ( $term_obj_list ) {
 		$terms_string = join(', ', wp_list_pluck($term_obj_list, 'name'));
-		$info .= '<div class="devview categories">';
+		// Disabled tmp for TS 10/21/25
+		/*$info .= '<div class="devview categories">';
 		if ( $terms_string ) {
 			$info .= "<p>Categories: ".$terms_string."</p>";
 		}
-		$info .= '</div>';
+		$info .= '</div>';*/
 	}
     
     return $info;
