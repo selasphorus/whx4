@@ -34,6 +34,8 @@ final class AssetManager
         $assets = apply_filters('whx4_assets', ['styles' => [], 'scripts' => []]);
         $assets = self::filterShape($assets);
         self::$catalog = $assets;
+        
+        error_log('[AssetManager::collectAndRegister] assets: ' . print_r($assets, true));
 
         foreach ($assets['styles'] as $s) {
             $handle = (string)($s['handle'] ?? '');
