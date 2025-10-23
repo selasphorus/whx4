@@ -11,6 +11,7 @@ final class AssetManager
 
     public static function boot(): void
     {
+        error_log( '=== AssetManager::boot() ===' );
         add_action('init', [self::class, 'collectAndRegister'], 8);
         add_action('wp_enqueue_scripts', [self::class, 'maybeAutoloadFront'], 11);
         add_action('admin_enqueue_scripts', [self::class, 'maybeAutoloadAdmin'], 11);
@@ -29,6 +30,7 @@ final class AssetManager
 
     public static function collectAndRegister(): void
     {
+        error_log( '=== AssetManager::collectAndRegister() ===' );
         $assets = apply_filters('whx4_assets', ['styles' => [], 'scripts' => []]);
         $assets = self::filterShape($assets);
         self::$catalog = $assets;
