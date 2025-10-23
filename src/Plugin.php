@@ -104,6 +104,8 @@ final class Plugin implements PluginContext
         //$this->defineConstants(); // phased out (for now) -- constants now defined via whx4.php
         $this->registerAdminHooks();
 
+        CoreServices::boot(); // wip
+        
         // Run as early as possible on init so modules are ready before init:10 work.
 		if ( did_action('init') ) {
 		    error_log( 'Already did init; finishBoot now.' );
@@ -155,7 +157,7 @@ final class Plugin implements PluginContext
 	    //error_log('=== Plugin::finishBoot() @ init:0 ===');
 
 		// Boot core services -- TODO: make sure this is still useful...
-		CoreServices::boot();
+		//CoreServices::boot();
 
         // Load modules and config
 
@@ -523,43 +525,6 @@ final class Plugin implements PluginContext
 		//return array_unique($postTypeClasses);
 	}
 
-	//getEnabledTaxonomies
-
-    // Loop through each module and register its post types.
-    /*public function registerPostTypes(): void
-	{
-		error_log( '=== Plugin::registerPostTypes() ===' );
-
-		// Abort if no modules have been booted
-		if ( !$this->modulesBooted ) {
-		    error_log( '=== no modules booted yet => abort ===' );
-			return;
-		}
-
-		$activePostTypes = $this->getActivePostTypes();
-		//error_log( 'Plugin::registerPostTypes() >> activePostTypes: '.print_r($activePostTypes, true) );
-
-		if ( empty( $activePostTypes ) ) {
-			error_log( 'No active post types found. Skipping registration.' );
-			return;
-		}
-
-		$this->postTypeRegistrar?->registerMany( $activePostTypes );
-	}*/
-/*
-    public function registerFieldGroups(): void
-    {
-        error_log( '=== registerFieldGroups ===' );
-
-        // Abort if no modules have been booted
-		if ( !$this->modulesBooted ) {
-		    error_log( '=== no modules booted yet => abort ===' );
-			return;
-		}
-
-        $this->fieldGroupLoader?->registerAll();
-    }*/
-
 	/// WIP
 	public function assignPostTypeCaps(array $bootedModules = []): void
     {
@@ -622,7 +587,8 @@ final class Plugin implements PluginContext
             );*/
         }
     }
-// WIP 08/18/25
+    
+    // WIP 08/18/25
     /*private static function log(string $msg): void
     {
         // Prefer CLI output when available
@@ -635,14 +601,6 @@ final class Plugin implements PluginContext
         error_log('[Rex] ' . $msg);
     }*/
 
-	/*public function assignPostTypeCapabilities(): void {
-		$this->postTypeRegistrar->assignPostTypeCapabilities();
-	}
-
-	public function removePostTypeCapabilities(): void {
-		$this->postTypeRegistrar->removePostTypeCapabilities();
-	}*/
-
 	//
     protected function use_custom_caps() {
 		$use_custom_caps = false;
@@ -652,37 +610,6 @@ final class Plugin implements PluginContext
 		return $use_custom_caps;
 	}
 
-    /*
-    protected static ?self $instance = null;
-
-    protected ?string $entry_point = null;
-
-    public static function get_instance(): self {
-       if ( is_null( self::$instance ) ) {
-          self::$instance = new self();
-       }
-
-       return self::$instance;
-    }
-
-    public static function run( string $entry_point ): self {
-       $plugin = self::get_instance();
-
-       $plugin->entry_point = $entry_point;
-
-       register_activation_hook( $entry_point, function () {
-          self::activate();
-       } );
-
-       register_deactivation_hook( $entry_point, function () {
-          self::deactivate();
-       } );
-
-       // Other initialization code...
-
-       return $plugin;
-    }
-    */
 
     protected static function activate(): void {
        flush_rewrite_rules();
