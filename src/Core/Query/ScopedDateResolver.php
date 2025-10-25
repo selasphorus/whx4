@@ -201,6 +201,43 @@ class ScopedDateResolver
 
         return $result;
     }
+    
+    /**
+	 * Extract an array of years from a scope specification.
+	 * Useful for building year-based column headers in views.
+	 * 
+	 * @param string|array $scope
+	 * @return int[] Sorted array of years
+	 */
+	public static function extractYears(string|array $scope): array
+	{
+		$years = [];
+		
+		if (is_array($scope) && isset($scope['years'])) {
+			$years = array_map('intval', $scope['years']);
+		} elseif (is_string($scope)) {
+			$s = trim($scope);
+			// Single year: "2024"
+			if (preg_match('/^\d{4}$/', $s)) {
+				$years = [(int)$s];
+			}
+			// Range: "2022-2024" or "2022,2025"
+			elseif (preg_match('/^(\d{4})\s*[-,]\s*(\d{4})$/', $s, $m)) {
+				$y1 = (int)$m[1];
+				$y2 = (int)$m[2];
+				$years = range(min($y1, $y2), max($y1, $y2));
+			}
+			// Fallback for named scopes
+			else {
+				$years = [(int)date('Y')];
+			}
+		} else {
+			$years = [(int)date('Y')];
+		}
+		
+		sort($years);
+		return $years;
+	}
 
     // ----- Internals -----------------------------------------------------
 
