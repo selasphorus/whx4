@@ -183,7 +183,8 @@ final class MetaQueryBuilder
 
             case 'containsSerialized':
 				// expects: key, values (array of scalars)
-				if (!self::has($spec, ['key', 'values']) || !is_array($spec['values']) || $spec['values'] === []) {
+				//if (!self::has($spec, ['key', 'values']) || !is_array($spec['values']) || $spec['values'] === []) {
+				if (!QueryHelpers::requireFields($spec, ['key', 'values']) || !is_array($spec['values']) || $spec['values'] === []) {
 					return null;
 				}
 				$group = ['relation' => 'OR'];
