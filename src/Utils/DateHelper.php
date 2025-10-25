@@ -142,6 +142,29 @@ class DateHelper
 
         return $map[ $month ] ?? null;
     }
+    
+    /**
+     * Get month names
+     * 
+     * @param string $format 'short' (Jan, Feb) or 'long' (January, February)
+     * @return array Associative array with month numbers as keys ('01' => 'Jan', etc.)
+     */
+    public static function getMonthNames(string $format = 'short'): array
+    {
+        if ($format === 'long') {
+            return [
+                '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
+                '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August',
+                '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+            ];
+        }
+        
+        return [
+            '01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+            '05' => 'May', '06' => 'Jun', '07' => 'Jul', '08' => 'Aug',
+            '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Dec'
+        ];
+    }
 
     /**
      * Combine a date and optional time string into a DateTimeImmutable object.
@@ -290,36 +313,6 @@ class DateHelper
 		$dt = self::parseFlexibleDate($v, true);
 		return $dt->format('Y-m-d H:i:s');
 	}
-	
-	// OLD version of new MetaQueryBuilder::normalizeForMetaType
-	/*
-	public static function normalizeForMetaType(mixed $value, ?string $metaType): mixed
-	{
-		error_log('[DateHelper::normalizeForMetaType] value: ' . $value . '; metaType: ' . $metaType);
-		$type = is_string($metaType) ? strtoupper(trim($metaType)) : null;
-	
-		if (is_array($value)) {
-			return array_map(static fn($v) => self::normalizeForMetaType($v, $metaType), $value);
-		}
-	
-		if ($type === 'NUMERIC') {
-			return is_string($value) || $value instanceof \DateTimeInterface
-				? self::toYmd($value)
-				: $value;
-		}
-	
-		if ($type === 'DATE') {
-			return is_string($value) || $value instanceof \DateTimeInterface
-				? self::toDate($value)
-				: $value;
-		}
-	
-		// default → DATETIME
-		return is_string($value) || $value instanceof \DateTimeInterface
-			? self::toDateTime($value)
-			: $value;
-	}
-	*/
 	
 	///
 
