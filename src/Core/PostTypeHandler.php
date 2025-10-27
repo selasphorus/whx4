@@ -756,7 +756,7 @@ abstract class PostTypeHandler extends BaseHandler
 	 * @return array ['parents' => [...], 'children' => [parent_id => [...]]]
 	 */
 	// TODO: consider whether this really belongs in the TaxonomyHandler class?
-	protected function organizeTermsHierarchically(array $terms): array
+	public function organizeTermsHierarchically(array $terms): array
 	{
 		$parents = [];
 		$children = [];
@@ -781,7 +781,7 @@ abstract class PostTypeHandler extends BaseHandler
 	 * @param \WP_Term[] $terms
 	 * @return bool
 	 */
-	protected function hasHierarchicalRelationships(array $terms): bool
+	public function hasHierarchicalRelationships(array $terms): bool
 	{
 		$termIds = array_map(fn($t) => $t->term_id, $terms);
 		
