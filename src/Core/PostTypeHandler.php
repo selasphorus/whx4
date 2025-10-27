@@ -750,17 +750,18 @@ abstract class PostTypeHandler extends BaseHandler
 	}
 	
 	/**
-	 * Organize terms into a hierarchical structure
+	 * Organize terms into a hierarchical structure with multiple levels
 	 * 
 	 * @param \WP_Term[] $terms Flat array of terms
-	 * @return array ['parents' => [...], 'children' => [parent_id => [...]]]
+	 * @return array ['parents' => [...], 'children' => [parent_id => [...]], 'depth' => int]
 	 */
-	// TODO: consider whether this really belongs in the TaxonomyHandler class?
 	public function organizeTermsHierarchically(array $terms): array
 	{
 		$parents = [];
 		$children = [];
+		$maxDepth = 0;
 		
+		// Build parent-child map
 		foreach ($terms as $term) {
 			if ($term->parent === 0) {
 				$parents[] = $term;
@@ -772,7 +773,47 @@ abstract class PostTypeHandler extends BaseHandler
 			}
 		}
 		
-		return ['parents' => $parents, 'children' => $children];
+		// Calculate max depth
+		$termIds = array_map(fn($t) => $t->term_id, $terms);
+		foreach ($terms as $term) {
+			$depth = $this->calculateTermDepth($term, $termIds, $terms);
+			$maxDepth = max($maxDepth, $depth);
+		}
+		
+		return [
+			'parents' => $parents,
+			'children' => $children,
+			'depth' => $maxDepth
+		];
+	}
+	
+	/**
+	 * Calculate the depth of a term in the hierarchy
+	 * 
+	 * @param \WP_Term $term
+	 * @param array $termIds All term IDs in the set
+	 * @param \WP_Term[] $allTerms All terms
+	 * @return int Depth (0 = root)
+	 */
+	private function calculateTermDepth(\WP_Term $term, array $termIds, array $allTerms): int
+	{
+		if ($term->parent === 0) {
+			return 0;
+		}
+		
+		// Only count depth if parent is in our set
+		if (!in_array($term->parent, $termIds, true)) {
+			return 0;
+		}
+		
+		// Find parent term
+		foreach ($allTerms as $t) {
+			if ($t->term_id === $term->parent) {
+				return 1 + $this->calculateTermDepth($t, $termIds, $allTerms);
+			}
+		}
+		
+		return 0;
 	}
 	
 	/**
