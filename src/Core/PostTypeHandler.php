@@ -397,7 +397,6 @@ abstract class PostTypeHandler extends BaseHandler
         return $this->getConfig()['menu_icon'] ?? 'dashicons-superhero';
     }
 
-
     /**
      * Get the handler FQCN for a CPT slug, or null if not WHx4-managed.
      */
@@ -673,6 +672,81 @@ abstract class PostTypeHandler extends BaseHandler
 	
 		return $scope;
 	}
-
+	
+	/**
+	 * Resolve terms for a taxonomy with support for inclusion/exclusion patterns
+	 * 
+	 * @param string $taxonomy The taxonomy name
+	 * @param mixed $param The filter parameter - can be:
+	 *   - 'all': all terms
+	 *   - 'active': terms with posts in current scope (requires $context with 'scope')
+	 *   - CSV or array of slugs for inclusion
+	 *   - CSV or array with '-' prefix for exclusion
+	 * @param array $context Optional context (e.g., ['scope' => '2024', 'post_type' => 'transaction'])
+	 * @return \WP_Term[] Array of resolved terms
+	 */
+	protected function resolveTerms(string $taxonomy, $param, array $context = []): array
+	{
+		// String modes
+		if (is_string($param)) {
+			$mode = strtolower(trim($param));
+			if ($mode === 'all') {
+				return $this->getTermsForTaxonomy($taxonomy, [], false);
+			}
+			if ($mode === 'active') {
+				return $this->getTermsForTaxonomy($taxonomy, $context, true);
+			}
+			// fall through to slug handling
+		}
+	
+		// Handle slugs (with optional exclusion prefix)
+		$slugs = static::sanitizeTermSlugsParam($param);
+		if ($slugs === []) { return []; }
+		
+		// Check for exclusions (slugs starting with -)
+		$exclusions = array_filter($slugs, fn($s) => str_starts_with($s, '-'));
+		if (!empty($exclusions)) {
+			// Remove the - prefix
+			$exclusions = array_map(fn($s) => ltrim($s, '-'), $exclusions);
+			
+			// Get all terms, then filter out exclusions
+			$allTerms = $this->getTermsForTaxonomy($taxonomy, $context, false);
+			return array_filter($allTerms, function($term) use ($exclusions) {
+				return !in_array($term->slug, $exclusions, true);
+			});
+		}
+	
+		// Inclusion logic
+		$found = get_terms([
+			'taxonomy'   => $taxonomy,
+			'slug'       => $slugs,
+			'hide_empty' => true,
+		]);
+	
+		return (!is_wp_error($found) && is_array($found)) ? $found : [];
+	}
+	
+	/**
+	 * Get terms for a taxonomy, optionally filtered by active posts in scope
+	 * 
+	 * @param string $taxonomy Taxonomy name
+	 * @param array $filters Query filters (may include 'scope')
+	 * @param bool $activeInScope Whether to limit to terms on posts in scope
+	 * @return \WP_Term[]
+	 */
+	protected function getTermsForTaxonomy(string $taxonomy, array $filters = [], bool $activeInScope = false): array
+	{
+		if (!$activeInScope) {
+			$terms = get_terms([
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => true,
+			]);
+			return is_array($terms) ? $terms : [];
+		}
+	
+		// Active-in-scope: need to be overridden by child classes
+		// that know how to fetch posts for their specific type
+		return [];
+	}
 }
 
