@@ -748,5 +748,50 @@ abstract class PostTypeHandler extends BaseHandler
 		// that know how to fetch posts for their specific type
 		return [];
 	}
+	
+	/**
+	 * Organize terms into a hierarchical structure
+	 * 
+	 * @param \WP_Term[] $terms Flat array of terms
+	 * @return array ['parents' => [...], 'children' => [parent_id => [...]]]
+	 */
+	// TODO: consider whether this really belongs in the TaxonomyHandler class?
+	protected function organizeTermsHierarchically(array $terms): array
+	{
+		$parents = [];
+		$children = [];
+		
+		foreach ($terms as $term) {
+			if ($term->parent === 0) {
+				$parents[] = $term;
+			} else {
+				if (!isset($children[$term->parent])) {
+					$children[$term->parent] = [];
+				}
+				$children[$term->parent][] = $term;
+			}
+		}
+		
+		return ['parents' => $parents, 'children' => $children];
+	}
+	
+	/**
+	 * Check if any terms in the list are hierarchically related
+	 * 
+	 * @param \WP_Term[] $terms
+	 * @return bool
+	 */
+	protected function hasHierarchicalRelationships(array $terms): bool
+	{
+		$termIds = array_map(fn($t) => $t->term_id, $terms);
+		
+		foreach ($terms as $term) {
+			if ($term->parent !== 0 && in_array($term->parent, $termIds, true)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 
