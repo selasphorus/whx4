@@ -709,10 +709,22 @@ abstract class PostTypeHandler extends BaseHandler
 			// Remove the - prefix
 			$exclusions = array_map(fn($s) => ltrim($s, '-'), $exclusions);
 			
-			// Get all terms, then filter out exclusions
+			// Get all terms
 			$allTerms = $this->getTermsForTaxonomy($taxonomy, $context, false);
-			return array_filter($allTerms, function($term) use ($exclusions) {
-				return !in_array($term->slug, $exclusions, true);
+			
+			// Find excluded term IDs (including descendants)
+			$excludedIds = [];
+			foreach ($allTerms as $term) {
+				if (in_array($term->slug, $exclusions, true)) {
+					$excludedIds[] = $term->term_id;
+					// Add all descendants
+					$excludedIds = array_merge($excludedIds, $this->getDescendantTermIds($term->term_id, $allTerms));
+				}
+			}
+			
+			// Filter out excluded terms and their descendants
+			return array_filter($allTerms, function($term) use ($excludedIds) {
+				return !in_array($term->term_id, $excludedIds, true);
 			});
 		}
 	
