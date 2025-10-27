@@ -846,5 +846,27 @@ abstract class PostTypeHandler extends BaseHandler
 		
 		return false;
 	}
+	
+	/**
+	 * Get all descendant term IDs for a given parent term
+	 * 
+	 * @param int $parentId Parent term ID
+	 * @param \WP_Term[] $allTerms All terms to search through
+	 * @return array Array of descendant term IDs
+	 */
+	private function getDescendantTermIds(int $parentId, array $allTerms): array
+	{
+		$descendants = [];
+		
+		foreach ($allTerms as $term) {
+			if ($term->parent === $parentId) {
+				$descendants[] = $term->term_id;
+				// Recursively get this term's descendants
+				$descendants = array_merge($descendants, $this->getDescendantTermIds($term->term_id, $allTerms));
+			}
+		}
+		
+		return $descendants;
+	}
 }
 
