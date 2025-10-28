@@ -15,9 +15,6 @@ class AdminPageRegistry
     /** @var array<string, array> Registered page configurations */
     private array $pages = [];
     
-    /** @var array<string, callable> Registered page controllers */
-    private array $controllers = [];
-    
     private function __construct()
     {
         // Private constructor for singleton
@@ -87,7 +84,6 @@ class AdminPageRegistry
         }
         
         $this->pages[$id] = $config;
-        $this->controllers[$id] = $config['controller'];
     }
     
     /**
@@ -106,9 +102,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        function() use ($id) {
-                            $this->renderPage($id);
-                        }
+                        $config['controller']  // Pass controller directly
                     );
                     break;
                     
@@ -118,9 +112,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        function() use ($id) {
-                            $this->renderPage($id);
-                        },
+                        $config['controller'],  // Pass controller directly
                         $config['icon_url'] ?? '',
                         $config['position'] ?? null
                     );
@@ -133,9 +125,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        function() use ($id) {
-                            $this->renderPage($id);
-                        }
+                        $config['controller']  // Pass controller directly
                     );
                     break;
             }
@@ -145,20 +135,6 @@ class AdminPageRegistry
                 $this->pages[$id]['hook'] = $hook;
             }
         }
-    }
-    
-    /**
-     * Render a registered page
-     */
-    private function renderPage(string $id): void
-    {
-        if (!isset($this->controllers[$id])) {
-            echo '<div class="wrap"><h1>Page Not Found</h1></div>';
-            return;
-        }
-        
-        // Call the controller
-        call_user_func($this->controllers[$id]);
     }
     
     /**
