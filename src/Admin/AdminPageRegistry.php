@@ -102,7 +102,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        $config['controller']  // Pass controller directly
+                        $config['controller']
                     );
                     break;
                     
@@ -112,7 +112,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        $config['controller'],  // Pass controller directly
+                        $config['controller'],
                         $config['icon_url'] ?? '',
                         $config['position'] ?? null
                     );
@@ -125,7 +125,7 @@ class AdminPageRegistry
                         $config['menu_title'],
                         $config['capability'],
                         $config['menu_slug'],
-                        $config['controller']  // Pass controller directly
+                        $config['controller']
                     );
                     break;
             }

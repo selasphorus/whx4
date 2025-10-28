@@ -132,14 +132,14 @@ final class Plugin implements PluginContext
     protected function registerAdminHooks(): void
     {
         //error_log( '=== Plugin::registerAdminHooks() ===' );
-        if (is_admin()) {
-			// Initialize the admin page registry FIRST
+		if (is_admin()) {
+			// Register core admin pages FIRST so they can listen for the init action
+			(new SettingsPageController())->addHooks();
+			(new FieldKeyAuditPageController($this))->addHooks();
+			
+			// THEN initialize the registry, which fires the 'whx4_admin_pages_init' action
 			$registry = \atc\WHx4\Admin\AdminPageRegistry::getInstance();
 			$registry->init();
-			
-			// Register core admin pages
-			(new SettingsPageController())->addHooks(); // ( new SettingsPageController( $this ) )->addHooks();
-			(new FieldKeyAuditPageController($this))->addHooks();
 			
 			add_action('admin_enqueue_scripts', [$this, 'enqueueAdminAssets']);
 		}
