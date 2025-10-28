@@ -7,15 +7,17 @@ use atc\WHx4\Core\ViewLoader;
 
 class SettingsPageController
 {
-
     public function addHooks(): void
     {
         //error_log( '=== SettingsPageController::addHooks() ===' );
-        add_action( 'admin_menu', [ $this, 'addSettingsPage' ] );
-        add_action( 'admin_init', [ $this, 'registerSettings' ] );
+        // Register the settings page using the new registry system
+        add_action('whx4_admin_pages_init', [$this, 'registerSettingsPage']);
+        
+        // Register settings on admin_init (unchanged)
+        add_action('admin_init', [$this, 'registerSettings']);
     }
 
-    public function addSettingsPage(): void
+    /*public function addSettingsPage(): void
     {
         //error_log( '=== SettingsPageController::addSettingsPage() ===' );
         add_options_page(
@@ -25,18 +27,27 @@ class SettingsPageController
             'whx4-settings', // menu_slug
             [ $this, 'renderSettingsPage' ] // callback
         );
+    }*/
+    
+    /**
+     * Register the WHx4 settings page with the AdminPageRegistry
+     */
+    public function registerSettingsPage(AdminPageRegistry $registry): void
+    {
+        $registry->registerPage('whx4-settings', [
+            'type' => 'options',
+            'page_title' => 'WHx4 v2 Plugin Settings',
+            'menu_title' => 'WHx4 v2 Settings',
+            'capability' => 'manage_options',
+            'menu_slug' => 'whx4-settings',
+            'controller' => [$this, 'renderSettingsPage'],
+        ]);
     }
 
     public function registerSettings(): void
     {
         //error_log( '=== SettingsPageController::registerSettings() ===' );
-        register_setting( 'whx4_plugin_settings_group', 'whx4_plugin_settings' );
-        // WIP 08/19/25
-        /*register_setting(
-            'whx4_plugin_settings_group',
-            'whx4_plugin_settings',
-            ['type' => 'array', 'sanitize_callback' => [$this, 'sanitizeOptions']]
-        );*/
+        register_setting('whx4_plugin_settings_group', 'whx4_plugin_settings');
 
         add_settings_section(
             'whx4_main_settings',
@@ -44,20 +55,15 @@ class SettingsPageController
             null,
             'whx4_plugin_settings'
         );
-
-        // Add settings fields here
-        // Example:
-        // add_settings_field( ... );
     }
 
     public function renderSettingsPage(): void
     {
         //error_log( '=== SettingsPageController::renderSettingsPage() ===' );
-        ViewLoader::render( 'settings-page', [
+        ViewLoader::render('settings-page', [
             'availableModules' => WHx4::ctx()->getAvailableModules(),
             'activeModules'    => WHx4::ctx()->getSettingsManager()->getActiveModuleSlugs(),
             'enabledPostTypes' => WHx4::ctx()->getSettingsManager()->getEnabledPostTypeSlugsByModule(),
-            //'enabledPostTypes' => $this->plugin->getSettingsManager()->getEnabledPostTypeSlugs(),
         ]);
     }
 
