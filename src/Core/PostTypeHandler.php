@@ -596,6 +596,45 @@ abstract class PostTypeHandler extends BaseHandler
 	// TODO: modify to allow for before/after/replace of $content with custom content(?)
 	public static function appendCustomContent( string $content ): string
 	{
+		$post = get_post();
+		$postType = get_post_type();
+	
+		if ( ! is_singular( $postType ) || ! in_the_loop() || ! is_main_query()  || !$post instanceof \WP_Post) {
+			return $content;
+		}
+	
+		$handlerClass = self::getHandlerClassForPostType($postType);
+		$module = strtolower((string) ClassInfo::getModuleKey($handlerClass));
+	
+		// Prepare view variables - let the handler prepare its own data
+		$vars = ['post' => $post];
+		
+		// Get handler instance and let it prepare view data if it implements the method
+		$handler = self::getHandlerForPost($post);
+		if ($handler && method_exists($handler, 'prepareViewData')) {
+			$preparedData = $handler->prepareViewData();
+			$vars = array_merge($vars, $preparedData);
+		}
+	
+		$extra = ViewLoader::renderToString( 'content',
+			// vars
+			$vars,
+			// specs
+			[ 'kind' => 'partial', 'module' => $module, 'post_type' => $postType ]
+		);
+	
+		// Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)
+		/*$extra = ViewLoader::render( '{$postType}/content', [
+			'post' => get_post(),
+		] );*/
+	
+		return $content . $extra;
+	}
+	// TODO: modify to allow for before/after/replace of $content with custom content(?)
+	// v1 -- works fine but only passes post, no data
+	/*
+	public static function appendCustomContent( string $content ): string
+	{
 	    $post = get_post();
 	    $postType = get_post_type();
 
@@ -616,10 +655,10 @@ abstract class PostTypeHandler extends BaseHandler
         // Render your CPT-specific template part via ViewLoader (cascade: child theme > parent theme > plugin)
         /*$extra = ViewLoader::render( '{$postType}/content', [
             'post' => get_post(),
-        ] );*/
+        ] );*//*
 
         return $content . $extra;
-	}
+	}*/
 
 	//public function getCustomContent(\WP_Post $post): string
 	public function getCustomContent()
