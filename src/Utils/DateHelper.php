@@ -142,30 +142,6 @@ class DateHelper
 
         return $map[ $month ] ?? null;
     }
-    
-    /**
-     * Get month names
-     * 
-     * @param string $format 'short' (Jan, Feb) or 'long' (January, February)
-     * @return array Associative array with month numbers as keys ('01' => 'Jan', etc.)
-     */
-    public static function getMonthNames(string $format = 'short'): array
-    {
-        if ($format === 'long') {
-            return [
-                '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
-                '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August',
-                '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
-            ];
-        }
-        
-        return [
-            '01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
-            '05' => 'May', '06' => 'Jun', '07' => 'Jul', '08' => 'Aug',
-            '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Dec'
-        ];
-    }
-
     /**
      * Combine a date and optional time string into a DateTimeImmutable object.
      *
@@ -235,7 +211,90 @@ class DateHelper
 		}
 		return null;
 	}
+    
+    /**
+     * Get month names
+     * 
+     * @param string $format 'short' (Jan, Feb) or 'long' (January, February)
+     * @return array Associative array with month numbers as keys ('01' => 'Jan', etc.)
+     */
+    public static function getMonthNames(string $format = 'short'): array
+    {
+        if ($format === 'long') {
+            return [
+                '01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April',
+                '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August',
+                '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December'
+            ];
+        }
+        
+        return [
+            '01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+            '05' => 'May', '06' => 'Jun', '07' => 'Jul', '08' => 'Aug',
+            '09' => 'Sep', '10' => 'Oct', '11' => 'Nov', '12' => 'Dec'
+        ];
+    }
+
+	/**
+	 * Generate array of month periods (YYYY-MM) between start and end dates
+	 * 
+	 * @param string|DateTimeInterface|null $start Start date
+	 * @param string|DateTimeInterface|null $end End date
+	 * @return array Array of period strings in YYYY-MM format
+	 */
+	public static function generateMonthPeriods($start, $end): array
+	{
+		if (!$start || !$end) {
+			return [];
+		}
+		
+		$startDate = $start instanceof \DateTimeInterface 
+			? \DateTimeImmutable::createFromInterface($start)
+			: new \DateTimeImmutable($start);
+		
+		$endDate = $end instanceof \DateTimeInterface
+			? \DateTimeImmutable::createFromInterface($end)
+			: new \DateTimeImmutable($end);
+		
+		$periods = [];
+		$current = $startDate->modify('first day of this month');
+		$end = $endDate->modify('first day of this month');
+		
+		while ($current <= $end) {
+			$periods[] = $current->format('Y-m');
+			$current = $current->modify('+1 month');
+		}
+		
+		return $periods;
+	}
 	
+	/**
+	 * Generate array of year periods between start and end dates
+	 * 
+	 * @param string|DateTimeInterface|null $start Start date
+	 * @param string|DateTimeInterface|null $end End date
+	 * @return array Array of year strings
+	 */
+	public static function generateYearPeriods($start, $end): array
+	{
+		if (!$start || !$end) {
+			return [];
+		}
+		
+		$startDate = $start instanceof \DateTimeInterface 
+			? \DateTimeImmutable::createFromInterface($start)
+			: new \DateTimeImmutable($start);
+		
+		$endDate = $end instanceof \DateTimeInterface
+			? \DateTimeImmutable::createFromInterface($end)
+			: new \DateTimeImmutable($end);
+		
+		$startYear = (int)$startDate->format('Y');
+		$endYear = (int)$endDate->format('Y');
+		
+		return range($startYear, $endYear);
+	}
+
 	/// Really necessary? TBD -- feels redundant
 	public static function isDateLike(string $s): bool
 	{
