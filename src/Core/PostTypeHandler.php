@@ -372,7 +372,7 @@ abstract class PostTypeHandler extends BaseHandler
 
     public function getSupports(): array
     {
-        return $this->getConfig()['supports'] ?? [ 'title', 'editor' ];
+        return $this->getConfig()['supports'] ?? [ 'title', 'author', 'editor', 'revisions' ];
     }
 
     public function getTaxonomies(): array

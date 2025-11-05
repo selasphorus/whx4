@@ -17,7 +17,7 @@ class Person extends PostTypeHandler
 			],
 			'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
 			'capability_type' => ['person','people'],
-			//'supports' => ['title', 'editor'],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
 			'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
 		];
 
