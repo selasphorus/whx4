@@ -16,7 +16,7 @@ class Venue extends PostTypeHandler
 			],*/
 			'menu_icon'   => 'dashicons-location', // could use dashicons-admin-multisite instead
 			'capability_type' => ['place','places'],
-			//'supports' => ['title', 'editor'],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			'taxonomies' => ['venue_category'], //, 'admin_tag'
 		];
 

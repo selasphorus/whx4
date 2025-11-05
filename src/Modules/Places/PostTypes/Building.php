@@ -16,7 +16,7 @@ class Building extends PostTypeHandler
 			],*/
 			'menu_icon'   => 'dashicons-building',
 			'capability_type' => ['place','places'],
-			//'supports' => ['title', 'editor'],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
 

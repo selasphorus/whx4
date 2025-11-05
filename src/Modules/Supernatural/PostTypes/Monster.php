@@ -18,6 +18,7 @@ class Monster extends PostTypeHandler
 			],
 			'menu_icon'   => 'dashicons-palmtree',
 			'taxonomies'   => [ 'habitat' ],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			//'capability_type' => ['monster', 'monsters'],
 			//'map_meta_cap'       => true,
 		];

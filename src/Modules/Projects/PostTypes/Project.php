@@ -17,6 +17,7 @@ class Project extends PostTypeHandler
             //'rewrite' => ['slug' => 'whimsy'],
             'menu_icon'   => 'dashicons-buddicons-replies', // alt could use dashicons-welcome-write-blog
             'capability_type' => ['project','projects'],
+            'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
             //'hierarchical' => false,
             'taxonomies' => [ 'project_category' ], //'admin_tag',
         ];

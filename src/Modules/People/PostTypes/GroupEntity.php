@@ -17,7 +17,7 @@ class GroupEntity extends PostTypeHandler
 			],
 			'menu_icon'   => 'dashicons-networking', // could use dashicons-groups instead
 			'capability_type' => ['group','groups'],
-			//'supports' => ['title', 'editor'],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			'taxonomies' => [ 'group_category' ], //, 'admin_tag'
 		];
 

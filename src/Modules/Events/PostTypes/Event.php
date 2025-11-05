@@ -20,7 +20,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 				'name' => 'WHx4 Events',
 				'singular_name' => 'WHx4 Event',
 			],
-            'supports'    => [ 'title', 'editor', 'excerpt', 'thumbnail' ],
+            'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			'taxonomies' => [ 'event_category', 'event_tag', 'program_label', 'admin_tag' ],
 			'menu_icon' => 'dashicons-calendar-alt',
 			'capability_type' => ['event','events'],

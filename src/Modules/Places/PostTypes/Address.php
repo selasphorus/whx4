@@ -16,7 +16,7 @@ class Address extends PostTypeHandler
 			],*/
 			'menu_icon'   => 'dashicons-location-alt',
 			'capability_type' => ['place','places'],
-			//'supports' => ['title', 'editor'],
+			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
 			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
 		];
 

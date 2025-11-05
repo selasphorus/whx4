@@ -17,6 +17,7 @@ class LogEntry extends PostTypeHandler
             ],
             //'rewrite' => ['slug' => 'whimsy'],
             'menu_icon'   => 'dashicons-book',
+            'supports' => ['title', 'author', 'editor', 'revisions'],
             //'capability_type' => ['secret','secrets'],
             //'hierarchical' => false,
             //'taxonomies' => ['admin_tag', 'secret_category'],
