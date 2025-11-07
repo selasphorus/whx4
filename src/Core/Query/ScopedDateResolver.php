@@ -421,10 +421,11 @@ class ScopedDateResolver
                 return $seasonRange($y, 9);   // force Sep branch
             },
 
-            // Open-ended examples
-            'ytd' => function() use ($Y, $dti) { // year-to-date, aka 'since_start_of_year'
-                $start = $dti($Y, 1, 1, 0, 0, 0);
-                return ['start' => $start, 'end' => null];
+            // Other
+            'ytd' => function() use ($Y, $now, $dti) { // year-to-date, aka 'since_start_of_year'
+                 $start = $dti($Y, 1, 1, 0, 0, 0);
+                 $end = $now->setTime(23, 59, 59);
+                 return ['start' => $start, 'end' => $end];
             },
             'until_today' => function() use ($now) {
                 $end = $now->setTime(23, 59, 59);
