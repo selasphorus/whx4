@@ -116,7 +116,7 @@ final class ViewLoader
      */
     protected static function generateSearchPaths(string $view, array $specs = []): array
     {
-        //error_log( '=== generateSearchPaths for view: ' . $view . ' with specs: ' . print_r($specs,true) . '===' );
+        error_log( '=== generateSearchPaths for view: ' . $view . ' with specs: ' . print_r($specs,true) . '===' );
         $paths       = [];
         $kind        = Text::slugify($specs['kind'] ?? '');
         $module      = Text::slugify($specs['module'] ?? '');
@@ -146,7 +146,10 @@ final class ViewLoader
             //error_log( 'self::moduleViewRoots[module]: ' . self::$moduleViewRoots[$module] . '' );
             $root = rtrim(self::$moduleViewRoots[$module], '/');
             if ($postType !== '') {
-                $paths[] = "{$root}/" . Text::studly($postType) . "/{$view}.php"; // Within the Modules dir structure, postTypes are studly caps to match class names
+                $postTypePath = "{$root}/" . Text::studly($postType) . "/{$view}.php";
+                //$paths[] = "{$root}/" . Text::studly($postType) . "/{$view}.php"; // Within the Modules dir structure, postTypes are studly caps to match class names
+                $paths[] = $postTypePath;
+                error_log( 'postTypePath: ' . $postTypePath . '' );
             }
             $paths[] = "{$root}/{$view}.php";
         }
