@@ -4,7 +4,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Query;
 use atc\WHx4\Utils\DateHelper;
-use atc\WHx4\Utils\RepeaterChangeDetector;
+//use atc\WHx4\Utils\RepeaterChangeDetector;
 use atc\WHx4\Utils\PluginPaths;
 use atc\WHx4\Core\ViewLoader;
 
@@ -14,8 +14,8 @@ class EventInstances
     {
         add_action( 'add_meta_boxes', [self::class, 'addMetaBox'] );
         add_action( 'edit_form_top', [self::class, 'maybeAddDetachedNotice'] );
-        add_action( 'admin_notices', [self::class, 'maybeShowDetachedCleanupNotice'] );
-        add_action( 'admin_init', [self::class, 'handleDetachedCleanupRequest'] );
+        //add_action( 'admin_notices', [self::class, 'maybeShowDetachedCleanupNotice'] );
+        //add_action( 'admin_init', [self::class, 'handleDetachedCleanupRequest'] );
         //add_action( 'acf/save_post', [self::class, 'handleExcludedDateRemovals'], 20 );
         add_action( 'admin_enqueue_scripts', [self::class, 'enqueueAdminAssets'] );
         //add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
@@ -23,49 +23,126 @@ class EventInstances
         //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventInstances::class, 'ajaxCheckReplacement' ] );
     }
 
+    /**
+     * Add meta box to event edit screen.
+     */
     public static function addMetaBox(): void
     {
         add_meta_box(
             'whx4_event_exclusions_box',
-            'Excluded Dates & Overrides',
+            'Recurring Event Instances',
             [self::class, 'renderMetaBox'],
             'whx4_event', //'event',
-            'side'
+            'side',
+            'default'
         );
     }
 
+    /**
+     * Render the instances meta box.
+     */
     public static function renderMetaBox( \WP_Post $post ): void
     {
-        $info = "";
-        /*$instances = self::getInstancesForPost( $post->ID );
-        $excluded = self::getExcludedDates( $post->ID );
-        $replacements = self::getReplacementMap( $post->ID );*/
-
         $postID = $post->ID;
-        $instances = InstanceGenerator::fromPostId( $postID, 50, true ); // set limit higher than 50?
-        $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
-        //$replacements = maybe_unserialize( get_post_meta( $postID, 'whx4_events_replaced_dates', true ) ?: []; );
-        $replacements = [];
-        if ( !is_array($excluded) ) { $info .= "excluded NOT is_array: " . print_r($excluded,true); $excluded = []; } // tft
-
-        foreach ( $instances as $date ) {
-            $dateStr = $date->format( 'Y-m-d' );
-            //$replacements[ $dateStr ] = self::getDetachedPostId( $postID, $dateStr ); // WIP
+        
+        // Check if this is a recurring event
+        if ( ! InstanceGenerator::isRecurring( $postID ) ) {
+            echo '<p>This event does not have recurrence rules.</p>';
+            return;
         }
 
+        // Generate instances (limit to 50 for admin view)
+        $instances = InstanceGenerator::fromPostId( $postID, 50, true );
+        
+        // Get excluded dates
+        $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
+        if ( ! is_array( $excluded ) ) {
+            $excluded = [];
+        }
+
+        // Get replacements map
+        $replacements = self::getReplacementPostIds( $postID );
+
         $vars = [
-            'post_id'     => $postID,
-            'instances'   => $instances,
-            'excluded'    => $excluded,
-            'replacements'=> $replacements,
-            'info'        => $info,
+            'post_id'      => $postID,
+            'instances'    => $instances,
+            'excluded'     => $excluded,
+            'replacements' => $replacements,
+            //'info'        => $info,
         ];
 
         ViewLoader::render(
             'event-instances-columnar-list',
             $vars,
-            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ] // specs
+            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
         );
+    }
+
+    /**
+     * Get override dates for a parent event (for InstanceGenerator).
+     * Returns map of date_key => ['datetime' => DateTimeInterface, 'post_id' => int]
+     *
+     * @param  int   $parent_id
+     * @return array
+     */
+    public static function getOverrideDates( int $parent_id ): array
+    {
+        $args = [
+            'post_type'      => 'whx4_event',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'meta_query'     => [
+                [
+                    'key'     => 'whx4_events_detached_from',
+                    'value'   => $parent_id,
+                    'compare' => '=',
+                ],
+                [
+                    'key'     => 'whx4_events_detached_date',
+                    'compare' => 'EXISTS',
+                ],
+            ],
+            'fields' => 'ids',
+        ];
+
+        $replacements = get_posts( $args );
+        $map = [];
+
+        foreach ( $replacements as $postID ) {
+            $original = get_post_meta( $postID, 'whx4_events_detached_date', true );
+            //$start    = get_field( 'whx4_events_start_date', $postID );
+            $startDT = DateHelper::combineDateAndTime(
+                get_post_meta( $postID, 'whx4_events_start_date', true ),
+                get_post_meta( $postID, 'whx4_events_start_time', true )
+            );
+
+            if ( $original && $startDT instanceof \DateTimeInterface ) {
+                $map[ $original ] = [
+                    'datetime' => $startDT,
+                    'post_id'  => $postID,
+                ];
+            }
+        }
+
+        return $map;
+    }
+
+    /**
+     * Get simple map of date_key => replacement_post_id (for admin UI).
+     *
+     * @param  int   $parent_id
+     * @return array
+     */
+    public static function getReplacementPostIds( int $parent_id ): array
+    {
+        $overrides = self::getOverrideDates( $parent_id );
+        $map = [];
+        
+        foreach ( $overrides as $dateKey => $data ) {
+            $map[ $dateKey ] = $data['post_id'];
+        }
+        
+        return $map;
     }
 
     public static function getInstanceDivHtml( int $postID, string $date ): string
@@ -302,49 +379,10 @@ class EventInstances
         wp_safe_redirect( admin_url( 'post.php?post=' . $event_id . '&action=edit' ) );
         exit;
     }
-
-    public static function getOverrideDates( int $parent_id ): array
-    {
-        $args = [
-            'post_type'      => 'whx4_event',
-            'post_status'    => 'any',
-            'posts_per_page' => -1,
-            'meta_query'     => [
-                [
-                    'key'     => 'whx4_events_detached_from',
-                    'value'   => $parent_id,
-                    'compare' => '=',
-                ],
-                [
-                    'key'     => 'whx4_events_detached_date',
-                    'compare' => 'EXISTS',
-                ],
-            ],
-            'fields' => 'ids',
-        ];
-
-        $replacements = get_posts( $args );
-        $map = [];
-
-        foreach ( $replacements as $postID ) {
-            $original = get_post_meta( $postID, 'whx4_events_detached_date', true );
-            //$start    = get_field( 'whx4_events_start_date', $postID );
-            $startDT = DateHelper::combineDateAndTime(
-                get_post_meta( $postID, 'whx4_events_start_date', true ),
-                get_post_meta( $postID, 'whx4_events_start_time', true )
-            );
-
-            if ( $original && $startDT instanceof \DateTimeInterface ) {
-                $map[ $original ] = [
-                    'datetime' => $startDT,
-                    'post_id'  => $postID,
-                ];
-            }
-        }
-
-        return $map;
-    }
-
+    
+    /**
+     * Enqueue admin assets for event edit screen.
+     */
     public static function enqueueAdminAssets(): void
     {
         global $post;
@@ -363,9 +401,8 @@ class EventInstances
         wp_enqueue_script(
             'whx4-event-overrides',
             PluginPaths::url( 'src/Modules/Events/Assets/event-overrides.js' ),
-            //plugins_url( '/assets/js/event-overrides.js', dirname( __DIR__, 2 ) ), // adjust if needed
             [ 'jquery' ],
-            null,
+            '1.0',
             true
         );
 
@@ -384,4 +421,63 @@ class EventInstances
         ]);
     }
 
+    /**
+     * Create a replacement/detached event for a specific instance.
+     *
+     * @param  int    $parent_id   The recurring event ID
+     * @param  string $dateKey     The date being replaced (Y-m-d format)
+     * @return int|false           New post ID or false on failure
+     */
+    public static function createReplacement( int $parent_id, string $dateKey )
+    {
+        // Check if replacement already exists
+        if ( self::replacementExists( $parent_id, $dateKey ) ) {
+            return false;
+        }
+
+        $original = get_post( $parent_id );
+        if ( ! $original instanceof \WP_Post || $original->post_type !== 'whx4_event' ) {
+            return false;
+        }
+
+        // Create the clone
+        $clone_id = wp_insert_post([
+            'post_type'    => 'whx4_event',
+            'post_status'  => 'draft',
+            'post_title'   => $original->post_title . ' (' . $dateKey . ')',
+            'post_content' => $original->post_content,
+        ]);
+
+        if ( ! $clone_id ) {
+            return false;
+        }
+
+        // Copy all meta except recurrence-related fields
+        $meta = get_post_meta( $parent_id );
+        $skip_keys = [
+            'whx4_events_rrule',
+            'whx4_events_is_recurring',
+            'whx4_events_excluded_dates',
+        ];
+
+        foreach ( $meta as $key => $values ) {
+            if ( in_array( $key, $skip_keys, true ) ) {
+                continue;
+            }
+
+            foreach ( $values as $val ) {
+                update_post_meta( $clone_id, $key, maybe_unserialize( $val ) );
+            }
+        }
+
+        // Update the start date to the instance date
+        update_post_meta( $clone_id, 'whx4_events_start_date', $dateKey );
+
+        // Mark as detached/replacement
+        update_post_meta( $clone_id, 'whx4_events_detached_from', $parent_id );
+        update_post_meta( $clone_id, 'whx4_events_detached_date', $dateKey );
+        update_post_meta( $clone_id, 'whx4_events_is_recurring', 0 );
+
+        return $clone_id;
+    }
 }

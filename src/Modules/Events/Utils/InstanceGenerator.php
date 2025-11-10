@@ -3,8 +3,7 @@
 namespace atc\WHx4\Modules\Events\Utils;
 
 use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
-use DateTimeInterface; // See chat: "An interface: implemented by both DateTime and DateTimeImmutable"
-//use DateTimeImmutable; // See chat: "A concrete class: creates new objects when modified"
+use DateTimeInterface; // "An interface: implemented by both DateTime and DateTimeImmutable"
 use atc\WHx4\Utils\DateHelper;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
@@ -13,13 +12,13 @@ class InstanceGenerator
     /**
      * Generate instance dates based on RRULE, exclusions, and overrides.
      *
-     * @param  DateTimeInterface  $start
-     * @param  string             $rrule
-     * @param  array              $exdates  ISO-formatted datetimes to exclude
-     * @param  array              $overrides keyed by ISO datetime => DateTimeInterface
-     * @param  int                $limit
-     * @param  DateTimeInterface|null $until
-     * @return DateTimeInterface[]
+     * @param  DateTimeInterface  $start        Starting datetime for recurrence
+     * @param  string             $rrule        RRULE string (e.g., "FREQ=WEEKLY;BYDAY=MO,WE,FR")
+     * @param  array              $exdates      ISO-formatted date strings to exclude (Y-m-d)
+     * @param  array              $overrides    Map of original date => replacement info
+     * @param  int                $limit        Maximum number of instances to generate
+     * @param  DateTimeInterface|null $until    Optional end date for generation
+     * @return array              Array of instances with metadata
      */
     public static function generateInstanceDates(
         DateTimeInterface $start,
@@ -33,28 +32,57 @@ class InstanceGenerator
             return [];
         }
 
+        // Build RRULE string for library
         $rrule_string = "DTSTART:" . $start->format( 'Ymd\THis\Z' ) . "\nRRULE:" . $rrule;
-        $rule = new RRule( $rrule_string );
+        
+        try {
+            $rule = new RRule( $rrule_string );
+        } catch ( \Exception $e ) {
+            error_log( "RRULE parsing error: " . $e->getMessage() );
+            return [];
+        }
 
         $results = [];
 
         foreach ( $rule as $dt ) {
-            $iso = $dt->format( 'Y-m-d\TH:i:s' );
+            // Use Y-m-d format for consistency (date only, no time)
+            $dateKey = $dt->format( 'Y-m-d' );
+            //$iso = $dt->format( 'Y-m-d\TH:i:s' );
 
+            // Check until limit
             if ( $until && $dt > $until ) {
                 break;
             }
 
-            if ( in_array( $iso, $exdates, true ) ) {
+            // Check if this date is excluded
+            if ( in_array( $dateKey, $exdates, true ) ) {
                 continue;
             }
 
-            if ( isset( $overrides[ $iso ] ) && $overrides[ $iso ] instanceof DateTimeInterface ) {
-                $dt = $overrides[ $iso ];
+            // Build instance data
+            $instance = [
+                'datetime' => $dt,
+                'date_key' => $dateKey,
+                'is_override' => false,
+                'override_post_id' => null,
+            ];
+
+            // Check if this date has an override/replacement
+            if ( isset( $overrides[ $dateKey ] ) ) {
+                $override = $overrides[ $dateKey ];
+                
+                // Override datetime takes precedence (for rescheduled events)
+                if ( isset( $override['datetime'] ) && $override['datetime'] instanceof DateTimeInterface ) {
+                    $instance['datetime'] = $override['datetime'];
+                }
+                
+                $instance['is_override'] = true;
+                $instance['override_post_id'] = $override['post_id'] ?? null;
             }
 
-            $results[] = $dt;
+            $results[] = $instance;
 
+            // Check limit
             if ( count( $results ) >= $limit ) {
                 break;
             }
@@ -68,46 +96,51 @@ class InstanceGenerator
      *
      * @param  int                $postID
      * @param  int                $limit
+     * @param  bool               $includeExcluded  Include excluded dates in output
      * @param  DateTimeInterface|null $until
-     * @return DateTimeInterface[]
+     * @return array              Array of instance data
      */
-    public static function fromPostId( int $postID, int $limit = 100, bool $includeExcluded = false, ?DateTimeInterface $until = null ): array
-    {
-        //$start = get_field( 'whx4_events_start_date', $postID );
+    public static function fromPostId(
+        int $postID,
+        int $limit = 100,
+        bool $includeExcluded = false,
+        ?DateTimeInterface $until = null
+    ): array {
+        // Get start datetime
         $startDT = DateHelper::combineDateAndTime(
             get_post_meta( $postID, 'whx4_events_start_date', true ),
             get_post_meta( $postID, 'whx4_events_start_time', true )
         );
-        $rrule = get_field( 'whx4_events_rrule', $postID );
+
+        // Get RRULE
+        $rrule = get_post_meta( $postID, 'whx4_events_rrule', true ); //$rrule = get_field( 'whx4_events_rrule', $postID );
 
         if ( ! $startDT || ! $rrule ) {
             return [];
         }
 
-        /*$exdates_raw = get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ?: [];
-        if ( !is_array( $exdates_raw ) ) {
-            $exdates_raw = []; // default to empty array
-        }
-        $exdates = array_filter( (array) $exdates_raw, fn( $date ) => is_string( $date ) && strtotime( $date ) !== false );
-        $exdates = array_map(
-            fn( $date ) => ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ),
-            $exdates
-        );*/
+        // Get excluded dates
         $exdates = [];
-
         if ( ! $includeExcluded ) {
             $exdates_raw = get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ?: [];
-            if ( !is_array( $exdates_raw ) ) {
+            
+            if ( ! is_array( $exdates_raw ) ) {
                 $exdates_raw = [];
             }
+            
+            $exdates = array_filter(
+                (array) $exdates_raw,
+                fn( $date ) => is_string( $date ) && strtotime( $date ) !== false
+            );
 
-            $exdates = array_filter( (array) $exdates_raw, fn( $date ) => is_string( $date ) && strtotime( $date ) !== false );
-            $exdates = array_map(
+            /*$exdates = array_map(
                 fn( $date ) => ( new \DateTime( $date ) )->format( 'Y-m-d\TH:i:s' ),
                 $exdates
-            );
+            );*/
+            
         }
-
+        
+        // Get override/replacement dates
         $overrides = EventInstances::getOverrideDates( $postID );
 
         return self::generateInstanceDates(
@@ -118,5 +151,37 @@ class InstanceGenerator
             $limit,
             $until
         );
+    }
+
+    /**
+     * Get a single instance for a specific date.
+     *
+     * @param  int    $postID
+     * @param  string $dateKey  Date in Y-m-d format
+     * @return array|null       Instance data or null if not found
+     */
+    public static function getSingleInstance( int $postID, string $dateKey ): ?array
+    {
+        $instances = self::fromPostId( $postID, 500, true );
+        
+        foreach ( $instances as $instance ) {
+            if ( $instance['date_key'] === $dateKey ) {
+                return $instance;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * Check if an event is recurring.
+     *
+     * @param  int  $postID
+     * @return bool
+     */
+    public static function isRecurring( int $postID ): bool
+    {
+        $rrule = get_post_meta( $postID, 'whx4_events_rrule', true );
+        return ! empty( $rrule );
     }
 }

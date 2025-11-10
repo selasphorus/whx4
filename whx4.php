@@ -6,7 +6,7 @@
  * //Requires PHP:      7.4
  * //Dependencies:	  Requires SDG for various utility functions
  * Requires Plugins:  advanced-custom-fields-pro
- * Version:           1.0
+ * Version:           2.0
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,10 +15,19 @@
  * @package           whx4
  */
 
+declare(strict_types=1);
+
+// Prevent direct access
+if ( !defined( 'ABSPATH' ) ) exit;
+
+// Make sure we don't expose any info if called directly
+if ( !function_exists( 'add_action' ) ) {
+	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
+	exit;
+}
+
 // v1 designed using ACF PRO Blocks, Post Types, Options Pages, Taxonomies and more.
 // v2 OOP version WIP
-
-if ( !defined( 'ABSPATH' ) ) exit;
 
 define( 'WHX4_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 //define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
@@ -29,12 +38,6 @@ define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
 define( 'WHX4_TEXTDOMAIN', 'whx4' );
 define( 'WHX4_VERSION', '2.0.0' );
 define( 'WHX4_DEBUG', true ); // tft!
-
-// Make sure we don't expose any info if called directly
-if ( !function_exists( 'add_action' ) ) {
-	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
-	exit;
-}
 
 // Via Composer
 require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
