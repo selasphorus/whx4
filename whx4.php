@@ -115,9 +115,9 @@ add_action('bhwp_pre_boot', function() {
     });
     
     // Register Admin Pages
-    if (is_admin()) {
+    /*if (is_admin()) {
         (new TagCleanupPageController())->addHooks();
-    }
+    }*/
     
 }, 15); // Priority < 20 to run before WHx4 boot()
 
