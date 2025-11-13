@@ -2,10 +2,8 @@
 /**
  * Plugin Name:       WHx4 plugin
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
- * //Requires at least: 6.4
- * //Requires PHP:      7.4
- * //Dependencies:	  Requires SDG for various utility functions
- * Requires Plugins:  advanced-custom-fields-pro
+ * Dependencies:	  Requires BhWP for core functionality
+ * Requires Plugins:  bhwp, advanced-custom-fields-pro
  * Version:           2.0
  * Author:            atc
  * License:           GPL-2.0-or-later
@@ -17,6 +15,8 @@
 
 declare(strict_types=1);
 
+namespace atc\WHx4;
+
 // Prevent direct access
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -26,80 +26,102 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-// v1 designed using ACF PRO Blocks, Post Types, Options Pages, Taxonomies and more.
-// v2 OOP version WIP
-
-define( 'WHX4_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-//define( 'WHX4_PLUGIN_DIR', WP_PLUGIN_DIR. '/whx4/' ); //define( 'WHX4_PLUGIN_DIR', __DIR__ );
-define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
-// Some constants were previously defined via Plugin.php protected function defineConstants(): void {} and called via boot
-// -- perhaps revisit this alternate approach to constants if things get too messy here.
-define( 'WHX4_TEXTDOMAIN', 'whx4' );
-define( 'WHX4_VERSION', '2.0.0' );
-define( 'WHX4_DEBUG', true ); // tft!
-
-// Via Composer
-require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+// Require Composer autoloader
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
 
 use atc\WHx4\Plugin;
-use atc\WHx4\Core\PostUtils;
-// TBD whether there's a way to streamline the following
 
-// Test Modules
-use atc\WHx4\Modules\Supernatural\SupernaturalModule as Supernatural;
-
-// Primary "WH" Modules
+// BhWP Add-on Modules: "WH" Primary Modules
 use atc\WHx4\Modules\People\PeopleModule as People;
 use atc\WHx4\Modules\Places\PlacesModule as Places;
 use atc\WHx4\Modules\Events\EventsModule as Events;
 
-// Secondary Modules
-use atc\WHx4\Modules\Admin\AdminModule as Admin;
+// BhWP Add-on Modules: Secondary Modules
 use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
 use atc\WHx4\Modules\Logbook\LogbookModule as Logbook;
 
-// Init
-add_filter( 'whx4_register_modules', function( array $modules ) {
-    //error_log( 'whx4_register_modules fired' );
-    return array_merge( $modules, [
-        'supernatural'	=> Supernatural::class, //\YourPlugin\Modules\Supernatural\Module::class,
-        'people'		=> People::class,
-        'places'		=> Places::class,
-        'events' 		=> Events::class,
-        'admin' 		=> Admin::class,
-        'projects' 		=> Projects::class,
-        'logbook' 		=> Logbook::class,
-    ]);
-});
-
-add_filter( 'whx4_registered_field_keys', function() {
-    if ( ! function_exists( 'acf_get_local_fields' ) ) {
-        return [];
-    }
-
-    $fields = acf_get_local_fields();
-    $keys = [];
-
-    foreach ( $fields as $field ) {
-        if ( isset( $field['key'] ) ) {
-            $keys[] = $field['key'];
-        }
-    }
-
-    return $keys;
-});
-
 // Once plugins are loaded, boot everything up
-add_action( 'plugins_loaded', function() {
-    Plugin::getInstance()->boot();
-}, 20 ); // Use a priority high enough to allow addons to hook before it runs
+add_action('bhwp_pre_boot', function() {
+    // Wait until BhWP is loaded, but BEFORE it boots
+    if (!class_exists(Plugin::class)) {
+        return;
+    }
 
-// On activation, set up post types and capabilities
-register_activation_hook( __FILE__, function() {
-    $plugin = Plugin::getInstance();
-    $plugin->boot();
-});
+    // Register the modules with WHx4
+    add_filter('bhwp_register_modules', function(array $modules): array {
+        $modules['people'] = People::class;
+        $modules['places'] = Places::class;
+        $modules['events'] = Events::class;
+        $modules['projects'] = Projects::class;
+        $modules['logbook'] = Logbook::class;
+        return $modules;
+    });
+    
+    // Register Field Keys
+    add_filter('bhwp_registered_field_keys', function() {
+        if (!function_exists('acf_get_local_fields')) {
+            return [];
+        }
+
+        $fields = acf_get_local_fields();
+        $keys = [];
+
+        foreach ($fields as $field) {
+            if (isset($field['key'])) {
+                $keys[] = $field['key'];
+            }
+        }
+
+        return $keys;
+    });
+    
+    // Register Assets
+    add_filter('bhwp_assets', static function (array $assets): array {
+        // CSS
+        $relCss = 'assets/css/bkkp.css';
+        $srcCss = plugins_url($relCss, __FILE__);
+        $pathCss = plugin_dir_path(__FILE__) . $relCss;
+    
+        $assets['styles'][] = [
+            'handle'   => 'bkkp',
+            'src'      => $srcCss,
+            'path'     => $pathCss,
+            'deps'     => [],
+            'ver'      => 'auto',
+            'media'    => 'all',
+            'where'    => 'front',
+            'autoload' => true,
+        ];
+    
+        // JS
+        $relJs = 'assets/js/bkkp.js';
+        $srcJs = plugins_url($relJs, __FILE__);
+        $pathJs = plugin_dir_path(__FILE__) . $relJs;
+    
+        $assets['scripts'][] = [
+            'handle'    => 'bkkp',
+            'src'       => $srcJs,
+            'path'      => $pathJs,
+            'deps'      => [],        // e.g., ['jquery']
+            'ver'       => 'auto',
+            'in_footer' => true,
+            'where'     => 'front',
+            'autoload'  => true,
+        ];
+    
+        return $assets;
+    });
+    
+    // Register Admin Pages
+    if (is_admin()) {
+        (new TagCleanupPageController())->addHooks();
+    }
+    
+}, 15); // Priority < 20 to run before WHx4 boot()
+
+// Init
 
 // Activate the following after EM events have been migrated and the EM plugin has been deactivated
 /*
@@ -107,91 +129,3 @@ add_filter( 'whx4_events_post_type_slug', function() {
     return 'event';
 });
 */
-// Deactivation
-register_deactivation_hook( __FILE__, function() {
-    $plugin = Plugin::getInstance();
-    // WIP: cleanup on deactivation
-    //$plugin->removePostTypeCapabilities();
-});
-
-
-/* ***** TODO: Move most or all of the following away into classes ***** */
-
-// Function to check for main dev/admin user
-function whx4_queenbee() {
-	$current_user = wp_get_current_user();
-	$username = $current_user->user_login;
-	$useremail = $current_user->user_email;
-	//
-    if ( $username == 'stcdev' || $useremail == "birdhive@gmail.com" ) {
-    	return true;
-    } else {
-    	return false;
-    }
-}
-
-/* +~+~+ Misc Functions +~+~+ */
-
-//add_action( 'init', 'whx4_redirect');
-function whx4_redirect() {
-
-	// If /events/ with query args and limit is set to 1, then see if there's a matching event and redirect to that event
-	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
-	// /music/the-sunday-recital-series/upcoming-sunday-recital/
-	//$current_url = home_url( add_query_arg( array(), $wp->request ) );
-
-	if ( $wp->request == "/events" && get_query_var('limit') == "1") {
-
-        // Run EM search based on query vars
-        // Redirect to next single event record matching scope etc.
-
-        //wp_redirect( site_url('/de/') );
-        //exit;
-    }
-}
-
-// Temporary duplicate field key checker
-/*if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['check_whx4_keys'] ) ) {
-    add_action( 'acf/init', function() {
-        if ( ! function_exists( 'acf_get_local_fields' ) ) {
-            return;
-        }
-
-        $fields = acf_get_local_fields();
-        $seenKeys = [];
-        $duplicates = [];
-
-        foreach ( $fields as $field ) {
-            if ( isset( $field['key'] ) ) {
-                $key = $field['key'];
-
-                if ( isset( $seenKeys[ $key ] ) ) {
-                    $duplicates[] = $key;
-                } else {
-                    $seenKeys[ $key ] = true;
-                }
-            }
-        }
-
-        if ( ! empty( $duplicates ) ) {
-            error_log( '⚠️ Duplicate ACF Field Keys found: ' . implode( ', ', $duplicates ) );
-        } else {
-            error_log( '✅ No duplicate ACF Field Keys detected.' );
-        }
-    } );
-}*/
-
-// The following methods may or may not be useful long-term, TBD
-
-// Add post_type query var to edit_post_link so as to be able to selectively load plugins via plugins-corral MU plugin
-add_filter( 'get_edit_post_link', 'add_post_type_query_var', 10, 3 );
-function add_post_type_query_var( $url, $post_id, $context )
-{
-    $post_type = get_post_type( $post_id );
-
-    // TODO: consider whether to add query_arg only for certain CPTS?
-    if ( $post_type && !empty($post_type) ) { $url = add_query_arg( 'post_type', $post_type, $url ); }
-
-    return $url;
-}
-
