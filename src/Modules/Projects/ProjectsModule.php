@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Projects;
 
-use atc\WHx4\Core\Module as BaseModule;
+use atc\BhWP\Core\Module as BaseModule;
 
 // Post Types
 use atc\WHx4\Modules\Projects\PostTypes\Project;

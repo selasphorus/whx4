@@ -2,8 +2,8 @@
 
 namespace atc\WHx4\Modules\Events\PostTypes;
 
-use atc\WHx4\Core\PostTypeHandler;
-use atc\WHx4\Core\Contracts\QueryContributor;
+use atc\BhWP\Core\PostTypeHandler;
+use atc\BhWP\Core\Contracts\QueryContributor;
 use atc\WHx4\Helpers\FieldDisplayHelpers;
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 

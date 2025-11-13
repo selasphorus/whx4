@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Logbook\Fields;
 
-use atc\WHx4\Core\Contracts\FieldGroupInterface;
+use atc\BhWP\Core\Contracts\FieldGroupInterface;
 
 // TODO: rename all fields (keys/names) according to whx4 naming conventions
 // NB: These fields apply to posts of type log_entry AND/OR posts of type post in log-entries category

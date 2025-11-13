@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\People\Taxonomies;
 
-use atc\WHx4\Core\TaxonomyHandler;
+use atc\BhWP\Core\TaxonomyHandler;
 
 class PersonTag extends TaxonomyHandler
 {

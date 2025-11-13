@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\Utils;
 
-use atc\WHx4\Core\ViewLoader;
+use atc\BhWP\Core\ViewLoader;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class AjaxController

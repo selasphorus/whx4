@@ -1,5 +1,5 @@
 <?php
-use atc\WHx4\Core\PostTypeHandler;
+use atc\BhWP\Core\PostTypeHandler;
 // This view displays supplementary info -- the regular content template (e.g. {thetheme}/template-parts/content.php) handles title, content, featured image
 
 /** @var WP_Post $post */

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\Fields;
 
-use atc\WHx4\Core\Contracts\FieldGroupInterface;
+use atc\BhWP\Core\Contracts\FieldGroupInterface;
 
 final class EventFields implements FieldGroupInterface
 {
