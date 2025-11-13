@@ -31,7 +31,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-use atc\WHx4\Plugin;
+use atc\BhWP\Plugin;
 
 // BhWP Add-on Modules: "WH" Primary Modules
 use atc\WHx4\Modules\People\PeopleModule as People;
