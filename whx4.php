@@ -80,12 +80,12 @@ add_action('bhwp_pre_boot', function() {
     // Register Assets
     add_filter('bhwp_assets', static function (array $assets): array {
         // CSS
-        $relCss = 'assets/css/bkkp.css';
+        $relCss = 'assets/css/whx4.css';
         $srcCss = plugins_url($relCss, __FILE__);
         $pathCss = plugin_dir_path(__FILE__) . $relCss;
     
         $assets['styles'][] = [
-            'handle'   => 'bkkp',
+            'handle'   => 'whx4',
             'src'      => $srcCss,
             'path'     => $pathCss,
             'deps'     => [],
@@ -96,12 +96,12 @@ add_action('bhwp_pre_boot', function() {
         ];
     
         // JS
-        $relJs = 'assets/js/bkkp.js';
+        $relJs = 'assets/js/whx4.js';
         $srcJs = plugins_url($relJs, __FILE__);
         $pathJs = plugin_dir_path(__FILE__) . $relJs;
     
         $assets['scripts'][] = [
-            'handle'    => 'bkkp',
+            'handle'    => 'whx4',
             'src'       => $srcJs,
             'path'      => $pathJs,
             'deps'      => [],        // e.g., ['jquery']
