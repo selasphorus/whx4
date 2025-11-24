@@ -2,13 +2,13 @@
 
 namespace atc\WHx4\Modules\Events;
 
-use atc\BhWP\Core\Module as BaseModule;
+use WXC\Core\Module as BaseModule;
 use atc\WHx4\Modules\Events\PostTypes\Event;
 //use atc\WHx4\Modules\Events\PostTypes\RecurringEvent;
 //use atc\WHx4\Modules\Events\PostTypes\EventSeries;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 use atc\WHx4\Modules\Events\Utils\AjaxController;
-use atc\BhWP\Core\Shortcodes\ShortcodeManager;
+use WXC\Core\Shortcodes\ShortcodeManager;
 
 final class EventsModule extends BaseModule
 {

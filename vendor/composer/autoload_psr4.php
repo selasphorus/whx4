@@ -6,7 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'atc\\WHx4\\' => array($baseDir . '/src'),
+    'WHx4\\' => array($baseDir . '/src'),
     'RRule\\' => array($vendorDir . '/rlanvin/php-rrule/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
 );

@@ -4,7 +4,7 @@ namespace atc\WHx4\Modules\Events\Utils;
 
 use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
 use DateTimeInterface; // "An interface: implemented by both DateTime and DateTimeImmutable"
-use atc\WHx4\Utils\DateHelper;
+use WXC\Utils\DateHelper;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class InstanceGenerator

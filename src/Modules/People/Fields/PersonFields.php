@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\People\Fields;
 
-use atc\BhWP\Core\Contracts\FieldGroupInterface;
+use WXC\Core\Contracts\FieldGroupInterface;
 
 final class PersonFields implements FieldGroupInterface
 {

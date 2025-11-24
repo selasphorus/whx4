@@ -31,26 +31,26 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-use atc\BhWP\Plugin;
+use atc\WXC\Plugin;
 
-// BhWP Add-on Modules: "WH" Primary Modules
+// WXC Add-on Modules: "WH" Primary Modules
 use atc\WHx4\Modules\People\PeopleModule as People;
 use atc\WHx4\Modules\Places\PlacesModule as Places;
 use atc\WHx4\Modules\Events\EventsModule as Events;
 
-// BhWP Add-on Modules: Secondary Modules
+// WXC Add-on Modules: Secondary Modules
 use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
 use atc\WHx4\Modules\Logbook\LogbookModule as Logbook;
 
 // Once plugins are loaded, boot everything up
-add_action('bhwp_pre_boot', function() {
-    // Wait until BhWP is loaded, but BEFORE it boots
+add_action('wxc_pre_boot', function() {
+    // Wait until WXC is loaded, but BEFORE it boots
     if (!class_exists(Plugin::class)) {
         return;
     }
 
     // Register the modules with WHx4
-    add_filter('bhwp_register_modules', function(array $modules): array {
+    add_filter('wxc_register_modules', function(array $modules): array {
         $modules['people'] = People::class;
         $modules['places'] = Places::class;
         $modules['events'] = Events::class;
@@ -60,7 +60,7 @@ add_action('bhwp_pre_boot', function() {
     });
     
     // Register Field Keys
-    add_filter('bhwp_registered_field_keys', function() {
+    add_filter('wxc_registered_field_keys', function() {
         if (!function_exists('acf_get_local_fields')) {
             return [];
         }
@@ -78,7 +78,7 @@ add_action('bhwp_pre_boot', function() {
     });
     
     // Register Assets
-    add_filter('bhwp_assets', static function (array $assets): array {
+    add_filter('wxc_assets', static function (array $assets): array {
         // CSS
         $relCss = 'assets/css/whx4.css';
         $srcCss = plugins_url($relCss, __FILE__);

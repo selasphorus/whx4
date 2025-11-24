@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Projects\Taxonomies;
 
-use atc\BhWP\Core\TaxonomyHandler;
+use WXC\Core\TaxonomyHandler;
 
 class ProjectCategory extends TaxonomyHandler
 {

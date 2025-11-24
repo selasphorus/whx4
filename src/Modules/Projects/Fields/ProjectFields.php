@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Projects\Fields;
 
-use atc\BhWP\Core\Contracts\FieldGroupInterface;
+use WXC\Core\Contracts\FieldGroupInterface;
 
 // TODO: rename all fields (keys/names) according to whx4 naming conventions
 final class ProjectFields implements FieldGroupInterface

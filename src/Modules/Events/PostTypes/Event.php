@@ -2,9 +2,9 @@
 
 namespace atc\WHx4\Modules\Events\PostTypes;
 
-use atc\BhWP\Core\PostTypeHandler;
-use atc\BhWP\Core\Contracts\QueryContributor;
-use atc\BhWP\Helpers\FieldDisplayHelpers;
+use WXC\Core\PostTypeHandler;
+use WXC\Core\Contracts\QueryContributor;
+use WXC\Helpers\FieldDisplayHelpers;
 //
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 
@@ -341,7 +341,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		}
 
 		try {
-			$summary = new \atc\BhWP\Utils\Recurrence\RecurrenceSummaryBuilder( $rrule );
+			$summary = new \WXC\Utils\Recurrence\RecurrenceSummaryBuilder( $rrule );
 			$text = $summary->getText();
 
 			$field['instructions'] .= '<br><strong>Preview:</strong> ' . esc_html( $text );
