@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       WHx4 plugin
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
- * Dependencies:	  Requires BhWP for core functionality
- * Requires Plugins:  bhwp, advanced-custom-fields-pro
+ * Dependencies:	  Requires WHx4-Core for core functionality
+ * Requires Plugins:  whx4-core, advanced-custom-fields-pro
  * Version:           2.0
  * Author:            atc
  * License:           GPL-2.0-or-later
