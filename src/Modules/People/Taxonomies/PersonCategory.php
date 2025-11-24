@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\People\Taxonomies;
 
-use atc\WXC\Core\TaxonomyHandler;
+use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class PersonCategory extends TaxonomyHandler
 {

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\People;
 
-use atc\WXC\Core\Module as BaseModule;
+use atc\WXC\Module as BaseModule;
 use atc\WHx4\Modules\People\PostTypes\Person;
 use atc\WHx4\Modules\People\PostTypes\GroupEntity;
 //use atc\WHx4\Modules\People\PostTypes\Identity;

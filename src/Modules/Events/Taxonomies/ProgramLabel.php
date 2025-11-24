@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\Taxonomies;
 
-use atc\WXC\Core\TaxonomyHandler;
+use atc\WXC\Taxonomies\TaxonomyHandler;
 
 // TODO: consider generalizing this taxonomy to something like info_label or item_label? Or at least remove the limit to events so it can also be used with e.g. Projects?
 class ProgramLabel extends TaxonomyHandler

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Logbook;
 
-use atc\WXC\Core\Module as BaseModule;
+use atc\WXC\Module as BaseModule;
 
 // Post Types
 use atc\WHx4\Modules\Logbook\PostTypes\LogEntry;

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Places;
 
-use atc\WXC\Core\Module as BaseModule;
+use atc\WXC\Module as BaseModule;
 use atc\WHx4\Modules\Places\PostTypes\Venue;
 use atc\WHx4\Modules\Places\PostTypes\Address;
 use atc\WHx4\Modules\Places\PostTypes\Building;
