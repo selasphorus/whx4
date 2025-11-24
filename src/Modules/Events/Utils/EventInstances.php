@@ -3,10 +3,10 @@
 namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Query;
-use WXC\Utils\DateHelper;
-//use WXC\Utils\RepeaterChangeDetector;
-use WXC\Utils\PluginPaths;
-use WXC\Core\ViewLoader;
+use atc\WXC\Utils\DateHelper;
+//use atc\WXC\Utils\RepeaterChangeDetector;
+use atc\WXC\Utils\PluginPaths;
+use atc\WXC\Core\ViewLoader;
 
 class EventInstances
 {

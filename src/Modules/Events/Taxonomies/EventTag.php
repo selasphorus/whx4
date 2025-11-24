@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\Taxonomies;
 
-use WXC\Core\TaxonomyHandler;
+use atc\WXC\Core\TaxonomyHandler;
 
 class EventTag extends TaxonomyHandler
 {

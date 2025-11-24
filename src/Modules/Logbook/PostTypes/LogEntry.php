@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Logbook\PostTypes;
 
-use WXC\Core\PostTypeHandler;
+use atc\WXC\Core\PostTypeHandler;
 
 class LogEntry extends PostTypeHandler
 {

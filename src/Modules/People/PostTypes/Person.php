@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\People\PostTypes;
 
-use WXC\Core\PostTypeHandler;
+use atc\WXC\Core\PostTypeHandler;
 
 class Person extends PostTypeHandler
 {

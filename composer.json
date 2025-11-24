@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "WHx4\\": "src/"
+            "atc\\WHx4\\": "src/"
         }
     },
     "config": {

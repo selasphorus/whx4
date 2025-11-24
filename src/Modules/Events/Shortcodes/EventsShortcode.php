@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace atc\WHx4\Modules\Events\Shortcodes;
 
-use WXC\Core\WHx4;
-use WXC\Core\PostTypeHandler;
+use atc\WXC\Core\WHx4;
+use atc\WXC\Core\PostTypeHandler;
 use atc\WHx4\Modules\Events\PostTypes\Event;
-use WXC\Core\ViewLoader;
-use WXC\Core\Query\PostQuery;
-use WXC\Core\Contracts\ShortcodeInterface;
+use atc\WXC\Core\ViewLoader;
+use atc\WXC\Core\Query\PostQuery;
+use atc\WXC\Core\Contracts\ShortcodeInterface;
 
 final class EventsShortcode implements ShortcodeInterface
 {

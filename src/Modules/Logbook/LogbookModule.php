@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Logbook;
 
-use WXC\Core\Module as BaseModule;
+use atc\WXC\Core\Module as BaseModule;
 
 // Post Types
 use atc\WHx4\Modules\Logbook\PostTypes\LogEntry;
@@ -17,7 +17,7 @@ final class LogbookModule extends BaseModule
         parent::boot();
 
         add_filter( 'whx4_register_subtypes', function( array $providers ): array {
-            //$providers[] = new \atc\WHx4\Modules\Logbook\Subtypes\LogEntriesSubtype(); // Subtype of XXX PostType
+            //$providers[] = new \WHx4\Modules\Logbook\Subtypes\LogEntriesSubtype(); // Subtype of XXX PostType
             return $providers;
         } );
     }

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Places\Taxonomies;
 
-use WXC\Core\TaxonomyHandler;
+use atc\WXC\Core\TaxonomyHandler;
 
 // TODO: figure out why this taxonomy isn't showing up (WIP 09/01/25)
 class LinkCategory extends TaxonomyHandler

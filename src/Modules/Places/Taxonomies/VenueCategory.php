@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Places\Taxonomies;
 
-use WXC\Core\TaxonomyHandler;
+use atc\WXC\Core\TaxonomyHandler;
 
 class VenueCategory extends TaxonomyHandler
 {

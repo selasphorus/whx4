@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Projects\PostTypes;
 
-use WXC\Core\PostTypeHandler;
+use atc\WXC\Core\PostTypeHandler;
 
 class Project extends PostTypeHandler
 {

@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Places\PostTypes;
 
-use WXC\Core\PostTypeHandler;
+use atc\WXC\Core\PostTypeHandler;
 
 class Link extends PostTypeHandler
 {

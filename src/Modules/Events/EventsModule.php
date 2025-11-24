@@ -2,13 +2,13 @@
 
 namespace atc\WHx4\Modules\Events;
 
-use WXC\Core\Module as BaseModule;
+use atc\WXC\Core\Module as BaseModule;
 use atc\WHx4\Modules\Events\PostTypes\Event;
 //use atc\WHx4\Modules\Events\PostTypes\RecurringEvent;
 //use atc\WHx4\Modules\Events\PostTypes\EventSeries;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 use atc\WHx4\Modules\Events\Utils\AjaxController;
-use WXC\Core\Shortcodes\ShortcodeManager;
+use atc\WXC\Core\Shortcodes\ShortcodeManager;
 
 final class EventsModule extends BaseModule
 {
@@ -21,12 +21,12 @@ final class EventsModule extends BaseModule
         AjaxController::register();
         //
         //error_log('EventsModule::boot -> calling ShortcodeManager::add');
-        ShortcodeManager::add(\atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class);
+        ShortcodeManager::add(\WHx4\Modules\Events\Shortcodes\EventsShortcode::class);
 
         // Keep filter for 3P extensibility (optional)
         /*
         add_filter('whx4_register_shortcodes', static function(array $classes): array {
-            $classes[] = \atc\WHx4\Modules\Events\Shortcodes\EventsShortcode::class;
+            $classes[] = \WHx4\Modules\Events\Shortcodes\EventsShortcode::class;
             return $classes;
         });*/
     }
