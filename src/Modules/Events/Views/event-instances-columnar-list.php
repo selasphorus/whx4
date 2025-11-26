@@ -7,7 +7,7 @@ foreach ( $instances as $instance ):
     $date_str = $date->format( 'Y-m-d' );
     $is_excluded = in_array( $date_str, $excluded, true );
     //
-    echo '<pre>'.print_r($instance,true).'</pre>';
+    //echo '<pre>'.print_r($instance,true).'</pre>'; // tft
     /*echo ViewLoader::renderToString( 'event-instance-div', [
         'post_id'    => $post_id,
         'date_str'   => $date_str,
