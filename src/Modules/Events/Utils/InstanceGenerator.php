@@ -27,7 +27,8 @@ class InstanceGenerator
         array $overrides = [],
         int $limit = 100,
         ?DateTimeInterface $until = null
-    ): array {
+    ): array 
+    {
         if ( ! $start || ! $rrule ) {
             return [];
         }

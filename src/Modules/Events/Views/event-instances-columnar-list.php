@@ -1,9 +1,13 @@
 <div class="whx4-event-instances-columns">
 <?php
-foreach ( $instances as $date ):
+foreach ( $instances as $instance ):
+//foreach ( $instances as $date ):
+    $date = $instance['datetime'];
     $label = $date->format( 'M j, Y' );
     $date_str = $date->format( 'Y-m-d' );
     $is_excluded = in_array( $date_str, $excluded, true );
+    //
+    echo '<pre>'.print_r($instance,true).'</pre>';
     /*echo ViewLoader::renderToString( 'event-instance-div', [
         'post_id'    => $post_id,
         'date_str'   => $date_str,
