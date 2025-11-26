@@ -26,6 +26,8 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
+define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
 // Require Composer autoloader
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
