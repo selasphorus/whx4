@@ -393,14 +393,16 @@ class EventInstances
 
         wp_enqueue_style(
             'whx4-event-admin-styles',
-            PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ),
+            WHX4_PLUGIN_URL . 'src/Modules/Events/Assets/whx4-events-admin.css',
+            //PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ),
             [],
             //filemtime( PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.css' ), )
         );
 
         wp_enqueue_script(
             'whx4-event-overrides',
-            PluginPaths::url( 'src/Modules/Events/Assets/event-overrides.js' ),
+            WHX4_PLUGIN_URL . 'src/Modules/Events/Assets/event-overrides.js',
+            //PluginPaths::url( 'src/Modules/Events/Assets/event-overrides.js' ),
             [ 'jquery' ],
             '1.0',
             true
@@ -408,7 +410,8 @@ class EventInstances
 
         wp_enqueue_script(
             'whx4-events-admin',
-            PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.js' ),
+            WHX4_PLUGIN_URL . 'src/Modules/Events/Assets/whx4-events-admin.js',
+            //PluginPaths::url( 'src/Modules/Events/Assets/whx4-events-admin.js' ),
             //plugins_url( '/assets/js/whx4-events-admin.js', __FILE__ ),
             [],
             '1.0',
