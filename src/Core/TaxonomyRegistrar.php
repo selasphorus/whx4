@@ -3,7 +3,7 @@
 namespace atc\WHx4\Core;
 
 use atc\WHx4\Core\BootOrder;
-use atc\WHx4\Core\TaxonomyHandler;
+use atc\WXC\Taxonomies\TaxonomyHandler;
 //use atc\WHx4\Core\SubtypeRegistry;
 
 final class TaxonomyRegistrar

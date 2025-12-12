@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       WHx4 plugin
+ * Plugin Name:       WHx4 plugin (OOP)
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * //Requires at least: 6.4
  * //Requires PHP:      7.4

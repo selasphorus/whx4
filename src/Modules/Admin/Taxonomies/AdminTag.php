@@ -2,7 +2,7 @@
 
 namespace atc\WHx4\Modules\Admin\Taxonomies;
 
-use atc\WHx4\Core\TaxonomyHandler;
+use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class AdminTag extends TaxonomyHandler
 {
