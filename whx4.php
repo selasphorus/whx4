@@ -41,6 +41,8 @@ use atc\WHx4\Modules\Places\PlacesModule as Places;
 use atc\WHx4\Modules\Events\EventsModule as Events;
 
 // WXC Add-on Modules: Secondary Modules
+use atc\WHx4\Modules\Media\MediaModule as Media;
+use atc\WHx4\Modules\Snippets\SnippetsModule as Snippets;
 use atc\WHx4\Modules\Projects\ProjectsModule as Projects;
 use atc\WHx4\Modules\Logbook\LogbookModule as Logbook;
 
@@ -56,6 +58,8 @@ add_action('wxc_pre_boot', function() {
         $modules['people'] = People::class;
         $modules['places'] = Places::class;
         $modules['events'] = Events::class;
+        $modules['media'] = Media::class;
+        $modules['snippets'] = Snippets::class;
         $modules['projects'] = Projects::class;
         $modules['logbook'] = Logbook::class;
         return $modules;
@@ -131,3 +135,42 @@ add_filter( 'whx4_events_post_type_slug', function() {
     return 'event';
 });
 */
+
+
+
+
+// Global Wrapper Functions for theme access
+
+/**
+ * Get post thumbnail with fallback handling
+ * See https://developer.wordpress.org/reference/functions/the_post_thumbnail/ >> the_post_thumbnail( string|int[] $size = 'post-thumbnail', string|array $attr = '' )
+ *
+ * @since 1.0.0
+ * @param int|WP_Post|null $post Post ID or object. Default current post.
+ * @param string           $size Image size. Default 'thumbnail'.
+ * @param array            $args Optional arguments.
+ * @return string|false Image HTML or false on failure.
+ */
+function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
+    if ( ! whx4_is_module_active( 'media' ) ) {
+        return false;
+    }
+    
+    $media = WHx4\Modules\Media\Utils\MediaDisplay::getInstance();
+    
+    /**
+     * Filter post thumbnail before output
+     *
+     * @param string|false     $output Thumbnail HTML
+     * @param int|WP_Post|null $post   Post object
+     * @param string           $size   Image size
+     * @param array            $args   Arguments
+     */
+    return apply_filters( 
+        'whx4_post_thumbnail', 
+        $media->getPostThumb( $post, $size, $args ),
+        $post,
+        $size,
+        $args
+    );
+}
