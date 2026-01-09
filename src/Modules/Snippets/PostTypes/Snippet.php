@@ -15,7 +15,7 @@ class Snippet extends PostTypeHandler
 				//'add_new_item' => 'Summon New Monster',
 				//'not_found' => 'No people loitering nearby',
 			],
-			'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
+			//'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
 			//'capability_type' => ['snippet','snippets'],
 			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
 			//'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
