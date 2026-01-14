@@ -231,9 +231,7 @@ class GroupEntity extends PostTypeHandler
 	//add_shortcode('group_personnel', 'whx4_group_personnel');
 	protected function whx4_group_personnel ( $atts = array() )
 	{
-		// TS/logging setup
 		$do_ts = devmode_active( array("whx4", "people") );
-
 		$info = "";
 		$ts_info = "";
 
@@ -247,15 +245,14 @@ class GroupEntity extends PostTypeHandler
 		extract( $args );
 
 		// Turn the list of subgroup_ids (if any) into a proper array
-		//if ( $subgroup_ids ) { $subgroup_ids = birdhive_att_explode( $subgroup_ids ); }
-		if ( $subgroup_ids ) { $subgroup_ids = array_map( 'intval', birdhive_att_explode( $subgroup_ids ) ); }
+		//if ( $subgroup_ids ) { $subgroup_ids = wxc_att_explode( $subgroup_ids ); }
+		if ( $subgroup_ids ) { $subgroup_ids = array_map( 'intval', wxc_att_explode( $subgroup_ids ) ); }
 
 		$info .= displayGroupPersonnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
 
 		if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 
 		return $info;
-
 	}
 
 }
