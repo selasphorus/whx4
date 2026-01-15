@@ -1041,7 +1041,7 @@ class MediaDisplay
 	}*/
 	
 	// Function to display featured caption in EM event template
-	add_shortcode( 'featured_image_caption', 'sdg_featured_image_caption' );
+	///add_shortcode( 'featured_image_caption', 'sdg_featured_image_caption' );
 	function sdg_featured_image_caption ( $post_id = null, $attachment_id = null ) 
 	{
 	
@@ -1097,7 +1097,7 @@ class MediaDisplay
 	}
 	
 	// Obsolete(?)
-	add_shortcode('display_webcast', 'display_webcast');
+	///add_shortcode('display_webcast', 'display_webcast');
 	function display_webcast( $post_id = null )
 	{
 		
