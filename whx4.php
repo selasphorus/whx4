@@ -151,7 +151,7 @@ add_filter( 'whx4_events_post_type_slug', function() {
  * @param array            $args Optional arguments.
  * @return string|false Image HTML or false on failure.
  */
-function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
+public function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
     if ( ! whx4_is_module_active( 'media' ) ) {
         return false;
     }
