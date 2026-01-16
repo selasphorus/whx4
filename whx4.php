@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace atc\WHx4;
+//namespace atc\WHx4;
 
 // Prevent direct access
 if ( !defined( 'ABSPATH' ) ) exit;
@@ -135,8 +135,6 @@ add_filter( 'whx4_events_post_type_slug', function() {
     return 'event';
 });
 */
-
-
 
 
 // Global Wrapper Functions for theme access
