@@ -18,7 +18,6 @@ class MediaDisplay
     
     // Get Media Player -- Based on contents of ACF A/V Info fields
 	//function get_media_player ( $post_id = null, $status_only = false, $position = null, $media_type = 'unknown', $url = null, $called_by = null ) {
-	//get_media_player
 	public static function getMediaPlayer( array $args = [] ): array
 	{
 		// TS/logging setup
@@ -55,7 +54,7 @@ class MediaDisplay
 		// Parse & Extract args
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
-		$ts_info .= $fcn_id."get_media_player parsed/extracted args: <pre>".print_r($args, true)."</pre>";
+		$ts_info .= $fcn_id."getMediaPlayer parsed/extracted args: <pre>".print_r($args, true)."</pre>";
 	
 		if ( $post_id == null ) { $post_id = get_the_ID(); }
 		//$ts_info .= $fcn_id."atts on init ==> post_id: '".$post_id."'; position: '".$position."'; media_type: '".$media_type."'; status_only: '[".$status_only."]'<br />";
@@ -728,10 +727,10 @@ class MediaDisplay
 		// Make sure this is a proper context for display of the featured image
 	
 		$mp_args = array('post_id' => $post_id, 'status_only' => true, 'position' => 'above', 'media_type' => 'video' );
-		$player_status = get_media_player( $mp_args );
+		$player_status = getMediaPlayer( $mp_args );
 	
 		$mp_args = array('post_id' => $post_id, 'position' => 'above', 'media_type' => 'video' );
-		$mp_info = get_media_player( $mp_args );
+		$mp_info = getMediaPlayer( $mp_args );
 		$player_status = $mp_info['status'];
 		//error_log("[MediaDisplay] mp ts info: ".$mp_info['ts_info'];
 	
@@ -1108,8 +1107,8 @@ class MediaDisplay
 		if ( post_is_webcast_eligible( $post_id ) ) {
 			
 			$mp_args = array('post_id' => $post_id ); // , 'position' => 'above' 
-			$media_info = get_media_player( $mp_args );
-			//$media_info = get_media_player( $post_id );
+			$media_info = getMediaPlayer( $mp_args );
+			//$media_info = getMediaPlayer( $post_id );
 			$player_status = $media_info['status'];
 			
 			$info .= "<!-- Webcast Audio/Video Player for post_id: $post_id -->";
