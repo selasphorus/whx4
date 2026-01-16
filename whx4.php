@@ -156,7 +156,7 @@ function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
         return false;
     }
     
-    $media = WHx4\Modules\Media\Utils\MediaDisplay::getInstance();
+    $media = atc\WHx4\Modules\Media\Utils\MediaDisplay::getInstance();
     
     /**
      * Filter post thumbnail before output
