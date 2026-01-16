@@ -34,6 +34,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 use atc\WXC\Plugin;
+use atc\WXC\App;
 
 // WXC Add-on Modules: "WH" Primary Modules
 use atc\WHx4\Modules\People\PeopleModule as People;
@@ -150,7 +151,8 @@ add_filter( 'whx4_events_post_type_slug', function() {
  * @return string|false Image HTML or false on failure.
  */
 function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
-    if ( ! whx4_is_module_active( 'media' ) ) {
+    $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
+    if ( ! in_array('media',$activeSlugs) {
         return false;
     }
     
