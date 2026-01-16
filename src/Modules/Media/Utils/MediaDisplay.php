@@ -727,10 +727,10 @@ class MediaDisplay
 		// Make sure this is a proper context for display of the featured image
 	
 		$mp_args = array('post_id' => $post_id, 'status_only' => true, 'position' => 'above', 'media_type' => 'video' );
-		$player_status = getMediaPlayer( $mp_args );
+		$player_status = $this->getMediaPlayer( $mp_args );
 	
 		$mp_args = array('post_id' => $post_id, 'position' => 'above', 'media_type' => 'video' );
-		$mp_info = getMediaPlayer( $mp_args );
+		$mp_info = $this->getMediaPlayer( $mp_args );
 		$player_status = $mp_info['status'];
 		//error_log("[MediaDisplay] mp ts info: ".$mp_info['ts_info'];
 	
@@ -1107,8 +1107,8 @@ class MediaDisplay
 		if ( post_is_webcast_eligible( $post_id ) ) {
 			
 			$mp_args = array('post_id' => $post_id ); // , 'position' => 'above' 
-			$media_info = getMediaPlayer( $mp_args );
-			//$media_info = getMediaPlayer( $post_id );
+			$media_info = $this->getMediaPlayer( $mp_args );
+			//$media_info = $this->getMediaPlayer( $post_id );
 			$player_status = $media_info['status'];
 			
 			$info .= "<!-- Webcast Audio/Video Player for post_id: $post_id -->";
