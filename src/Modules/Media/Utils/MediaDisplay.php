@@ -1,6 +1,8 @@
 <?php
 namespace atc\WHx4\Modules\Media\Utils;
 
+use atc\WXC\Environment;
+
 class MediaDisplay
 {
     private static $instance = null;
@@ -21,7 +23,7 @@ class MediaDisplay
 	public static function getMediaPlayer( array $args = [] ): array
 	{
 		// TS/logging setup
-		$do_ts = devmode_active( array("sdg", "media") );
+		$do_ts = Environment::devmode( array("sdg", "media") );
 		$do_log = false;
 		$fcn_id = "[sdg-gmp] ";
 		sdg_log( "divline2", $do_log );

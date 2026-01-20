@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Modules\People\PostTypes;
 
+use atc\WXC\Environment;
 use atc\WXC\PostTypes\PostTypeHandler;
 
 class GroupEntity extends PostTypeHandler
@@ -74,7 +75,7 @@ class GroupEntity extends PostTypeHandler
 	protected function displayGroupPersonnel ( $args = array() )
 	{
 		// TS/logging setup
-		$do_ts = devmode_active( array("whx4", "people") );
+		$do_ts = Environment::devmode( array("whx4", "people") );
 		$do_log = false;
 		sdg_log( "divline2", $do_log );
 
@@ -231,7 +232,7 @@ class GroupEntity extends PostTypeHandler
 	//add_shortcode('group_personnel', 'whx4_group_personnel');
 	protected function whx4_group_personnel ( $atts = array() )
 	{
-		$do_ts = devmode_active( array("whx4", "people") );
+		$do_ts = Environment::devmode( array("whx4", "people") );
 		$info = "";
 		$ts_info = "";
 

@@ -152,6 +152,7 @@ add_filter( 'whx4_events_post_type_slug', function() {
  */
 function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] ) {
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
+    //$activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs(); // try this?
     if ( ! in_array('media',$activeSlugs) ) {
         return false;
     }
