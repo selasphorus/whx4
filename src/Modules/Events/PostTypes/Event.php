@@ -438,4 +438,44 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 		return false;
 	}
+	
+	// WIP
+	
+    public function getStartDate(): string
+    {
+        return (string)$this->getPostMeta('whx4_events_start_date', 'Unknown');
+    }
+	
+	/**
+	 * Prepare event info for display
+	 * Pre-calculates all view data to keep templates clean
+	 * 
+	 * @param array $filters Optional filters to pass to ///getTransactions()
+	 * @return array Prepared data ready for view rendering
+	 */
+	public function prepareEventDataForView(array $filters = []): array
+	{
+		$instances = [];
+		
+		return [
+			'instances' => $instances,
+			//'total_count' => $stats['total_count'],
+			//'has_data' => !empty($stats['yearly'])
+		];
+	}
+	
+	/**
+	 * Prepare all data needed for the content view
+	 * This keeps the view clean and dependency-free
+	 * 
+	 * @return array Variables ready for view consumption
+	 */
+	public function prepareViewData(): array
+	{
+		return [
+			'startDate' => $this->getStartDate(),
+			'viewData' => $this->prepareEventDataForView(),
+			'postMeta' => $this->getPostMeta(),
+		];
+	}
 }
