@@ -7,6 +7,7 @@ use atc\WXC\Contracts\QueryContributor;
 use atc\WXC\Helpers\FieldDisplayHelpers;
 //
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
+use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
