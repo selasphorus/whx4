@@ -18,6 +18,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 		$config = [
 			'slug'        => $slug,
+			'rewrite' => ['slug' => 'calendar'],
 			'labels'      => [
 				'name' => 'WHx4 Events',
 				'singular_name' => 'WHx4 Event',
