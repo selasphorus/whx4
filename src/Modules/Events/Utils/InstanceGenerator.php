@@ -204,7 +204,7 @@ class InstanceGenerator
 	public static function getInstancePermalink( int $postID, string $dateKey ): string
 	{
 		$event_slug = get_post_field( 'post_name', $postID );
-		return home_url( "/event/{$dateKey}-{$event_slug}/" );
+		return home_url( "/whx4_event/{$dateKey}-{$event_slug}/" );
 	}
 	
 	/**
