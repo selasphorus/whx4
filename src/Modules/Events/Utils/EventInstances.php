@@ -560,7 +560,7 @@ class EventInstances
 		
 		// Date-based archives: /events/2026-01-22/
 		add_rewrite_rule(
-			'calendar/([0-9]{4}-[0-9]{2}-[0-9]{2})/?$',
+			'whx4_calendar/([0-9]{4}-[0-9]{2}-[0-9]{2})/?$',
 			'index.php?post_type=whx4_event&scope=$matches[1]',
 			'top'
 		);
