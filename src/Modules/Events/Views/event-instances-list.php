@@ -3,7 +3,7 @@
 <!-- event-instances-list.php -->
 <?php foreach ( $instances as $instance ): ?>
     <div class="event-instance">
-        <a href="<?php echo esc_url( $instance['permalink'] ); ?>">
+        <a href="<?php echo esc_url( $instance['permalink'] ); ?>" target="_blank">
             <?php echo esc_html( $instance['datetime']->format( 'F j, Y' ) ); ?>
         </a>
         
