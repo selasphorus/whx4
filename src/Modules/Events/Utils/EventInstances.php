@@ -547,13 +547,21 @@ class EventInstances
     ///
     
     /**
-	 * Add rewrite rule for date-prefixed event instances.
-	 */
+	 * Add rewrite rules for events and date-prefixed event instances.
+	 */	
 	public static function addRewriteRules(): void
 	{
+		// Date-prefixed individual instances: /event/2026-01-22-test-event/
 		add_rewrite_rule(
 			'whx4_event/([0-9]{4}-[0-9]{2}-[0-9]{2})-([^/]+)/?$',
 			'index.php?post_type=whx4_event&name=$matches[2]&event_instance=$matches[1]',
+			'top'
+		);
+		
+		// Date-based archives: /events/2026-01-22/
+		add_rewrite_rule(
+			'whx4_events/([0-9]{4}-[0-9]{2}-[0-9]{2})/?$',
+			'index.php?post_type=whx4_event&scope=$matches[1]',
 			'top'
 		);
 	}
