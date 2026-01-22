@@ -1,4 +1,14 @@
 <h3>Event Instances</h3>
+<?php
+error_log('Query vars: ' . print_r($wp_query->query_vars, true));
+error_log('event_instance: ' . get_query_var('event_instance'));
+var_dump([
+    'event_instance' => get_query_var('event_instance'),
+    'post_type' => get_query_var('post_type'),
+    'name' => get_query_var('name'),
+]);
+?>
+
 <div class="whx4-event-instances-list">
 <!-- event-instances-list.php -->
 <?php foreach ( $instances as $instance ): ?>
