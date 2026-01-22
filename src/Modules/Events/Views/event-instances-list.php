@@ -1,18 +1,26 @@
+<h3>Event Instances</h3>
 <div class="whx4-event-instances-list">
+<!-- event-instances-list.php -->
+<?php foreach ( $instances as $instance ): ?>
+    <div class="event-instance">
+        <a href="<?php echo esc_url( $instance['permalink'] ); ?>">
+            <?php echo esc_html( $instance['datetime']->format( 'F j, Y' ) ); ?>
+        </a>
+        
+        <?php if ( $instance['is_override'] ): ?>
+            <span class="badge">Rescheduled</span>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+
 <?php
-foreach ( $instances as $instance ):
+/*foreach ( $instances as $instance ):
     $date = $instance['datetime'];
     $label = $date->format( 'M j, Y' );
     $date_str = $date->format( 'Y-m-d' );
     $is_excluded = in_array( $date_str, $excluded, true );
     //
     //echo '<pre>'.print_r($instance,true).'</pre>'; // tft
-    /*echo ViewLoader::renderToString( 'event-instance-div', [
-        'post_id'    => $post_id,
-        'date_str'   => $date_str,
-        'excluded'   => in_array( $date_str, $excluded, true ), //in_array( $date->format( 'Y-m-d' ), $excluded, true ),
-        'replacement_id' => $replacements[ $date_str ] ?? null,
-    ], 'events' );*/
     ?>
 
     <div class="whx4-instance-block" data-date="<?php echo esc_attr( $date_str ); ?>" data-post-id="<?php echo esc_attr( $post_id ); ?>">
@@ -20,6 +28,7 @@ foreach ( $instances as $instance ):
     <div class="whx4-instance-actions">
 
     <?php
+    // TODO: replace buttons with Edit/View links
     if ( isset($replacements[ $date_str ] ) ) {
         echo '<a href="' . esc_url( get_edit_post_link( $replacements[ $date_str ] ) ) . '" target="_blank" class="button">Edit replacement</a>';
     } elseif ( $is_excluded ) {
@@ -35,6 +44,6 @@ foreach ( $instances as $instance ):
     </div> <!-- close .whx4-instance-block -->
 
 <?php
-endforeach;
+endforeach;*/
 ?>
 </div> <!-- close .whx4-event-instances-list -->

@@ -21,6 +21,12 @@ class EventInstances
         //add_action( 'admin_init', [self::class, 'handleCreateRequest'] );
         //add_action( 'wp_ajax_whx4_create_replacement', [ self::class, 'handleCreateReplacement' ] );
         //add_action( 'wp_ajax_whx4_check_replacement', [ \smith\Rex\Events\Admin\EventInstances::class, 'ajaxCheckReplacement' ] );
+        
+        // Add routing for individual instances
+		add_action( 'init', [self::class, 'addRewriteRules'] );
+		add_filter( 'query_vars', [self::class, 'addQueryVars'] );
+		add_action( 'pre_get_posts', [self::class, 'modifyMainQuery'] );
+		add_filter( 'template_include', [self::class, 'loadInstanceTemplate'] );
     }
 
     /**
@@ -537,4 +543,76 @@ class EventInstances
 
         return $clone_id;
     }
+    
+    ///
+    
+    /**
+	 * Add rewrite rule for date-prefixed event instances.
+	 */
+	public static function addRewriteRules(): void
+	{
+		add_rewrite_rule(
+			'^event/([0-9]{4}-[0-9]{2}-[0-9]{2})-([^/]+)/?$',
+			'index.php?post_type=whx4_event&name=$matches[2]&event_instance=$matches[1]',
+			'top'
+		);
+	}
+	
+	/**
+	 * Register custom query var for event instance date.
+	 */
+	public static function addQueryVars( $vars ): array
+	{
+		$vars[] = 'event_instance';
+		return $vars;
+	}
+	
+	/**
+	 * Modify main query for instance views.
+	 */
+	public static function modifyMainQuery( $query ): void
+	{
+		if ( ! is_admin() && $query->is_main_query() ) {
+			$instance_date = get_query_var( 'event_instance' );
+			
+			if ( $instance_date && $query->get( 'post_type' ) === 'whx4_event' ) {
+				$query->set( 'posts_per_page', 1 );
+			}
+		}
+	}
+	
+	/**
+	 * Load appropriate template and validate instance.
+	 */
+	public static function loadInstanceTemplate( $template )
+	{
+		$instance_date = get_query_var( 'event_instance' );
+		
+		if ( ! $instance_date || ! is_singular( 'whx4_event' ) ) {
+			return $template;
+		}
+		
+		global $post;
+		
+		// Validate this date is a real instance
+		$instance = InstanceGenerator::getSingleInstance( $post->ID, $instance_date );
+		
+		if ( ! $instance ) {
+			global $wp_query;
+			$wp_query->set_404();
+			status_header( 404 );
+			return get_404_template();
+		}
+		
+		// Store instance data for template use
+		$post->current_instance = $instance;
+		
+		// Optionally use a different template
+		$instance_template = locate_template( ['single-whx4_event-instance.php'] );
+		if ( $instance_template ) {
+			return $instance_template;
+		}
+		
+		return $template;
+	}
 }

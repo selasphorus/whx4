@@ -42,7 +42,7 @@ class InstanceGenerator
             error_log( "RRULE parsing error: " . $e->getMessage() );
             return [];
         }
-
+        
         $results = [];
 
         foreach ( $rule as $dt ) {
@@ -80,6 +80,11 @@ class InstanceGenerator
                 $instance['is_override'] = true;
                 $instance['override_post_id'] = $override['post_id'] ?? null;
             }
+        
+			// Add permalink if we have a post ID
+			if ( $postID ) {
+				$instance['permalink'] = self::getInstancePermalink( $postID, $dateKey );
+			}
 
             $results[] = $instance;
 
@@ -151,7 +156,8 @@ class InstanceGenerator
             $exdates,
             $overrides,
             $limit,
-            $until
+            $until,
+            $postID  // Pass the post ID so permalinks are generated
         );
     }
 
@@ -186,4 +192,39 @@ class InstanceGenerator
         $rrule = get_post_meta( $postID, 'whx4_events_rrule', true );
         return ! empty( $rrule );
     }
+
+	/**
+	 * Get permalink for a specific instance.
+	 *
+	 * @param  int    $postID   The event post ID
+	 * @param  string $dateKey  Date in Y-m-d format
+	 * @return string           Instance-specific URL
+	 */
+	public static function getInstancePermalink( int $postID, string $dateKey ): string
+	{
+		$event_slug = get_post_field( 'post_name', $postID );
+		return home_url( "/event/{$dateKey}-{$event_slug}/" );
+	}
+	
+	/**
+	 * Check if currently viewing a specific instance.
+	 *
+	 * @param  int    $postID   The event post ID
+	 * @param  string $dateKey  Date in Y-m-d format
+	 * @return bool
+	 */
+	public static function isCurrentInstance( int $postID, string $dateKey ): bool
+	{
+		return get_query_var( 'event_instance' ) === $dateKey;
+	}
+	
+	/**
+	 * Get the current instance date from query var.
+	 *
+	 * @return string|false Date string or false if not viewing an instance
+	 */
+	public static function getCurrentInstanceDate()
+	{
+		return get_query_var( 'event_instance' ) ?: false;
+	}
 }

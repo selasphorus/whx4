@@ -474,7 +474,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	public function prepareViewData(): array
 	{
 		// Pre-render the instances list (nested view)
-		$instancesListHtml = EventInstances::renderInstancesList($this->post->ID);
+		$instancesListHtml = EventInstances::renderInstancesList($this->post->ID, 50); // TODO: consider different limit? no limit?
 		
 		return [
 			'startDate' => $this->getStartDate(),
