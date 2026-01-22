@@ -472,10 +472,14 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	 */
 	public function prepareViewData(): array
 	{
+		// Pre-render the instances list (nested view)
+		$instancesListHtml = self::renderInstancesList($this->post->ID);
+		
 		return [
 			'startDate' => $this->getStartDate(),
 			'viewData' => $this->prepareEventDataForView(),
 			'postMeta' => $this->getPostMeta(),
+			'instancesListHtml' => $instancesListHtml, // Pre-rendered nested view
 		];
 	}
 }

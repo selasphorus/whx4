@@ -106,7 +106,8 @@ class InstanceGenerator
         int $limit = 100,
         bool $includeExcluded = false,
         ?DateTimeInterface $until = null
-    ): array {
+    ): array 
+    {
         // Get start datetime
         $startDT = DateHelper::combineDateAndTime(
             get_post_meta( $postID, 'whx4_events_start_date', true ),

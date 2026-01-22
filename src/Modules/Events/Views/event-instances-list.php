@@ -37,4 +37,4 @@ foreach ( $instances as $instance ):
 <?php
 endforeach;
 ?>
-</div> <!-- close .whx4-event-instances-columns -->
+</div> <!-- close .whx4-event-instances-list -->

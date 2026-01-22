@@ -37,46 +37,100 @@ class EventInstances
             'default'
         );
     }
-
+    
     /**
-     * Render the instances meta box.
-     */
-    public static function renderMetaBox( \WP_Post $post ): void
-    {
-        $postID = $post->ID;
-        
-        // Check if this is a recurring event
-        if ( ! InstanceGenerator::isRecurring( $postID ) ) {
-            echo '<p>This event does not have recurrence rules.</p>';
-            return;
-        }
-
-        // Generate instances (limit to 50 for admin view)
-        $instances = InstanceGenerator::fromPostId( $postID, 50, true );
-        
-        // Get excluded dates
-        $excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
-        if ( ! is_array( $excluded ) ) {
-            $excluded = [];
-        }
-
-        // Get replacements map
-        $replacements = self::getReplacementPostIds( $postID );
-
-        $vars = [
-            'post_id'      => $postID,
-            'instances'    => $instances,
-            'excluded'     => $excluded,
-            'replacements' => $replacements,
-            //'info'        => $info,
-        ];
-
-        ViewLoader::render(
-            'event-instances-columnar-list',
-            $vars,
-            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
-        );
-    }
+	 * Get instances data for display.
+	 * 
+	 * @param int  $postID      The parent event post ID.
+	 * @param int  $limit       Maximum number of instances to generate.
+	 * @param bool $includeInfo Whether to include generation info.
+	 * @return array|null Array with instances data, or null if not recurring.
+	 */
+	protected static function getInstancesData( int $postID, int $limit = 50, bool $includeInfo = false ): ?array
+	{
+		// Check if this is a recurring event
+		if ( ! InstanceGenerator::isRecurring( $postID ) ) {
+			return null;
+		}
+	
+		// Generate instances
+		$instances = InstanceGenerator::fromPostId( $postID, $limit, $includeInfo );
+		
+		// Get excluded dates
+		$excluded = maybe_unserialize( get_post_meta( $postID, 'whx4_events_excluded_dates', true ) ) ?: [];
+		if ( ! is_array( $excluded ) ) {
+			$excluded = [];
+		}
+	
+		// Get replacements map
+		$replacements = self::getReplacementPostIds( $postID );
+	
+		return [
+			'post_id'      => $postID,
+			'instances'    => $instances,
+			'excluded'     => $excluded,
+			'replacements' => $replacements,
+		];
+	}
+	
+	/**
+	 * Render the instances meta box (admin).
+	 * 
+	 * @param \WP_Post $post The post object.
+	 */
+	public static function renderMetaBox( \WP_Post $post ): void
+	{
+		$data = self::getInstancesData( $post->ID, 50, true );
+		
+		if ( $data === null ) {
+			echo '<p>This event does not have recurrence rules.</p>';
+			return;
+		}
+	
+		ViewLoader::render(
+			'event-instances-columnar-list',
+			$data,
+			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
+		);
+	}
+	
+	/**
+	 * Render instances list for frontend display.
+	 * 
+	 * @param int   $postID The parent event post ID.
+	 * @param int   $limit  Maximum number of instances to show. Default 20.
+	 * @param array $args   Additional arguments for the view.
+	 * @return string       HTML output, or empty string if not recurring.
+	 */
+	public static function renderInstancesList( int $postID, int $limit = 20, array $args = [] ): string
+	{
+		$data = self::getInstancesData( $postID, $limit, false );
+		
+		if ( $data === null ) {
+			return '';
+		}
+	
+		// Merge any additional args
+		$data = array_merge( $data, $args );
+	
+		return ViewLoader::renderToString(
+			'event-instances-list',
+			$data,
+			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
+		);
+	}
+	
+	/**
+	 * Display instances list for frontend (echo version).
+	 * 
+	 * @param int   $postID The parent event post ID.
+	 * @param int   $limit  Maximum number of instances to show. Default 20.
+	 * @param array $args   Additional arguments for the view.
+	 */
+	public static function displayInstancesList( int $postID, int $limit = 20, array $args = [] ): void
+	{
+		echo self::renderInstancesList( $postID, $limit, $args );
+	}
 
     /**
      * Get override dates for a parent event (for InstanceGenerator).
