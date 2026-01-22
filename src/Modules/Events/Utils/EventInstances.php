@@ -24,7 +24,7 @@ class EventInstances
         
         // Add routing for individual instances
 		add_action( 'init', [self::class, 'addRewriteRules'] );
-		add_filter( 'query_vars', [self::class, 'addQueryVars'] );
+		add_filter( 'query_vars', [self::class, 'addQueryVars'] ); // TODO: standardize addition of query vars across WXC ecosystem
 		add_action( 'pre_get_posts', [self::class, 'modifyMainQuery'] );
 		add_filter( 'template_include', [self::class, 'loadInstanceTemplate'] );
     }
@@ -571,6 +571,7 @@ class EventInstances
 	 */
 	public static function addQueryVars( $vars ): array
 	{
+		$vars[] = 'scope';
 		$vars[] = 'event_instance';
 		return $vars;
 	}
