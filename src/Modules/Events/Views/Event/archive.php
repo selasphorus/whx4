@@ -13,12 +13,15 @@ get_header(); ?>
         <main id="main" class="site-main">
 
             <header class="page-header">
-                Events
+                <h1 class="page-title archive">Events</h1>
             </header><!-- .page-header -->
 
             <?php
-            if ( is_post_type_archive() ) {
-                
+            $scope = get_query_var('scope');
+			if ( $scope ):
+				echo 'scope: ' . $scope . "<br />";
+			endif;
+            /*if ( is_post_type_archive() ) {
                 $cpt_args = null;
                 
                 global $wp_query;
@@ -32,14 +35,10 @@ get_header(); ?>
             
                 echo '<!-- merged args'.": <pre>".print_r( $args, true )."</pre> -->";
                 query_posts( $args );
-            }
+            }*/
 
             //
             if ( have_posts() ) {
-            
-                if ( is_category() && $paged == 1 ) { 
-                    echo "<h2>Archived Articles</h2>";
-                }
             
                 // Loop through the posts 
                 while ( have_posts() ) {
