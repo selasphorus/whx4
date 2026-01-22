@@ -26,7 +26,8 @@ class InstanceGenerator
         array $exdates = [],
         array $overrides = [],
         int $limit = 100,
-        ?DateTimeInterface $until = null
+        ?DateTimeInterface $until = null,
+        ?int $postID = null  // Add optional post ID
     ): array 
     {
         if ( ! $start || ! $rrule ) {
