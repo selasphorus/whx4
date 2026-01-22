@@ -128,12 +128,6 @@ add_action('wxc_pre_boot', function() {
     
 }, 15); // Priority < 20 to run before WHx4 boot()
 
-// Temporary check to see what's registered ito rewrite rules
-add_action('init', function() {
-	global $wp_rewrite;
-	error_log('Rewrite rules: ' . print_r($wp_rewrite->rules, true));
-}, 999);
-
 // Init
 
 // Activate the following after EM events have been migrated and the EM plugin has been deactivated
