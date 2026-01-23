@@ -43,11 +43,7 @@ get_header(); ?>
                 // Loop through the posts 
                 while ( have_posts() ) {
                     the_post();
-
-                    $post_type = atc_get_type_for_template();
-                    echo "<!-- post_type_for_template: ".$post_type." -->";
-                    get_template_part( 'template-parts/content', $post_type );
-
+                    get_template_part( 'template-parts/content', 'event' ); //whx4_
                 } // endwhile;
 
                 // Previous/next page navigation.
