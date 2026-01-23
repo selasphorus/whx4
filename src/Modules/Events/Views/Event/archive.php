@@ -43,7 +43,7 @@ get_header(); ?>
                 // Loop through the posts 
                 while ( have_posts() ) {
                     the_post();
-                    get_template_part( 'template-parts/content', 'event' ); //whx4_
+                    get_template_part( 'template-parts/content', 'whx4_event' ); //
                 } // endwhile;
 
                 // Previous/next page navigation.
