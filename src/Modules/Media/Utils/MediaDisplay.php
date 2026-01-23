@@ -673,7 +673,7 @@ class MediaDisplay
 	//public function getPostThumb( $post = null, $size = 'thumbnail', $args = [] ) {
 	public static function getPostThumb ( array $args = [] ) 
 	{
-		error_log( "MediaDisplay::whx4_post_thumbnail" );
+		//error_log( "MediaDisplay::whx4_post_thumbnail" );
 		//error_log('[MediaDisplay] args: ' . print_r($args, true));
 		
 		// Init vars
@@ -739,7 +739,7 @@ class MediaDisplay
 		if ( $format == "singular" && $player_status == "ready" ) {
 			return;
 		} else {
-			error_log("[MediaDisplay] player_status: ".print_r($player_status,true));
+			//error_log("[MediaDisplay] player_status: ".print_r($player_status,true));
 		}
 		if ( post_password_required($post_id) || is_attachment($post_id) ) {
 			return;
@@ -754,7 +754,7 @@ class MediaDisplay
 			return; // wip
 		}
 	
-		error_log("[MediaDisplay] Ok to display the image, if one has been found.");
+		//error_log("[MediaDisplay] Ok to display the image, if one has been found.");
 	
 		// Ok to display the image! Set up classes for styling
 		$classes = "post-thumbnail sdg";
@@ -766,11 +766,11 @@ class MediaDisplay
 		// Are we using the custom image, if any is set?
 		// Do this only for archive and grid display, not for singular posts of any kind (? people ?)
 		if ( $format != "singular" && in_array("custom_thumb", $sources ) ) {
-			error_log("[MediaDisplay] Check for custom_thumb");
+			//error_log("[MediaDisplay] Check for custom_thumb");
 			// First, check to see if the post has a Custom Thumbnail
 			$custom_thumb_id = get_post_meta( $post_id, 'custom_thumb', true );
 			if ( $custom_thumb_id ) {
-				error_log("[MediaDisplay] custom_thumb_id found: $custom_thumb_id");
+				//error_log("[MediaDisplay] custom_thumb_id found: $custom_thumb_id");
 				$img_id = $custom_thumb_id;
 			}
 		}
@@ -782,7 +782,7 @@ class MediaDisplay
 				$img_id = get_author_img_id ( $post_id );
 				$classes .= " author_img_for_archive";
 			} else {
-				error_log("[MediaDisplay] author_image_for_archive set to false");
+				//error_log("[MediaDisplay] author_image_for_archive set to false");
 			}
 		}
 	
@@ -793,11 +793,11 @@ class MediaDisplay
 			if ( has_post_thumbnail( $post_id ) ) {
 	
 				$img_id = get_post_thumbnail_id( $post_id );
-				error_log("[MediaDisplay] post has a featured image.");
+				//error_log("[MediaDisplay] post has a featured image.");
 	
 			} else {
 	
-				error_log("[MediaDisplay] post has NO featured image.");
+				//error_log("[MediaDisplay] post has NO featured image.");
 	
 				// If there's no featured image, see if there are any other images that we can use instead
 	
@@ -806,15 +806,15 @@ class MediaDisplay
 					// get image gallery images and select one at random
 					$image_gallery = get_post_meta( $post_id, 'image_gallery', true );
 					if ( is_array($image_gallery) && count($image_gallery) > 0 ) {
-						error_log("[MediaDisplay] Found an image_gallery array.");
-						error_log("[MediaDisplay] image_gallery: <pre>".print_r($image_gallery, true)."</pre>");
+						//error_log("[MediaDisplay] Found an image_gallery array.");
+						//error_log("[MediaDisplay] image_gallery: <pre>".print_r($image_gallery, true)."</pre>");
 						$i = array_rand($image_gallery,1); // Get one random image ID -- tmp solution
 						// WIP: figure out how to have a more controlled rotation -- based on event date? day? cookie?
 						$img_id = $image_gallery[$i];
 						$img_type = $fcn_id."attachment_image";
-						error_log("[MediaDisplay] Random thumbnail ID: $img_id");
+						//error_log("[MediaDisplay] Random thumbnail ID: $img_id");
 					} else {
-						error_log("[MediaDisplay] No image_gallery found.");
+						//error_log("[MediaDisplay] No image_gallery found.");
 					}
 				}
 	
@@ -860,10 +860,10 @@ class MediaDisplay
 			if ( get_post( $img_id ) ) { $caption = get_post( $img_id )->post_excerpt; } else { $caption = null; }
 			if ( !empty($caption) && $format == "singular" && !is_singular('person') ) {
 				$classes .= " has-caption";
-				error_log("[MediaDisplay] Caption found for img_id $img_id: '$caption'");
+				//error_log("[MediaDisplay] Caption found for img_id $img_id: '$caption'");
 			} else {
 				$classes .= " no-caption";
-				error_log("[MediaDisplay] No caption found for img_id $img_id");
+				//error_log("[MediaDisplay] No caption found for img_id $img_id");
 			}
 	
 			if ( $caption != "" ) {
@@ -876,7 +876,7 @@ class MediaDisplay
 			// Set up the img_html
 			if ( $format == "singular" && !( is_page('events') ) ) {
 	
-				error_log("[MediaDisplay] post format is_singular");
+				//error_log("[MediaDisplay] post format is_singular");
 				if ( has_post_thumbnail($post_id) ) {
 	
 					if ( is_singular('person') ) {
@@ -896,7 +896,7 @@ class MediaDisplay
 					// If an image_gallery was found, show one image as the featured image
 					// TODO: streamline this
 					if ( $img_id && is_array($image_gallery) && count($image_gallery) > 0 ) {
-						error_log("[MediaDisplay] image_gallery image");
+						//error_log("[MediaDisplay] image_gallery image");
 						$img_html .= '<div class="'.$classes.'">';
 						$img_html .= wp_get_attachment_image( $img_id, $img_size, false, array( "class" => "featured_attachment" ) );
 						$img_html .= $caption_html;
@@ -907,7 +907,7 @@ class MediaDisplay
 	
 			} else if ( !( $format == "singular" && is_page('events') ) ) {
 	
-				error_log("[MediaDisplay] NOT is_singular");
+				//error_log("[MediaDisplay] NOT is_singular");
 	
 				// NOT singular -- aka archives, search results, &c.
 				$img_tag = "";
@@ -917,12 +917,12 @@ class MediaDisplay
 					// display attachment via thumbnail_id
 					$img_tag = wp_get_attachment_image( $img_id, $img_size, false, array( "class" => "featured_attachment" ) );
 	
-					error_log("[MediaDisplay] post_id: ".$post_id.'; thumbnail_id: '.$img_id);
-					if ( isset($images)) { error_log("[MediaDisplay] <pre>".print_r($images,true).'</pre>'); }
+					//error_log("[MediaDisplay] post_id: ".$post_id.'; thumbnail_id: '.$img_id);
+					//if ( isset($images)) { error_log("[MediaDisplay] <pre>".print_r($images,true).'</pre>'); }
 	
 				} else {
 	
-					error_log("[MediaDisplay] Use placeholder img");
+					//error_log("[MediaDisplay] Use placeholder img");
 	
 					if ( function_exists( 'get_placeholder_img' ) ) {
 						$img_tag = get_placeholder_img();
