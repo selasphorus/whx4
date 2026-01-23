@@ -3,6 +3,7 @@
  * The template for displaying Event archive pages
  *
  * Based on apostle theme archive
+ * TODO: get rid of this -- devise a system that integrates more simply with whatever theme is active, customizing only the excerpt view...
  *
  */
 
