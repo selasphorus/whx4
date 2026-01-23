@@ -51,6 +51,35 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			return FieldDisplayHelpers::formatArrayForDisplay( $value );
 		}, 10 );
 	}
+	
+	/**
+	 * Canonical allow-list of URL params that can shape Transaction queries.
+	 * Consumers (shortcodes, controllers, handler methods) can pass this to a
+	 * UrlParamBridge to sanitize & map into PostQuery inputs.
+	 */
+	public static function allowedUrlParams(): array
+	{
+		$spec = [
+			'scope' => [
+				'sanitize' => [PostTypeHandler::class, 'sanitizeScopeParam'],
+				'map_to'   => ['arg' => 'scope'], // PostQuery will forward to ScopedDateResolver
+				'override' => true,
+			],
+			/*'transaction_category' => [
+				'sanitize' => [PostTypeHandler::class, 'sanitizeTermSlugsParam'],
+				'map_to'   => ['tax' => 'transaction_category', 'field' => 'slug'], // TaxQueryBuilder input
+				'override' => true,
+			],
+			'related_group' => [
+			    'sanitize' => [PostTypeHandler::class, 'sanitizePostIdOrSlugParam'],
+			    'map_to'   => ['arg' => 'related_group'],
+			    'override' => true,
+			],*/
+		];
+
+		// Optional extension point for add-ons/themes.
+		return apply_filters('whx4_allowed_url_params_event', $spec);
+	}
 
 	protected static function getQuerySpec(): array
     {
