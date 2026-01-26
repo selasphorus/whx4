@@ -14,9 +14,6 @@ use atc\WHx4\Modules\Events\PostTypes\Event;
 
 final class EventsShortcode implements ShortcodeInterface
 {
-    // Adjust to your actual CPT slug (e.g., 'whx4_event' or 'event').
-    private const CPT = 'whx4_event';
-
     // This is the tag by which the shortcode will be called
     public static function tag(): string
     {

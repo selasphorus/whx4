@@ -5,12 +5,16 @@ namespace atc\WHx4\Modules\Events\PostTypes;
 use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Contracts\QueryContributor;
 use atc\WXC\Helpers\FieldDisplayHelpers;
+use atc\WXC\Traits\AppliesScopeToMainQuery;
 //
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
 class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
+    use AppliesScopeToMainQuery;
+    public const DATE_META = 'whx4_events_start_date';
+    
     public function __construct(?\WP_Post $post = null)
     {
 		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
@@ -18,7 +22,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 		$config = [
 			'slug'        => $slug,
-			'rewrite' => ['slug' => 'whx4_calendar'],
+			'rewrite' => ['slug' => 'whx4_calendar'], // TODO: make conditional upon $slug
 			'labels'      => [
 				'name' => 'WHx4 Events',
 				'singular_name' => 'WHx4 Event',
@@ -43,6 +47,12 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			'called_by'      => 'Event::boot',
 			//'append'         => 'TEST: ',
 		]);
+		
+		// Register scope filtering
+        $this->registerScopeFilter();
+        
+        // Expand instances after query runs
+        //add_filter('the_posts', [$this, 'expandRecurringInstances'], 10, 2);
 
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
 		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
@@ -50,6 +60,29 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		add_filter( 'acf/load_value/name=whx4_events_excluded_dates', function( $value ) {
 			return FieldDisplayHelpers::formatArrayForDisplay( $value );
 		}, 10 );
+	}
+    
+    // WIP/TMP
+    protected function getPostTypeSlug(): ?string
+    {
+        return 'whx4_event'; // Adjust to your actual CPT slug (e.g., 'whx4_event' or 'event').
+    }
+    
+	/**
+	 * Decide the CPT slug at runtime, with legacy + new filters.
+	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
+	 */
+	protected function resolveSlug(): string
+	{
+		$base = $this->conflictingEventsPluginActive() ? 'whx4_event' : 'event';
+
+		// New, clearer filter (preferred going forward)
+		$slug = (string) apply_filters('whx4/events/event_slug', $base);
+
+		// Back-compat for existing code that already filters this
+		//$slug = (string) apply_filters('whx4_events_post_type_slug', $slug);
+
+		return $slug;
 	}
 	
 	/**
@@ -65,11 +98,12 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 				'map_to'   => ['arg' => 'scope'], // PostQuery will forward to ScopedDateResolver
 				'override' => true,
 			],
-			/*'transaction_category' => [
+			'event_category' => [
 				'sanitize' => [PostTypeHandler::class, 'sanitizeTermSlugsParam'],
-				'map_to'   => ['tax' => 'transaction_category', 'field' => 'slug'], // TaxQueryBuilder input
+				'map_to'   => ['tax' => 'event_category', 'field' => 'slug'],
 				'override' => true,
 			],
+			/*
 			'related_group' => [
 			    'sanitize' => [PostTypeHandler::class, 'sanitizePostIdOrSlugParam'],
 			    'map_to'   => ['arg' => 'related_group'],
@@ -416,23 +450,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		$instances = $generator->generate( 50 );
 
 	*/
-
-	/**
-	 * Decide the CPT slug at runtime, with legacy + new filters.
-	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
-	 */
-	protected function resolveSlug(): string
-	{
-		$base = $this->conflictingEventsPluginActive() ? 'whx4_event' : 'event';
-
-		// New, clearer filter (preferred going forward)
-		$slug = (string) apply_filters('whx4/events/event_slug', $base);
-
-		// Back-compat for existing code that already filters this
-		//$slug = (string) apply_filters('whx4_events_post_type_slug', $slug);
-
-		return $slug;
-	}
 
 	/**
 	 * Keep this tiny and fast: check a couple of high-signal conditions.
