@@ -670,7 +670,7 @@ class MediaDisplay
 	
 	// Custom fcn for thumbnail/featured image display
 	// WIP refactoring	
-	function getPostImage ( $postID = null, $format = 'singular', $sources = ['featured_image', 'gallery'] ) 
+	public static function getPostImage ( $postID = null, $format = 'singular', $sources = ['featured_image', 'gallery'] ) 
 	{
 		if ( !$postID ) { return null; }
 		$post_type = get_post_type( $postID );
@@ -905,7 +905,7 @@ class MediaDisplay
 		
 		// Find an image for this post
 		$imgID = null;
-		$img = getPostImage( $post_id, $format, $sources );
+		$img = self::getPostImage( $post_id, $format, $sources );
 		if ( $img ) {
 			$ts_info .= $img['info'];
 			$imgID = $img['imgID'];
@@ -933,7 +933,7 @@ class MediaDisplay
 			$ts_info .= "event_type: [" . $event_type . "]<br />";
 			
 			if ( $parent_post_id ) {
-				$img = getPostImage( $parent_post_id, $format, $sources );
+				$img = self::getPostImage( $parent_post_id, $format, $sources );
 				$ts_info .= $img['info'];
 			}
 		}
