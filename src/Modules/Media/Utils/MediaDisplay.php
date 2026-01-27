@@ -668,8 +668,7 @@ class MediaDisplay
 	
 	/************** IMAGE FUNCTIONS ***************/
 	
-	// Custom fcn for thumbnail/featured image display
-	// WIP refactoring	
+	// 	
 	public static function getPostImage ( $postID = null, $format = 'singular', $sources = ['featured_image', 'gallery'] ) 
 	{
 		if ( !$postID ) { return null; }
@@ -833,6 +832,8 @@ class MediaDisplay
 		// Init vars
 		$info = "";
 		$ts_info = "";
+		
+		$fcn_id = "[sdg-getPostThumb] ";
 	
 		// Defaults
 		$defaults = array(
