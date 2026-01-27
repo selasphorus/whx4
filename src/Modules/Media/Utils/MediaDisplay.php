@@ -669,13 +669,167 @@ class MediaDisplay
 	/************** IMAGE FUNCTIONS ***************/
 	
 	// Custom fcn for thumbnail/featured image display
-	// WIP refactoring
-	//public function getPostThumb( $post = null, $size = 'thumbnail', $args = [] ) {
+	// WIP refactoring	
+	function getPostImage ( $postID = null, $format = 'singular', $sources = ['featured_image', 'gallery'] ) 
+	{
+		if ( !$postID ) { return null; }
+		$post_type = get_post_type( $postID );
+		
+		$fcn_id = "[sdg-getPostImage] ";
+		
+		// Init
+		$arrInfo = array();
+		$imgID = null;
+		$imgType = "post_image"; // other option: attachment_image
+		$imgClass = "";
+		$ts_info = "";
+		
+		if ( $sources == "all" ) {
+			$sources = array("featured", "gallery", "custom_thumb", "content");
+		}
+		
+		// Are we using the custom image, if any is set?
+		// Do this only for archive and grid display, not for singular posts of any kind (? people ?)
+		if ( $format != "singular" && in_array("custom_thumb", $sources ) ) {
+			$ts_info .= $fcn_id."Check for custom_thumb<br />";
+			// First, check to see if the post has a Custom Thumbnail
+			$custom_thumb_id = get_post_meta( $postID, 'custom_thumb', true );
+			if ( $custom_thumb_id ) {
+				$ts_info .= $fcn_id."custom_thumb_id found: $custom_thumb_id<br />";
+				$imgID = $custom_thumb_id;
+			}
+		}
+	
+		// WIP: order?
+		// If this is a sermon, are we using the author image
+		if ( $format != "singular" && $post_type == "sermon" && !is_singular('sermon') ) {
+			if ( get_field('author_image_for_archive') ) {
+				$imgID = get_author_img_id ( $postID );
+				$imgClass .= " author_img_for_archive";
+			} else {
+				$ts_info .= $fcn_id."author_image_for_archive set to false<br />";
+			}
+		}
+		
+		// If we're not using the custom thumb, or if none was found, then proceed to look for other image options for the post
+		if ( empty($imgID) ) {
+	
+			// Check to see if the given post has a featured image
+			if ( has_post_thumbnail( $postID ) ) {
+	
+				$imgID = get_post_thumbnail_id( $postID );
+				$ts_info .= $fcn_id."post has a featured image.<br />";
+	
+			} else {
+	
+				$ts_info .= $fcn_id."post has NO featured image (postID: $postID).<br />";
+	
+				// If there's no featured image, see if there are any other images that we can use instead
+	
+				// Image Gallery?
+				if ( in_array("gallery", $sources ) ) {
+					// get image gallery images and select one at random
+					$image_gallery = get_post_meta( $postID, 'image_gallery', true );
+					if ( is_array($image_gallery) && count($image_gallery) > 0 ) {
+						$ts_info .= $fcn_id."Found an image_gallery array.<br />";
+						$ts_info .= $fcn_id."image_gallery: <pre>".print_r($image_gallery, true)."</pre>";
+						$i = array_rand($image_gallery,1); // Get one random image ID -- tmp solution
+						// WIP: figure out how to have a more controlled rotation -- based on event date? day? cookie?
+						/*
+						// Get number of items in array...
+						$img_count = count($image_gallery);
+						// Get event date and weekday
+						if ( get_post_type($post_id) == 'event' ) {
+							// Is this an instance of a recurring event? look for recurrent event id...
+							$recurrence_id = get_post_meta( $post_id, '_recurrence_id', true );
+							if ( $recurrence_id ) {
+	
+								$meta = get_post_meta( $post_id );
+								$ts_info .= "meta: <pre>".print_r($meta, true)."</pre>";
+	
+								// Get event object?
+								//$ts_info .= print_r($XXX,true);
+	
+								// Get recurring event info
+								$revent = get_post ( $recurrence_id );
+								$ts_info .= "revent: <pre>".print_r($revent, true)."</pre>";
+								$recurrence_interval = get_post_meta( $recurrence_id, '_recurrence_interval', true ); //'recurrence_interval' => array( 'name'=>'interval', 'type'=>'%d', 'null'=>true ), //every x day(s)/week(s)/month(s)
+								$recurrence_freq = get_post_meta( $recurrence_id, '_recurrence_freq', true ); //'recurrence_freq' => array( 'name'=>'freq', 'type'=>'%s', 'null'=>true ), //daily,weekly,monthly?
+								$recurrence_byday = get_post_meta( $recurrence_id, '_recurrence_byday', true ); //'recurrence_byday' => array( 'name'=>'byday', 'type'=>'%s', 'null'=>true ), //if weekly or monthly, what days of the week?
+								//'recurrence_days' => array( 'name'=>'days', 'type'=>'%d', 'null'=>true ), //each event spans x days
+								$ts_info .= "recurrence_id: $recurrence_id; recurrence_interval: $recurrence_interval; recurrence_freq: $recurrence_freq; recurrence_byday: $recurrence_byday<br />";
+	
+								// Get event date
+								$event_date = get_post_meta( $post_id, '_event_start_date', true );
+								$ts_info .= "event_date: $event_date; <br />";
+	
+	
+								$date = explode('-', $event_date);
+								$year = $date[0];
+								$month = $date[1];
+								$day = $date[2];
+								$weekday = date('w', strtotime($event_date)); // A numeric representation of the day (0 for Sunday, 6 for Saturday)
+								$yearday = date('z', strtotime($event_date)); // z - The day of the year (from 0 through 365)
+							}
+						}
+						*/
+						$imgID = $image_gallery[$i];
+						$imgType = $fcn_id."attachment_image";
+						$ts_info .= $fcn_id."Random thumbnail ID: $imgID<br />";
+					} else {
+						$ts_info .= $fcn_id."No image_gallery found for postID: $postID.<br />";
+					}
+				}
+	
+				// Image(s) in post content?
+				if ( empty($imgID) && in_array("content", $sources ) && function_exists('get_first_image_from_post_content') ) {
+					$ts_info .= $fcn_id."About to get_first_image_from_post_content<br />";
+					$contentImg = get_first_image_from_post_content( $postID );
+					if ( $contentImg ) {
+						$imgID = $contentImg['id'];
+					}
+				}
+	
+				// Image attachment(s)?
+				if ( empty($imgID) ) {
+					$ts_info .= $fcn_id."About to get_attached_media<br />";
+					// The following approach would be a good default except that images only seem to count as 'attached' if they were directly UPLOADED to the post
+					// Also, images uploaded to a post remain "attached" according to the Media Library even after they're deleted from the post.
+					$images = get_attached_media( 'image', $postID );
+					//$images = get_children( "post_parent=".$post_id."&post_type=attachment&post_mime_type=image&numberposts=1" );
+					if ($images) {
+						//$imgID = $images[0];
+						foreach ($images as $attachment_id => $attachment) {
+							$imgID = $attachment_id;
+						}
+					}
+	
+				}
+	
+				// If there's STILL no image, use a placeholder
+				// TODO: make it possible to designate placeholder image(s) for archives via CMS and retrieve it using new version of get_placeholder_img fcn
+				// TODO: designate placeholders *per category*?? via category/taxonomy ui?
+				/*if ( empty($imgID) ) {
+					//if ( function_exists( 'is_dev_site' ) && is_dev_site() ) { $imgID = 121560; } else { $imgID = 121560; } // Fifth Avenue Entrance
+					$imgID = null;
+				}*/
+			}
+		}
+		
+		$arrInfo['imgID'] = $imgID;
+		$arrInfo['imgType'] = $imgType;
+		$arrInfo['imgClass'] = $imgClass;
+		$arrInfo['info'] = $ts_info;
+		return $arrInfo;
+	}
+	
+	// Custom fcn for thumbnail/featured image display
+	// was: sdg_post_thumbnail
 	public static function getPostThumb ( array $args = [] ) 
 	{
 		//error_log( "MediaDisplay::whx4_post_thumbnail" );
 		//error_log('[MediaDisplay] args: ' . print_r($args, true));
-		
+	
 		// Init vars
 		$info = "";
 		$ts_info = "";
@@ -697,20 +851,6 @@ class MediaDisplay
 		//error_log("[MediaDisplay] whx4_post_thumbnail parsed/extracted args: <pre>".print_r($args, true)."</pre>";
 	
 		if ( $post_id == null ) { $post_id = get_the_ID(); }
-		$post_type = get_post_type( $post_id );
-		$img_id = null;
-		if ( $return_value == "html" ) {
-			$img_html = "";
-			$caption_html = "";
-		}
-	
-		$img_type = "post_image"; // other option: attachment_image
-	
-		$image_gallery = array();
-		if ( $sources == "all" ) {
-			$sources = array("featured", "gallery", "custom_thumb", "content");
-		}
-	
 		if ( $format == "singular" && !is_page('events') ) {
 			$img_size = "full";
 		}
@@ -762,187 +902,133 @@ class MediaDisplay
 		if ( is_singular('event') ) { $classes .= " event-image"; }
 		if ( $img_size != "full" && ( is_archive() || is_post_type_archive() ) ) { $classes .= " float-left"; }
 		//
-	
-		// Are we using the custom image, if any is set?
-		// Do this only for archive and grid display, not for singular posts of any kind (? people ?)
-		if ( $format != "singular" && in_array("custom_thumb", $sources ) ) {
-			//error_log("[MediaDisplay] Check for custom_thumb");
-			// First, check to see if the post has a Custom Thumbnail
-			$custom_thumb_id = get_post_meta( $post_id, 'custom_thumb', true );
-			if ( $custom_thumb_id ) {
-				//error_log("[MediaDisplay] custom_thumb_id found: $custom_thumb_id");
-				$img_id = $custom_thumb_id;
+		
+		// Find an image for this post
+		$imgID = null;
+		$img = getPostImage( $post_id, $format, $sources );
+		if ( $img ) {
+			$ts_info .= $img['info'];
+			$imgID = $img['imgID'];
+		}
+		
+		// If no image was found, try the parent post, if any
+		if ( empty($imgID) ) {      
+			$ts_info .= "No image found for post_id [$post_id]; try the parent post, if any.<br />";
+			//$parent_id = wp_get_post_parent_id( $post_id );
+			
+			$parent_id = null;
+			
+			$event = em_get_event($post_id, 'post_id');
+			if ($event && $event->event_id) {
+				$event_id = $event->event_id;
+				$ts_info .= "event_id: [" . $event_id . "]<br />";
+				$parent_event_id = $event->get_recurrence_set()->event_id;
+				$ts_info .= "parent_event_id: [" . $parent_event_id . "]<br />";
+				$parent_event = em_get_event($parent_event_id, 'event_id');
+				$parent_post_id = $parent_event->post_id;
+				$ts_info .= "parent_post_id: [" . $parent_post_id . "]<br />";
+			}
+			
+			$event_type = get_post_meta( $post_id, '_event_type', true );
+			$ts_info .= "event_type: [" . $event_type . "]<br />";
+			
+			if ( $parent_post_id ) {
+				$img = getPostImage( $parent_post_id, $format, $sources );
+				$ts_info .= $img['info'];
 			}
 		}
-	
-		// WIP: order?
-		// If this is a sermon, are we using the author image
-		if ( $format != "singular" && $post_type == "sermon" && !is_singular('sermon') ) {
-			if ( get_field('author_image_for_archive') ) {
-				$img_id = get_author_img_id ( $post_id );
-				$classes .= " author_img_for_archive";
-			} else {
-				//error_log("[MediaDisplay] author_image_for_archive set to false");
-			}
+		//
+		if ( $img ) {
+			$imgID = $img['imgID'];
+			$img_type = $img['imgType'];
+			$classes .= $img['imgClass'];
 		}
+		////// WIP
 	
-		// If we're not using the custom thumb, or if none was found, then proceed to look for other image options for the post
-		if ( !$img_id ) {
-	
-			// Check to see if the given post has a featured image
-			if ( has_post_thumbnail( $post_id ) ) {
-	
-				$img_id = get_post_thumbnail_id( $post_id );
-				//error_log("[MediaDisplay] post has a featured image.");
-	
+		if ( $return_value == "html" ) {
+			$img_tag = "";
+			$caption_html = "";
+			$img_html = "";
+			
+			if ( empty($imgID) ) {
+				// Use placeholder image
+				$ts_info .= 'Use placeholder img';
+				if ( function_exists( 'get_placeholder_img' ) ) {
+					$img_tag = get_placeholder_img();
+				}
 			} else {
+				// Retrieve the caption, if there is one
+				if ( get_post( $imgID ) ) { $caption = get_post( $imgID )->post_excerpt; } else { $caption = null; }
+				if ( !empty($caption) && $format == "singular" && !is_singular('person') ) {
+					$classes .= " has-caption";
+					$ts_info .= $fcn_id."Caption found for imgID $imgID: '$caption'<br />";
+				} else {
+					$classes .= " no-caption";
+					$ts_info .= $fcn_id."No caption found for imgID $imgID<br />";
+				}
+				//
+				if ( $caption != "" ) {
+					$caption_class = "sdg_post_thumbnail featured_image_caption";
+					$caption_html = '<p class="'. $caption_class . '">' . $caption . '</p>';
+				} else {
+					$caption_html = '<br />';
+				}
 	
-				//error_log("[MediaDisplay] post has NO featured image.");
-	
-				// If there's no featured image, see if there are any other images that we can use instead
-	
-				// Image Gallery?
-				if ( in_array("gallery", $sources ) ) {
-					// get image gallery images and select one at random
-					$image_gallery = get_post_meta( $post_id, 'image_gallery', true );
-					if ( is_array($image_gallery) && count($image_gallery) > 0 ) {
-						//error_log("[MediaDisplay] Found an image_gallery array.");
-						//error_log("[MediaDisplay] image_gallery: <pre>".print_r($image_gallery, true)."</pre>");
-						$i = array_rand($image_gallery,1); // Get one random image ID -- tmp solution
-						// WIP: figure out how to have a more controlled rotation -- based on event date? day? cookie?
-						$img_id = $image_gallery[$i];
-						$img_type = $fcn_id."attachment_image";
-						//error_log("[MediaDisplay] Random thumbnail ID: $img_id");
+				// Set up the img_html
+				if ( $format == "singular" && !( is_page('events') ) ) {
+					$ts_info .= $fcn_id."post format is_singular<br />";
+					
+					if ( has_post_thumbnail($post_id) ) {
+						if ( is_singular('person') ) {
+							$img_size = "medium"; // portrait
+							$classes .= " float-left";
+						}
+						$classes .= " is_singular";
+						$ts_info .= "get image via get_the_post_thumbnail<br />";
+						$img_tag = get_the_post_thumbnail( $post_id, $img_size );
 					} else {
-						//error_log("[MediaDisplay] No image_gallery found.");
+						$ts_info .= "get image via wp_get_attachment_image<br />";
+						$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
 					}
-				}
+		
+					$img_html .= '<div class="'.$classes.'">';
+					$img_html .= $img_tag;
+					$img_html .= $caption_html;
+					$img_html .= '</div><!-- .post-thumbnail -->';
 	
-				// Image(s) in post content?
-				if ( empty($img_id) && in_array("content", $sources ) && function_exists('get_first_image_from_post_content') ) {
-					$image_info = get_first_image_from_post_content( $post_id );
-					if ( $image_info ) {
-						$img_id = $image_info['id'];
-					}
-				}
-	
-				// Image attachment(s)?
-				if ( empty($img_id) ) {
-	
-					// The following approach would be a good default except that images only seem to count as 'attached' if they were directly UPLOADED to the post
-					// Also, images uploaded to a post remain "attached" according to the Media Library even after they're deleted from the post.
-					$images = get_attached_media( 'image', $post_id );
-					//$images = get_children( "post_parent=".$post_id."&post_type=attachment&post_mime_type=image&numberposts=1" );
-					if ($images) {
-						//$img_id = $images[0];
-						foreach ($images as $attachment_id => $attachment) {
-							$img_id = $attachment_id;
+				} else if ( !( $format == "singular" && is_page('events') ) ) {
+					// NOT singular -- aka archives, search results, &c. EXCEPT events archive
+					$ts_info .= $fcn_id."NOT is_singular<br />";
+		
+					if ( $imgID ) {
+						// display attachment via thumbnail_id
+						$ts_info .= "get image via wp_get_attachment_image<br />";
+						$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
+		
+						$ts_info .= $fcn_id.'post_id: '.$post_id.'; thumbnail_id: '.$imgID;
+						if ( isset($images)) { $ts_info .= $fcn_id.'<pre>'.print_r($images,true).'</pre>'; }
+					} else {
+						$ts_info .= 'Use placeholder img';
+						if ( function_exists( 'get_placeholder_img' ) ) {
+							$img_tag = get_placeholder_img();
 						}
 					}
 	
 				}
-	
-				// If there's STILL no image, use a placeholder
-				// TODO: make it possible to designate placeholder image(s) for archives via CMS and retrieve it using new version of get_placeholder_img fcn
-				// TODO: designate placeholders *per category*?? via category/taxonomy ui?
-				if ( empty($img_id) ) {
-					//if ( function_exists( 'is_dev_site' ) && is_dev_site() ) { $img_id = 121560; } else { $img_id = 121560; } // Fifth Avenue Entrance
-					$img_id = null;
-				}
-			}
-		}
-	
-		if ( $return_value == "html" && !empty($img_id ) ) {
-	
-			// For html return format, add caption, if there is one
-	
-			// Retrieve the caption
-			if ( get_post( $img_id ) ) { $caption = get_post( $img_id )->post_excerpt; } else { $caption = null; }
-			if ( !empty($caption) && $format == "singular" && !is_singular('person') ) {
-				$classes .= " has-caption";
-				//error_log("[MediaDisplay] Caption found for img_id $img_id: '$caption'");
-			} else {
-				$classes .= " no-caption";
-				//error_log("[MediaDisplay] No caption found for img_id $img_id");
-			}
-	
-			if ( $caption != "" ) {
-				$caption_class = "whx4_post_thumbnail featured_image_caption";
-				$caption_html = '<p class="'. $caption_class . '">' . $caption . '</p>';
-			} else {
-				$caption_html = '<br />';
-			}
-	
-			// Set up the img_html
-			if ( $format == "singular" && !( is_page('events') ) ) {
-	
-				//error_log("[MediaDisplay] post format is_singular");
-				if ( has_post_thumbnail($post_id) ) {
-	
-					if ( is_singular('person') ) {
-						$img_size = "medium"; // portrait
-						$classes .= " float-left";
-					}
-	
-					$classes .= " is_singular";
-	
-					$img_html .= '<div class="'.$classes.'">';
-					$img_html .= get_the_post_thumbnail( $post_id, $img_size );
-					$img_html .= $caption_html;
-					$img_html .= '</div><!-- .post-thumbnail -->';
-	
-				} else {
-	
-					// If an image_gallery was found, show one image as the featured image
-					// TODO: streamline this
-					if ( $img_id && is_array($image_gallery) && count($image_gallery) > 0 ) {
-						//error_log("[MediaDisplay] image_gallery image");
-						$img_html .= '<div class="'.$classes.'">';
-						$img_html .= wp_get_attachment_image( $img_id, $img_size, false, array( "class" => "featured_attachment" ) );
-						$img_html .= $caption_html;
-						$img_html .= '</div><!-- .post-thumbnail -->';
-					}
-	
-				}
-	
-			} else if ( !( $format == "singular" && is_page('events') ) ) {
-	
-				//error_log("[MediaDisplay] NOT is_singular");
-	
-				// NOT singular -- aka archives, search results, &c.
-				$img_tag = "";
-	
-				if ( $img_id ) {
-	
-					// display attachment via thumbnail_id
-					$img_tag = wp_get_attachment_image( $img_id, $img_size, false, array( "class" => "featured_attachment" ) );
-	
-					//error_log("[MediaDisplay] post_id: ".$post_id.'; thumbnail_id: '.$img_id);
-					//if ( isset($images)) { error_log("[MediaDisplay] <pre>".print_r($images,true).'</pre>'); }
-	
-				} else {
-	
-					//error_log("[MediaDisplay] Use placeholder img");
-	
-					if ( function_exists( 'get_placeholder_img' ) ) {
-						$img_tag = get_placeholder_img();
-					}
-				}
-	
-				if ( !empty($img_tag) ) {
+				if ( empty($img_html) && !empty($img_tag) ) {
 					$classes .= " float-left"; //$classes .= " NOT_is_singular";
 					$img_html .= '<a class="'.$classes.'" href="'.get_the_permalink( $post_id ).'" aria-hidden="true">';
 					$img_html .= $img_tag;
 					$img_html .= '</a>';
 				}
 	
-			} // END if is_singular()
-		} // END if ( $return_value == "html" && !empty($img_id )
+			} // END if ( empty($imgID) ) {
+		} // END if ( $return_value == "html" && !empty($imgID )
 	
 		if ( $return_value == "html" ) {
 			$info .= $img_html;
 		} else { // $return_value == "id"
-			$info = $img_id;
+			$info = $imgID;
 		}
 	
 		// Echo or return info
