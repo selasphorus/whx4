@@ -62,12 +62,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		}, 10 );
 	}
     
-    // WIP/TMP
-    protected function getPostTypeSlug(): ?string
-    {
-        return 'whx4_event'; // Adjust to your actual CPT slug (e.g., 'whx4_event' or 'event').
-    }
-    
 	/**
 	 * Decide the CPT slug at runtime, with legacy + new filters.
 	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
