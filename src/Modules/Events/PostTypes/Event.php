@@ -460,12 +460,14 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			
 			// Get instances within bounds
 			$instances = InstanceGenerator::fromPostId($post->ID, 500, false, $until);
-			error_log('(WHx4 Event::expandRecurringInstances)' . count($instances) . ' instances found');
+			error_log('(WHx4 Event::expandRecurringInstances) Found' . count($instances) . ' total instances');
 			
 			// Filter to only instances within bounds
 			$instances = array_filter($instances, fn($i) =>
 				$i['date_key'] >= $bounds['start'] && $i['date_key'] <= $bounds['end']
 			);
+			
+			error_log('(WHx4 Event::expandRecurringInstances) Found' . count($instances) . ' instances in scope');
         
 			// Clone post for each matching instance
 			foreach ($instances as $instance) {
