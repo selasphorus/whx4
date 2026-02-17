@@ -6,6 +6,7 @@ use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Contracts\QueryContributor;
 use atc\WXC\Helpers\FieldDisplayHelpers;
 use atc\WXC\Traits\AppliesScopeToMainQuery;
+use atc\WXC\Query\ScopedDateResolver;
 //
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
