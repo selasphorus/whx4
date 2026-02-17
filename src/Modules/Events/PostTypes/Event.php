@@ -416,6 +416,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	
 	public function expandRecurringInstances(array $posts, \WP_Query $query): array
 	{
+		error_log('(WHx4) expandRecurringInstances called with ' . count($posts) . ' posts');
+		
 		// Only process main query on frontend for our post type
 		if (is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug()) {
 			return $posts;
@@ -426,6 +428,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		if (!$scope) {
 			return $posts;
 		}
+		error_log('(WHx4) Scope: ' . $scope);
 		
 		// Resolve scope to get the target date(s)
 		$bounds = ScopedDateResolver::resolve($scope, ['mode' => 'DATE']);
@@ -438,6 +441,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			return $posts;
 		}
 		
+		error_log('(WHx4) Posts: ' . print_r(array_map(fn($p) => ['ID' => $p->ID, 'title' => $p->post_title], $posts), true));
+
 		$expandedPosts = [];
 		
 		foreach ($posts as $post) {
