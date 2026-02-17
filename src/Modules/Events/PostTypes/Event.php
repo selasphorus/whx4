@@ -441,7 +441,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			return $posts;
 		}
 		
-		error_log('(WHx4) Posts: ' . print_r(array_map(fn($p) => ['ID' => $p->ID, 'title' => $p->post_title], $posts), true));
+		//error_log('(WHx4) Posts: ' . print_r(array_map(fn($p) => ['ID' => $p->ID, 'title' => $p->post_title], $posts), true));
 
 		$expandedPosts = [];
 		
