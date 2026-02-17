@@ -52,7 +52,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         $this->registerScopeFilter();
         
         // Expand instances after query runs
-        //add_filter('the_posts', [$this, 'expandRecurringInstances'], 10, 2);
+        add_filter('the_posts', [$this, 'expandRecurringInstances'], 10, 2);
 
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
 		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
@@ -410,6 +410,86 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 		return $field;
 	}
+	
+	/****** START WIP 02/17/26 ******/
+	
+	public function expandRecurringInstances(array $posts, \WP_Query $query): array
+	{
+		// Only process main query on frontend for our post type
+		if (is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug()) {
+			return $posts;
+		}
+		
+		// Only expand when we have a scope (date filter)
+		$scope = get_query_var('scope');
+		if (!$scope) {
+			return $posts;
+		}
+		
+		// Resolve scope to get the target date(s)
+		$bounds = ScopedDateResolver::resolve($scope, ['mode' => 'DATE']);
+		if (empty($bounds['start']) || empty($bounds['end'])) {
+			return $posts;
+		}
+		
+		$until = \DateTimeImmutable::createFromFormat('Y-m-d', $bounds['end']);
+		if (!$until) {
+			return $posts;
+		}
+		
+		$expandedPosts = [];
+		
+		foreach ($posts as $post) {
+			// Check if this event is recurring
+			if (!InstanceGenerator::isRecurring($post->ID)) {
+				// Non-recurring event
+				$post->event_is_instance = false;
+				$post->event_instance_datetime = \DateTimeImmutable::createFromFormat(
+					'Y-m-d',
+					get_post_meta($post->ID, self::DATE_META, true)
+				);
+				$expandedPosts[] = $post;
+				continue;
+			}
+			
+			// TODO: Get instances that fall within the scope bounds
+			// TODO: Create "virtual post" objects for each instance
+			// TODO: Add them to $expandedPosts
+			
+			// Get instances within bounds
+			$instances = InstanceGenerator::fromPostId($post->ID, 500, false, $until);
+			
+			// Filter to only instances within bounds
+			$instances = array_filter($instances, fn($i) =>
+				$i['date_key'] >= $bounds['start'] && $i['date_key'] <= $bounds['end']
+			);
+        
+			// Clone post for each matching instance
+			foreach ($instances as $instance) {
+				$clone = clone $post;
+				$clone->event_instance_date      = $instance['date_key'];
+				$clone->event_instance_datetime  = $instance['datetime'];
+				$clone->event_instance_permalink = $instance['permalink'];
+				$clone->event_is_instance        = true;
+				$clone->event_is_override        = $instance['is_override'];
+				$expandedPosts[] = $clone;
+			}
+			
+			// TODO: Step 3 - clone post for each instance
+		}
+		
+		// Sort by date/time
+		usort($expandedPosts, function($a, $b) {
+			if (!$a->event_instance_datetime || !$b->event_instance_datetime) {
+				return 0;
+			}
+			return $a->event_instance_datetime <=> $b->event_instance_datetime;
+		});
+		
+		return $expandedPosts;
+	}
+	
+	/****** END WIP ******/
 
 	/*
 	// WIP: generate instances for display in calendar
