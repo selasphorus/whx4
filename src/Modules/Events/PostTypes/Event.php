@@ -458,12 +458,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 				continue;
 			}
 			
-			// TODO: Get instances that fall within the scope bounds
-			// TODO: Create "virtual post" objects for each instance
-			// TODO: Add them to $expandedPosts
-			
 			// Get instances within bounds
 			$instances = InstanceGenerator::fromPostId($post->ID, 500, false, $until);
+			error_log('(WHx4 Event::expandRecurringInstances)' . count($instances) . ' instances found');
 			
 			// Filter to only instances within bounds
 			$instances = array_filter($instances, fn($i) =>
