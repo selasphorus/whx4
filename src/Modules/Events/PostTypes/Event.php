@@ -460,14 +460,14 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			
 			// Get instances within bounds
 			$instances = InstanceGenerator::fromPostId($post->ID, 500, false, $until);
-			error_log('(WHx4 Event::expandRecurringInstances) Found' . count($instances) . ' total instances');
+			error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($instances) . ' total instances');
 			
 			// Filter to only instances within bounds
 			$instances = array_filter($instances, fn($i) =>
 				$i['date_key'] >= $bounds['start'] && $i['date_key'] <= $bounds['end']
 			);
 			
-			error_log('(WHx4 Event::expandRecurringInstances) Found' . count($instances) . ' instances in scope');
+			error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($instances) . ' instances in scope');
         
 			// Clone post for each matching instance
 			foreach ($instances as $instance) {
@@ -483,6 +483,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			// TODO: Step 3 - clone post for each instance
 		}
 		
+		error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($expandedPosts) . ' unsorted expandedPosts');
+		
 		// Sort by date/time
 		usort($expandedPosts, function($a, $b) {
 			if (!$a->event_instance_datetime || !$b->event_instance_datetime) {
@@ -490,6 +492,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			}
 			return $a->event_instance_datetime <=> $b->event_instance_datetime;
 		});
+		error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($expandedPosts) . ' *sorted* expandedPosts');
 		
 		return $expandedPosts;
 	}
