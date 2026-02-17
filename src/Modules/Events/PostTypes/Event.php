@@ -53,7 +53,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         $this->registerScopeFilter();
         
         // Expand instances after query runs
-        add_filter('the_posts', [$this, 'expandRecurringInstances'], 10, 2);
+        add_filter('the_posts', [$this, 'expandRecurringInstances'], 999, 2);
 
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
 		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
