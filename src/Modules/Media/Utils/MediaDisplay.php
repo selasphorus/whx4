@@ -915,9 +915,9 @@ class MediaDisplay
 		// If no image was found, try the parent post, if any
 		if ( empty($imgID) ) {      
 			$ts_info .= "No image found for post_id [$post_id]; try the parent post, if any.<br />";
-			//$parent_id = wp_get_post_parent_id( $post_id );
+			//$parent_post_id = wp_get_post_parent_id( $post_id );
 			
-			$parent_id = null;
+			$parent_post_id = null;
 			
 			$event = em_get_event($post_id, 'post_id');
 			if ($event && $event->event_id) {
