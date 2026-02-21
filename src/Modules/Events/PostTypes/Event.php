@@ -418,8 +418,14 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	{
 		error_log('(WHx4) expandRecurringInstances called with ' . count($posts) . ' posts');
 		
+		error_log('expandRecurringInstances called - is_admin: ' . (is_admin() ? 'yes' : 'no'));
+		error_log('is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'));
+		error_log('post_type: ' . $query->get('post_type'));
+		error_log('getSlug: ' . $this->getSlug());
+		
 		// Only process main query on frontend for our post type
 		if (is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug()) {
+			error_log('Conditions failed, returning original posts');
 			return $posts;
 		}
 		
