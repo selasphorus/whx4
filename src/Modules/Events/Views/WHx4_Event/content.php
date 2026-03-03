@@ -2,7 +2,7 @@
 /**
  * Event Content View
  * 
- * Displays event status and transaction statistics
+ * Displays event info
  * Pure presentation layer - all data preparation done in Event handler
  * 
  * @var string $startDate Event start date
