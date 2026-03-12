@@ -36,8 +36,8 @@ final class SnippetsModule extends BaseModule
 		// TS/logging setup
 		$do_ts = devmode_active( array("sdg", "snippets") );
 		$do_log = false;
-		sdg_log( "divline2", $do_log );
-		sdg_log( "function called: show_snippets", $do_log );
+		wxc_log( "divline2", $do_log );
+		wxc_log( "function called: show_snippets", $do_log );
 	
 		// Init vars
 		$arr_result = array();
@@ -812,10 +812,10 @@ final class SnippetsModule extends BaseModule
 		if ( $post_id == null ) { $post_id = get_the_ID(); }
 		$ts_info .= "match_terms post_id: ".$post_id." for snippet_display: ".$snippet_display."<br />";
 	
-		if ( function_exists('sdg_log') ) {
-			//sdg_log("divline2");
-			//sdg_log("function called: match_terms");
-			//sdg_log("post_id: ".$post_id);
+		if ( function_exists('wxc_log') ) {
+			//wxc_log("divline2");
+			//wxc_log("function called: match_terms");
+			//wxc_log("post_id: ".$post_id);
 		}
 	
 		// Determine the match_type
@@ -836,14 +836,14 @@ final class SnippetsModule extends BaseModule
 		$ts_info .= "match_type: ".$match_type."<br />----<br />";
 		//$ts_info .= "rules (str): ".$rules."<br />";
 	
-		if ( function_exists('sdg_log') ) {
-			//sdg_log("rules (str): '".$rules."'");
-			//sdg_log("match_type: ".$match_type); // ."; has_exclusions: ".$has_exclusions
+		if ( function_exists('wxc_log') ) {
+			//wxc_log("rules (str): '".$rules."'");
+			//wxc_log("match_type: ".$match_type); // ."; has_exclusions: ".$has_exclusions
 		}
 	
 		// Explode the rules string into an array, items separated by line breaks
 		$pairs = explode( "\n", $rules );
-		//if ( function_exists('sdg_log') ) { sdg_log("pairs: ".print_r($pairs,true)); }
+		//if ( function_exists('wxc_log') ) { wxc_log("pairs: ".print_r($pairs,true)); }
 	
 		// Build an associative array of the given rules
 		//$arr_rules = array_map('process_tax_pair', $pairs); // why doesn't this work???
@@ -852,11 +852,11 @@ final class SnippetsModule extends BaseModule
 			$arr_rules[] = process_tax_pair($pair);
 		}
 	
-		if ( function_exists('sdg_log') ) {
+		if ( function_exists('wxc_log') ) {
 			if ( !empty($arr_rules) ) {
-				//sdg_log"arr_rules: ".print_r($arr_rules,true));
+				//wxc_log"arr_rules: ".print_r($arr_rules,true));
 			} else {
-				//sdg_log"arr_rules is empty.");
+				//wxc_log"arr_rules is empty.");
 			}
 		}
 	
@@ -889,7 +889,7 @@ final class SnippetsModule extends BaseModule
 				$exclusion = $rule['exclusion'];
 	
 				if ( $taxonomy == 'match_type' || empty($taxonomy) ) {
-					//if ( function_exists('sdg_log') ) { sdg_log("match_type or empty >> continue"); }
+					//if ( function_exists('wxc_log') ) { wxc_log("match_type or empty >> continue"); }
 					continue; // This is not actually a taxonomy rule; move on to the next.
 				}
 	
@@ -901,7 +901,7 @@ final class SnippetsModule extends BaseModule
 					continue;
 				}
 	
-				//if ( function_exists('sdg_log') ) { sdg_log("term: ".$term."; taxonomy: ".$taxonomy."; operator: ".$operator."; exclusion: ".$exclusion); }
+				//if ( function_exists('wxc_log') ) { wxc_log("term: ".$term."; taxonomy: ".$taxonomy."; operator: ".$operator."; exclusion: ".$exclusion); }
 				//$ts_info .= "term: ".$term."; taxonomy: ".$taxonomy."; operator: ".$operator."; exclusion: ".$exclusion."<br />";
 				$term_info = "term: ".$term."; taxonomy: ".$taxonomy;
 				if ( $operator ) { $term_info .= "; operator: ".$operator; }
@@ -914,21 +914,21 @@ final class SnippetsModule extends BaseModule
 					if ( has_term( $term, $taxonomy, $post_id ) ) {
 						if ( $exclusion == 'no' ) {
 							$ts_info .= "Match found (single rule; has_term ($term); exclusion false) >> return true<br />";
-							//if ( function_exists('sdg_log') ) { sdg_log("Match found (single rule; has_term; exclusion false) >> return true"); }
+							//if ( function_exists('wxc_log') ) { wxc_log("Match found (single rule; has_term; exclusion false) >> return true"); }
 							//return $ts_info; //
 							//return true; // post has term for single rule AND term is not negated, therefore it is a match
 							$match = true;
 							break;
 						} else {
 							$ts_info .= "Match found (single rule; has_term ($term); exclusion TRUE) >> return false<br />";
-							//if ( function_exists('sdg_log') ) { sdg_log("Match found (single rule; has_term; exclusion TRUE) >> return false"); }
+							//if ( function_exists('wxc_log') ) { wxc_log("Match found (single rule; has_term; exclusion TRUE) >> return false"); }
 							//return false;
 							$match = false;
 							break;
 						}
 					} else if ($exclusion == 'no') {
 						//$ts_info .= "NO match found (single rule; NOT has_term; exclusion false) >> return false<br />";
-						//if ( function_exists('sdg_log') ) { sdg_log("NO match found (single rule; NOT has_term; exclusion false) >> return false"); }
+						//if ( function_exists('wxc_log') ) { wxc_log("NO match found (single rule; NOT has_term; exclusion false) >> return false"); }
 						//return false; // post has term but single rule requires posts withOUT that term, therefore no match
 						$match = false;
 						break;
@@ -937,7 +937,7 @@ final class SnippetsModule extends BaseModule
 				} else if ( $match_type == 'any' && has_term( $term, $taxonomy, $post_id ) && $exclusion == 'no' ) {
 	
 					$ts_info .= "Match found (match_type 'any'; has_term ($term); exclusion false) >> return true<br />";
-					//if ( function_exists('sdg_log') ) { sdg_log("match found (match_type 'any'; has_term; exclusion false) >> return true"); }
+					//if ( function_exists('wxc_log') ) { wxc_log("match found (match_type 'any'; has_term; exclusion false) >> return true"); }
 					//return true; // Match any => match found (no need to check remaining rules, if any)
 					$match = true;
 					break;
@@ -947,7 +947,7 @@ final class SnippetsModule extends BaseModule
 					if ( has_term( $term, $taxonomy, $post_id ) ) {
 						if ( $exclusion == 'yes' ) {
 							$ts_info .= "Match found (match_type 'all'; has_term ($term); exclusion TRUE) >> return false<br />";
-							//if ( function_exists('sdg_log') ) { sdg_log("Match found (match_type 'all'; has_term; exclusion TRUE) >> return false"); }
+							//if ( function_exists('wxc_log') ) { wxc_log("Match found (match_type 'all'; has_term; exclusion TRUE) >> return false"); }
 							//return false; // post has the term but rules say it must NOT have this term
 							$match = false;
 							break;
@@ -956,12 +956,12 @@ final class SnippetsModule extends BaseModule
 								$ts_info .= "Match found (match_type 'all'; has_term ($term); exclusion TRUE; snippet_display NOTselected)... WIP<br />";
 							} else {
 								$ts_info .= "Ok so far! (match_type 'all'; has_term ($term); exclusion false) >> continue<br />";
-								//if ( function_exists('sdg_log') ) { sdg_log("Ok so far! (match_type 'all'; has_term; exclusion false) >> continue"); }
+								//if ( function_exists('wxc_log') ) { wxc_log("Ok so far! (match_type 'all'; has_term; exclusion false) >> continue"); }
 							}
 						}
 					} else if ( $exclusion == 'no' ) {
 						//$ts_info .= "NO match found (match_type 'all'; NOT has_term; exclusion false) >> return false<br />";
-						//if ( function_exists('sdg_log') ) { sdg_log("NO match found (match_type 'all'; NOT has_term; exclusion false) >> return false"); }
+						//if ( function_exists('wxc_log') ) { wxc_log("NO match found (match_type 'all'; NOT has_term; exclusion false) >> return false"); }
 						//return false; // post does not have the term and rules require it must match all
 						$match = false;
 						break;
@@ -981,12 +981,12 @@ final class SnippetsModule extends BaseModule
 							break;
 						} else {
 							$ts_info .= "Ok so far! (match_type 'complex'; has_term ($term); exclusion false) >> continue<br />";
-							//if ( function_exists('sdg_log') ) { sdg_log("Ok so far! (match_type 'complex'; has_term; exclusion false) >> continue"); }
+							//if ( function_exists('wxc_log') ) { wxc_log("Ok so far! (match_type 'complex'; has_term; exclusion false) >> continue"); }
 							$num_matches++;
 						}
 					} else if ( $exclusion == 'no' ) {
 						//$ts_info .= "NO match found (match_type 'complex'; NOT has_term; exclusion false) >> return false (?)<br />";
-						//if ( function_exists('sdg_log') ) { sdg_log("NO match found (match_type 'complex'; NOT has_term; exclusion false) >> return false"); }
+						//if ( function_exists('wxc_log') ) { wxc_log("NO match found (match_type 'complex'; NOT has_term; exclusion false) >> return false"); }
 						//return false; // post does not have the term and rules require it must match all
 					}
 	
@@ -999,12 +999,12 @@ final class SnippetsModule extends BaseModule
 			// If we got through the entire list of rules and the post matched all the rules, return true
 			if ( $match_type == 'all' && $num_matches == count($arr_rules) ) {
 				$ts_info .= "match_type = all; num_matches [".$num_matches."] equal to count(arr_rules) [".count($arr_rules)."]<br />";
-				//if ( function_exists('sdg_log') ) { sdg_log("Matched! (match_type 'all') >> return true"); }
+				//if ( function_exists('wxc_log') ) { wxc_log("Matched! (match_type 'all') >> return true"); }
 				//return true;
 				$match = true;
 			} else if ( $match !== false && $match_type == 'complex' && $num_matches > 0 ) {
 				// WIP
-				//if ( function_exists('sdg_log') ) { sdg_log("Matched! (match_type 'complex') with at least one positive match (and no matches to excluded categories) >> return true"); }
+				//if ( function_exists('wxc_log') ) { wxc_log("Matched! (match_type 'complex') with at least one positive match (and no matches to excluded categories) >> return true"); }
 				//return true;
 				$match = true;
 			}
@@ -1023,9 +1023,9 @@ final class SnippetsModule extends BaseModule
 		// TS/logging setup
 		$do_ts = devmode_active( array("sdg", "snippets") );
 		$do_log = false;
-		sdg_log( "divline2", $do_log );
-		sdg_log( "function called: process_tax_pair", $do_log );
-		sdg_log( "rule: ".$rule, $do_log );
+		wxc_log( "divline2", $do_log );
+		wxc_log( "function called: process_tax_pair", $do_log );
+		wxc_log( "rule: ".$rule, $do_log );
 	
 		$arr = array();
 	

@@ -77,7 +77,7 @@ class GroupEntity extends PostTypeHandler
 		// TS/logging setup
 		$do_ts = Environment::devmode( array("whx4", "people") );
 		$do_log = false;
-		sdg_log( "divline2", $do_log );
+		wxc_log( "divline2", $do_log );
 
 		// Init vars
 		$info = "";

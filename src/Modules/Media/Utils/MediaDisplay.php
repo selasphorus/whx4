@@ -26,7 +26,7 @@ class MediaDisplay
 		$do_ts = Environment::devmode( array("sdg", "media") );
 		$do_log = false;
 		$fcn_id = "[sdg-gmp] ";
-		//sdg_log( "divline2", $do_log );
+		//wxc_log( "divline2", $do_log );
 	
 		// Defaults
 		$defaults = array(
