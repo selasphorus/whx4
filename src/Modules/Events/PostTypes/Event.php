@@ -41,13 +41,21 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	{
 	    parent::boot(); // Optional if you add shared logic later
 
-		$this->applyTitleArgs( $this->getSlug(), [
-			'line_breaks'    => true,
-			'show_subtitle'  => true,
-			'hlevel_sub'     => 4,
-			'called_by'      => 'Event::boot',
+		self::registerTitleDefaults(static::getSlug(), [
+			'line_breaks'   => true,
+			'show_subtitle' => true,
+			'hlevel_sub'    => 4,
 			//'append'         => 'TEST: ',
+			//'called_by'      => 'Event::boot',
 		]);
+		/*
+		$this->registerTitleDefaults($this->getSlug(), [
+			'line_breaks'   => true,
+			'show_subtitle' => true,
+			'hlevel_sub'    => 4,
+			//'called_by'      => 'Event::boot',
+		]);
+		*/
 		
 		// Register scope filtering
         $this->registerScopeFilter();
@@ -264,7 +272,26 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         };
     }
 
-    // keep your existing renderList(), plus a simple table renderer…
+    public function renderList(array $posts, array $atts): string
+    {
+        if ( ! $posts ) {
+            return '<div class="whx4-list whx4-list--event is-empty">No events found.</div>';
+        }
+
+        $out = '<ul class="whx4-list whx4-list--event">';
+        foreach ( $posts as $p ) {
+            $start = get_post_meta($p->ID, 'whx4_events_start', true);
+            $out  .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a>';
+            if ( $start ) {
+                $out .= ' <time datetime="' . esc_attr($start) . '">' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</time>';
+            }
+            $out  .= '</li>';
+        }
+        $out .= '</ul>';
+
+        return $out;
+    }
+
     private function renderTable(array $posts, array $atts): string
     {
         if (!$posts) {
@@ -317,26 +344,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             //'posts_per_page' => $a['per_page'],
             //'no_found_rows'  => false,
         ];
-    }
-
-    public function renderList(array $posts, array $atts): string
-    {
-        if ( ! $posts ) {
-            return '<div class="whx4-list whx4-list--event is-empty">No events found.</div>';
-        }
-
-        $out = '<ul class="whx4-list whx4-list--event">';
-        foreach ( $posts as $p ) {
-            $start = get_post_meta($p->ID, 'whx4_events_start', true);
-            $out  .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html(get_the_title($p)) . '</a>';
-            if ( $start ) {
-                $out .= ' <time datetime="' . esc_attr($start) . '">' . esc_html(date_i18n(get_option('date_format'), strtotime($start))) . '</time>';
-            }
-            $out  .= '</li>';
-        }
-        $out .= '</ul>';
-
-        return $out;
     }
 
 	public function generateRruleFromFields( $post_id ): void
