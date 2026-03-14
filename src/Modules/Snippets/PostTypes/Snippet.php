@@ -28,14 +28,6 @@ class Snippet extends PostTypeHandler
 	public function boot(): void
 	{
 	    parent::boot(); // Optional if you add shared logic later
-
-		/*$this->applyTitleArgs( $this->getSlug(), [
-			'line_breaks'    => true,
-			'show_subtitle'  => true,
-			'hlevel_sub'     => 4,
-			'called_by'      => 'Snippet::boot',
-			//'append'         => " dates: ".$this->getPersonDates( $this->getPostID() ),
-		]);*/
 	}
 
 	public function getPersonDates(?\WP_Post $post = null, $styled = false): string

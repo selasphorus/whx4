@@ -14,12 +14,6 @@ final class PeopleModule extends BaseModule
         $this->registerDefaultViewRoot();
 
         parent::boot();
-
-        /*$this->applyTitleArgs( 'people', [
-            'line_breaks'    => true,
-            'show_subtitle'  => true,
-            'hlevel_sub'     => 4,
-        ] );*/
     }
 
     public function getPostTypeHandlerClasses(): array
