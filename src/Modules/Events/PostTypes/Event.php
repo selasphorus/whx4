@@ -41,13 +41,13 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	{
 	    parent::boot(); // Optional if you add shared logic later
 
-		/*self::registerTitleDefaults(static::getSlug(), [
+		self::registerTitleDefaults(static::getSlug(), [
 			'line_breaks'   => true,
 			'show_subtitle' => true,
 			'hlevel_sub'    => 4,
 			//'append'         => 'TEST: ',
 			//'called_by'      => 'Event::boot',
-		]);*/
+		]);
 		/*
 		$this->registerTitleDefaults($this->getSlug(), [
 			'line_breaks'   => true,
