@@ -19,7 +19,7 @@ echo "instance_date: ".print_r($instance_date, true);
 ?>
 
 <div class="whx4-event-view">
-    <h2>WHx4 Event Content View</h2>
+    <h2>WHx4: WHx4 Event Content View</h2>
     <div class="event-summary">
         <p><strong>Event Date:</strong> <?php echo esc_html($startDate); ?></p>
         <!--p><strong>Total Transactions on Record:</strong> <?php //echo $viewData['total_count']; ?></p-->

@@ -16,7 +16,8 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<div class="event-view">   
+<div class="event-view">
+    <h2>WHx4: Event Content View</h2>
     <?php
     // If this is a recurring event, list the instance(s)
     if ( $instancesListHtml ):
