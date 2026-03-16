@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 $instance_date = get_query_var('event_instance'); // WIP 03/16/26
-
+echo "instance_date: ".print_r($instance_date, true);
 ?>
 
 <div class="whx4-event-view">
