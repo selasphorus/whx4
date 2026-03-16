@@ -13,12 +13,21 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+$instance_date = get_query_var('event_instance'); // WIP 03/16/26
+
 ?>
 
-<div class="event-view">
+<div class="whx4-event-view">
+    <h2>WHx4 Event Content View</h2>
     <div class="event-summary">
         <p><strong>Event Date:</strong> <?php echo esc_html($startDate); ?></p>
         <!--p><strong>Total Transactions on Record:</strong> <?php //echo $viewData['total_count']; ?></p-->
+        <?php
+        if ($instance_date) {
+			echo "Event view WIP: Event Instance<hr />";
+		}
+		?>
     </div>
     
     <hr class="debug-divider" />
