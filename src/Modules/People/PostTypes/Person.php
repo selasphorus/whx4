@@ -28,13 +28,13 @@ class Person extends PostTypeHandler
 	public function boot(): void
 	{
 	    parent::boot(); // Optional if you add shared logic later
-
-		$this->applyTitleArgs( $this->getSlug(), [
-			'line_breaks'    => true,
-			'show_subtitle'  => true,
-			'hlevel_sub'     => 4,
-			'called_by'      => 'Person::boot',
-			//'append'         => " dates: ".$this->getPersonDates( $this->getPostID() ),
+	    
+	    self::registerTitleDefaults(static::getSlug(), [
+			'line_breaks'   => true,
+			'show_subtitle' => true,
+			'hlevel_sub'    => 4,
+			//'append'         => 'TEST: ',
+			//'called_by'      => 'Person::boot',
 		]);
 	}
 
