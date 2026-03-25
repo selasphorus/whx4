@@ -10,6 +10,7 @@ use atc\WXC\Query\ScopedDateResolver;
 //
 use atc\WHx4\Modules\Events\Utils\InstanceGenerator;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
+use atc\WHx4\Modules\Events\Display\EventRenderer;
 
 class Event extends PostTypeHandler implements QueryContributor //, ListDisplayableInterface
 {
@@ -41,6 +42,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	{
 	    parent::boot(); // Optional if you add shared logic later
 
+		//
 		self::registerTitleDefaults(static::getSlug(), [
 			'line_breaks'   => true,
 			'show_subtitle' => true,
@@ -56,6 +58,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			//'called_by'      => 'Event::boot',
 		]);
 		*/
+		
+		//
+		EventRenderer::register();
 		
 		// Register scope filtering
         $this->registerScopeFilter();

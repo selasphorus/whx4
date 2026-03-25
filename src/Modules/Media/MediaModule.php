@@ -17,6 +17,13 @@ final class MediaModule extends BaseModule
 
         ShortcodeManager::add(Shortcodes\MediaPlayerShortcode::class);
         //ShortcodeManager::add(Shortcodes\AccountsShortcode::class);
+        
+        add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
+			if ($image !== '') {
+				return $image;
+			}
+			return MediaDisplay::getPostImage($post, $size, $atts) ?? '';
+		}, 10, 4);
     }
 
     public function getPostTypeHandlerClasses(): array
