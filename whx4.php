@@ -1,12 +1,10 @@
 <?php
 /**
- * Plugin Name:       WHx4 plugin
+ * Plugin Name:       WHx4 plugin (v1)
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
- * //Requires at least: 6.4
- * //Requires PHP:      7.4
  * Dependencies:	  Requires SDG for various utility functions
- * Requires Plugins:  sdg
- * Version:           0.1
+ * Requires Plugins:  stc
+ * Version:           1.032626.1
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,39 +17,12 @@
 // v2 OOP version WIP
 
 if ( !defined( 'ABSPATH' ) ) exit;
-//defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
 }
-
-/* WIP >> OOP
-
-// Via Composer
-require_once __DIR__ . '/vendor/autoload.php';
-//require 'vendor/autoload.php'
-$plugin = new WHx4\Core\Plugin();
-
--- OR --
-
-// Via Autoloader Class
-require_once __DIR__ . '/WHx4/Autoloader.php';
-WHx4_Autoloader::register();
-
-// Found at /WHx4/Plugin.php
-$plugin = new WHx4_Plugin();
-
----
-
-use atc\WHx4\Plugin;
-
-Plugin::run( entry_point: __FILE__ );
-
-*/
-
-/* ***** TODO: Move all of the following away into classes ***** */
 
 // Define our handy constants.
 define( 'WHX4_VERSION', '0.2.0' );
@@ -225,5 +196,3 @@ function whx4_redirect() {
         exit;
     }*/
 }
-
-?>
