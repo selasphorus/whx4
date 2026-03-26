@@ -139,7 +139,7 @@ class MediaDisplay
                 }
     
                 // TODO: If there's STILL no image, use a placeholder
-                // TODO: make it possible to designate placeholder image(s) for archives via CMS and retrieve it using new version of get_placeholder_img fcn
+                // TODO: make it possible to designate placeholder image(s) for archives via CMS and retrieve it using new version of getPlaceholderImg fcn
                 // TODO: designate placeholders *per category*?? via category/taxonomy ui?
             }
         }
@@ -273,77 +273,70 @@ class MediaDisplay
 
         if (!$imgID) {
             // No image found — use placeholder if available
-            if (function_exists('get_placeholder_img')) {
-                $imgTag = get_placeholder_img();
+            if (function_exists('getPlaceholderImg')) {
+                $imgTag = getPlaceholderImg();
             }
         } else {
-                // Retrieve the caption, if there is one
-                if ( get_post( $imgID ) ) { $caption = get_post( $imgID )->post_excerpt; } else { $caption = null; }
-                if ( !empty($caption) && $format == "singular" && !is_singular('person') ) {
-                    $classes .= " has-caption";
-                    $ts_info .= $fcnId."Caption found for imgID $imgID: '$caption'<br />";
-                } else {
-                    $classes .= " no-caption";
-                    $ts_info .= $fcnId."No caption found for imgID $imgID<br />";
-                }
-                //
-                if ( $caption != "" ) {
-                    $caption_class = "sdg_post_thumbnail featured_image_caption";
-                    $caption_html = '<p class="'. $caption_class . '">' . $caption . '</p>';
-                } else {
-                    $caption_html = '<br />';
-                }
-    
-                // Set up the img_html
-                if ( $format == "singular" && !( is_page('events') ) ) {
-                    $ts_info .= $fcnId."post format is_singular<br />";
-                    
-                    if ( has_post_thumbnail($post_id) ) {
-                        if ( is_singular('person') ) {
-                            $img_size = "medium"; // portrait
-                            $classes .= " float-left";
-                        }
-                        $classes .= " is_singular";
-                        $ts_info .= "get image via get_the_post_thumbnail<br />";
-                        $img_tag = get_the_post_thumbnail( $post_id, $img_size );
-                    } else {
-                        $ts_info .= "get image via wp_get_attachment_image<br />";
-                        $img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
-                    }
-        
-                    $img_html .= '<div class="'.$classes.'">';
-                    $img_html .= $img_tag;
-                    $img_html .= $caption_html;
-                    $img_html .= '</div><!-- .post-thumbnail -->';
-    
-                } else if ( !( $format == "singular" && is_page('events') ) ) {
-                    // NOT singular -- aka archives, search results, &c. EXCEPT events archive
-                    $ts_info .= $fcnId."NOT is_singular<br />";
-        
-                    if ( $imgID ) {
-                        // display attachment via thumbnail_id
-                        $ts_info .= "get image via wp_get_attachment_image<br />";
-                        $img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
-        
-                        $ts_info .= $fcnId.'post_id: '.$post_id.'; thumbnail_id: '.$imgID;
-                        if ( isset($images)) { $ts_info .= $fcnId.'<pre>'.print_r($images,true).'</pre>'; }
-                    } else {
-                        $ts_info .= 'Use placeholder img';
-                        if ( function_exists( 'get_placeholder_img' ) ) {
-                            $img_tag = get_placeholder_img();
-                        }
-                    }
-    
-                }
-                if ( empty($img_html) && !empty($img_tag) ) {
-                    $classes .= " float-left"; //$classes .= " NOT_is_singular";
-                    $img_html .= '<a class="'.$classes.'" href="'.get_the_permalink( $post_id ).'" aria-hidden="true">';
-                    $img_html .= $img_tag;
-                    $img_html .= '</a>';
-                }
-    
-            } // END if ( empty($imgID) ) {
-        } // END if ( $return_value == "html" && !empty($imgID )
+            // Retrieve caption from the attachment post excerpt, if any
+            $attachmentPost = get_post($imgID);
+            $caption        = $attachmentPost ? (string) $attachmentPost->post_excerpt : '';
+
+            if ($caption !== '' && $format === 'singular' && !is_singular('person')) {
+                $imgClass   .= ' has-caption';
+                $captionHtml = '<p class="sdg_post_thumbnail featured_image_caption">' . esc_html($caption) . '</p>';
+            } else {
+                $imgClass   .= ' no-caption';
+                $captionHtml = '<br />';
+            }
+
+			if ( $format == "singular" && !( is_page('events') ) ) {
+				$ts_info .= $fcnId."post format is_singular<br />";
+				
+				if ( has_post_thumbnail($post_id) ) {
+					if ( is_singular('person') ) {
+						$img_size = "medium"; // portrait
+						$classes .= " float-left";
+					}
+					$classes .= " is_singular";
+					$ts_info .= "get image via get_the_post_thumbnail<br />";
+					$img_tag = get_the_post_thumbnail( $post_id, $img_size );
+				} else {
+					$ts_info .= "get image via wp_get_attachment_image<br />";
+					$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
+				}
+	
+				$img_html .= '<div class="'.$classes.'">';
+				$img_html .= $img_tag;
+				$img_html .= $caption_html;
+				$img_html .= '</div><!-- .post-thumbnail -->';
+
+			} else if ( !( $format == "singular" && is_page('events') ) ) {
+				// NOT singular -- aka archives, search results, &c. EXCEPT events archive
+				$ts_info .= $fcnId."NOT is_singular<br />";
+	
+				if ( $imgID ) {
+					// display attachment via thumbnail_id
+					$ts_info .= "get image via wp_get_attachment_image<br />";
+					$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
+	
+					$ts_info .= $fcnId.'post_id: '.$post_id.'; thumbnail_id: '.$imgID;
+					if ( isset($images)) { $ts_info .= $fcnId.'<pre>'.print_r($images,true).'</pre>'; }
+				} else {
+					$ts_info .= 'Use placeholder img';
+					if ( function_exists( 'get_placeholder_img' ) ) {
+						$img_tag = get_placeholder_img();
+					}
+				}
+
+			}
+			if ( empty($img_html) && !empty($img_tag) ) {
+				$classes .= " float-left"; //$classes .= " NOT_is_singular";
+				$img_html .= '<a class="'.$classes.'" href="'.get_the_permalink( $post_id ).'" aria-hidden="true">';
+				$img_html .= $img_tag;
+				$img_html .= '</a>';
+			}
+
+		} // END if ( empty($imgID) ) {
     
         if ( $return_value == "html" ) {
             $info .= $img_html;
@@ -1240,15 +1233,13 @@ class MediaDisplay
         return null;
     }
     
-    
     // =========================================================================
     // =========================================================================
      
-    public static function sdg_get_placeholder_img() 
+    // Needs work!
+    public static function getPlaceholderImg() 
     {
-    
         $info = "";
-    
         $placeholder = get_page_by_title('woocommerce-placeholder', OBJECT, 'attachment');
         if ( $placeholder ) {
             $placeholder_id = $placeholder->ID;
@@ -1262,7 +1253,6 @@ class MediaDisplay
         } else {
             //$info .= "woocommerce-placeholder not found"; // tft
         }
-    
         $info .= $img;
     
         return $info;
@@ -1279,7 +1269,6 @@ class MediaDisplay
     //add_filter( 'post_thumbnail_html', 'sdg_post_image_html', 10, 3 );
     function sdg_post_image_html( $html, $post_id, $post_image_id ) 
     {
-    
         if ( is_singular() && !in_array( get_field('featured_image_display'), array( "background", "thumbnail", "banner" ) ) ) {
     
             $html .= '<!-- fcn sdg_post_image_html -->';
@@ -1306,7 +1295,6 @@ class MediaDisplay
     ///add_shortcode( 'featured_image_caption', 'sdg_featured_image_caption' );
     function sdg_featured_image_caption ( $post_id = null, $attachment_id = null ) 
     {
-    
         global $post;
         global $wp_query;
         $info = "";
