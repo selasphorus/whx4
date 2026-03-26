@@ -289,60 +289,49 @@ class MediaDisplay
                 $captionHtml = '<br />';
             }
 
-			if ( $format == "singular" && !( is_page('events') ) ) {
-				$ts_info .= $fcnId."post format is_singular<br />";
-				
-				if ( has_post_thumbnail($post_id) ) {
-					if ( is_singular('person') ) {
-						$img_size = "medium"; // portrait
-						$classes .= " float-left";
-					}
-					$classes .= " is_singular";
-					$ts_info .= "get image via get_the_post_thumbnail<br />";
-					$img_tag = get_the_post_thumbnail( $post_id, $img_size );
-				} else {
-					$ts_info .= "get image via wp_get_attachment_image<br />";
-					$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
-				}
-	
-				$img_html .= '<div class="'.$classes.'">';
-				$img_html .= $img_tag;
-				$img_html .= $caption_html;
-				$img_html .= '</div><!-- .post-thumbnail -->';
+            if ($format === 'singular' && !is_page('events')) {
 
-			} else if ( !( $format == "singular" && is_page('events') ) ) {
-				// NOT singular -- aka archives, search results, &c. EXCEPT events archive
-				$ts_info .= $fcnId."NOT is_singular<br />";
-	
-				if ( $imgID ) {
-					// display attachment via thumbnail_id
-					$ts_info .= "get image via wp_get_attachment_image<br />";
-					$img_tag = wp_get_attachment_image( $imgID, $img_size, false, array( "class" => "featured_attachment" ) );
-	
-					$ts_info .= $fcnId.'post_id: '.$post_id.'; thumbnail_id: '.$imgID;
-					if ( isset($images)) { $ts_info .= $fcnId.'<pre>'.print_r($images,true).'</pre>'; }
-				} else {
-					$ts_info .= 'Use placeholder img';
-					if ( function_exists( 'get_placeholder_img' ) ) {
-						$img_tag = get_placeholder_img();
-					}
-				}
+                if (has_post_thumbnail($postId)) {
+                    // Person images use a portrait crop and float left
+                    if (is_singular('person')) {
+                        $imgSize   = 'medium';
+                        $imgClass .= ' float-left';
+                    }
+                    $imgClass .= ' is_singular';
+                    $imgTag    = get_the_post_thumbnail($postId, $imgSize);
+                } else {
+                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment']);
+                }
 
-			}
-			if ( empty($img_html) && !empty($img_tag) ) {
-				$classes .= " float-left"; //$classes .= " NOT_is_singular";
-				$img_html .= '<a class="'.$classes.'" href="'.get_the_permalink( $post_id ).'" aria-hidden="true">';
-				$img_html .= $img_tag;
-				$img_html .= '</a>';
-			}
+                $imgHtml  = '<div class="' . esc_attr($imgClass) . '">';
+                $imgHtml .= $imgTag;
+                $imgHtml .= $captionHtml;
+                $imgHtml .= '</div><!-- .post-thumbnail -->';
 
+            } elseif (!($format === 'singular' && is_page('events'))) {
+
+                // Archive / excerpt contexts
+                if ($imgID) {
+                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment']);
+                } elseif (function_exists('getPlaceholderImg')) {
+                    $imgTag = getPlaceholderImg();
+                }
+            }
+
+            // Build linked wrapper for non-singular contexts if imgHtml not yet set
+            if (empty($imgHtml) && !empty($imgTag)) {
+                $imgClass .= ' float-left';
+                $imgHtml   = '<a class="' . esc_attr($imgClass) . '" href="' . esc_url(get_the_permalink($postId)) . '" aria-hidden="true">';
+                $imgHtml  .= $imgTag;
+                $imgHtml  .= '</a>';
+            }
 		} // END if ( empty($imgID) ) {
     
-        if ( $return_value == "html" ) {
+        /*if ( $return_value == "html" ) {
             $info .= $img_html;
         } else { // $return_value == "id"
             $info = $imgID;
-        }
+        }*/
 
         if ($echo) {
             echo $imgHtml;
@@ -523,152 +512,115 @@ class MediaDisplay
                 // HLS stream fallback (m3u8 etc.)
                 $playerStatus = 'ready';
                 if (!$statusOnly) {
-					// For m3u8 files, use generic HTML5 player for now, even though the styling is lousy. Can't get it to work yet via WP shortcode.
-					$player .= '<div class="audio_player video_as_audio">';
-					$player .= '<audio id="'.$player_id.'" class="masked" style="height: 3.5rem; width: 100%;" controls="controls" width="300" height="150">';
-					$player .= 'Your browser does not support the audio element.';
-					$player .= '</audio>';
-					$player .= '</div>';
-
-					// Create array of necessary attributes for HLS JS
-					$atts = array('src' => $src, 'player_id' => $player_id ); // other options: $masked
-					// Load HLS JS
-					$player .= "Load HLS JS<br />";
-					$player .= load_hls_js( $atts );
-				}
-			}
-		} else if ( $media_format == "video" && !empty($src) ) {
-			// Video file from Media Library
-			$playerStatus = 'ready';
+                    // For m3u8 files, use generic HTML5 player for now, even though the styling is lousy. Can't get it to work yet via WP shortcode.
+                    $player .= '<div class="audio_player video_as_audio">';
+                    $player .= '<audio id="'.$player_id.'" class="masked" style="height: 3.5rem; width: 100%;" controls width="300" height="150">';
+                    $player .= 'Your browser does not support the audio element.';
+                    $player .= '</audio>';
+                    $player .= '</div>';
+                    if (function_exists('load_hls_js')) {
+                        //$atts = array('src' => $src, 'player_id' => $player_id ); // other options: $masked
+                        //$player .= load_hls_js( $atts );
+                        $player .= load_hls_js(['src' => $src]);
+                    }
+                }
+            }
+        } elseif ($mediaFormat === 'video' && !empty($src)) {
+            // Video file from Media Library
+            $playerStatus = 'ready';
             if (!$statusOnly) {
-				$player .= '<div class="hero vidfile video-container">';
-				$player .= '<video poster="" id="section-home-hero-video" class="hero-video" src="'.$src.'" autoplay="autoplay" loop="loop" preload="auto" muted="true" playsinline="playsinline"></video>';
-				$player .= '</div>';
-			}
-		} else if ( $media_format == "vimeo" && $video_id ) {
-			// Vimeo iframe embed
-			$playerStatus = 'ready';
-			$src = 'https://player.vimeo.com/video/'.$video_id;
-			if (!$statusOnly) {
-				$class = "vimeo_container";
-				if ( $player_position == "banner" ) { $class .= " hero vimeo video-container"; }
-				$player .= '<div class="'.$class.'">';
-				if ( $player_position == "banner" ) {
-					$player .= '<video poster="" id="section-home-hero-video" class="hero-video" src="'.$src.'" autoplay="autoplay" loop="loop" preload="auto" muted="true" playsinline="playsinline" controls></video>';
-				} else {
-					$player .= '<iframe id="vimeo" src="'.$src.'" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>';
-				}
-				$player .= '</div>';
-			}
+                $player .= '<div class="hero vidfile video-container">';
+                $player .= '<video poster="" class="hero-video" src="' . esc_url($src) . '" autoplay loop preload="auto" muted playsinline></video>';
+                $player .= '</div>';
+            }
+        } elseif ($mediaFormat === 'vimeo' && !empty($videoId)) {
+            // Vimeo iframe embed
+            $playerStatus = 'ready';
+            $src          = 'https://player.vimeo.com/video/' . $videoId;
 
-		} else if ( $media_format == "youtube" ) {
+            if (!$statusOnly) {
+                $class  = 'vimeo_container';
+                $class .= ($position === 'banner') ? ' hero vimeo video-container' : '';
+                $player .= '<div class="' . esc_attr($class) . '">';
+
+                if ($position === 'banner') {
+                    $player .= '<video poster="" class="hero-video" src="' . esc_url($src) . '" autoplay loop preload="auto" muted playsinline controls></video>';
+                } else {
+                    $player .= '<iframe src="' . esc_url($src) . '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>';
+                }
+
+                $player .= '</div>';
+            }
+
+        } elseif ($mediaFormat === 'youtube') {
 			// WIP -- deal w/ webcasts w/ status other than live/on_demand
 
-			// Get SRC
-			if ( !empty($yt_series_id) && !empty($yt_list_id) ) { // && $media_format == "youtube_list"
-				$src = 'https://www.youtube.com/embed/videoseries?si='.$yt_series_id.'?enablejsapi=1&list='.$yt_list_id.'&autoplay=0&loop=1&mute=0&controls=1';
-				//https://www.youtube.com/embed/videoseries?si=gYNXkhOf6D2fbK_y&amp;list=PLXqJV8BgiyOQBPR5CWMs0KNCi3UyUl0BH
-			} else if ( !empty($video_id) ) {
-				$src = 'https://www.youtube.com/embed/'.$video_id.'?enablejsapi=1&playlist='.$video_id.'&autoplay=0&loop=1&mute=0&controls=1';
-				//$src = 'https://www.youtube.com/embed/'.$youtube_id.'?&playlist='.$youtube_id.'&autoplay=1&loop=1&mute=1&controls=0'; // old theme header version -- note controls
-				//$src = 'https://www.youtube.com/watch?v='.$video_id;
-			} else {
-				$src = null;
-			}
+            // Build YouTube embed URL
+            if (!empty($ytSeriesId) && !empty($ytListId)) {
+                $src = 'https://www.youtube.com/embed/videoseries?si=' . $ytSeriesId . '&list=' . $ytListId . '&autoplay=0&loop=1&mute=0&controls=1';
+            } elseif (!empty($videoId)) {
+                $src = 'https://www.youtube.com/embed/' . $videoId . '?enablejsapi=1&playlist=' . $videoId . '&autoplay=0&loop=1&mute=0&controls=1';
+            } else {
+                $src = null;
+            }
 
-			$ts_info .= $fcnId."src: '".$src."'<br />";
+            if (!empty($src)) {
+                $playerStatus = 'ready';
+                if (!$statusOnly) {
+                    if (!empty($ytTs)) {
+                        $src .= '&start=' . (int) $ytTs;
+                    }
+                    $player .= '<div class="hero video-container youtube-responsive-container">';
+                    $player .= '<iframe width="100%" height="100%" src="' . esc_url($src) . '" title="YouTube video player" enablejsapi="true" frameborder="0" allowfullscreen></iframe>';
+                    $player .= '</div>';
+                }
+            }
+        }
 
-			if ( !empty($src) && $statusOnly == false ) {
+        // --- CTA block ---
+        // TODO: Make CTA content manageable via CMS rather than hardcoded HTML.
+        // TODO: Consider moving CTA logic to a dedicated class/filter.
+        $showCta = get_post_meta($postId, 'show_cta', true);
+        $cta     = '';
 
-				$player_status = "ready";
+        if ($mediaPlayerActive && $showCta) {
+            $statusMessage = self::getStatusMessage($postId, 'webcast_status');
 
-				// Timestamp?
-				if ( $yt_ts ) { $src .= "&start=".$yt_ts; }
+            // Don't show CTA twice when both audio and video are present
+            $suppressCta = ($multimedia && $mediaFormat === 'audio');
 
-				// Assemble media player iframe
-				$player .= '<div class="hero video-container youtube-responsive-container">';
-				$player .= '<iframe width="100%" height="100%" src="'.$src.'" title="YouTube video player" enablejsapi="true" frameborder="0" allowfullscreen></iframe>'; // controls=0 // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-				$player .= '</div>';
-			}
+            if (!$suppressCta) {
+                $cta .= '<div class="cta">';
+                $cta .= '<h2>Support Saint Thomas Church</h2>';
+                $cta .= '<a href="https://www.saintthomaschurch.org/give/" target="_blank" class="button">Support Saint Thomas</a>&nbsp;';
+                $cta .= '<br />';
+                $cta .= '<h3>You can also text "give" to <a href="sms://+18559382085">(855) 938-2085</a></h3>';
+                $cta .= '</div>';
+            }
 
-		}
+            if ($statusMessage !== '' && $position !== 'banner') {
+                $info .= '<p class="message-info">' . esc_html($statusMessage) . '</p>';
+                if (!$suppressCta && get_post_type($postId) !== 'sermon' && $postId !== 232540) {
+                    $info .= $cta;
+                }
+            }
+        }
 
-		//if ( $webcast && $webcast_status == "before" && $player_status == "unknown" ) { $player_status = "before"; }
+        // --- Assemble final player output ---
+        if ($playerStatus === 'ready' && !empty($player)) {
 
-		if ( $statusOnly === true ) {
-			return $player_status;
-		}
+            // Add "Sermon Audio" heading for audio sermons tagged as webcasts
+            if (is_singular('sermon') && has_term('webcasts', 'admin_tag', $postId)
+                && get_post_meta($postId, 'audio_file', true) !== '' && $position !== 'banner'
+            ) {
+                $player = '<h3 id="sermon-audio"><a>Sermon Audio</a></h3>' . $player;
+            }
 
-		// CTA?
-		$show_cta = get_post_meta( $post_id, 'show_cta', true );
-		$cta = "";
+            $info .= '<!-- MEDIA_PLAYER -->';
+            $info .= $player;
+            $info .= '<!-- /MEDIA_PLAYER -->';
 
-		// If show_cta is true and the Media player is active for this post, regardless of player or webcast status, show the CTA
-		if ( $media_player_active && $show_cta ) {
-
-			// TODO: get this content from some post type manageable via the front end, by slug or id (e.g. 'cta-for-webcasts')
-			// post type for CTAs could be e.g. "Notifications", or post in "CTAs" post category, or...
-			// -- or by special category of content associated w/ CPTs?
-			$status_message = get_status_message ( $post_id, 'webcast_status' );
-			if ( $show_cta == "1" ) { $show_cta = true; } else { $show_cta = false; }
-			// WIP -- don't show the CTA twice...
-			if ( $multimedia && $media_format == "audio" ) {
-				$show_cta = false;
-			} else {
-				$ts_info .= $fcnId."multimedia: ".$multimedia.'/ media_format: '.$media_format.'<br />';
-			}
-			if ( $show_cta ) {
-				$ts_info .= 'show_cta: TRUE<br />';
-				$cta .= '<div class="cta">';
-				$cta .= '<h2>Support Saint Thomas Church</h2>';
-				//$cta .= '<h2>Support Our Ministry</h2>';
-				////$cta .= '<a href="https://www.saintthomaschurch.org/product/one-time-donation/" target="_blank" class="button">Make a donation for the work of the Episcopal Church in the Holy Land on Good Friday</a>';
-				//$cta .= '<a href="https://www.saintthomaschurch.org/product/annual-appeal-pledge/" target="_blank" class="button">Pledge to our Annual Appeal</a>&nbsp;';
-				//$cta .= '<a href="https://www.saintthomaschurch.org/product/one-time-donation/" target="_blank" class="button">Make a Donation</a>';
-				//$cta .= '<a href="https://www.saintthomaschurch.org/product/make-a-payment-on-your-annual-appeal-pledge/" target="_blank" class="button">Make an Annual Appeal Pledge Payment</a>';
-				$cta .= '<a href="https://www.saintthomaschurch.org/give/" target="_blank" class="button">Support Saint Thomas</a>&nbsp;';
-				$cta .= '<br />';
-				$cta .= '<h3>You can also text "give" to <a href="sms://+18559382085">(855) 938-2085</a></h3>';
-				//$cta .= '<h3><a href="sms://+18559382085?body=give">You can also text "give" to (855) 938-2085</a></h3>';
-				$cta .= '</div>';
-			} else {
-				$ts_info .= $fcnId."show_cta: FALSE<br />";
-			}
-
-			//
-			if ( $status_message !== "" && $position != "banner" ) {
-				$info .= '<p class="message-info">'.$status_message.'</p>';
-				if ( $show_cta !== false
-					&& get_post_type($post_id) != 'sermon' // Don't show CTA for sermons
-					//&& !is_dev_site() // Don't show CTA on dev site. It's annoying clutter.
-					) {
-					$info .= $cta;
-				}
-				//return $info; // tmp disabled because it made "before" Vimeo vids not show up
-			}
-		}
-
-		// If there's media to display, show the player
-		if ( $player_status == "ready" ) {
-
-			if ( $player != "" && is_singular('sermon') && has_term( 'webcasts', 'admin_tag', $post_id ) && get_post_meta( $post_id, 'audio_file', true ) != "" && $position != "banner" ) {
-				$player = '<h3 id="sermon-audio" name="sermon-audio"><a>Sermon Audio</a></h3>'.$player;
-			}
-
-			if ( !empty($player) ) {
-				if ( $player_position == $position ) {
-					$info .= "<!-- MEDIA_PLAYER -->";
-					$info .= $player;
-					$info .= "<!-- /MEDIA_PLAYER -->";
-				} else {
-					$ts_info .= "NB: player_position != $position ==> don't show the player, even though there is one.<br />";
-				}
-
-			} else {
-				$info .= "<!-- NO MEDIA_PLAYER AVAILABLE -->";
-			}
-			
-			// --- Cuepoints (HTML5 audio only) ---
+            // --- Cuepoints (HTML5 audio only) ---
             $cuepoints = get_field('cuepoints', $postId);
             if ($cuepoints) {
                 $info .= self::renderCuepoints($cuepoints);
@@ -678,20 +630,17 @@ class MediaDisplay
             if ($position !== 'banner' && !$suppressCta && get_post_type($postId) !== 'sermon' && $postId !== 232540) {
                 $info .= $cta;
             }
-			/*if ( !empty($player)
-				&& $player_position == $position
-				&& $player_status == "ready"
-				//&& $player_status != "before"
-				//&& !is_dev_site()
-				&& $show_cta !== false
-				&& $post_id != 232540
-				&& get_post_type($post_id) != 'sermon' ) {
-				$info .= $cta;
-			}*/
-		}
+
+        } elseif ($playerStatus !== 'ready') {
+            $info .= '<!-- NO MEDIA_PLAYER AVAILABLE -->';
+        }
 
         $tsInfo .= "player_status: $playerStatus<br />";
-
+        
+        /*if ( $statusOnly === true ) {
+			return $player_status;
+		}*/
+		
         return [
             'player'   => $info,
             'status'   => $playerStatus,
@@ -928,8 +877,6 @@ class MediaDisplay
         
         return $info;
     }
-    
-    
 
     // =========================================================================
     // MEDIA LIST
@@ -991,128 +938,99 @@ class MediaDisplay
                 'terms'    => $category,
             ]];
         }
-    
-        $arr_posts = new WP_Query( $wp_args );
-        $posts = $arr_posts->posts;
+
+        $query = new \WP_Query($wpArgs);
+        $posts = $query->posts;
 
         if (empty($posts) || is_wp_error($posts)) {
             return '<p>No items found.</p>';
         }
-        
-        $info .= '<div class="media_list">';
-        $items  = [];
-        $months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-        $litdates = array('ash_wednesday_date' => 'Ash Wednesday', 'easter_date' => 'Easter', 'pentecost_date' => 'Pentecost');
-        $the_year = "";
-    
-            // Loop through the posts; built items array
-            foreach ( $posts as $post ) {
-                setup_postdata( $post );
-    
-                $title = $post->post_title;
-                $post_id = $post->ID;
-                $url = wp_get_attachment_url($post_id); // get_attachment_link($post_id);
-    
-                // Don't display the words "Music List", if present in the title
-                if (strpos(strtolower($title), 'music list') !== false) {
-                    $title = str_ireplace("Music List", "", $title);
+
+        $info    = '<div class="media_list">';
+        $items   = [];
+        $months  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        $litdates = [
+            'ash_wednesday_date' => 'Ash Wednesday',
+            'easter_date'        => 'Easter',
+            'pentecost_date'     => 'Pentecost',
+        ];
+        $theYear              = '';
+        $liturgicalDateCalcId = null;
+
+        // Loop through the posts; built items array
+        foreach ($posts as $post) {
+            setup_postdata($post);
+
+            $title  = $post->post_title;
+            $postId = $post->ID;
+            $url    = wp_get_attachment_url($postId);
+
+            // Strip "Music List" from titles for cleaner display
+            $title = str_ireplace('Music List', '', $title);
+
+            if ($groupedBy === 'year') {
+                $startMonth = '';
+                $endMonth   = '';
+                $year       = null;
+
+                // Extract year from filename/title
+                if (preg_match('/((19|20)\d{2})/', $title, $matches)) {
+                    $year = trim($matches[0]);
                 }
-    
-                if ( $grouped_by == "year" ) {
-    
-                    // init
-                    $start_month = "";
-                    $end_month = "";
-    
-                    // Extract year from filename
-                    $pattern = '/((19|20)\d{2})/';
-                    if ( preg_match($pattern, $title, $matches, PREG_OFFSET_CAPTURE) ) {
-                        $year = trim($matches[0][0]);
-                    } else {
-                        $year = null;
+
+                // Remove year from music list titles
+                if ($category === 'music-lists' && $year) {
+                    $title = str_ireplace($year, '', $title);
+                }
+
+                // Fetch liturgical date calc post when year changes
+                if ($year && $year !== $theYear) {
+                    $theYear = $year;
+                    $litQuery = new \WP_Query([
+                        'post_type'      => 'liturgical_date_calc',
+                        'post_status'    => 'publish',
+                        'posts_per_page' => 1,
+                        'meta_query'     => [['key' => 'litdate_year', 'value' => $year . '-01-01']],
+                    ]);
+                    $litPosts             = $litQuery->posts;
+                    $liturgicalDateCalcId = !empty($litPosts) ? $litPosts[0]->ID : null;
+                }
+
+                // Match month names in title
+                foreach ($months as $i => $month) {
+                    $num = str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT);
+                    if (stripos($title, $month . '-') !== false) {
+                        $startMonth = $num;
+                    } elseif (stripos($title, $month) !== false && stripos($title, '-') === false) {
+                        $startMonth = $num;
                     }
-    
-                    // For Music Lists, don't display the year in the title
-                    if ( $category == "music-lists" ) {
-                        $title = str_ireplace($year, "", $title);
+                    if (stripos($title, '-' . $month) !== false) {
+                        $endMonth = $num;
                     }
-    
-                    // Get liturgical date calc info per year, in order to deal w/ lists named according to holidays (Easter, Ash Wednesday, Pentecost) instead of months
-                    // e.g. January-Easter 2019; Easter-September 2015
-                    if ( $year != $the_year ) {
-    
-                        $the_year = $year;
-    
-                        $wp_args = array(
-                            'post_type'   => 'liturgical_date_calc',
-                            'post_status' => 'publish',
-                            'posts_per_page' => 1,
-                            'meta_query' => array(
-                                array(
-                                    'key'     => 'litdate_year',
-                                    'value'   => $year.'-01-01'
-                                )
-                            )
-                        );
-                        $liturgical_date_calc_post_id = null; // init
-                        $liturgical_date_calc_post_obj = new WP_Query( $wp_args );
-                        if ( $liturgical_date_calc_post_obj ) {
-                            $liturgical_date_calc_post = $liturgical_date_calc_post_obj->posts;
-                            $liturgical_date_calc_post_id = $liturgical_date_calc_post[0]->ID;
-                            $info .= "<!-- Found liturgical_date_calc_post for year $year with ID: ".$liturgical_date_calc_post[0]->ID." -->";
-                            //$info .= "<!-- Found liturgical_date_calc_post for year $year: ".print_r($liturgical_date_calc_post, true)." >> ID: ".$liturgical_date_calc_post[0]->ID." -->"; // tft
-                        } else {
-                            $info .= "<!-- NO liturgical_date_calc_post found for year $year -->";
-                        } // tft
-    
-                    }
-    
-                    foreach ( $months AS $i => $month ) {
-    
-                        $num = (string)$i+1;
-                        //$num = (string)$num;
-                        $numlength = strlen($num);
-                        if ($numlength == 1) {
-                            $num = "0".$num;
-                        }
-    
-                        if (stripos($title, $month."-") !== false) {
-                            $start_month = $num;
-                            $info .= "<!-- Found start_month: $start_month from title: $title -->"; // tft
-                        } else if (stripos($title, $month) !== false && stripos($title, "-") === false) {
-                            $start_month = $num;
-                            $info .= "<!-- Found start_month: $start_month from title: $title (no hyphens) -->"; // tft
-                        }
-    
-                        if (stripos($title, "-".$month) !== false) {
-                            $end_month = $num;
-                            $info .= "<!-- Found end_month: $end_month from title: $title -->"; // tft
+                }
+
+                // Fallback to liturgical dates when no month matched
+                if ($startMonth === '' && $liturgicalDateCalcId) {
+                    foreach ($litdates as $dateField => $litdate) {
+                        if (stripos($title, $litdate . '-') !== false) {
+                            $startDate  = (string) get_post_meta($liturgicalDateCalcId, $dateField, true);
+                            $startMonth = date('m', strtotime($startDate));
                         }
                     }
-    
-                    // If no start_month was found, look for: Easter, Ash Wednesday, Pentecost
-                    if ( $start_month == "" && $liturgical_date_calc_post_id ) {
-                        $info .= "<!-- [post_id: $post_id] No start_month found >> try via litdates -->"; // tft
-                        foreach ( $litdates AS $date_field => $litdate ) {
-                            if (stripos($title, $litdate."-") !== false) {
-                                $info .= "<!-- Found litdate match (start): $litdate in title: $title -->"; // tft
-                                $start_date = get_post_meta( $liturgical_date_calc_post_id, $date_field, true);
-                                $info .= "<!-- Found start_date via litdate: $start_date (date_field: $date_field) -->"; // tft
-                                $start_month = date('m', strtotime($start_date) );
-                            } else if (stripos($title, $litdate."-") !== false) {
-                                $info .= "<!-- Found litdate match (end): $litdate in title: $title -->"; // tft
-                                $end_date = get_post_meta( $liturgical_date_calc_post_id, $date_field, true);
-                                $end_month = date('m', strtotime($start_date) );
-                            }
-                        }
-                    }
-    
-                    $sort_date = $year.$start_month;
-                    $items[] = array('id' => $post_id, 'title' => $title, 'url' => $url, 'year' => $year, 'sort_date' => $sort_date, 'start_month' => $start_month, 'end_month' => $end_month);
-    
-                } else {
-                    $items[] = array('id' => $post_id, 'title' => $title, 'url' => $url);
-                }    
+                }
+
+                $sortDate = $year . $startMonth;
+                $items[]  = [
+                    'id'          => $postId,
+                    'title'       => trim($title),
+                    'url'         => $url,
+                    'year'        => $year,
+                    'sort_date'   => $sortDate,
+                    'start_month' => $startMonth,
+                    'end_month'   => $endMonth,
+                ];
+            } else {
+                $items[] = ['id' => $postId, 'title' => trim($title), 'url' => $url];
             }
         }
 
@@ -1254,7 +1172,6 @@ class MediaDisplay
             //$info .= "woocommerce-placeholder not found"; // tft
         }
         $info .= $img;
-    
         return $info;
     }
     
@@ -1292,8 +1209,9 @@ class MediaDisplay
     }
     
     // Function to display featured caption in EM event template
+    // Obsolete/Deprecated (?)
     ///add_shortcode( 'featured_image_caption', 'sdg_featured_image_caption' );
-    function sdg_featured_image_caption ( $post_id = null, $attachment_id = null ) 
+    /*function sdg_featured_image_caption ( $post_id = null, $attachment_id = null ) 
     {
         global $post;
         global $wp_query;
@@ -1322,5 +1240,5 @@ class MediaDisplay
     
         return $info;
     
-    }
+    }*/
 }
