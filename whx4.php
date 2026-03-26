@@ -15,8 +15,6 @@
 
 declare(strict_types=1);
 
-//namespace atc\WHx4;
-
 // Prevent direct access
 if ( !defined( 'ABSPATH' ) ) exit;
 
@@ -137,7 +135,6 @@ add_filter( 'whx4_events_post_type_slug', function() {
 });
 */
 
-
 // Global Wrapper Functions for theme access
 
 /**
@@ -150,29 +147,25 @@ add_filter( 'whx4_events_post_type_slug', function() {
  * @param array            $args Optional arguments.
  * @return string|false Image HTML or false on failure.
  */
-function whx4_post_thumbnail( $post = null, $size = 'thumbnail', $args = [] )
+/**
+ * Get post thumbnail with fallback handling.
+ *
+ * Delegates to MediaDisplay::getPostThumb() when the Media module is active.
+ *
+ * @since 1.0.0
+ * @param  array $args  See MediaDisplay::getPostThumb() for supported args.
+ * @return string|int|null  Image HTML, attachment ID, or null if unavailable.
+ */
+function whx4_post_thumbnail( array $args = [] ): string|int|null
 {
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
-    //$activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs(); // try this?
-    if ( ! in_array('media',$activeSlugs) ) {
-        return false;
+    if ( ! in_array( 'media', $activeSlugs, true ) ) {
+        return null;
     }
-    
-    $media = atc\WHx4\Modules\Media\Utils\MediaDisplay::getInstance();
-    
-    /**
-     * Filter post thumbnail before output
-     *
-     * @param string|false     $output Thumbnail HTML
-     * @param int|WP_Post|null $post   Post object
-     * @param string           $size   Image size
-     * @param array            $args   Arguments
-     */
-    return apply_filters( 
-        'whx4_post_thumbnail', 
-        $media->getPostThumb( $post, $size, $args ),
-        $post,
-        $size,
+
+    return apply_filters(
+        'whx4_post_thumbnail',
+        atc\WHx4\Modules\Media\Utils\MediaDisplay::getPostThumb( $args ),
         $args
     );
 }
