@@ -268,6 +268,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         ];
     }*/
 
+    //
     public function renderItems(array $posts, array $atts, string $variant): string
     {
         return match ($variant) {

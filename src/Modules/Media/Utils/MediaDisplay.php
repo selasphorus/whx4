@@ -832,7 +832,6 @@ class MediaDisplay
     ///add_shortcode('display_webcast', 'display_webcast');
     function display_webcast( $post_id = null )
     {
-        
         if ( $post_id == null ) { $post_id = get_the_ID(); }
         
         $info = ""; // init
@@ -1183,6 +1182,7 @@ class MediaDisplay
      * @param int    $post_image_id Post image ID.
      * @return string Filtered post image HTML.
      */
+    // Obsolete(?)
     //add_filter( 'post_thumbnail_html', 'sdg_post_image_html', 10, 3 );
     function sdg_post_image_html( $html, $post_id, $post_image_id ) 
     {

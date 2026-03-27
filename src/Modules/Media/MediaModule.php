@@ -4,6 +4,7 @@ namespace atc\WHx4\Modules\Media;
 
 use atc\WXC\Module as BaseModule;
 use atc\WXC\Shortcodes\ShortcodeManager;
+use atc\WHx4\Modules\Media\Utils\MediaDisplay;
 
 //use atc\WHx4\Modules\People\PostTypes\Person;
 //use atc\WHx4\Modules\People\PostTypes\GroupEntity;
