@@ -19,11 +19,23 @@ final class MediaModule extends BaseModule
         ShortcodeManager::add(Shortcodes\MediaPlayerShortcode::class);
         //ShortcodeManager::add(Shortcodes\AccountsShortcode::class);
         
-        add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
+        /*add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
 			if ($image !== '') {
 				return $image;
 			}
 			return MediaDisplay::renderPostImage($post, $size, $atts) ?? '';
+		}, 10, 4);*/
+		
+		add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
+			if ($image !== '') {
+				return $image;
+			}
+			$atts['post_id']      = $post->ID;
+			$atts['img_size']     = $size;
+			$atts['format']       = $atts['format'] ?? 'excerpt';
+			$atts['echo']         = false;
+			$atts['return_value'] = 'html';
+			return (string) (MediaDisplay::renderPostImage($atts) ?? '');
 		}, 10, 4);
     }
 
