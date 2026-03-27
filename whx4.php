@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  Requires WHx4-Core for core functionality
  * Requires Plugins:  whx4-core, advanced-custom-fields-pro
- * Version:           2.032526.1
+ * Version:           2.032726.1
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
