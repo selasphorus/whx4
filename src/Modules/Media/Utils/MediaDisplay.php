@@ -13,8 +13,8 @@ use atc\WXC\Environment;
  * featured images, audio players, video players, and webcasts.
  *
  * Entry points for the WXC Display layer:
- *   - getPostThumb() — resolves and renders a post image as HTML
- *   - getPostImage() — resolves a post image ID (no HTML output)
+ *   - renderPostImage() — resolves and renders a post image as HTML
+ *   - resolvePostImageId() — resolves a post image ID (no HTML output)
  *   - getMediaPlayer() — resolves and renders an audio/video player
  *
  * TODO: Extract webcast-specific methods (getWebcastUrl, getWebcastStatus,
@@ -22,7 +22,7 @@ use atc\WXC\Environment;
  * dedicated WebcastHelper class. They are substantial enough to warrant
  * their own home and have no dependency on image/player rendering.
  *
- * TODO: The EM-specific fallback in getPostThumb() (em_get_event / parent
+ * TODO: The EM-specific fallback in renderPostImage() (em_get_event / parent
  * event image lookup) should be extracted to a 'wxc_post_image_fallback'
  * filter hook, with the Events module responding to it. MediaDisplay should
  * not have a hard dependency on Events Manager.
@@ -50,7 +50,7 @@ class MediaDisplay
      *                            'custom_thumb', 'content'.
      * @return array{imgID:int|null,imgType:string,imgClass:string,info:string}
      */
-    public static function getPostImage(
+    public static function resolvePostImageId(
 		\WP_Post|int|null $postID = null,
 		string $format = 'singular',
 		array|string $sources = ['featured_image', 'gallery']
@@ -66,7 +66,7 @@ class MediaDisplay
         //if ( !$postID ) { return null; }
         
         $postType = get_post_type($postID);
-        $fcnId    = '[MediaDisplay::getPostImage] ';
+        $fcnId    = '[MediaDisplay::resolvePostImageId] ';
         $imgID    = null;
         $imgType  = 'post_image'; // other option: attachment_image
         $imgClass = '';
@@ -176,7 +176,7 @@ class MediaDisplay
      * }
      * @return string|int|null HTML string, attachment ID, or null.
      */
-    public static function getPostThumb(array $args = []): string|int|null
+    public static function renderPostImage(array $args = []): string|int|null
     {
         $defaults = [
             'post_id'      => null,
@@ -234,7 +234,7 @@ class MediaDisplay
         }
 
         // --- Resolve image ID ---
-        $img   = self::getPostImage($postId, $format, $sources);
+        $img   = self::resolvePostImageId($postId, $format, $sources);
         $imgID = $img['imgID'] ?? null;
         $tsInfo .= $img['info'];
 
@@ -246,7 +246,7 @@ class MediaDisplay
             $tsInfo .= 'No image found; checking parent event if applicable.<br />';
             $parentPostId = self::resolveEmParentPostId($postId, $tsInfo);
             if ($parentPostId) {
-                $img   = self::getPostImage($parentPostId, $format, $sources);
+                $img   = self::resolvePostImageId($parentPostId, $format, $sources);
                 $tsInfo .= $img['info'];
                 $imgID  = $img['imgID'] ?? null;
             }

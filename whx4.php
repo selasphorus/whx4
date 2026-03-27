@@ -150,10 +150,10 @@ add_filter( 'whx4_events_post_type_slug', function() {
 /**
  * Get post thumbnail with fallback handling.
  *
- * Delegates to MediaDisplay::getPostThumb() when the Media module is active.
+ * Delegates to MediaDisplay::renderPostImage() when the Media module is active.
  *
  * @since 1.0.0
- * @param  array $args  See MediaDisplay::getPostThumb() for supported args.
+ * @param  array $args  See MediaDisplay::renderPostImage() for supported args.
  * @return string|int|null  Image HTML, attachment ID, or null if unavailable.
  */
 function whx4_post_thumbnail( array $args = [] ): string|int|null
@@ -165,7 +165,7 @@ function whx4_post_thumbnail( array $args = [] ): string|int|null
 
     return apply_filters(
         'whx4_post_thumbnail',
-        atc\WHx4\Modules\Media\Utils\MediaDisplay::getPostThumb( $args ),
+        atc\WHx4\Modules\Media\Utils\MediaDisplay::renderPostImage( $args ),
         $args
     );
 }

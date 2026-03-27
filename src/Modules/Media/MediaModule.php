@@ -23,7 +23,7 @@ final class MediaModule extends BaseModule
 			if ($image !== '') {
 				return $image;
 			}
-			return MediaDisplay::getPostImage($post, $size, $atts) ?? '';
+			return MediaDisplay::resolvePostImageId($post, $size, $atts) ?? '';
 		}, 10, 4);
     }
 
