@@ -51,15 +51,19 @@ class MediaDisplay
      * @return array{imgID:int|null,imgType:string,imgClass:string,info:string}
      */
     public static function getPostImage(
-        ?int $postID = null,
-        string $format = 'singular',
-        array|string $sources = ['featured_image', 'gallery']
-    ): array 
-    {
-        /*if (!$postID) {
-            return ['imgID' => null, 'imgType' => 'post_image', 'imgClass' => '', 'info' => ''];
-        }*/
-        if ( !$postID ) { return null; }
+		\WP_Post|int|null $postID = null,
+		string $format = 'singular',
+		array|string $sources = ['featured_image', 'gallery']
+	): array
+	{
+		if ($postID instanceof \WP_Post) {
+			$postID = $postID->ID;
+		}
+	
+		if (!$postID) {
+			return ['imgID' => null, 'imgType' => 'post_image', 'imgClass' => '', 'info' => ''];
+		}
+        //if ( !$postID ) { return null; }
         
         $postType = get_post_type($postID);
         $fcnId    = '[MediaDisplay::getPostImage] ';
