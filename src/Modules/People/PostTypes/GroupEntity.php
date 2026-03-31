@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Modules\People\PostTypes;
 
+use atc\WXC\Logger;
 use atc\WXC\Environment;
 use atc\WXC\PostTypes\PostTypeHandler;
 

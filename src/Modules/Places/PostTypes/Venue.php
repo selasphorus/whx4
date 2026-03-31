@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Modules\Places\PostTypes;
 
+use atc\WXC\Logger;
 use atc\WXC\PostTypes\PostTypeHandler;
 
 class Venue extends PostTypeHandler

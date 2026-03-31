@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace atc\WHx4\Modules\Media\Shortcodes;
 
 use atc\WXC\App;
+use atc\WXC\Logger;
 //use atc\WXC\Utils\ClassInfo;
 //use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Templates\ViewLoader;
@@ -96,7 +97,6 @@ final class MediaPlayerShortcode implements ShortcodeInterface
     public function render(array $atts, ?string $content = null, string $tag = ''): string
     {
         $info = "";
-        #error_log('render() called');
         
         // Defaults
         $defaults = [
@@ -134,7 +134,7 @@ final class MediaPlayerShortcode implements ShortcodeInterface
         // Get filtered accounts
         $accounts = $this->resolveAccounts($atts);
         
-        #error_log('Accounts found: ' . count($accounts));
+        #Logger::debug('Accounts found: ' . count($accounts));
         
         if (empty($accounts)) {
             return '<p>No accounts found matching the specified criteria.</p>';
@@ -152,7 +152,7 @@ final class MediaPlayerShortcode implements ShortcodeInterface
         
         $viewSpecs = ['kind' => 'partial', 'module' => 'accounting', 'post_type' => 'account'];
         
-        #error_log('About to render with group_by: ' . $groupMode);
+        //Logger::debug('About to render with group_by: ' . $groupMode);
         
         // Branch based on grouping mode
         switch ($groupMode) {
@@ -224,11 +224,11 @@ final class MediaPlayerShortcode implements ShortcodeInterface
                 ],
             ];
         }
-        #error_log('Filters: ' . print_r($filters, true));
+        //Logger::debug('Filters', $filters, 'wxc');
         
         $query = new \WP_Query($filters);
         
-        #error_log('Query found: ' . $query->found_posts . ' posts');
+        //Logger::debug('Query found: ' . $query->found_posts . ' posts');
         
         return $query->posts;
     }
