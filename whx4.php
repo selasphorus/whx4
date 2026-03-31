@@ -169,3 +169,32 @@ function whx4_post_thumbnail( array $args = [] ): string|int|null
         $args
     );
 }
+
+/**
+ * Find image data associated with a post.
+ *
+ * Returns an array with keys:
+ *   imgID    int|null  Resolved attachment ID, or null if not found.
+ *   imgType  string    'post_image' or 'attachment_image'.
+ *   imgClass string    Additional CSS classes for the image wrapper.
+ *   info     string    Debug output.
+ *
+ * Returns null if the Media module is inactive.
+ *
+ * @param  \WP_Post|int     $post     Post object or ID.
+ * @param  string           $format   'singular' or 'excerpt'. Default 'excerpt'.
+ * @param  string[]|string  $sources  Sources to check. Default ['featured_image','gallery'].
+ * @return array{imgID:int|null,imgType:string,imgClass:string,info:string}|null
+ */
+function whx4_find_post_image(
+    \WP_Post|int $post,
+    string $format = 'excerpt',
+    array|string $sources = ['featured_image', 'gallery']
+): ?array {
+    $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
+    if (!in_array('media', $activeSlugs, true)) {
+        return null;
+    }
+
+    return atc\WHx4\Modules\Media\Utils\MediaDisplay::findPostImage($post, $format, $sources);
+}

@@ -14,7 +14,7 @@ use atc\WXC\Environment;
  *
  * Entry points for the WXC Display layer:
  *   - renderPostImage() — resolves and renders a post image as HTML
- *   - resolvePostImageId() — resolves a post image ID (no HTML output)
+ *   - findPostImage() — resolves a post image ID (no HTML output)
  *   - getMediaPlayer() — resolves and renders an audio/video player
  *
  * TODO: Extract webcast-specific methods (getWebcastUrl, getWebcastStatus,
@@ -50,7 +50,7 @@ class MediaDisplay
      *                            'custom_thumb', 'content'.
      * @return array{imgID:int|null,imgType:string,imgClass:string,info:string}
      */
-    public static function resolvePostImageId(
+    public static function findPostImage(
 		\WP_Post|int|null $postID = null,
 		string $format = 'singular',
 		array|string $sources = ['featured_image', 'gallery']
@@ -66,7 +66,7 @@ class MediaDisplay
         //if ( !$postID ) { return null; }
         
         $postType = get_post_type($postID);
-        $fcnId    = '[MediaDisplay::resolvePostImageId] ';
+        $fcnId    = '[MediaDisplay::findPostImage] ';
         $imgID    = null;
         $imgType  = 'post_image'; // other option: attachment_image
         $imgClass = '';
@@ -234,7 +234,7 @@ class MediaDisplay
         }
 
         // --- Resolve image ID ---
-        $img   = self::resolvePostImageId($postId, $format, $sources);
+        $img   = self::findPostImage($postId, $format, $sources);
         $imgID = $img['imgID'] ?? null;
         $tsInfo .= $img['info'];
 
@@ -246,7 +246,7 @@ class MediaDisplay
             $tsInfo .= 'No image found; checking parent event if applicable.<br />';
             $parentPostId = self::resolveEmParentPostId($postId, $tsInfo);
             if ($parentPostId) {
-                $img   = self::resolvePostImageId($parentPostId, $format, $sources);
+                $img   = self::findPostImage($parentPostId, $format, $sources);
                 $tsInfo .= $img['info'];
                 $imgID  = $img['imgID'] ?? null;
             }
