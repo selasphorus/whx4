@@ -14,13 +14,11 @@ final class EventsModule extends BaseModule
 {
     public function boot(): void
     {
-        //error_log( '=== EventsModule::boot() ===' );
         $this->registerDefaultViewRoot();
         parent::boot();
         EventInstances::register();
         AjaxController::register();
         //
-        //error_log('EventsModule::boot -> calling ShortcodeManager::add');
         ShortcodeManager::add(\WHx4\Modules\Events\Shortcodes\EventsShortcode::class);
 
         // Keep filter for 3P extensibility (optional)

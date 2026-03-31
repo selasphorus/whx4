@@ -2,6 +2,7 @@
 
 namespace atc\WHx4\Modules\Events\PostTypes;
 
+use atc\WXC\Logger;
 use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Contracts\QueryContributor;
 use atc\WXC\Helpers\FieldDisplayHelpers;
@@ -171,8 +172,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	// Obsolete? TBC
 	public function adjustQueryArgs(array $args, array $params): array
     {
-        //error_log( '=== Event::adjustQueryArgs() ===' );
-        //error_log( 'args: ' . print_r($args,true) . '; params: ' . print_r($params,true) );
+        //Logger::debug( 'args: ' . print_r($args,true) . '; params: ' . print_r($params,true), 'events' );
 
         $dateStart = isset($params['date_start']) ? (string)$params['date_start'] : null;
         $dateEnd   = isset($params['date_end']) ? (string)$params['date_end'] : null;
@@ -429,16 +429,15 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	
 	public function expandRecurringInstances(array $posts, \WP_Query $query): array
 	{
-		error_log('(WHx4) expandRecurringInstances called with ' . count($posts) . ' posts');
-		
-		error_log('expandRecurringInstances called - is_admin: ' . (is_admin() ? 'yes' : 'no'));
-		error_log('is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'));
-		error_log('post_type: ' . print_r( $query->get('post_type'), true) ); //error_log('post_type: ' . $query->get('post_type'));
-		error_log('getSlug: ' . $this->getSlug());
+		Logger::debug( 'expandRecurringInstances called with ' . count($posts) . ' posts', 'events' );
+		Logger::debug( 'expandRecurringInstances called - is_admin: ' . (is_admin() ? 'yes' : 'no'), 'events' );
+		Logger::debug( 'is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'), 'events' );
+		Logger::debug( 'post_type: ' . print_r( $query->get('post_type'), true), 'events' );
+		Logger::debug( 'getSlug: ' . $this->getSlug(), 'events' );
 		
 		// Only process main query on frontend for our post type
 		if (is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug()) {
-			error_log('Conditions failed, returning original posts');
+			Logger::debug( 'Conditions failed, returning original posts', 'events' );
 			return $posts;
 		}
 		
@@ -447,7 +446,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		if (!$scope) {
 			return $posts;
 		}
-		error_log('(WHx4) Scope: ' . $scope);
+		Logger::debug( 'Scope: ' . $scope, 'events' );
 		
 		// Resolve scope to get the target date(s)
 		$bounds = ScopedDateResolver::resolve($scope, ['mode' => 'DATE']);
@@ -459,8 +458,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		if (!$until) {
 			return $posts;
 		}
-		
-		//error_log('(WHx4) Posts: ' . print_r(array_map(fn($p) => ['ID' => $p->ID, 'title' => $p->post_title], $posts), true));
 
 		$expandedPosts = [];
 		
@@ -479,14 +476,13 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			
 			// Get instances within bounds
 			$instances = InstanceGenerator::fromPostId($post->ID, 500, false, $until);
-			error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($instances) . ' total instances');
+			Logger::debug( 'Found ' . count($instances) . ' total instances', 'events' );
 			
 			// Filter to only instances within bounds
 			$instances = array_filter($instances, fn($i) =>
 				$i['date_key'] >= $bounds['start'] && $i['date_key'] <= $bounds['end']
 			);
-			
-			error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($instances) . ' instances in scope');
+			Logger::debug( 'Found ' . count($instances) . ' instances in scope', 'events' );
         
 			// Clone post for each matching instance
 			foreach ($instances as $instance) {
@@ -502,7 +498,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			// TODO: Step 3 - clone post for each instance
 		}
 		
-		error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($expandedPosts) . ' unsorted expandedPosts');
+		Logger::debug( 'Found ' . count($expandedPosts) . ' unsorted expandedPosts', 'events' );
 		
 		// Sort by date/time
 		usort($expandedPosts, function($a, $b) {
@@ -511,7 +507,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			}
 			return $a->event_instance_datetime <=> $b->event_instance_datetime;
 		});
-		error_log('(WHx4 Event::expandRecurringInstances) Found ' . count($expandedPosts) . ' *sorted* expandedPosts');
+		Logger::debug( 'Found ' . count($expandedPosts) . ' *sorted* expandedPosts', 'events' );
 		
 		return $expandedPosts;
 	}

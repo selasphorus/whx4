@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\Events\Utils;
 
 use WP_Query;
+use atc\WXC\Logger;
 use atc\WXC\Utils\DateHelper;
 //use atc\WXC\Utils\RepeaterChangeDetector;
 use atc\WXC\Utils\PluginPaths;
@@ -344,8 +345,6 @@ class EventInstances
     // Revise or remove -- no longer using repeater rows for exclusions
     public static function handleExcludedDateRemovals( $postID ): void
     {
-        error_log( '=== class: EventInstances; method: handleExcludedDateRemovals ===' );
-
         if ( get_post_type( $postID ) !== 'whx4_event' ) {
             return;
         }
@@ -355,7 +354,7 @@ class EventInstances
             'whx4_events_excluded_dates',
             'whx4_events_exdate_date'
         );
-        error_log( 'removed: ' . print_r($removed,true) );
+        Logger::debug( 'removed: ' . print_r($removed,true), 'events' );
 
         $pending = [];
 
@@ -364,7 +363,7 @@ class EventInstances
                 $pending[] = $date;
             }
         }
-        error_log( 'pending: ' . print_r($pending,true) );
+        Logger::debug( 'pending: ' . print_r($pending,true), 'events' );
 
         if ( $pending ) {
             set_transient( "whx4_events_cleanup_{$postID}", $pending, 600 );

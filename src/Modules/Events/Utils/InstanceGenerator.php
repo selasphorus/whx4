@@ -4,6 +4,8 @@ namespace atc\WHx4\Modules\Events\Utils;
 
 use RRule\RRule; // RRule\RRule accepts any DateTimeInterface
 use DateTimeInterface; // "An interface: implemented by both DateTime and DateTimeImmutable"
+//
+use atc\WXC\Logger;
 use atc\WXC\Utils\DateHelper;
 use atc\WHx4\Modules\Events\Utils\EventInstances;
 
@@ -40,7 +42,7 @@ class InstanceGenerator
         try {
             $rule = new RRule( $rrule_string );
         } catch ( \Exception $e ) {
-            error_log( "RRULE parsing error: " . $e->getMessage() );
+            Logger::debug( "RRULE parsing error: " . $e->getMessage(), 'events' );
             return [];
         }
         

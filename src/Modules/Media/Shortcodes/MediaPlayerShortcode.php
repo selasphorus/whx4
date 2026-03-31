@@ -96,7 +96,7 @@ final class MediaPlayerShortcode implements ShortcodeInterface
     public function render(array $atts, ?string $content = null, string $tag = ''): string
     {
         $info = "";
-        #error_log('[AccountsShortcode] render() called');
+        #error_log('render() called');
         
         // Defaults
         $defaults = [
@@ -134,7 +134,7 @@ final class MediaPlayerShortcode implements ShortcodeInterface
         // Get filtered accounts
         $accounts = $this->resolveAccounts($atts);
         
-        #error_log('[AccountsShortcode] Accounts found: ' . count($accounts));
+        #error_log('Accounts found: ' . count($accounts));
         
         if (empty($accounts)) {
             return '<p>No accounts found matching the specified criteria.</p>';
@@ -152,7 +152,7 @@ final class MediaPlayerShortcode implements ShortcodeInterface
         
         $viewSpecs = ['kind' => 'partial', 'module' => 'accounting', 'post_type' => 'account'];
         
-        #error_log('[AccountsShortcode] About to render with group_by: ' . $groupMode);
+        #error_log('About to render with group_by: ' . $groupMode);
         
         // Branch based on grouping mode
         switch ($groupMode) {
@@ -224,11 +224,11 @@ final class MediaPlayerShortcode implements ShortcodeInterface
                 ],
             ];
         }
-        #error_log('[AccountsShortcode::resolveAccounts] Filters: ' . print_r($filters, true));
+        #error_log('Filters: ' . print_r($filters, true));
         
         $query = new \WP_Query($filters);
         
-        #error_log('[AccountsShortcode::resolveAccounts] Query found: ' . $query->found_posts . ' posts');
+        #error_log('Query found: ' . $query->found_posts . ' posts');
         
         return $query->posts;
     }

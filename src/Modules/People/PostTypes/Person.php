@@ -3,6 +3,7 @@
 namespace atc\WHx4\Modules\People\PostTypes;
 
 use atc\WXC\PostTypes\PostTypeHandler;
+use atc\WXC\Logger;
 
 class Person extends PostTypeHandler
 {
@@ -169,13 +170,11 @@ class Person extends PostTypeHandler
 
 	public function getPersonDates(?\WP_Post $post = null, $styled = false): string
 	{
-		//error_log( '=== Person::getPersonDates() ===' );
 		$info = ""; // init
 
         $p = $post ?? $this->getPost();
         if ( empty($p) ) { return "no post found"; } // $info
         $pID = $p->ID;
-		//error_log( 'post_id: ' . $pID );
 
 		// Try ACF get_field instead?
 		$birth_year = get_post_meta( $pID, 'birth_year', true );

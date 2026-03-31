@@ -9,7 +9,6 @@ final class AddressFields implements FieldGroupInterface
 {
     public static function register(): void
     {
-        //error_log( '=== AddressFields: register()) ===' );
         if ( !function_exists('acf_add_local_field_group') ) return;
 
         //use atc\WHx4\Migrations\FieldKeyMigrator;
