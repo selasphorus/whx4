@@ -437,7 +437,7 @@ class MediaDisplay
                 'player'   => '',
                 'status'   => 'N/A for this position',
                 'position' => (string) $position,
-                'ts_info'  => $tsInfo,
+                //'ts_info'  => $tsInfo,
             ];
         }
 
@@ -649,7 +649,7 @@ class MediaDisplay
             'player'   => $info,
             'status'   => $playerStatus,
             'position' => (string) $position,
-            'ts_info'  => $tsInfo,
+            //'ts_info'  => $tsInfo,
         ];
     }
 
