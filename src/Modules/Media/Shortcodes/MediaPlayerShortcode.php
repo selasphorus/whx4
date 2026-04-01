@@ -23,7 +23,7 @@ function display_media_player( $atts = array() )
 	// TS/logging setup
 	$do_ts = devmode_active( array("sdg", "media") );
 	$do_log = false;
-	wxc_log( "divline2", $do_log );
+	wxc_log( "divline2");
 
 	// Init vars
 	$info = "";

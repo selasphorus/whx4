@@ -70,7 +70,7 @@ class GroupEntity extends PostTypeHandler
 		// TS/logging setup
 		$do_ts = Environment::devmode( array("whx4", "people") );
 		$do_log = false;
-		wxc_log( "divline2", $do_log );
+		wxc_log( "divline2");
 
 		// Init vars
 		$info = "";
@@ -215,7 +215,7 @@ class GroupEntity extends PostTypeHandler
 
 		}
 
-		if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+		//if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 
 		// Return info for display
 		return $info;
@@ -244,7 +244,7 @@ class GroupEntity extends PostTypeHandler
 
 		$info .= displayGroupPersonnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
 
-		if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
+		//if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 
 		return $info;
 	}

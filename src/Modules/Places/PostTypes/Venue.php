@@ -40,7 +40,7 @@ class Venue extends PostTypeHandler
 		$do_ts = devmode_active( array("whx4", "venues") );
 		$do_log = false;
 		$fcn_id = "[whx4-get_cpt_venue_content]&nbsp;";
-		wxc_log( "divline2", $do_log );
+		wxc_log( "divline2");
 
 		// Init vars
 		$arr_info = array(); // WIP --
