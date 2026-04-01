@@ -67,7 +67,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         $this->registerScopeFilter();
         
         // Expand instances after query runs
-        add_filter('the_posts', [$this, 'expandRecurringInstances'], 999, 2);
+        //add_filter('the_posts', [$this, 'expandRecurringInstances'], 999, 2);
+        add_action('pre_get_posts', [$this, 'maybeHookExpansion'], 10, 1);
 
 		add_action( 'acf/save_post', [ $this, 'generateRruleFromFields' ], 20 );
 		//add_filter( 'acf/prepare_field/name=whx4_events_recurrence_human', [ $this, 'addRecurrencePreview' ] );
@@ -425,19 +426,36 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		return $field;
 	}
 	
-	/****** START WIP 02/17/26 ******/
+	/****** WIP 04/01/26 ******/
+	
+	public function maybeHookExpansion(\WP_Query $query): void
+	{
+		$postTypes = (array) $query->get('post_type');
+		$isEventQuery = in_array('event', $postTypes, true)
+			|| $query->is_post_type_archive('event')
+			|| $query->get('event_category'); // if you use a custom taxonomy
+	
+		if ($isEventQuery) {
+			add_filter('the_posts', [$this, 'expandRecurringInstances'], 999, 2);
+		}
+	}
 	
 	public function expandRecurringInstances(array $posts, \WP_Query $query): array
 	{
-		Logger::debug( 'expandRecurringInstances called with ' . count($posts) . ' posts', 'events' );
-		Logger::debug( 'expandRecurringInstances called - is_admin: ' . (is_admin() ? 'yes' : 'no'), 'events' );
-		Logger::debug( 'is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'), 'events' );
-		Logger::debug( 'post_type: ' . print_r( $query->get('post_type'), true), 'events' );
-		Logger::debug( 'getSlug: ' . $this->getSlug(), 'events' );
+		//Logger::debug( '[' . count($posts) . '] posts', 'events' );
+		//Logger::debug( 'is_admin: ' . (is_admin() ? 'yes' : 'no'), 'events' );
+		//Logger::debug( 'is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'), 'events' );
+		//Logger::debug( 'post_type: ' . print_r( $query->get('post_type'), true), 'events' );
+		//Logger::debug( 'getSlug: ' . $this->getSlug(), 'events' );
+		
+		$hasEvents = array_filter($posts, fn($post) => $post->post_type === 'event');
+		if (empty($hasEvents)) {
+			return $posts;
+		}
 		
 		// Only process main query on frontend for our post type
-		if (is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug()) {
-			Logger::debug( 'Conditions failed, returning original posts', 'events' );
+		if ( is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug() ) {
+			//Logger::debug( 'Conditions failed, returning original posts', 'events' );
 			return $posts;
 		}
 		
