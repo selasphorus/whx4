@@ -426,18 +426,16 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		return $field;
 	}
 	
-	/****** WIP 04/01/26 ******/
-	
+	/****** WIP 04/01/26 ******/	
 	public function maybeHookExpansion(\WP_Query $query): void
 	{
-		$postTypes = (array) $query->get('post_type');
-		$isEventQuery = in_array('event', $postTypes, true)
-			|| $query->is_post_type_archive('event')
+		$isEventQuery = in_array('event', (array) $query->get('post_type'), true)
+			|| $query->is_post_type_archive('event');
 			|| $query->get('event_category'); // if you use a custom taxonomy
 	
 		if ($isEventQuery && !has_filter('the_posts', [$this, 'expandRecurringInstances'])) {
 			add_filter('the_posts', [$this, 'expandRecurringInstances'], 999, 2);
-		}		
+		}
 	}
 	
 	public function expandRecurringInstances(array $posts, \WP_Query $query): array
