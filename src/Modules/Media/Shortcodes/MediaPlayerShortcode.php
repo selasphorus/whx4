@@ -20,10 +20,7 @@ use atc\WXC\Contracts\ShortcodeInterface;
 add_shortcode('display_media_player', 'display_media_player');
 function display_media_player( $atts = array() ) 
 {
-	// TS/logging setup
-	$do_ts = devmode_active( array("sdg", "media") );
-	$do_log = false;
-	wxc_log( "divline2");
+	$logCtx = ['whx4', 'media'];
 
 	// Init vars
 	$info = "";

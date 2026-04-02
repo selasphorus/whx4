@@ -31,16 +31,12 @@ class Venue extends PostTypeHandler
 
     // WIP!
     // TODO: generalize beyond NYCAGO-specific usage
-	function get_cpt_venue_content( $post_id = null ) {
-
+	function get_cpt_venue_content( $post_id = null )
+	{
 		// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 		// TODO: refine overall get_cpt_XXX_content setup to facilitate designation of content to display before and/or after main post_content
 
-		// TS/logging setup
-		$do_ts = devmode_active( array("whx4", "venues") );
-		$do_log = false;
-		$fcn_id = "[whx4-get_cpt_venue_content]&nbsp;";
-		wxc_log( "divline2");
+		$logCtx = ['whx4', 'venues'];
 
 		// Init vars
 		$arr_info = array(); // WIP --

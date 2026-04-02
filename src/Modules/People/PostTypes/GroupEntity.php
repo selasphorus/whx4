@@ -67,10 +67,7 @@ class GroupEntity extends PostTypeHandler
 	// Display the titles and personnel for a given subgroup or groups
 	protected function displayGroupPersonnel ( $args = array() )
 	{
-		// TS/logging setup
-		$do_ts = Environment::devmode( array("whx4", "people") );
-		$do_log = false;
-		wxc_log( "divline2");
+		$logCtx = ['whx4', 'people'];
 
 		// Init vars
 		$info = "";
