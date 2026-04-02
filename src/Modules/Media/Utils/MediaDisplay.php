@@ -586,25 +586,22 @@ class MediaDisplay
         // TODO: Consider moving CTA logic to a dedicated class/filter.
         $showCta = get_post_meta($postId, 'show_cta', true);
         $cta     = '';
+        // Don't show CTA twice when both audio and video are present
+        if ( $multimedia && $mediaFormat === 'audio' ) { $showCta = false; }
 
         if ($mediaPlayerActive && $showCta) {
             $statusMessage = self::getStatusMessage($postId, 'webcast_status');
 
-            // Don't show CTA twice when both audio and video are present
-            $suppressCta = ($multimedia && $mediaFormat === 'audio');
-
-            if (!$suppressCta) {
-                $cta .= '<div class="cta">';
-                $cta .= '<h2>Support Saint Thomas Church</h2>';
-                $cta .= '<a href="https://www.saintthomaschurch.org/give/" target="_blank" class="button">Support Saint Thomas</a>&nbsp;';
-                $cta .= '<br />';
-                $cta .= '<h3>You can also text "give" to <a href="sms://+18559382085">(855) 938-2085</a></h3>';
-                $cta .= '</div>';
-            }
+			$cta .= '<div class="cta">';
+			$cta .= '<h2>Support Saint Thomas Church</h2>';
+			$cta .= '<a href="https://www.saintthomaschurch.org/give/" target="_blank" class="button">Support Saint Thomas</a>&nbsp;';
+			$cta .= '<br />';
+			$cta .= '<h3>You can also text "give" to <a href="sms://+18559382085">(855) 938-2085</a></h3>';
+			$cta .= '</div>';
 
             if ($statusMessage !== '' && $position !== 'banner') {
                 $info .= '<p class="message-info">' . esc_html($statusMessage) . '</p>';
-                if (!$suppressCta && get_post_type($postId) !== 'sermon' && $postId !== 232540) {
+                if ( get_post_type($postId) !== 'sermon' && $postId !== 232540) {
                     $info .= $cta;
                 }
             }
@@ -631,7 +628,7 @@ class MediaDisplay
             }
 
             // --- CTA below player ---
-            if ($position !== 'banner' && !$suppressCta && get_post_type($postId) !== 'sermon' && $postId !== 232540) {
+            if ($position !== 'banner' && $showCta && get_post_type($postId) !== 'sermon' && $postId !== 232540) {
                 $info .= $cta;
             }
 
