@@ -48,7 +48,7 @@ class Venue extends PostTypeHandler
 		if ( $post_id === null ) { return false; }
 
 		$post_meta = get_post_meta( $post_id );
-		//$ts_info .= $fcn_id."<pre>post_meta: ".print_r($post_meta, true)."</pre>";
+		//$ts_info .= "<pre>post_meta: ".print_r($post_meta, true)."</pre>";
 
 
 		// Organs
@@ -147,7 +147,7 @@ class Venue extends PostTypeHandler
 
 				$info .= "<h3>Instruments</h3>";
 				$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
-				$ts_info .= $fcn_id."<pre>instruments: ".print_r($instruments, true)."</pre>";
+				$ts_info .= "<pre>instruments: ".print_r($instruments, true)."</pre>";
 
 				foreach ($instruments AS $instrument_id) {
 					$instrument_title = get_the_title($instrument_id);
