@@ -156,7 +156,7 @@ class Person extends PostTypeHandler
 		// TODO: rethink this setup -- do we really need to always return the array? Probably better to add an optional arr return version for TS if needed
 		//return $displayName;
 		$arr_info['info'] = $displayName;
-		if ( $do_ts ) { $arr_info['ts_info'] = $ts_info; } else { $arr_info['ts_info'] = null; }
+		$arr_info['ts_info'] = $ts_info;
 
 		return $arr_info;
 	}

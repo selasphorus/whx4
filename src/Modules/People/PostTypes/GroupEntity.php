@@ -212,8 +212,6 @@ class GroupEntity extends PostTypeHandler
 
 		}
 
-		//if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
-
 		// Return info for display
 		return $info;
 
@@ -222,7 +220,7 @@ class GroupEntity extends PostTypeHandler
 	//add_shortcode('group_personnel', 'whx4_group_personnel');
 	protected function whx4_group_personnel ( $atts = array() )
 	{
-		$do_ts = Environment::devmode( array("whx4", "people") );
+		$logCtx = ['whx4', 'people'];
 		$info = "";
 		$ts_info = "";
 
@@ -240,8 +238,6 @@ class GroupEntity extends PostTypeHandler
 		if ( $subgroup_ids ) { $subgroup_ids = array_map( 'intval', wxc_att_explode( $subgroup_ids ) ); }
 
 		$info .= displayGroupPersonnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
-
-		//if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
 
 		return $info;
 	}
