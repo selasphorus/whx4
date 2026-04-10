@@ -18,27 +18,26 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     use AppliesScopeToMainQuery;
     public const DATE_META = 'whx4_events_start_date';
     
-    public function __construct(?\WP_Post $post = null)
+    protected static function defineConfig(): array
     {
 		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
 		$slug = $this->resolveSlug();
-
-		$config = [
-			'slug'        => $slug,
-			'rewrite' => ['slug' => 'whx4_calendar'], // TODO: make conditional upon $slug
-			'labels'      => [
-				'name' => 'WHx4 Events',
-				'singular_name' => 'WHx4 Event',
-			],
-            'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
-			'taxonomies' => [ 'event_category', 'event_tag', 'program_label', 'admin_tag' ],
-			'menu_icon' => 'dashicons-calendar-alt',
-			'capability_type' => ['event','events'],
-		];
-
-		parent::__construct( $config, $post );
-	}
-
+        return [
+            'slug'             => $slug,
+			'rewrite'          => ['slug' => 'whx4_calendar'], // TODO: make conditional upon $slug
+			'menu_icon'        => 'dashicons-calendar-alt',
+			'capability_type'  => ['event','events'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
+			'taxonomies'       => ['event_category', 'event_tag', 'program_label'],
+            'default_taxonomy' => 'event_category',
+            'labels'           => [
+				'name'         => 'WHx4 Events',
+				'singular_name'=> 'WHx4 Event',
+            ],
+			//'hierarchical' => true, // tbc
+        ];
+    }
+    
 	public function boot(): void
 	{
 	    parent::boot(); // Optional if you add shared logic later

@@ -7,24 +7,13 @@ use atc\WXC\Logger;
 
 class Snippet extends PostTypeHandler
 {
-    public function __construct(?\WP_Post $post = null)
+    protected static function defineConfig(): array
     {
-		$config = [
-			'slug'        => 'snippet',
-			'plural_slug' => 'snippets',
-			'labels'      => [
-				//'add_new_item' => 'Summon New Monster',
-				//'not_found' => 'No people loitering nearby',
-			],
-			//'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
-			//'capability_type' => ['snippet','snippets'],
-			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
-			//'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
-			//'hierarchical' => true,
-		];
-
-		parent::__construct( $config, $post );
-	}
+        return [
+            'slug'             => 'snippet',
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
+        ];
+    }
 
 	public function boot(): void
 	{

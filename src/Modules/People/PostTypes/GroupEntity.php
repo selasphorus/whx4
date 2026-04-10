@@ -8,24 +8,23 @@ use atc\WXC\PostTypes\PostTypeHandler;
 
 class GroupEntity extends PostTypeHandler
 {
-    public function __construct(?\WP_Post $post = null)
+    protected static function defineConfig(): array
     {
-		$config = [
-			'slug'        => 'group',
-			//'plural_slug' => 'groups',
-			'labels'      => [
+        return [
+            'slug'             => 'group',
+            //'plural_slug'      => 'groups',
+			'rewrite'          => ['slug' => 'ledger'],
+            'menu_icon'        => 'dashicons-networking', // could use dashicons-groups instead
+			'capability_type'  => ['group','groups'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
+			'taxonomies'       => ['group_category', 'admin_tag'],
+            'default_taxonomy' => 'group_category',
+            'labels'           => [
 				'add_new_item' => 'Gather a new Group',
-				//'not_found'    => 'No groups have yet come together',
-			],
-			'menu_icon'   => 'dashicons-networking', // could use dashicons-groups instead
-			'capability_type' => ['group','groups'],
-			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
-			'taxonomies' => [ 'group_category', 'admin_tag' ],
+            ],
 			'hierarchical' => true,
-		];
-
-		parent::__construct( $config, $post );
-	}
+        ];
+    }
 
 	public function boot(): void
 	{

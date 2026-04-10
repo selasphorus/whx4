@@ -6,22 +6,19 @@ use atc\WXC\PostTypes\PostTypeHandler;
 
 class Address extends PostTypeHandler
 {
-    public function __construct(?\WP_Post $post = null) {
-		$config = [
-			'slug'        => 'address',
-			'plural_slug' => 'addresses',
-			/*'labels'      => [
-				//'add_new_item' => 'Summon New Monster',
-				//'not_found' => 'No people loitering nearby',
-			],*/
-			'menu_icon'   => 'dashicons-location-alt',
-			'capability_type' => ['place','places'],
-			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
-			//'taxonomies' => [ 'person_category', 'person_title', 'admin_tag' ],
-		];
-
-		parent::__construct( $config, $post );
-	}
+    protected static function defineConfig(): array
+    {
+        return [
+            'slug'             => 'address',
+            'plural_slug'      => 'addresses',
+			//'rewrite'          => ['slug' => 'ledger'],
+            'menu_icon'        => 'dashicons-location-alt',
+			'capability_type'  => ['place','places'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
+			//'taxonomies'       => ['group_category'],
+            //'default_taxonomy' => 'group_category',
+        ];
+    }
 
     public function boot(): void
     {

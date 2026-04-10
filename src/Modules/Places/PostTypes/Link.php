@@ -6,22 +6,21 @@ use atc\WXC\PostTypes\PostTypeHandler;
 
 class Link extends PostTypeHandler
 {
-	public function __construct(?\WP_Post $post = null) {
-		$config = [
-			'slug'        => 'link',
-			//'plural_slug' => 'links',
-			/*'labels'      => [
-				//'add_new_item' => 'Summon New Monster',
-				//'not_found' => 'No people loitering nearby',
-			],*/
-			'menu_icon'   => 'dashicons-admin-links',
-			'capability_type' => ['place','places'],
-			//'supports' => ['title', 'editor'],
-			'taxonomies' => [ 'link_category' ],
-		];
-
-		parent::__construct( $config, $post );
-	}
+	protected static function defineConfig(): array
+    {
+        return [
+            'slug'             => 'link',
+            'menu_icon'        => 'dashicons-admin-links',
+			'capability_type'  => ['place','places'],
+            //'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
+			'taxonomies'       => ['link_category'],
+            'default_taxonomy' => 'link_category',
+            'labels'           => [
+				//'add_new_item' => 'Gather a new Group',
+            ],
+			//'hierarchical' => true,
+        ];
+    }
 
     public function boot(): void
     {

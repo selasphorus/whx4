@@ -6,23 +6,20 @@ use atc\WXC\PostTypes\PostTypeHandler;
 
 class Project extends PostTypeHandler
 {
-    public function __construct(?\WP_Post $post = null) {
-        $config = [
-            'slug'        => 'project',
-            //'plural_slug' => 'projects',
-            /*'labels'      => [
-                //'name' => 'SpecialName',
-                //'menu_name' => 'SpecialName',
-            ],*/
-            //'rewrite' => ['slug' => 'whimsy'],
-            'menu_icon'   => 'dashicons-buddicons-replies', // alt could use dashicons-welcome-write-blog
-            'capability_type' => ['project','projects'],
-            'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
-            //'hierarchical' => false,
-            'taxonomies' => [ 'project_category' ], //'admin_tag',
+    protected static function defineConfig(): array
+    {
+        return [
+            'slug'             => 'project',
+            'menu_icon'        => 'dashicons-buddicons-replies', // alt could use dashicons-welcome-write-blog
+			'capability_type'  => ['project','projects'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
+			'taxonomies'       => ['project_category'],
+            'default_taxonomy' => 'project_category',
+            'labels'           => [
+				//'add_new_item' => 'Gather a new Group',
+            ],
+			//'hierarchical' => true,
         ];
-
-        parent::__construct( $config, $post );
     }
 
     public function boot(): void

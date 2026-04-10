@@ -7,29 +7,25 @@ use atc\WXC\Logger;
 
 class Person extends PostTypeHandler
 {
-    public function __construct(?\WP_Post $post = null)
+    protected static function defineConfig(): array
     {
-		$config = [
-			'slug'        => 'person',
-			'plural_slug' => 'people',
-			'labels'      => [
-				//'add_new_item' => 'Summon New Monster',
-				'not_found' => 'No people loitering nearby',
-			],
-			'menu_icon'   => 'dashicons-groups', // could use dashicons-id-alt instead
-			'capability_type' => ['person','people'],
-			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
-			'taxonomies' => [ 'person_category', 'person_role' ], //, 'admin_tag'
-			//'hierarchical' => true,
-		];
+        return [
+            'slug'             => 'person',
+            'plural_slug'      => 'people',
+            'menu_icon'        => 'dashicons-groups',
+            'capability_type'  => ['person', 'people'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
+            'taxonomies'       => ['person_category', 'person_role'],
+            'default_taxonomy' => 'person_category',
+            'labels'           => [
+                'not_found' => 'No people loitering nearby',
+            ],
+        ];
+    }
 
-		parent::__construct( $config, $post );
-	}
-
-	public function boot(): void
+    public function boot(): void
 	{
-	    parent::boot(); // Optional if you add shared logic later
-	    
+	    parent::boot(); // Optional -- in case we add shared logic later
 	    self::registerTitleDefaults(static::getSlug(), [
 			'line_breaks'   => true,
 			'show_subtitle' => true,
@@ -39,8 +35,6 @@ class Person extends PostTypeHandler
 		]);
 	}
 
-	//
-	//public function getCustomTitleArgs(): array
 	public function getCustomTitleArgs( \WP_Post $post ): array
 	{
 		$postId = $post->ID;

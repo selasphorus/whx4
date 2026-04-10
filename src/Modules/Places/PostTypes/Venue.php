@@ -7,22 +7,21 @@ use atc\WXC\PostTypes\PostTypeHandler;
 
 class Venue extends PostTypeHandler
 {
-	public function __construct(?\WP_Post $post = null) {
-		$config = [
-			'slug'        => 'venue',
-			//'plural_slug' => 'venues',
-			/*'labels'      => [
-				//'add_new_item' => 'Summon New Monster',
-				'not_found' => 'Nowhere to go',
-			],*/
-			'menu_icon'   => 'dashicons-location', // could use dashicons-admin-multisite instead
-			'capability_type' => ['place','places'],
-			'supports' => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
-			'taxonomies' => ['venue_category'], //, 'admin_tag'
-		];
-
-		parent::__construct( $config, $post );
-	}
+	protected static function defineConfig(): array
+    {
+        return [
+            'slug'             => 'venue',
+            'menu_icon'        => 'dashicons-location', // could use dashicons-admin-multisite instead
+			'capability_type'  => ['place','places'],
+            'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
+			'taxonomies'       => ['venue_category'],
+            'default_taxonomy' => 'venue_category',
+            'labels'           => [
+				//'add_new_item' => 'Gather a new Group',
+            ],
+			//'hierarchical' => true,
+        ];
+    }
 
     public function boot(): void
     {
