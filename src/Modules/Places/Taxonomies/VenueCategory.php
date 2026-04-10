@@ -6,13 +6,13 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class VenueCategory extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'venue_category',
             'plural_slug'  => 'venue_categories',
             'object_types' => ['venue'],
             'hierarchical' => true,
-        ], $term);
+        ];
     }
 }

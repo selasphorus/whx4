@@ -6,12 +6,13 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class PersonTag extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'person_tag',
+            'plural_slug'  => 'person_tags',
             'object_types' => ['person'],
             'hierarchical' => false,
-        ], $term);
+        ];
     }
 }

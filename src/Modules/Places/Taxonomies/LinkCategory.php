@@ -7,13 +7,13 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 // TODO: figure out why this taxonomy isn't showing up (WIP 09/01/25)
 class LinkCategory extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'link_category',
             'plural_slug'  => 'link_categories',
-            'object_types' => ['link'], // array of post types (by slug) to which this taxonomy applies
+            'object_types' => ['link'],
             'hierarchical' => true,
-        ], $term);
+        ];
     }
 }

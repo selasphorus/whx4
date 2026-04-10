@@ -6,13 +6,13 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class EventCategory extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'event_category', // EM slug: event-categories -- TODO: figure out migration plan
             'plural_slug'  => 'event_categories',
             'object_types' => ['event'],
             'hierarchical' => true,
-        ], $term);
+        ];
     }
 }

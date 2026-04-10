@@ -6,13 +6,14 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class PersonRole extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'person_role',
+            'plural_slug'  => 'person_roles',
             'object_types' => ['person'],
             'hierarchical' => true,
             'meta_box_cb'  => false,
-        ], $term);
+        ];
     }
 }

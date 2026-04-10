@@ -6,13 +6,13 @@ use atc\WXC\Taxonomies\TaxonomyHandler;
 
 class ProjectCategory extends TaxonomyHandler
 {
-    public function __construct(\WP_Term|null $term = null)
+    protected static function defineConfig(): array
     {
-        parent::__construct([
+        return [
             'slug'         => 'project_category',
             'plural_slug'  => 'project_categories',
-            'object_types' => ['project'], // array of post types (by slug) to which this taxonomy applies
+            'object_types' => ['project'],
             'hierarchical' => true,
-        ], $term);
+        ];
     }
 }
