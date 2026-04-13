@@ -50,14 +50,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			//'append'         => 'TEST: ',
 			//'called_by'      => 'Event::boot',
 		]);
-		/*
-		$this->registerTitleDefaults($this->getSlug(), [
-			'line_breaks'   => true,
-			'show_subtitle' => true,
-			'hlevel_sub'    => 4,
-			//'called_by'      => 'Event::boot',
-		]);
-		*/
 		
 		//
 		EventRenderer::register();
@@ -148,26 +140,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
             'default_view'    => 'list',
         ];
     }
-
-	// WIP re transition from EM
-    /*
-    public function getSlug(): string
-    {
-        $slug = EnvSwitch::value('event', [
-            [
-                'when' => static fn() => Plugins::classExists('\EM_Event')
-                    || Plugins::isActive('events-manager/events-manager.php'),
-                'then' => 'whx4_event',
-            ],
-            [
-                'when' => static fn() => Plugins::isActive('the-events-calendar/the-events-calendar.php'),
-                'then' => 'whx4_event',
-            ],
-        ]);
-
-        // Allow explicit override if needed. -- Example: add_filter('whx4/events/event_slug', fn() => 'my_event');
-        return (string) apply_filters('whx4/events/event_slug', $slug);
-    }*/
 
 	// Obsolete? TBC
 	public function adjustQueryArgs(array $args, array $params): array
@@ -339,7 +311,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
         };
 
         return [
-            'post_type'      => $this->getSlug(),
+            'post_type'      => static::getSlug(),
             'post_status'    => 'publish',
             'meta_key'       => $a['orderby'] === 'start' ? 'whx4_events_start' : null,
             'meta_query'     => $meta ?: null,
@@ -443,7 +415,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		//Logger::debug( 'is_admin: ' . (is_admin() ? 'yes' : 'no'), 'events' );
 		//Logger::debug( 'is_main_query: ' . ($query->is_main_query() ? 'yes' : 'no'), 'events' );
 		//Logger::debug( 'post_type: ' . print_r( $query->get('post_type'), true), 'events' );
-		//Logger::debug( 'getSlug: ' . $this->getSlug(), 'events' );
+		//Logger::debug( 'getSlug: ' . static::getSlug(), 'events' );
 		
 		$hasEvents = array_filter($posts, fn($post) => $post->post_type === 'event');
 		if (empty($hasEvents)) {
@@ -451,7 +423,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		}
 		
 		// Only process main query on frontend for our post type
-		if ( is_admin() || !$query->is_main_query() || $query->get('post_type') !== $this->getSlug() ) {
+		if ( is_admin() || !$query->is_main_query() || $query->get('post_type') !== static::getSlug() ) {
 			//Logger::debug( 'Conditions failed, returning original posts', 'events' );
 			return $posts;
 		}
