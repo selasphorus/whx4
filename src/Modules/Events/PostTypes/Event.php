@@ -21,7 +21,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     protected static function defineConfig(): array
     {
 		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
-		$slug = $this->resolveSlug();
+		$slug = static::resolveSlug();
         return [
             'slug'             => $slug,
 			'rewrite'          => ['slug' => 'whx4_calendar'], // TODO: make conditional upon $slug
@@ -73,9 +73,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	 * Decide the CPT slug at runtime, with legacy + new filters.
 	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
 	 */
-	protected function resolveSlug(): string
+	protected static function resolveSlug(): string
 	{
-		$base = $this->conflictingEventsPluginActive() ? 'whx4_event' : 'event';
+		$base = static::conflictingEventsPluginActive() ? 'whx4_event' : 'event';
 
 		// New, clearer filter (preferred going forward)
 		$slug = (string) apply_filters('whx4/events/event_slug', $base);
@@ -84,6 +84,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		//$slug = (string) apply_filters('whx4_events_post_type_slug', $slug);
 
 		return $slug;
+		//return (string) apply_filters('whx4/events/event_slug', $base); // wip
 	}
 	
 	/**
@@ -119,8 +120,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	protected static function getQuerySpec(): array
     {
         return [
-            //'cpt' => $this->resolveSlug(),?
-            'cpt' => 'whx4_event',
+            //'cpt' => 'whx4_event',
+            'cpt'      => static::getSlug(),
             'date_meta' => [
                 // TODO/WIP: rethink the default and field types
                 // Current storage model: separate DATE fields; revisit DATETIME later
@@ -535,40 +536,18 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 	*/
 
-	/**
-	 * Keep this tiny and fast: check a couple of high-signal conditions.
-	 */
-	private function conflictingEventsPluginActive(): bool
+	private static function conflictingEventsPluginActive(): bool
 	{
-		// Fast class check(s)
-		if ( class_exists('\EM_Event') ) {
+		if (class_exists('\EM_Event')) {
 			return true;
 		}
-
-		if ( ! function_exists('is_plugin_active') ) {
+	
+		if (!function_exists('is_plugin_active')) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-
-		// File checks (adjust to your targets)
-		if ( is_plugin_active('events-manager/events-manager.php') ) {
-			return true;
-		}
-
-		if ( is_plugin_active('the-events-calendar/the-events-calendar.php') ) {
-			return true;
-		}
-
-		// Multisite network-active check (optional, cheap)
-		/*
-		if ( is_multisite() ) {
-			$network = (array) get_site_option('active_sitewide_plugins', []);
-			if ( isset($network['events-manager/events-manager.php']) || isset($network['the-events-calendar/the-events-calendar.php']) ) {
-				return true;
-			}
-		}
-		*/
-
-		return false;
+	
+		return is_plugin_active('events-manager/events-manager.php')
+			|| is_plugin_active('the-events-calendar/the-events-calendar.php');
 	}
 	
 	// WIP
