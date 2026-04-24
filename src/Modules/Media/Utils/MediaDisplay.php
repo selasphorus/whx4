@@ -304,7 +304,7 @@ class MediaDisplay
                     $imgClass .= ' is_singular';
                     $imgTag    = get_the_post_thumbnail($postId, $imgSize);
                 } else {
-                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment']);
+                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment ' . esc_attr($imgSize)]);
                 }
 
                 $imgHtml  = '<div class="' . esc_attr($imgClass) . '">';
@@ -316,7 +316,7 @@ class MediaDisplay
 
                 // Archive / excerpt contexts
                 if ($imgID) {
-                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment']);
+                    $imgTag = wp_get_attachment_image($imgID, $imgSize, false, ['class' => 'featured_attachment ' . esc_attr($imgSize)]);
                 } elseif (function_exists('getPlaceholderImg')) {
                     $imgTag = getPlaceholderImg();
                 }
