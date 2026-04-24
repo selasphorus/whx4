@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace atc\WHx4\Modules\Events\Display;
 
+use atc\WXC\Logger;
 use atc\WXC\Display\ContentRenderer;
+use atc\WHx4\Modules\Events\PostTypes\Event;
 
 /**
  * Renderer for the whx4_event post type.
@@ -20,28 +22,8 @@ use atc\WXC\Display\ContentRenderer;
  */
 final class EventRenderer extends ContentRenderer
 {
+    protected static string $handlerClass = Event::class;
     private const META_START = 'whx4_events_start';
-
-    // -------------------------------------------------------------------------
-    // Registration
-    // -------------------------------------------------------------------------
-
-    /**
-     * Register this renderer via the WXC filter so ContentRenderer::make()
-     * can find it automatically.
-     *
-     * Call this from the Events module boot sequence:
-     *   EventRenderer::register();
-     */
-    public static function register(): void
-    {
-        add_filter('wxc_content_renderer_class', static function (?string $class, string $postType): ?string {
-            if ($postType === 'whx4_event' || $postType === 'event') {
-                return static::class;
-            }
-            return $class;
-        }, 10, 2);
-    }
 
     // -------------------------------------------------------------------------
     // Override points
