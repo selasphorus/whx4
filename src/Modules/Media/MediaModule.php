@@ -6,9 +6,6 @@ use atc\WXC\Module as BaseModule;
 use atc\WXC\Shortcodes\ShortcodeManager;
 use atc\WHx4\Modules\Media\Utils\MediaDisplay;
 
-//use atc\WHx4\Modules\People\PostTypes\Person;
-//use atc\WHx4\Modules\People\PostTypes\GroupEntity;
-
 final class MediaModule extends BaseModule
 {
     public function boot(): void
@@ -17,15 +14,7 @@ final class MediaModule extends BaseModule
         parent::boot();
 
         ShortcodeManager::add(Shortcodes\MediaPlayerShortcode::class);
-        //ShortcodeManager::add(Shortcodes\AccountsShortcode::class);
         
-        /*add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
-			if ($image !== '') {
-				return $image;
-			}
-			return MediaDisplay::renderPostImage($post, $size, $atts) ?? '';
-		}, 10, 4);*/
-		
 		add_filter('wxc_post_image', function(string $image, \WP_Post $post, string $size, array $atts): string {
 			if ($image !== '') {
 				return $image;
@@ -42,8 +31,6 @@ final class MediaModule extends BaseModule
     public function getPostTypeHandlerClasses(): array
     {
         return [
-            //Person::class,
-            //GroupEntity::class,
         ];
     }
 }
