@@ -1287,7 +1287,7 @@ function whx4_register_field_groups() {
         'show_in_rest' => 0,
     ) );
 
-    // WHx4: Personnel & Program (group_whx4_pp)
+    // WHx4: Personnel & Program (group_whx4_pnp)
     acf_add_local_field_group( array(
         'key' => 'group_whx4_pnp',
         //'key' => 'group_5efa556eba291',
