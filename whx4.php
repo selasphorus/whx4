@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       WHx4 plugin (v1)
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
- * Dependencies:	  Requires STC for various utility functions
- * Requires Plugins:  stc
+ * Dependencies:	  TBD
+ * Requires Plugins:  
  * Version:           1.032626.1
  * Author:            atc
  * License:           GPL-2.0-or-later
