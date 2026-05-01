@@ -210,5 +210,5 @@ function whx4_find_post_image(
     string $format = 'excerpt',
     array|string $sources = ['featured_image', 'gallery']
 ): ?array {
-    // WIP
+    return getPostImage($post, $format, $sources);
 }
