@@ -196,3 +196,19 @@ function whx4_redirect() {
         exit;
     }*/
 }
+
+// Global Wrapper Functions for theme access
+
+// TMP to aid with transition to OOP
+function whx4_post_image( array $args = [] ): string|int|null
+{
+    return sdg_post_thumbnail($args);
+}
+
+function whx4_find_post_image(
+    \WP_Post|int $post,
+    string $format = 'excerpt',
+    array|string $sources = ['featured_image', 'gallery']
+): ?array {
+    // WIP
+}
