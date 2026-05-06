@@ -10,13 +10,13 @@ if ( !function_exists( 'add_action' ) ) {
 
 /*********** Functions pertaining to CPT: PERSON ***********/
 
-function get_person_display_name ( $args = array() ) {
+function getPersonDisplayName ( $args = array() ) {
 	
 	// TS/logging setup
 	$do_ts = devmode_active( array("whx4", "people") ); 
     $do_log = false;
     sdg_log( "divline2", $do_log );
-    sdg_log( "function called: get_person_display_name", $do_log );
+    sdg_log( "function called: getPersonDisplayName", $do_log );
 	
 	// Init vars
 	$arr_info = array();
@@ -40,7 +40,7 @@ function get_person_display_name ( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
 	
-	$ts_info .= "<!-- [get_person_display_name] args: ".print_r($args, true)." -->";
+	$ts_info .= "<!-- [getPersonDisplayName] args: ".print_r($args, true)." -->";
 	
 	$special_name = get_field('special_name',$person_id);
 	
