@@ -21,7 +21,6 @@ function getPersonDisplayName ( $args = array() ) {
 	// Init vars
 	$arr_info = array();
     $display_name = "";
-    $ts_info = "";
     
     // Defaults
 	$defaults = array(
@@ -40,7 +39,7 @@ function getPersonDisplayName ( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
 	
-	$ts_info .= "<!-- [getPersonDisplayName] args: ".print_r($args, true)." -->";
+	wxc_log("args", $args, $logCtx);
 	
 	$special_name = get_field('special_name',$person_id);
 	
