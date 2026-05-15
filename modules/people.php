@@ -10,14 +10,8 @@ if ( !function_exists( 'add_action' ) ) {
 
 /*********** Functions pertaining to CPT: PERSON ***********/
 
-function getPersonDisplayName ( $args = array() ) {
-	
-	// TS/logging setup
-	$do_ts = devmode_active( array("whx4", "people") ); 
-    $do_log = false;
-    sdg_log( "divline2", $do_log );
-    sdg_log( "function called: getPersonDisplayName", $do_log );
-	
+function getPersonDisplayName ( $args = array() )
+{
 	// Init vars
 	$arr_info = array();
     $display_name = "";
@@ -39,7 +33,7 @@ function getPersonDisplayName ( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
 	
-	wxc_log("args", $args, $logCtx);
+	wxc_log("args", $args);
 	
 	$special_name = get_field('special_name',$person_id);
 	
@@ -114,15 +108,12 @@ function getPersonDisplayName ( $args = array() ) {
 	}
 	
 	//return $display_name;
-	$arr_info['info'] = $display_name;
-	if ( $do_ts ) { $arr_info['ts_info'] = $ts_info; } else { $arr_info['ts_info'] = null; }
-	
+	$arr_info['info'] = $display_name;	
 	return $arr_info;
-	
 }
 
-function get_cpt_person_content( $post_id = null ) {
-	
+function get_cpt_person_content( $post_id = null )
+{
 	// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 	
     $info = ""; // init
@@ -258,17 +249,10 @@ function get_cpt_person_content( $post_id = null ) {
 	}
     
     return $info;
-    
 }
 
-function get_person_dates( $post_id, $styled = false ) {
-    
-    // TS/logging setup
-    $do_ts = devmode_active( array("whx4", "people") ); 
-    $do_log = false;
-    sdg_log( "divline2", $do_log );
-    sdg_log( "function called: get_person_dates", $do_log );
-    
+function get_person_dates( $post_id, $styled = false )
+{
     // Init vars
     $info = ""; // init
     //if ( $styled == 'false' ) { $styled = false; } else { $styled = true; }// just in case...
@@ -300,8 +284,5 @@ function get_person_dates( $post_id, $styled = false ) {
         }
     }
     
-    return $info;
-    
+    return $info; 
 }
-
-?>
