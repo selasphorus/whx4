@@ -151,9 +151,7 @@ echo "postId: " . $postId . '<br />';
 echo "firstName: " . $firstName . '<br />';
 //echo "secret name: " . $sn . '<br />';
 echo "dates: " . $dates . '<br />';
-?>
-<hr />
-<?php
-echo "meta: <pre>" . print_r($meta,true) . '</pre>';
+//
+echo '<div class="troubleshooting"><hr />'."meta: <pre>" . print_r($meta,true) . '</pre></div>';
 ?>
 </div>
