@@ -50,10 +50,8 @@ class Person extends PostTypeHandler
 		];
 	}
 
-	protected function getPersonDisplayName ($args = [])
+	public function getPersonDisplayName ($args = []) // was "protected"
 	{
-		// Init vars
-		$arr_info = array();
 		$displayName = "";
 
 		// Defaults
@@ -73,13 +71,13 @@ class Person extends PostTypeHandler
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
-		$ts_info .= "<!-- [getPersonDisplayName] args: ".print_r($args, true)." -->";
+		wxc_log("args", $args);
 
-		$special_name = get_field('special_name',$person_id);
+		$specialName = get_field('special_name',$person_id);
 
-		if ( $override == "special_name" && $special_name ) {
+		if ( $override == "special_name" && $specialName ) {
 
-			$displayName = $special_name;
+			$displayName = $specialName;
 
 		} else if ( $override == "post_title" ) {
 
@@ -100,15 +98,15 @@ class Person extends PostTypeHandler
 
 			// First and middle names
 			if ( $name_abbr == "full" ) {
-				$first_name = get_post_meta( $person_id, 'first_name', true );
-				if ( $first_name ) { $displayName .= $first_name." "; }
-				$middle_name = get_post_meta( $person_id, 'middle_name', true );
-				if ( $middle_name ) { $displayName .= $middle_name." "; }
+				$firstName = get_post_meta( $person_id, 'first_name', true );
+				if ( $firstName ) { $displayName .= $firstName." "; }
+				$middleName = get_post_meta( $person_id, 'middle_name', true );
+				if ( $middleName ) { $displayName .= $middleName." "; }
 			}
 
 			// Last name
-			$last_name = get_field('last_name',$person_id);
-			$displayName .= $last_name;
+			$lastName = get_field('last_name',$person_id);
+			$displayName .= $lastName;
 
 			// Suffix
 			if ( $show_suffix ) {
@@ -126,7 +124,7 @@ class Person extends PostTypeHandler
 			// Dates
 			// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
 			if ( $show_dates ) {
-				$displayName .= get_person_dates( $person_id, $styled );
+				$displayName .= getPersonDates( $person_id, $styled );
 			}
 
 			$displayName = trim($displayName);
@@ -147,14 +145,9 @@ class Person extends PostTypeHandler
 			$displayName = makeLink( $url, $displayName, get_the_title( $person_id ), null, '_blank' );
 		}
 
-		// TODO: rethink this setup -- do we really need to always return the array? Probably better to add an optional arr return version for TS if needed
-		//return $displayName;
-		$arr_info['info'] = $displayName;
-		$arr_info['ts_info'] = $ts_info;
-
-		return $arr_info;
+		return $displayName;
 	}
-
+	
 	//
 	/*public function getSN(?\WP_Post $post = null): string
     {
