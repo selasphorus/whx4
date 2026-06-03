@@ -12,9 +12,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 function getPersonDisplayName ( $args = array() )
 {
-	// Init vars
-	$arr_info = array();
-    $display_name = "";
+	$displayName = "";
     
     // Defaults
 	$defaults = array(
@@ -35,64 +33,64 @@ function getPersonDisplayName ( $args = array() )
 	
 	wxc_log("args", $args);
 	
-	$special_name = get_field('special_name',$person_id);
+	$specialName = get_field('special_name',$person_id);
 	
-	if ( $override == "special_name" && $special_name ) {
+	if ( $override == "special_name" && $specialName ) {
 		
-		$display_name = $special_name;
+		$displayName = $specialName;
 		
 	} else if ( $override == "post_title" ) {
 	
-		$display_name = get_the_title( $person_id );
+		$displayName = get_the_title( $person_id );
 		
 	} else {
 
 		// Prefix
 		if ( $show_prefix ) {
 			$prefix = get_field('prefix',$person_id);
-			if ( $prefix ) { $display_name .= $prefix." "; }
+			if ( $prefix ) { $displayName .= $prefix." "; }
 		}
 		
 		if ( $name_abbr == "abbr" && $show_prefix && !$prefix ) {
 			$name_abbr == "full"; // ?? or better to just use post_title? see e.g. 
-			//$display_name = get_the_title( $person_id );
+			//$displayName = get_the_title( $person_id );
 		}
 		
 		// First and middle names
 		if ( $name_abbr == "full" ) {
-        	$first_name = get_post_meta( $person_id, 'first_name', true );
-        	if ( $first_name ) { $display_name .= $first_name." "; }
-			$middle_name = get_post_meta( $person_id, 'middle_name', true );
-			if ( $middle_name ) { $display_name .= $middle_name." "; }
+        	$firstName = get_post_meta( $person_id, 'first_name', true );
+        	if ( $firstName ) { $displayName .= $firstName." "; }
+			$middleName = get_post_meta( $person_id, 'middle_name', true );
+			if ( $middleName ) { $displayName .= $middleName." "; }
 		}
         
         // Last name
-		$last_name = get_field('last_name',$person_id);
-		$display_name .= $last_name;
+		$lastName = get_field('last_name',$person_id);
+		$displayName .= $lastName;
 		
 		// Suffix
 		if ( $show_suffix ) {
 			$suffix = get_field('suffix',$person_id);
-			if ( $suffix ) { $display_name .= ", ".$suffix; }
+			if ( $suffix ) { $displayName .= ", ".$suffix; }
 		}
 		
 		/*
 		// Job Title
 		if ( $show_job_title ) {
 			$job_title = get_field('job_title',$person_id);
-			if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
+			if ( $job_title ) { $displayName .= ", <em>".$job_title."</em>"; }
 		}*/
 		
 		// Dates
 		// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
 		if ( $show_dates ) {
-			$display_name .= get_person_dates( $person_id, $styled );
+			$displayName .= get_person_dates( $person_id, $styled );
 		}
 		
-		$display_name = trim($display_name);
+		$displayName = trim($displayName);
 		
-		if ( empty($display_name) ) {
-			$display_name = get_the_title( $person_id );
+		if ( empty($displayName) ) {
+			$displayName = get_the_title( $person_id );
 		}
 	
 	}
@@ -100,16 +98,14 @@ function getPersonDisplayName ( $args = array() )
 	// Job Title
 	if ( $show_job_title ) {
 		$job_title = get_field('job_title',$person_id);
-		if ( $job_title ) { $display_name .= ", <em>".$job_title."</em>"; }
+		if ( $job_title ) { $displayName .= ", <em>".$job_title."</em>"; }
 	}
 	
 	if ( $url ) {
-		$display_name = make_link( $url, $display_name, get_the_title( $person_id ), null, '_blank' );
+		$displayName = make_link( $url, $displayName, get_the_title( $person_id ), null, '_blank' );
 	}
 	
-	//return $display_name;
-	$arr_info['info'] = $display_name;	
-	return $arr_info;
+	return $displayName;
 }
 
 function get_cpt_person_content( $post_id = null )
