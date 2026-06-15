@@ -211,14 +211,8 @@ function get_cpt_venue_content( $post_id = null ) {
     	$organs_html_vp = get_post_meta( $post_id, 'organs_html_vp', true );
     	$info .= '<strong>organs_html_vp</strong>: <div class="organs_html_vp">'.$organs_html_vp."</div>";
     	$info .= '<hr />';
-    	*/
-    	
+    	*/    	
     }
     
-    if ( $ts_info != "" && ( $do_ts === true || $do_ts == "venues" ) ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
-    
-    return $info;
-    
+    return $info;    
 }
-
-?>

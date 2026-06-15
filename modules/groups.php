@@ -164,8 +164,6 @@ function display_group_personnel ( $args = array() ) {
 		
 	}
 	
-	if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
-	
 	// Return info for display
 	return $info;
 	
@@ -196,10 +194,5 @@ function whx4_group_personnel ( $atts = array() ) {
     
     $info .= display_group_personnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
     
-    if ( $do_ts === true || $do_ts == "whx4" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
-    
-    return $info;
-    
+    return $info;    
 }
-
-?>
