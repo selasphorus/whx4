@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  TBD
  * Requires Plugins:  
- * Version:           1.260615.1
+ * Version:           1.260618.1
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -31,20 +31,6 @@ define( 'WHX4_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WHX4_PLUGIN_BLOCKS', WHX4_PLUGIN_DIR . '/blocks/' );
 
 /* +~+~+ *** +~+~+ */
-
-// Function to check for dev/admin user
-function whx4_queenbee() {
-	$current_user = wp_get_current_user();
-	$username = $current_user->user_login;
-	$useremail = $current_user->user_email;
-	//
-    if ( $username == 'stcdev' || $useremail == "birdhive@gmail.com" ) {
-    	return true;
-    } else {
-    	return false;
-    }
-}
-
 /* +~+~+ ACF +~+~+ */
 
 // Set custom load & save JSON points for ACF sync
