@@ -31,7 +31,7 @@ function getPersonDisplayName ( $args = array() )
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );
 	
-	wxc_log("args", $args);
+	wxc_log("args", $args, ['people']);
 	
 	$specialName = get_field('special_name',$person_id);
 	
@@ -253,8 +253,8 @@ function get_person_dates( $post_id, $styled = false )
     $info = ""; // init
     //if ( $styled == 'false' ) { $styled = false; } else { $styled = true; }// just in case...
     
-    //wxc_log( "[str_from_persons] arr_persons: ".print_r($arr_persons, true) );
-    wxc_log( "[get_person_dates] post_id: ".$post_id );
+    //wxc_log("arr_persons", $arr_persons, ['people']);
+    wxc_log("post_id: ".$post_id, null, ['people']);
     
     // Try ACF get_field instead?
     $birth_year = get_post_meta( $post_id, 'birth_year', true );
