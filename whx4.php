@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  TBD
  * Requires Plugins:  
- * Version:           1.260618.1
+ * Version:           1.260618.2
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -153,7 +153,6 @@ function whx4_activate_modules()
 				'parent_slug'   => 'edit.php?post_type='.$primary_cpt,
 			));
 		}
-
 	}
 }
 
@@ -162,7 +161,6 @@ function whx4_activate_modules()
 
 //add_action( 'init', 'whx4_redirect');
 function whx4_redirect() {
-
 	// If /events/ with query args and limit is set to 1, then see if there's a matching event and redirect to that event
 	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
 	// /music/the-sunday-recital-series/upcoming-sunday-recital/
