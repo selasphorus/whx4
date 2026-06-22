@@ -191,7 +191,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
     }
     add_action( 'init', 'register_post_type_group' );
 
-    if ( queenbee() ) {
+    if ( function_exists( 'queenbee' ) && queenbee() ) {
         // Roster -- WIP
         function register_post_type_roster() {
 
