@@ -54,32 +54,14 @@ require 'includes/acf-field-groups.php';
 // Post types, taxonomies, field groups
 require 'includes/cpts.php';
 
-// Load custom post types
-//require 'posttypes.php';
-
-// Load custom taxonomies
-//require 'taxonomies.php';
-
 /**
  * Enqueue scripts and styles
  */
 add_action( 'wp_enqueue_scripts', 'whx4_scripts_method' );
 function whx4_scripts_method() {
-
-    //global $current_user;
-    //$current_user = wp_get_current_user();
-
     $fpath = WP_PLUGIN_DIR . '/whx4/css/whx4.css';
     if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = "240823"; }
     wp_enqueue_style( 'whx4-style', plugins_url( 'css/whx4.css', __FILE__ ), $ver );
-
-    /*$fpath = WP_PLUGIN_DIR . '/whx4/js/whx4.js';
-    if (file_exists($fpath)) { $ver = filemtime($fpath); } else { $ver = date('Ymd.hi'); }
-    wp_enqueue_script( 'whx4', plugins_url( 'js/whx4.js', __FILE__ ), array( 'jquery-ui-dialog' ), $ver  );
-    wp_localize_script( 'whx4', 'theUser', array (
-        'username' => $current_user->user_login,
-    ) );*/
-
 }
 
 /* +~+~+ Optional Modules +~+~+ */
@@ -160,14 +142,14 @@ function whx4_activate_modules()
 /* +~+~+ Misc Functions +~+~+ */
 
 //add_action( 'init', 'whx4_redirect');
-function whx4_redirect() {
+function whx4_redirect()
+{
 	// If /events/ with query args and limit is set to 1, then see if there's a matching event and redirect to that event
 	// /events/?scope=future&category=sunday-recital-series&limit=1&dev=events
 	// /music/the-sunday-recital-series/upcoming-sunday-recital/
 	//$current_url = home_url( add_query_arg( array(), $wp->request ) );
 
 	if ( $wp->request == "/events" && get_query_var('limit') == "1") {
-
         // Run EM search based on query vars
         // Redirect to next single event record matching scope etc.
 
