@@ -19,7 +19,6 @@ function display_group_personnel ( $args = array() ) {
 	// TS/logging setup
     $do_ts = devmode_active( array("whx4", "people") );
     $do_log = false;
-    sdg_log( "divline2", $do_log );
 
 	// Init vars
 	$info = "";

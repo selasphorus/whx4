@@ -168,7 +168,7 @@ function whx4_redirect()
 // TMP to aid with transition to OOP
 function whx4_post_image( array $args = [] ): string|int|null
 {
-    return sdg_post_thumbnail($args);
+    return stc_post_thumbnail($args);
 }
 
 function whx4_find_post_image(

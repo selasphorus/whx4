@@ -19,8 +19,6 @@ function get_cpt_venue_content( $post_id = null ) {
 	// TS/logging setup
     $do_ts = devmode_active( array("whx4", "venues") ); 
     $do_log = false;
-    $fcn_id = "[whx4-get_cpt_venue_content]&nbsp;";
-    sdg_log( "divline2", $do_log );
     
     // Init vars
     $arr_info = array(); // WIP -- 
@@ -32,7 +30,6 @@ function get_cpt_venue_content( $post_id = null ) {
 	if ( $post_id === null ) { return false; }
 	
     $post_meta = get_post_meta( $post_id );
-	//$ts_info .= $fcn_id."<pre>post_meta: ".print_r($post_meta, true)."</pre>";
     
     // Group <> Titles & Associations
     // WIP
@@ -125,13 +122,13 @@ function get_cpt_venue_content( $post_id = null ) {
     $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
     $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
     $ts_info .= "devmode_active(array('edit')): ".print_r(devmode_active(array("edit")), true)."<br />";
-    $ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
+    $ts_info .= "stc_editmode: ".print_r(stc_editmode(), true)."<br />";
     $ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
     $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
     //$info .= $ts_info;
     
     //
-    if ( function_exists('sdg_editmode') && sdg_editmode() === true ) {
+    if ( function_exists('stc_editmode') && stc_editmode() === true ) {
 		
 		//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
 		//$info .= acf_form( $settings );
@@ -163,7 +160,7 @@ function get_cpt_venue_content( $post_id = null ) {
 		
 			$info .= "<h3>Instruments</h3>";
 			$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
-			$ts_info .= $fcn_id."<pre>instruments: ".print_r($instruments, true)."</pre>";
+			$ts_info .= "<pre>instruments: ".print_r($instruments, true)."</pre>";
 			
 			foreach ($instruments AS $instrument_id) {
 				$instrument_title = get_the_title($instrument_id);
