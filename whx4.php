@@ -52,7 +52,7 @@ add_action('wxc_pre_boot', function() {
         return;
     }
 
-    // Register the modules with WHx4
+    // Register the modules with WXC
     add_filter('wxc_register_modules', function(array $modules): array {
         $modules['people'] = People::class;
         $modules['places'] = Places::class;
