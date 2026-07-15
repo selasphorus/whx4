@@ -29,5 +29,8 @@ if ( !empty($compositions) ) {
 }
 ?>
 
-
+<div>
+<h3>Person view WIP</h3>
+<?php echo '<div class="troubleshooting"><hr />'."postMeta: <pre>" . print_r($postMeta,true) . '</pre></div>'; ?>
+</div>
 
