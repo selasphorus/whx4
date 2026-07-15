@@ -34,6 +34,21 @@ class Person extends PostTypeHandler
 			//'called_by'      => 'Person::boot',
 		]);
 	}
+	
+	/**
+	 * Prepare all data needed for the content view
+	 * This keeps the view clean and dependency-free
+	 * 
+	 * @return array Variables ready for view consumption
+	 */
+	public function prepareViewData(): array
+	{
+		return [
+			'status' => $this->getStatus(),
+			//'viewData' => $this->prepareTransactionStatsForView(),
+			'postMeta' => $this->getPostMeta(),
+		];
+	}
 
 	public function getCustomTitleArgs( \WP_Post $post ): array
 	{
@@ -188,5 +203,7 @@ class Person extends PostTypeHandler
 
 		return $info;
 	}
+	
+	
 }
 
