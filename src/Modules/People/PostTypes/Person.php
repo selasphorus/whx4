@@ -44,7 +44,9 @@ class Person extends PostTypeHandler
 	public function prepareViewData(): array
 	{
 		return [
-			'status' => $this->getStatus(),
+			//'status' => $this->getStatus(),
+			'dates' => $this->getPersonDates(),			
+			'compositions' => $this->getPersonCompositions(),
 			//'viewData' => $this->prepareTransactionStatsForView(),
 			'postMeta' => $this->getPostMeta(),
 		];
@@ -52,20 +54,20 @@ class Person extends PostTypeHandler
 
 	public function getCustomTitleArgs( \WP_Post $post ): array
 	{
-		$postId = $post->ID;
-		//$postId = get_the_ID(); // or inject dynamically elsewhere -- ???
-		if ( ! $postId ) {
+		$pID = $post->ID;
+		//$pID = get_the_ID(); // or inject dynamically elsewhere -- ???
+		if ( ! $pID ) {
 			return [];
 		}
 
-		$dates = $this->getPersonDates( $postId );
+		$dates = $this->getPersonDates( $pID );
 
 		return [
 			'append' => $dates,
 		];
 	}
 
-	public function getPersonDisplayName ($args = []) // was "protected"
+	public function getPersonDisplayName ($args = []) // was "protected" -- ??
 	{
 		$displayName = "";
 
@@ -91,15 +93,10 @@ class Person extends PostTypeHandler
 		$specialName = get_field('special_name',$person_id);
 
 		if ( $override == "special_name" && $specialName ) {
-
 			$displayName = $specialName;
-
 		} else if ( $override == "post_title" ) {
-
 			$displayName = get_the_title( $person_id );
-
 		} else {
-
 			// Prefix
 			if ( $show_prefix ) {
 				$prefix = get_field('prefix',$person_id);
@@ -147,7 +144,6 @@ class Person extends PostTypeHandler
 			if ( empty($displayName) ) {
 				$displayName = get_the_title( $person_id );
 			}
-
 		}
 
 		// Job Title
@@ -162,17 +158,10 @@ class Person extends PostTypeHandler
 
 		return $displayName;
 	}
-	
-	//
-	/*public function getSN(?\WP_Post $post = null): string
-    {
-        $p = $post ?? $this->getPost();
-        return $p ? (string)get_post_meta($p->ID, 'secret_name', true) : 'Unknown';
-    }*/
 
 	public function getPersonDates(?\WP_Post $post = null, $styled = false): string
 	{
-		$info = ""; // init
+		$info = "";
 
         $p = $post ?? $this->getPost();
         if ( empty($p) ) { return "no post found"; } // $info
@@ -204,6 +193,29 @@ class Person extends PostTypeHandler
 		return $info;
 	}
 	
+	public function getPersonCompositions(?\WP_Post $post = null): array
+	{
+	    $compositions = [];
+	    
+        $p = $post ?? $this->getPost();
+        if ( empty($p) ) { return "no post found"; } // $info
+        $pID = $p->ID;
+        
+        // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
+        if ( !has_term( 'composers', 'person_category', $pID ) ) {
+            return $compositions;
+        }
+
+		// Get compositions
+		$arr_obj_compositions = $this->getRelatedPosts( $pID, 'repertoire', 'composer' );
+		if ( $arr_obj_compositions ) {
+			foreach ( $arr_obj_compositions as $composition ) {
+				$rep_info = get_rep_info( $composition->ID, 'display', false, true );
+				$compositions[] = makeLink( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
+			}
+		}
+		
+		return $compositions;
+	}
 	
 }
-
