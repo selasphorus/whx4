@@ -62,21 +62,21 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
-            'show_ui'             => true,
-            'show_in_menu'         => true,
-            'query_var'            => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'query_var'          => true,
             'rewrite'            => array( 'slug' => 'people' ), // permalink structure slug
             'capability_type'    => $caps,
-            'map_meta_cap'        => true,
-            'has_archive'         => true,
-            'hierarchical'        => false,
-            'menu_icon'            => 'dashicons-groups',
-            //'menu_position'        => null,
-            'supports'             => array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
-            'taxonomies'        => array( 'person_category', 'person_title', 'admin_tag' ), //, 'person_tag', 'people_category'
-            'show_in_rest'        => false, // false = use classic, not block editor
-            //'delete_with_user'     => false,
+            'map_meta_cap'       => true,
+            'has_archive'        => true,
+            'hierarchical'       => false,
+            'menu_icon'          => 'dashicons-groups',
+            //'menu_position'     => null,
+            'supports'           => array( 'title', 'author', 'editor', 'excerpt', 'revisions', 'thumbnail', 'custom-fields', 'page-attributes' ),
+            'taxonomies'         => array( 'person_category', 'person_title', 'admin_tag' ), //, 'person_tag', 'people_category'
+            'show_in_rest'       => false, // false = use classic, not block editor
+            //'delete_with_user'  => false,
         );
 
         register_post_type( 'person', $args );
@@ -126,7 +126,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
+            'publicly_queryable'  => true,
             'show_ui'             => true,
             'show_in_menu'         => 'edit.php?post_type=person',
             'query_var'            => true,
@@ -170,7 +170,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
+            'publicly_queryable'  => true,
             'show_ui'             => true,
             'show_in_menu'         => true,
             'query_var'            => true,
@@ -213,7 +213,7 @@ if ( in_array('people', $active_modules ) ) { // && !post_type_exists('person')
             $args = array(
                 'labels' => $labels,
                 'public' => true,
-                'publicly_queryable'=> true,
+                'publicly_queryable'  => true,
                 'show_ui'             => true,
                 'show_in_menu'         => true,
                 'query_var'            => true,
@@ -265,7 +265,7 @@ if ( in_array('places', $active_modules ) ) {
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
+            'publicly_queryable'  => true,
             'show_ui'             => true,
             'show_in_menu'         => true,
             'query_var'            => true,
@@ -322,7 +322,7 @@ if ( in_array('addresses', $active_modules ) ) {
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
+            'publicly_queryable'  => true,
             'show_ui'              => true,
             'show_in_menu'         => 'edit.php?post_type=venue',
             'query_var'            => true,
@@ -374,7 +374,7 @@ if ( in_array('buildings', $active_modules ) ) {
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
+            'publicly_queryable'  => true,
             'show_ui'              => true,
             'show_in_menu'         => 'edit.php?post_type=venue',
             'query_var'            => true,
@@ -470,20 +470,20 @@ if ( in_array('events', $active_modules ) ) {
         $args = array(
             'labels' => $labels,
             'public' => true,
-            'publicly_queryable'=> true,
-            'show_ui'              => true,
-            'show_in_menu'         => 'edit.php?post_type=event',
-            'query_var'            => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => 'edit.php?post_type=event',
+            'query_var'          => true,
             'rewrite'            => array( 'slug' => 'event-series' ), // permalink structure slug
             'capability_type'    => $caps,
-            'map_meta_cap'        => true,
-            'has_archive'         => true,
-            'hierarchical'        => false,
-            //'menu_icon'            => 'dashicons-book',
-            'menu_position'        => null,
-            'supports'             => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ),
-            'taxonomies'        => array( 'admin_tag', 'event-categories' ), // 'event_category'
-            'show_in_rest'        => false,
+            'map_meta_cap'       => true,
+            'has_archive'        => true,
+            'hierarchical'       => false,
+            //'menu_icon'         => 'dashicons-book',
+            'menu_position'      => null,
+            'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'custom-fields', 'revisions', 'page-attributes' ),
+            'taxonomies'         => array( 'admin_tag', 'event-categories' ), // 'event_category'
+            'show_in_rest'       => false,
         );
 
         register_post_type( 'event_series', $args );
