@@ -11,12 +11,9 @@ class Address extends PostTypeHandler
         return [
             'slug'             => 'address',
             'plural_slug'      => 'addresses',
-			//'rewrite'          => ['slug' => 'ledger'],
             'menu_icon'        => 'dashicons-location-alt',
 			'capability_type'  => ['place','places'],
             'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions'],
-			//'taxonomies'       => ['group_category'],
-            //'default_taxonomy' => 'group_category',
         ];
     }
 

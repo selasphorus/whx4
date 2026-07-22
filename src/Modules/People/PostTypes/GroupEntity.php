@@ -12,8 +12,8 @@ class GroupEntity extends PostTypeHandler
     {
         return [
             'slug'             => 'group',
-            //'plural_slug'      => 'groups',
-			'rewrite'          => ['slug' => 'ledger'],
+            'plural_slug'      => 'groups',
+			//'rewrite'          => ['slug' => 'groups'],
             'menu_icon'        => 'dashicons-networking', // could use dashicons-groups instead
 			'capability_type'  => ['group','groups'],
             'supports'         => ['title', 'author', 'thumbnail', 'editor', 'excerpt', 'revisions', 'page-attributes'],
