@@ -20,6 +20,7 @@ class Person extends PostTypeHandler
             'labels'           => [
                 'not_found' => 'No people loitering nearby',
             ],
+            'noindex'          => true,
         ];
     }
 
