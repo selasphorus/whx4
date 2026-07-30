@@ -2397,7 +2397,7 @@ function whx4_register_field_groups() {
 				array(
 					'param' => 'post_type',
 					'operator' => '==',
-					'value' => 'project',
+					'value' => 'project', // WIP
 				),
 			),
 		),

@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  TBD
  * Requires Plugins:  whx4-core
- * Version:           1.260708
+ * Version:           1.260730
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -39,14 +39,8 @@ require 'includes/acf-json.php';
 // Register blocks and other handy ACF Block helpers
 require 'includes/acf-blocks.php';
 
-// Register a default "Site Settings" Options Page
+// Register a "WHx4 Settings" Options Page
 require 'includes/acf-settings-page.php';
-
-// Restrict access to ACF Admin screens
-require 'includes/acf-restrict-access.php';
-
-// Display and template helpers
-require 'includes/template-tags.php';
 
 // Load ACF field groups hard-coded as PHP
 require 'includes/acf-field-groups.php';
