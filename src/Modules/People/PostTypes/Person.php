@@ -209,8 +209,8 @@ class Person extends PostTypeHandler
 
 		// Get compositions
 		$arr_obj_compositions = $this->getRelatedPosts( $pID, 'repertoire', 'composer' );
-		wxc_log( "compositions found x ".count($arr_obj_compositions), null );
 		if ( $arr_obj_compositions ) {
+		    wxc_log( "compositions found x ".count($arr_obj_compositions), null );
 			foreach ( $arr_obj_compositions as $composition ) {
 				$rep_info = get_rep_info( $composition->ID, 'display', false, true );
 				$compositions[] = makeLink( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
