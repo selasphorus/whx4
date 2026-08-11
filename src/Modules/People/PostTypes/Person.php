@@ -220,6 +220,8 @@ class Person extends PostTypeHandler
 			'order'     => 'ASC',
 			'limit'   => -1,
 		]);
+		
+		wxc_log(count($result['posts']).' posts found');
 	
 		foreach ($result['posts'] as $composition) {
 			$rep_info = get_rep_info($composition->ID, 'display', false, true);
