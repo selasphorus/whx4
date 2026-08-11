@@ -2,8 +2,9 @@
 
 namespace atc\WHx4\Modules\People\PostTypes;
 
-use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Logger;
+use atc\WXC\PostTypes\PostTypeHandler;
+use atc\WXC\Query\PostQuery;
 
 class Person extends PostTypeHandler
 {
@@ -196,31 +197,35 @@ class Person extends PostTypeHandler
 	
 	public function getPersonCompositions(?\WP_Post $post = null): array
 	{
-	    $compositions = [];
-	    
-        $p = $post ?? $this->getPost();
-        if ( empty($p) ) { return "no post found"; } // $info
-        $pID = $p->ID;
-        
-        // TODO: consider eliminating check for has_term, in case someone forgot to apply the appropriate category
-        if ( !has_term( 'composers', 'person_category', $pID ) ) {
-            return $compositions;
-        }
-
-		// Get compositions
-		$arr_obj_compositions = $this->getRelatedPosts( array(
-			'post_id'            => $pID,
-			'related_post_type'  => 'repertoire',
-			'related_field_name' => 'composer',
-		) );
-		if ( $arr_obj_compositions ) {
-		    wxc_log( "compositions found x ".count($arr_obj_compositions), null );
-			foreach ( $arr_obj_compositions as $composition ) {
-				$rep_info = get_rep_info( $composition->ID, 'display', false, true );
-				$compositions[] = makeLink( get_permalink($composition->ID), $rep_info, "TEST rep title" )."<br />";
-			}
+		$compositions = [];
+	
+		$p = $post ?? $this->getPost();
+		if (empty($p)) {
+			return $compositions;
 		}
-		
+		$pID = $p->ID;
+	
+		if (!has_term('composers', 'person_category', $pID)) {
+			return $compositions;
+		}
+	
+		$result = (new PostQuery())->find([
+			'post_type' => 'repertoire',
+			'meta'      => [
+				'type'   => 'containsSerialized',
+				'key'    => 'composer',
+				'values' => [$pID],
+			],
+			'orderby'   => 'title',
+			'order'     => 'ASC',
+			'limit'   => -1,
+		]);
+	
+		foreach ($result['posts'] as $composition) {
+			$rep_info = get_rep_info($composition->ID, 'display', false, true);
+			$compositions[] = makeLink(get_permalink($composition->ID), $rep_info, 'TEST rep title') . '<br />';
+		}
+	
 		return $compositions;
 	}
 	
