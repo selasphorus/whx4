@@ -208,7 +208,11 @@ class Person extends PostTypeHandler
         }
 
 		// Get compositions
-		$arr_obj_compositions = $this->getRelatedPosts( $pID, 'repertoire', 'composer' );
+		$arr_obj_compositions = $this->getRelatedPosts( array(
+			'post_id'            => $pID,
+			'related_post_type'  => 'repertoire',
+			'related_field_name' => 'composer',
+		) );
 		if ( $arr_obj_compositions ) {
 		    wxc_log( "compositions found x ".count($arr_obj_compositions), null );
 			foreach ( $arr_obj_compositions as $composition ) {
