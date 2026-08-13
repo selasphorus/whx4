@@ -51,6 +51,7 @@ class Venue extends PostTypeHandler
 
 
 		// Organs
+        // TODO: fix this to use PostQuery::find -- getRelatedPosts method no longer exists! (see WHx4 Person class)
 		$arr_obj_organs = getRelatedPosts( $post_id, 'organ', 'venues_organs' ); // getRelatedPosts( $post_id = null, $related_post_type = null, $related_field_name = null, $limit = '-1' )
 		if ( $arr_obj_organs ) {
 
