@@ -3506,4 +3506,3 @@ function whx4_register_field_groups() {
 	// WIP
 
 }
-?>
