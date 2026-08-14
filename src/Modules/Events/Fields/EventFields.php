@@ -42,11 +42,11 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'placement' => 'top',
                     'endpoint' => 0,
                     'selected' => 0,
@@ -137,7 +137,7 @@ final class EventFields implements FieldGroupInterface
                         'id' => '',
                     ],
                 ],
-                array(
+                [
                     'key'   => 'field_whx4_events_isallday', //'key' => 'field_65fa0220c5816',
                     'label' => 'All Day Event',
                     'name' => 'event_all_day', // isallday -- ??
@@ -146,17 +146,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'message' => '',
                     'default_value' => 0,
                     'ui' => 0,
                     'ui_on_text' => '',
                     'ui_off_text' => '',
-                ),
+                ],
                 [
                     'key' => 'field_whx4_events_is_recurring',
                     'label' => 'Recurring Event?',
@@ -174,11 +174,11 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'placement' => 'top',
                     'endpoint' => 0,
                     'selected' => 0,                    
@@ -384,6 +384,9 @@ final class EventFields implements FieldGroupInterface
                         'width' => '20',
                     ],
                 ],
+                // -----
+                // WHERE
+                // -----
                 [
                     'key' => 'field_whx4_events_where_tab',
                     'label' => 'Where',
@@ -393,16 +396,16 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'placement' => 'top',
                     'endpoint' => 0,
                     'selected' => 0,
                 ],
-                array(
+                [
                     'key' => 'field_whx4_events_location', //'key' => 'field_65fa029314e00',
                     'label' => 'Event Location',
                     'name' => 'event_location', // OR: 'location'?
@@ -411,14 +414,14 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '33',
                         'class' => '',
                         'id' => '',
-                    ),
-                    'post_type' => array(
+                    ],
+                    'post_type' => [
                         0 => 'venue',
-                    ),
+                    ],
                     'post_status' => '',
                     'taxonomy' => '',
                     'return_format' => 'object',
@@ -426,10 +429,10 @@ final class EventFields implements FieldGroupInterface
                     'allow_null' => 0,
                     'bidirectional' => 0,
                     'ui' => 1,
-                    'bidirectional_target' => array(
-                    ),
-                ),
-                array(
+                    'bidirectional_target' => [
+                    ],
+                ],
+                [
                     'key' => 'field_whx4_events_location_txt', //'key' => 'field_6620441923668',
                     'label' => 'Event Location TXT',
                     'name' => 'location_txt',
@@ -438,18 +441,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '33',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_whx4_events_address_txt', //'key' => 'field_6620443023669',
                     'label' => 'Address TXT',
                     'name' => 'address_txt',
@@ -458,17 +461,188 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '33',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
+                ],
+                // -----
+                // Series
+                // -----
+				[
+					'key' => 'field_whx4_series_tab',
+					'label' => 'Event Series',
+					'name' => 'series_tab',
+					'aria-label' => '',
+					'type' => 'tab',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'placement' => 'top',
+					'endpoint' => 0,
+					'selected' => 0,
+				],
+				[
+					'key'    =>    'field_whx4_632a27ff8450f',
+					//'key' => 'field_632a27ff8450f',
+					'label' => 'Event Series (v2 bidirectional)',
+					'name' => 'event_series',
+					'aria-label' => '',
+					'type' => 'relationship',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '50',
+						'class' => '',
+						'id' => '',
+					],
+					'relevanssi_exclude' => 0,
+					'post_type' => [
+						0 => 'event_series',
+					],
+					'post_status' => '',
+					'taxonomy' => '',
+					'filters' => [
+						0 => 'search',
+					],
+					'return_format' => 'id',
+					'min' => '',
+					'max' => '',
+					'elements' => '',
+					'bidirectional' => 0,
+					'bidirectional_target' => [],
+				],
+				[
+					'key'    =>    'field_whx4_627bf1670a5a7',
+					//'key'    =>    'field_whx4_event_series',
+					//'key' => 'field_627bf1670a5a7',
+					'label' => 'Event Series (v1)',
+					'name' => 'event_series_v1',
+					'aria-label' => '',
+					'type' => 'relationship',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '50',
+						'class' => '',
+						'id' => '',
+					],
+					'relevanssi_exclude' => 0,
+					'post_type' => [
+						0 => 'event_series',
+					],
+					'post_status' => '',
+					'taxonomy' => '',
+					'filters' => [
+						0 => 'search',
+					],
+					'return_format' => 'id',
+					'min' => '',
+					'max' => '',
+					'elements' => '',
+					'bidirectional' => 0,
+					'bidirectional_target' => [],
+				],
+				// -----
+				// Other
+				// -----
+				[
+					'key'    =>    'field_whx4_61cb8f0132985',
+					//'key'    =>    'field_whx4_event_other_tab',
+					//'key' => 'field_61cb8f0132985',
+					'label' => 'Other',
+					'name' => 'other_tab',
+					'aria-label' => '',
+					'type' => 'tab',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'placement' => 'top',
+					'endpoint' => 0,
+					'selected' => 0,
+				],
+				[
+					'key'    =>    'field_whx4_5efa5626dda37',
+					//'key'    =>    'field_whx4_event_hide_day_titles',
+					//'key' => 'field_5efa5626dda37',
+					'label' => 'Hide Day Titles?',
+					'name' => 'hide_day_titles',
+					'aria-label' => '',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '25',
+						'class' => '',
+						'id' => '',
+					],
+					'message' => 'Yes, hide them',
+					'default_value' => 0,
+					'ui' => 0,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				],
+				[
+					'key'    =>    'field_whx4_event_hide_special_notices',
+					'label' => 'Hide Special Notices?',
+					'name' => 'hide_special_notices',
+					'aria-label' => '',
+					'type' => 'true_false',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '25',
+						'class' => '',
+						'id' => '',
+					],
+					'message' => 'Yes, hide them',
+					'default_value' => 0,
+					'ui' => 0,
+					'ui_on_text' => '',
+					'ui_off_text' => '',
+				],
+				[
+					'key'    =>    'field_whx4_5efa56750f99b',
+					//'key'    =>    'field_whx4_event_title_uid',
+					//'key' => 'field_5efa56750f99b',
+					'label' => 'Title UID',
+					'name' => 'title_uid',
+					'aria-label' => '',
+					'type' => 'text',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => [
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					],
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+					'maxlength' => '',
+				],
             ],
             'location' => [
                 [
@@ -484,16 +658,23 @@ final class EventFields implements FieldGroupInterface
                         'operator' => '==',
                         'value'    => 'whx4_event',
                     ],
-                ]
+                ],
+				/*[
+					[
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'event-recurring',
+					],
+				], // deprecated (?) */
             ],
         ]);
 
         // Copied from ATCHQ/Local
-        acf_add_local_field_group( array(
+        acf_add_local_field_group( [
             'key' => 'group_65f9fc95e1756',
             'title' => 'Event Details WIP',
-            'fields' => array(
-                array(
+            'fields' => [
+                [
                     'key' => 'field_6628206cd24ec',
                     'label' => 'Date/Time/Location',
                     'name' => '',
@@ -502,16 +683,16 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'placement' => 'top',
                     'endpoint' => 0,
                     'selected' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65f9fc96b5e13',
                     'label' => 'Event Start Date',
                     'name' => 'event_start_date',
@@ -520,17 +701,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'm/d/Y',
                     'return_format' => 'm/d/Y',
                     'first_day' => 1,
                     'default_to_current_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65fa00d44c9a8',
                     'label' => 'Event End Date',
                     'name' => 'event_end_date',
@@ -539,17 +720,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'm/d/Y',
                     'return_format' => 'm/d/Y',
                     'first_day' => 1,
                     'default_to_current_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65fa01c385ac0',
                     'label' => 'Start Time',
                     'name' => 'event_start_time',
@@ -558,15 +739,15 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'H:i',
                     'return_format' => 'H:i',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65fa01da85ac1',
                     'label' => 'End Time',
                     'name' => 'event_end_time',
@@ -575,15 +756,15 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'H:i',
                     'return_format' => 'H:i',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65fa024f17d24',
                     'label' => 'Event Timezone',
                     'name' => 'event_timezone',
@@ -592,18 +773,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_66281ea405f6f',
                     'label' => 'Event Date/Time',
                     'name' => 'event_datetime',
@@ -612,17 +793,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '20',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'F j, Y H:i',
                     'return_format' => 'Y-m-d H:i',
                     'first_day' => 1,
                     'default_to_current_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_66207668c8594',
                     'label' => 'Event Start Timestamp',
                     'name' => 'event_start_ts',
@@ -631,18 +812,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_6620767fc8595',
                     'label' => 'Event End Timestamp',
                     'name' => 'event_end_ts',
@@ -651,18 +832,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_6620424b9412f',
                     'label' => 'Event Start GMT',
                     'name' => 'event_start',
@@ -671,17 +852,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'Y-m-d H:i:s',
                     'return_format' => 'Y-m-d H:i:s',
                     'first_day' => 1,
                     'default_to_current_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_6620428194130',
                     'label' => 'Event End GMT',
                     'name' => 'event_end',
@@ -690,17 +871,17 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'display_format' => 'Y-m-d H:i:s',
                     'return_format' => 'Y-m-d H:i:s',
                     'first_day' => 1,
                     'default_to_current_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_66282082d24ed',
                     'label' => 'iCal Data',
                     'name' => '',
@@ -709,16 +890,16 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '10',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'placement' => 'top',
                     'endpoint' => 0,
                     'selected' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_65fa02c068d33',
                     'label' => 'Recurrence Info TMP',
                     'name' => '',
@@ -727,11 +908,11 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '25',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'message' => 'WIP -- vars may include (SEE wpstc_em_events):
             recurrence_id
             recurrence_interval
@@ -741,8 +922,8 @@ final class EventFields implements FieldGroupInterface
             recurrence_days',
                     'new_lines' => 'wpautop',
                     'esc_html' => 0,
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_6620488a6ad55',
                     'label' => 'Recurring Event',
                     'name' => 'recurring',
@@ -751,18 +932,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '15',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'message' => '',
                     'default_value' => 0,
                     'ui' => 0,
                     'ui_on_text' => '',
                     'ui_off_text' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_662045209dfdf',
                     'label' => 'UID',
                     'name' => 'uid',
@@ -771,18 +952,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '40',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_6620478ead203',
                     'label' => 'UUID',
                     'name' => 'uuid',
@@ -791,18 +972,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => 'iCal field',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '30',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_662047a6ad204',
                     'label' => 'Unique Identifier',
                     'name' => 'unique_identifier',
@@ -811,18 +992,18 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => 'iCal field',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '30',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'maxlength' => '',
                     'placeholder' => '',
                     'prepend' => '',
                     'append' => '',
-                ),
-                array(
+                ],
+                [
                     'key' => 'field_66204d1747350',
                     'label' => 'Event URL',
                     'name' => 'event_url',
@@ -831,15 +1012,15 @@ final class EventFields implements FieldGroupInterface
                     'instructions' => '',
                     'required' => 0,
                     'conditional_logic' => 0,
-                    'wrapper' => array(
+                    'wrapper' => [
                         'width' => '',
                         'class' => '',
                         'id' => '',
-                    ),
+                    ],
                     'default_value' => '',
                     'placeholder' => '',
-                ),
-            ),
+                ],
+            ],
             'location' => [
                 [
                     [
@@ -854,7 +1035,14 @@ final class EventFields implements FieldGroupInterface
                         'operator' => '==',
                         'value'    => 'whx4_event',
                     ],
-                ]
+                ],
+				/*[
+					[
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'event-recurring',
+					],
+				], // deprecated (?) */
             ],
             'menu_order' => 0,
             'position' => 'normal',

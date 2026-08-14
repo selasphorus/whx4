@@ -1,7 +1,7 @@
 # WHx4 ACF Field Group Standards
 
 ## Naming Conventions
-- Field 'key': `field_whx4_{field_name}`
+- Field 'key': `field_whx4_{field_name}` -- or should it rather be - Field 'key': `field_whx4_{module_name}_{field_name}` ???
 - Field 'name': `whx4_{field_name}`
 - Lowercase letters and underscores only
 - Unique keys across the entire site

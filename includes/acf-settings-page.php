@@ -23,17 +23,6 @@ function whx4_register_options_page() {
 		)
 	);
 
-	// Add the sub-page
-	/*
-	acf_add_options_sub_page(
-		array(
-			'page_title'  => 'Contact Information',
-			'menu_slug'   => 'contact-information',
-			'parent_slug' => 'site-settings',
-		)
-	);
-	*/
-
 	// Add 'Modules & Settings' field group
 	acf_add_local_field_group(
 		array(
@@ -164,61 +153,5 @@ function whx4_register_options_page() {
 			),
 		)
 	);
-
-	/* Group from ACF demo plugin -- left here temporarily as model...
-	acf_add_local_field_group(
-		array(
-			'key'      => 'group_whx4_notification_bar',
-			'title'    => 'Notification Bar',
-			'fields'   => array(
-				array(
-					'key'        => 'field_whx4_notification_bar_group',
-					'label'      => 'Notification Bar',
-					'name'       => 'whx4_notification_bar_group',
-					'aria-label' => '',
-					'type'       => 'group',
-					'layout'     => 'row',
-					'sub_fields' => array(
-						array(
-							'key'           => 'field_whx4_notification_onoff',
-							'label'         => 'Notification On/Off',
-							'name'          => 'whx4_notification_onoff',
-							'type'          => 'true_false',
-							'message'       => 'Should the site-wide Notification Bar be showing?',
-							'default_value' => 1,
-							'ui_on_text'    => 'On',
-							'ui_off_text'   => 'Off',
-							'ui'            => 1,
-						),
-						array(
-							'key'               => 'field_whx4_notification_message',
-							'label'             => 'Notification Message',
-							'name'              => 'whx4_notification_message',
-							'type'              => 'textarea',
-							'conditional_logic' => array(
-								array(
-									array(
-										'field'    => 'whx4_notification_onoff',
-										'operator' => '==',
-										'value'    => '1',
-									),
-								),
-							),
-						),
-					),
-				),
-			),
-			'location' => array(
-				array(
-					array(
-						'param'    => 'options_page',
-						'operator' => '==',
-						'value'    => 'site-settings',
-					),
-				),
-			),
-		)
-	);
-	*/
 	
 }

@@ -51,7 +51,7 @@ final class GroupEntityFields implements FieldGroupInterface
             'instruction_placement' => 'label',
             'hide_on_screen' => '',
             'active' => true,
-            'description' => '',
+            'description' => 'This post type is for managing groups of persons, including: organizations, educational and religious institutions, ensembles, companies, etc.',
             'show_in_rest' => 0,
         ] );
     }
