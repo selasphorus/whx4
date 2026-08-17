@@ -4,7 +4,7 @@ namespace atc\WHx4\Modules\Events\Fields;
 
 use atc\WXC\Contracts\FieldGroupInterface;
 
-final class EventFields implements FieldGroupInterface
+final class EventSeriesFields implements FieldGroupInterface
 {
     public static function register(): void
     {
