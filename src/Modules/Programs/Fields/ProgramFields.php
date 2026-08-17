@@ -53,7 +53,7 @@ final class ProgramFields implements FieldGroupInterface, MultiPostTypeFieldGrou
     {
         return [
             'key' => 'group_whx4_program', // TODO: confirm final key before first save to any site
-            'title' => 'WHx4: Program',
+            'title' => 'WHx4: Programs',
             'fields' => [
                 // TODO: buildProgramOptionsFields(), buildProgramItemsRepeater(), etc.
             ],

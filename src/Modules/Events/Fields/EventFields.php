@@ -670,7 +670,7 @@ final class EventFields implements FieldGroupInterface
         ]);
 
         // Copied from ATCHQ/Local
-        acf_add_local_field_group( [
+        acf_add_local_field_group([
             'key' => 'group_65f9fc95e1756',
             'title' => 'Event Details WIP',
             'fields' => [
@@ -1053,6 +1053,6 @@ final class EventFields implements FieldGroupInterface
             'active' => true,
             'description' => '',
             'show_in_rest' => 0,
-        ) );
+        ]);
     }
 }
