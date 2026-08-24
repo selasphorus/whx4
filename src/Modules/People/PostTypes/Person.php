@@ -69,7 +69,7 @@ class Person extends PostTypeHandler
 		];
 	}
 
-	public function getPersonDisplayName ($args = []) // was "protected" -- ??
+	public static function getPersonDisplayName ($args = []) // was "protected" -- ??
 	{
 		$displayName = "";
 
