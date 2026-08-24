@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  Requires WHx4-Core for core functionality
  * Requires Plugins:  whx4-core, advanced-custom-fields-pro
- * Version:           2.260811
+ * Version:           2.260824
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -135,7 +135,19 @@ add_filter( 'whx4_events_post_type_slug', function() {
 });
 */
 
-// Global Wrapper Functions for theme access
+// =============================================================================
+// Global Wrapper Functions
+// Thin delegators providing theme/plugin access to WXC internals.
+// =============================================================================
+
+function whx4_get_display_name( string $cpt, string|array|null $args = null ): void {
+    $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
+    
+    if ( $cpt == 'person' && in_array( 'people', $activeSlugs, true ) ) {
+        return atc\WHX4\Person::getPersonDisplayName( $args );
+    }
+}
+
 
 /**
  * Get post thumbnail with fallback handling
