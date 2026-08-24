@@ -140,7 +140,7 @@ add_filter( 'whx4_events_post_type_slug', function() {
 // Thin delegators providing theme/plugin access to WXC internals.
 // =============================================================================
 
-function whx4_get_display_name( string $cpt, string|array|null $args = null ): void {
+function whx4_get_display_name( string $cpt, string|array|null $args = null ): string|null {
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
     
     if ( $cpt == 'person' && in_array( 'people', $activeSlugs, true ) ) {
