@@ -144,7 +144,7 @@ function whx4_get_display_name( string $cpt, string|array|null $args = null ): s
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
     
     if ( $cpt == 'person' && in_array( 'people', $activeSlugs, true ) ) {
-        return atc\WHX4\Modules\People\Person::getPersonDisplayName( $args );
+        return atc\WHX4\Modules\People\PostTypes\Person::getPersonDisplayName( $args );
     }
 }
 
