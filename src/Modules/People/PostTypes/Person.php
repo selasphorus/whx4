@@ -206,7 +206,7 @@ class Person extends PostTypeHandler
 			return $compositions;
 		}
 		$pID = $p->ID;
-		Logger::debug( 'pID: '.$pID), null, 'people' );
+		Logger::debug( 'pID: '.$pID, null, 'people' );
 	
 		if (!has_term('composers', 'person_category', $pID)) {
 			return $compositions;
