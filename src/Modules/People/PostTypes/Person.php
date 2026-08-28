@@ -161,7 +161,7 @@ class Person extends PostTypeHandler
 		return $displayName;
 	}
 
-	public function getPersonDates(?\WP_Post $post = null, $styled = false): string
+	public static function getPersonDates(?\WP_Post $post = null, $styled = false): string
 	{
 		$info = "";
 
@@ -195,7 +195,7 @@ class Person extends PostTypeHandler
 		return $info;
 	}
 	
-	public function getPersonCompositions(?\WP_Post $post = null): array
+	public static function getPersonCompositions(?\WP_Post $post = null): array
 	{
 		$compositions = [];
 	
