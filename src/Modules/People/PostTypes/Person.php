@@ -90,7 +90,7 @@ class Person extends PostTypeHandler
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
-		wxc_log("args", $args);
+		Logger::debug( 'args', $args, 'people' );
 
 		$specialName = get_field('special_name',$person_id);
 
@@ -206,7 +206,7 @@ class Person extends PostTypeHandler
 			return $compositions;
 		}
 		$pID = $p->ID;
-		wxc_log('pID: '.$pID);
+		Logger::debug( 'pID: '.$pID), null, 'people' );
 	
 		if (!has_term('composers', 'person_category', $pID)) {
 			return $compositions;
@@ -224,7 +224,7 @@ class Person extends PostTypeHandler
 			'limit'   => -1,
 		]);
 		
-		wxc_log(count($result['posts']).' posts found');
+		Logger::debug( count($result['posts']).' posts found', null, 'people' );
 	
 		foreach ($result['posts'] as $composition) {
 			$rep_info = get_rep_info($composition->ID, 'display', false, true);
