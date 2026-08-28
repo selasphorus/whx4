@@ -161,38 +161,40 @@ class Person extends PostTypeHandler
 		return $displayName;
 	}
 
-	public static function getPersonDates(?\WP_Post $post = null, $styled = false): string
+	/**
+	 * Format a person's birth/death dates for display.
+	 *
+	 * @param \WP_Post|int|null $post   Post object, person post ID, or null to use current post.
+	 * @param bool               $styled Whether to wrap the output in a styled span.
+	 * @return string Formatted dates string (with leading space if unstyled), or empty string.
+	 */
+	public static function getPersonDates($person = null, bool $styled = false): string
 	{
-		$info = "";
-
-        $p = $post ?? $this->getPost();
-        if ( empty($p) ) { return "no post found"; } // $info
-        $pID = $p->ID;
-
+		$pID = $person instanceof \WP_Post ? $person->ID : ($person ?: get_the_ID());
+		if (empty($pID)) {
+			return '';
+		}
+		
 		// Try ACF get_field instead?
-		$birth_year = get_post_meta( $pID, 'birth_year', true );
-		$death_year = get_post_meta( $pID, 'death_year', true );
-		$dates = get_post_meta( $pID, 'dates', true );
-
-		if ( !empty($birth_year) && !empty($death_year) ) {
-			$info .= "(".$birth_year."-".$death_year.")";
-		} else if ( !empty($birth_year) ) {
-			$info .= "(b. ".$birth_year.")";
-		} else if ( !empty($death_year) ) {
-			$info .= "(d. ".$death_year.")";
-		} else if ( !empty($dates) ) {
-			$info .= "(".$dates.")";
+		$birthYear = get_post_meta($pID, 'birth_year', true);
+		$deathYear = get_post_meta($pID, 'death_year', true);
+		$dates     = get_post_meta($pID, 'dates', true);
+	
+		if (!empty($birthYear) && !empty($deathYear)) {
+			$info = "({$birthYear}-{$deathYear})";
+		} elseif (!empty($birthYear)) {
+			$info = "(b. {$birthYear})";
+		} elseif (!empty($deathYear)) {
+			$info = "(d. {$deathYear})";
+		} elseif (!empty($dates)) {
+			$info = "({$dates})";
+		} else {
+			return '';
 		}
 
-		if ( !empty($info) ) {
-			if ( $styled ) {
-				$info = '<span class="person_dates">&nbsp;'.$info.'</span>';
-			} else {
-				$info = ' '.$info; // add space before dates str
-			}
-		}
-
-		return $info;
+		return $styled
+        ? '<span class="person_dates">&nbsp;' . $info . '</span>'
+        : ' ' . $info;
 	}
 	
 	public static function getPersonCompositions(?\WP_Post $post = null): array
