@@ -168,7 +168,7 @@ class Person extends PostTypeHandler
 	 * @param bool               $styled Whether to wrap the output in a styled span.
 	 * @return string Formatted dates string (with leading space if unstyled), or empty string.
 	 */
-	public static function getPersonDates($person = null, bool $styled = false): string
+	public function getPersonDates($person = null, bool $styled = false): string
 	{
 		$pID = $person instanceof \WP_Post ? $person->ID : ($person ?: get_the_ID());
 		if (empty($pID)) {
@@ -197,7 +197,7 @@ class Person extends PostTypeHandler
         : ' ' . $info;
 	}
 	
-	public static function getPersonCompositions(?\WP_Post $post = null): array
+	public function getPersonCompositions(?\WP_Post $post = null): array
 	{
 		$compositions = [];
 	
