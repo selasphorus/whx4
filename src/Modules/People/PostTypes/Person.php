@@ -138,7 +138,7 @@ class Person extends PostTypeHandler
 			// Dates
 			// WIP/TODO: fix 'styled' factor -- see e.g. https://stcnyc.wpengine.com/events/solemn-eucharist-2020-01-05/ Wm Byrd -- span needed around dates.
 			if ( $show_dates ) {
-				$displayName .= $this->getPersonDates( $person_id, $styled );
+				$displayName .= self::getPersonDates( $person_id, $styled );
 			}
 
 			$displayName = trim($displayName);
