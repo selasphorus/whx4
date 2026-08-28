@@ -199,6 +199,8 @@ class Person extends PostTypeHandler
 	
 	public function getPersonCompositions(?\WP_Post $post = null): array
 	{
+		global $wpdb;
+		
 		$compositions = [];
 	
 		$p = $post ?? $this->getPost();
@@ -215,16 +217,17 @@ class Person extends PostTypeHandler
 		$result = (new PostQuery())->find([
 			'post_type' => 'repertoire',
 			'meta'      => [
-				'type'   => 'containsSerialized',
-				'key'    => 'composer',
-				'values' => [$pID],
+				'type'  => 'containsSerialized',
+				'key'   => 'composer',
+				'values'=> [$pID],
 			],
 			'orderby'   => 'title',
 			'order'     => 'ASC',
-			'limit'   => -1,
+			'limit'     => -1,
 		]);
 		
 		Logger::debug( count($result['posts']).' posts found', null, 'people' );
+		Logger::debug( 'Last SQL-Query: '.$wpdb->last_query, null, 'people' );
 	
 		foreach ($result['posts'] as $composition) {
 			$rep_info = get_rep_info($composition->ID, 'display', false, true);
