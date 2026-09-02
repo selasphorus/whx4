@@ -199,22 +199,19 @@ class Person extends PostTypeHandler
         : ' ' . $info;
 	}
 	
-	public static function getPersonCompositions(?\WP_Post $post = null): array
+	public static function getPersonCompositions($person = null): array
+	//public static function getPersonCompositions(?\WP_Post $post = null): array
 	{
-		global $wpdb;
-		
-		$compositions = [];
-	
-		$p = $post;
-		//$p = $post ?? $this->getPost();
-		if (empty($p)) {
-			return $compositions;
+		$pID = $person instanceof \WP_Post ? $person->ID : ($person ?: get_the_ID());
+		if (empty($pID)) {
+			return '';
 		}
-		$pID = $p->ID;
+		global $wpdb;
+		$compositions = [];
 		Logger::debug( 'pID: '.$pID, null, 'people' );
 	
 		if (!has_term('composers', 'person_category', $pID)) {
-			return $compositions;
+			//return $compositions;
 		}
 	
 		$result = (new PostQuery())->find([
