@@ -145,7 +145,7 @@ add_filter( 'whx4_events_post_type_slug', function() {
 function whx4_contribute_active_post_types(array $postTypes): array
 {
 	if (class_exists('\EM_Event')) {
-		wxc_log("EM is active", null, 'events');
+		//wxc_log("EM is active", null, 'events');
 		return array_merge($postTypes, [
 			'event',
 		]);
