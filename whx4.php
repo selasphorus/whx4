@@ -135,6 +135,24 @@ add_filter( 'whx4_events_post_type_slug', function() {
 });
 */
 
+
+/**
+ * Temporarily exposes EM's post type(s) to WXC until the WHx4 events module is fully up and running.
+ *
+ * @param array $postTypes Active post type slugs already contributed.
+ * @return array
+ */
+function whx4_contribute_active_post_types(array $postTypes): array
+{
+	if (class_exists('\EM_Event')) {
+		return array_merge($postTypes, [
+			'event',
+		]);
+	}
+}
+add_filter('wxc_active_post_types', 'whx4_contribute_active_post_types');
+	
+	
 // =============================================================================
 // Global Wrapper Functions
 // Thin delegators providing theme/plugin access to WXC internals.
