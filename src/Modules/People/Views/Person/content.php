@@ -18,22 +18,23 @@ if (!defined('ABSPATH')) {
 
 <?php 
 // Dates -- appended to post_title?
+
 // Compositions
 if ( !empty($compositions) ) {
 ?>
     <h3>Compositions:</h3>
 <?php
     foreach ( $compositions as $composition ) {
-        echo "composition: <pre>" . print_r($composition,true) . '</pre>';
+        echo $composition.'<br />';
     }
 }
-?>
 
+/*
 <div>
 <h3>Person view WIP</h3>
-<?php
 echo "dates: <pre>".$dates.'</pre>'; 
 //echo "postMeta: <pre>" . print_r($postMeta,true) . '</pre>'; // Ok 
-?>
 </div>
+*/
+?>
 
