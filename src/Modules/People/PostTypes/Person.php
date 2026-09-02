@@ -175,6 +175,8 @@ class Person extends PostTypeHandler
 			return '';
 		}
 		
+		Logger::debug( 'pID', $pID, 'people' );
+		
 		// Try ACF get_field instead?
 		$birthYear = get_post_meta($pID, 'birth_year', true);
 		$deathYear = get_post_meta($pID, 'death_year', true);
