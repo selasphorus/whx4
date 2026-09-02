@@ -203,7 +203,8 @@ class Person extends PostTypeHandler
 		
 		$compositions = [];
 	
-		$p = $post ?? $this->getPost();
+		$p = $post;
+		//$p = $post ?? $this->getPost();
 		if (empty($p)) {
 			return $compositions;
 		}
