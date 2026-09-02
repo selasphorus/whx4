@@ -232,9 +232,8 @@ class Person extends PostTypeHandler
 	
 		foreach ($result['posts'] as $composition) {
 		    $repID = $composition->ID;
-		    Logger::debug( 'repID: '.$repID, null, 'people' );
-			$repTitle = get_rep_info($repID, 'display', false, true);
-			$compositions[] = Text::makeLink(get_permalink($repID), $repTitle, $repTitle) . '<br />';
+		    //Logger::debug( 'repID: '.$repID, null, 'people' );
+			$compositions[] = get_rep_info($repID, 'display', false, true);
 		}
 	
 		return $compositions;
