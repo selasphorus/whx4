@@ -199,8 +199,8 @@ class Person extends PostTypeHandler
         : ' ' . $info;
 	}
 	
-	public static function getPersonCompositions($person = null): array
 	//public static function getPersonCompositions(?\WP_Post $post = null): array
+	public static function getPersonCompositions($person = null): array
 	{
 		$pID = $person instanceof \WP_Post ? $person->ID : ($person ?: get_the_ID());
 		if (empty($pID)) {
