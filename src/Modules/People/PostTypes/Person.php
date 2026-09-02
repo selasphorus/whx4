@@ -231,8 +231,10 @@ class Person extends PostTypeHandler
 		//Logger::debug( 'Last SQL-Query: '.$wpdb->last_query, null, 'people' );
 	
 		foreach ($result['posts'] as $composition) {
-			$rep_info = get_rep_info($composition->ID, 'display', false, true);
-			$compositions[] = Text::makeLink(get_permalink($composition->ID), $rep_info, 'TEST rep title') . '<br />';
+		    $repID = $composition->ID;
+		    Logger::debug( 'repID: '.$repID, null, 'people' );
+			$repTitle = get_rep_info($repID, 'display', false, true);
+			$compositions[] = Text::makeLink(get_permalink($repID), $repTitle, $repTitle) . '<br />';
 		}
 	
 		return $compositions;
