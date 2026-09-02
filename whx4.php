@@ -150,6 +150,7 @@ function whx4_contribute_active_post_types(array $postTypes): array
 			'event',
 		]);
 	}
+	return $postTypes;
 }
 add_filter('wxc_active_post_types', 'whx4_contribute_active_post_types');
 	
