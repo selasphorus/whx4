@@ -5,6 +5,7 @@ namespace atc\WHx4\Modules\People\PostTypes;
 use atc\WXC\Logger;
 use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Query\PostQuery;
+use atc\WXC\Utils\Text;
 
 class Person extends PostTypeHandler
 {
@@ -90,7 +91,7 @@ class Person extends PostTypeHandler
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
-		Logger::debug( 'args', $args, 'people' );
+		//Logger::debug( 'args', $args, 'people' );
 
 		$specialName = get_field('special_name',$person_id);
 
@@ -175,7 +176,7 @@ class Person extends PostTypeHandler
 			return '';
 		}
 		
-		Logger::debug( 'pID', $pID, 'people' );
+		//Logger::debug( 'pID', $pID, 'people' );
 		
 		// Try ACF get_field instead?
 		$birthYear = get_post_meta($pID, 'birth_year', true);
@@ -208,7 +209,7 @@ class Person extends PostTypeHandler
 		}
 		global $wpdb;
 		$compositions = [];
-		Logger::debug( 'pID: '.$pID, null, 'people' );
+		//Logger::debug( 'pID: '.$pID, null, 'people' );
 	
 		if (!has_term('composers', 'person_category', $pID)) {
 			//return $compositions;
@@ -226,12 +227,12 @@ class Person extends PostTypeHandler
 			'limit'     => -1,
 		]);
 		
-		Logger::debug( count($result['posts']).' posts found', null, 'people' );
-		Logger::debug( 'Last SQL-Query: '.$wpdb->last_query, null, 'people' );
+		//Logger::debug( count($result['posts']).' posts found', null, 'people' );
+		//Logger::debug( 'Last SQL-Query: '.$wpdb->last_query, null, 'people' );
 	
 		foreach ($result['posts'] as $composition) {
 			$rep_info = get_rep_info($composition->ID, 'display', false, true);
-			$compositions[] = makeLink(get_permalink($composition->ID), $rep_info, 'TEST rep title') . '<br />';
+			$compositions[] = Text::makeLink(get_permalink($composition->ID), $rep_info, 'TEST rep title') . '<br />';
 		}
 	
 		return $compositions;
