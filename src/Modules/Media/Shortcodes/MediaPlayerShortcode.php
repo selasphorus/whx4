@@ -10,7 +10,7 @@ use atc\WXC\Logger;
 //use atc\WXC\PostTypes\PostTypeHandler;
 use atc\WXC\Templates\ViewLoader;
 use atc\WXC\Contracts\ShortcodeInterface;
-//use atc\WXC\Query\ScopedDateResolver;
+//use atc\WXC\Utils\ScopedDateResolver;
 //use atc\WXC\Utils\DateHelper;
 //
 //use atc\Bkkp\Modules\Accounting\PostTypes\Account;
