@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  Requires WHx4-Core for core functionality
  * Requires Plugins:  whx4-core, advanced-custom-fields-pro
- * Version:           2.260902
+ * Version:           2.260904
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -154,7 +154,48 @@ function whx4_contribute_active_post_types(array $postTypes): array
 }
 add_filter('wxc_active_post_types', 'whx4_contribute_active_post_types');
 	
-	
+/**
+ * Surface date meta on event items rendered via WXC GenericRenderer.
+ *
+ * @param string   $meta  Default meta HTML (empty string).
+ * @param \WP_Post $post  The event post being rendered.
+ * @param array    $atts  Renderer/shortcode atts passed through.
+ * @return string
+ */
+function whx4_event_item_meta(string $meta, \WP_Post $post, array $atts): string
+{
+    $info = "";
+    if (class_exists('\EM_Event')) {
+        $event_start_datetime = get_post_meta( $post->ID, '_event_start_local', true );
+		$event_end_datetime = get_post_meta( $post->ID, '_event_end_local', true );
+		$event_all_day = get_post_meta( $post->ID, '_event_all_day', true );
+		if ( $event_start_datetime ) {
+			if ( $event_all_day ) {
+				if ( $event_end_datetime ) {
+					$item_date_str = date_i18n( "F j", strtotime($event_start_datetime) );
+				} else {
+					$item_date_str = date_i18n( "l, F j, Y", strtotime($event_start_datetime) );
+				}
+
+			} else {
+				$item_date_str = date_i18n( "l, F j, Y \@ g:i a", strtotime($event_start_datetime) );
+			}
+		}
+		// Multi-day event? Then show the end date
+		if ( $event_end_datetime && $event_all_day ) {
+			$item_date_str .= "  to ".date_i18n( "F j, Y", strtotime($event_end_datetime) );
+		}
+		$item_date_str = str_replace(array('am','pm'),array('a.m.','p.m.'),$item_date_str); // STC >> TODO: generalize formatting options
+		$info = $item_date_str;
+    }
+
+    //$parts = array_filter([$composer, $date]);
+
+    //return $parts ? esc_html(implode(' — ', $parts)) : $meta;
+    return $info;
+}
+add_filter('wxc_item_meta_event', 'whx4_event_item_meta', 10, 3);
+
 // =============================================================================
 // Global Wrapper Functions
 // Thin delegators providing theme/plugin access to WXC internals.
