@@ -165,6 +165,10 @@ add_filter('wxc_active_post_types', 'whx4_contribute_active_post_types');
 function whx4_event_item_meta(string $meta, \WP_Post $post, array $atts): string
 {
     $info = "";
+    // NB: atts are available for building in conditional display per context etc. Example atts:
+    /*
+    Array ( [post_type] => event [limit] => 6 [orderby] => event_start_date [order] => ASC [meta_key] => [meta_value] => [ids] => [slugs] => [category] => -open-doors, -nursery [taxonomy] => [tax_terms] => [has_image] => [scope] => yesterday [group_by] => [series] => [context] => general [display_format] => grid [class] => [aspect_ratio] => square [image_size] => [link] => 1 [link_target] => _blank [show_images] => [show_subtitles] => 1 [show_content] => false [expandable] => [text_length] => excerpt [preview_length] => 55 [prefer_short_title] => [cols] => 3 [spacing] => spaced [header] => [overlay] => [fields] => [headers] => )
+    */
     if (class_exists('\EM_Event')) {
         $event_start_datetime = get_post_meta( $post->ID, '_event_start_local', true );
 		$event_end_datetime = get_post_meta( $post->ID, '_event_end_local', true );
