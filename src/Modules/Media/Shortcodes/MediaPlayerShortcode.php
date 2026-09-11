@@ -24,7 +24,6 @@ function display_media_player( $atts = array() )
 
 	// Init vars
 	$info = "";
-	$ts_info = "";
 
 	// Normalize attribute keys by making them all lowercase
 	$atts = array_change_key_case( (array) $atts, CASE_LOWER );

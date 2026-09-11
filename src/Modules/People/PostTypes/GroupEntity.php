@@ -70,7 +70,6 @@ class GroupEntity extends PostTypeHandler
 
 		// Init vars
 		$info = "";
-		$ts_info = "";
 
 		// Defaults
 		$defaults = array(
@@ -91,25 +90,24 @@ class GroupEntity extends PostTypeHandler
 		$args = wp_parse_args( $args, $defaults );
 		extract( $args );
 
-		$ts_info .= "args: <pre>".print_r($args, true)."</pre>";
+		Logger::debug( 'args', $args, $logCtx);
 
 		// Get args from array
 		if ( $group_id ) {
 
-			$ts_info .= "display_format: $display_format<br />";
-			$ts_info .= "group_id: $group_id<br />";
-			$ts_info .= "fields: ".print_r($fields, true)."<br />";
+			Logger::debug( 'display_format: $display_format', null, $logCtx);
+			Logger::debug( 'group_id: $group_id', null, $logCtx);
+			Logger::debug( 'fields', $fields, $logCtx);
 
 			$subgroups = get_field('subgroups', $group_id); // ACF collection item repeater field values
 
 			if ( $subgroup_ids ) {
-				$ts_info .= "subgroup_ids: <pre>".print_r($subgroup_ids, true)."</pre>";
-				//$ts_info .= "subgroup_id: $subgroup_id<br />";
+				Logger::debug( 'subgroup_ids', $subgroup_ids, $logCtx);
 			}
 
 			foreach ( $subgroups as $i => $subgroup ) {
 
-				$ts_info .= "i: $i<br />";
+				Logger::debug( 'i: $i', null, $logCtx);
 
 				// NB: subgroup_ids are passed starting with "1" instead of zero
 				if ( $subgroup_ids && !in_array($i+1, $subgroup_ids) ) {
@@ -120,8 +118,6 @@ class GroupEntity extends PostTypeHandler
 				$subgroup_name = $subgroup['name'];
 				$subgroup_personnel = $subgroup['personnel'];
 				$subgroup_info = ""; // init
-				//
-				//$info .= "[$i] ".$subgroup_name."<br />";
 
 				// WIP
 				foreach ( $subgroup_personnel as $group_person ) {
@@ -164,9 +160,9 @@ class GroupEntity extends PostTypeHandler
 						$query = new WP_Query( $wp_args );
 						$persons = $query->posts;
 
-						$ts_info .= "wp_args: <pre>".print_r($wp_args, true)."</pre>";
-						$ts_info .= "persons: <pre>".print_r($persons, true)."</pre>";
-						//$ts_info .= "Last SQL-Query (query): <pre>{$query->request}</pre>";
+						Logger::debug( 'wp_args', $wp_args, $logCtx);
+						Logger::debug( 'persons', $persons, $logCtx);
+						Logger::debug( 'Last SQL-Query (query)', $query->request, $logCtx);
 
 						// WIP -- this needs work -- if there's only one person, append the group_title to the item_title? if multiple, then -- ???
 						//if ( $persons ) { $subgroup_info .= $group_title.": "; }
@@ -206,9 +202,7 @@ class GroupEntity extends PostTypeHandler
 			}
 
 		} else {
-
-			$ts_info .= "No group_id set<br />";
-
+		    Logger::debug( 'No group_id set.', null, $logCtx);
 		}
 
 		// Return info for display
@@ -221,7 +215,6 @@ class GroupEntity extends PostTypeHandler
 	{
 		$logCtx = ['whx4', 'people'];
 		$info = "";
-		$ts_info = "";
 
 		$args = shortcode_atts( array(
 			'id' => null,
