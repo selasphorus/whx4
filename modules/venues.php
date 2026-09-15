@@ -11,21 +11,17 @@ if ( !function_exists( 'add_action' ) ) {
 /*********** Functions pertaining to CPT: VENUE ***********/
 
 // TODO: generalize beyond NYCAGO-specific usage
-function get_cpt_venue_content( $post_id = null ) {
-	
+function get_cpt_venue_content( $post_id = null )
+{
+	$logCtx = ['whx4', 'venues'];
 	// This function retrieves supplementary info -- the regular content template (content.php) handles title, content, featured image
 	// TODO: refine overall get_cpt_XXX_content setup to facilitate designation of content to display before and/or after main post_content
 	
-	// TS/logging setup
-    $do_ts = devmode_active( array("whx4", "venues") ); 
-    $do_log = false;
-    
     // Init vars
     $arr_info = array(); // WIP -- 
 	$info = "";
 	$before_pc = ""; // cpt content to show before/above main post content
 	$after_pc = ""; // cpt content to show after/below main post content
-	$ts_info = "";
 	if ( $post_id === null ) { $post_id = get_the_ID(); }
 	if ( $post_id === null ) { return false; }
 	
@@ -119,13 +115,12 @@ function get_cpt_venue_content( $post_id = null ) {
     } ///Organs/Brx/html/RCOrphanAsylum.html
     
     // TS editmode -- tft
-    $ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
-    $ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
-    $ts_info .= "devmode_active(array('edit')): ".print_r(devmode_active(array("edit")), true)."<br />";
-    $ts_info .= "stc_editmode: ".print_r(stc_editmode(), true)."<br />";
-    $ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
-    $ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
-    //$info .= $ts_info;
+    wxc_log("dev query_var: ".get_query_var('dev'), null, $logCtx);
+    wxc_log("devmode_active", devmode_active(),, $logCtx);
+    wxc_log("devmode_active(array('edit'))", devmode_active(array("edit")), $logCtx);
+    wxc_log("stc_editmode", stc_editmode(), $logCtx);
+    wxc_log("wp_get_current_user->user_login", wp_get_current_user()->user_login, $logCtx);
+    wxc_log("wp_get_current_user->roles", wp_get_current_user()->roles, $logCtx);
     
     //
     if ( function_exists('stc_editmode') && stc_editmode() === true ) {
@@ -160,7 +155,7 @@ function get_cpt_venue_content( $post_id = null ) {
 		
 			$info .= "<h3>Instruments</h3>";
 			$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
-			$ts_info .= "<pre>instruments: ".print_r($instruments, true)."</pre>";
+			wxc_log("instruments", $instruments, $logCtx);
 			
 			foreach ($instruments AS $instrument_id) {
 				$instrument_title = get_the_title($instrument_id);
@@ -170,7 +165,6 @@ function get_cpt_venue_content( $post_id = null ) {
 			}
 			
 			$info .= "<hr />";
-	
 		}
     	
     	//

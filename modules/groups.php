@@ -8,21 +8,17 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-
 /*********** CPT: GROUP ***********/
 
 // TODO: consider folding this in to the display-content plugin as a special content structure (group/subgroup)
 // AND generalize it so as to be able to use it for links and other content types...
 // Display the titles and personnel for a given subgroup or groups
-function display_group_personnel ( $args = array() ) {
-
-	// TS/logging setup
-    $do_ts = devmode_active( array("whx4", "people") );
-    $do_log = false;
+function display_group_personnel ( $args = array() )
+{
+	$logCtx = ['whx4', 'people'];
 
 	// Init vars
 	$info = "";
-	$ts_info = "";
 	
 	// Defaults
 	$defaults = array(
@@ -42,26 +38,22 @@ function display_group_personnel ( $args = array() ) {
 	// Parse & Extract args
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args );	
-	
-	$ts_info .= "args: <pre>".print_r($args, true)."</pre>";
+	wxc_log("args", $args, $logCtx);
 	
 	// Get args from array
 	if ( $group_id ) {
-		
-		$ts_info .= "display_format: $display_format<br />";
-		$ts_info .= "group_id: $group_id<br />";
-		$ts_info .= "fields: ".print_r($fields, true)."<br />";
+		wxc_log("display_format: $display_format", null, $logCtx);
+		wxc_log("group_id: $group_id", null, $logCtx);
+		wxc_log("fields", $fields, $logCtx);
 		
     	$subgroups = get_field('subgroups', $group_id); // ACF collection item repeater field values
 		
 		if ( $subgroup_ids ) {
-			$ts_info .= "subgroup_ids: <pre>".print_r($subgroup_ids, true)."</pre>";
-			//$ts_info .= "subgroup_id: $subgroup_id<br />";
+		    wxc_log("subgroup_ids", $subgroup_ids, $logCtx);
 		}
 		
 		foreach ( $subgroups as $i => $subgroup ) {
-		
-			$ts_info .= "i: $i<br />";
+		    wxc_log("i: $i", null, $logCtx);
 			
 			// NB: subgroup_ids are passed starting with "1" instead of zero
 			if ( $subgroup_ids && !in_array($i+1, $subgroup_ids) ) {
@@ -73,16 +65,13 @@ function display_group_personnel ( $args = array() ) {
 			$subgroup_personnel = $subgroup['personnel'];			
 			$subgroup_info = ""; // init
 			//
-			//$info .= "[$i] ".$subgroup_name."<br />";
 			
 			// WIP
-			foreach ( $subgroup_personnel as $group_person ) {
-			
+			foreach ( $subgroup_personnel as $group_person ) {			
 				//$info .= "group_person: <pre>".print_r($group_person, true)."</pre>";
 				$title_id = $group_person['title'];
 				$title_term = get_term($title_id);
-				if ( $title_term ) { 
-				
+				if ( $title_term ) {				
 					$group_title = $title_term->name;
 					$group_title = '<span class="group_title">'.$group_title.'</span>'; // WIP/TBD
 					
@@ -115,10 +104,9 @@ function display_group_personnel ( $args = array() ) {
 	
 					$query = new WP_Query( $wp_args );
 					$persons = $query->posts;
-					
-					$ts_info .= "wp_args: <pre>".print_r($wp_args, true)."</pre>";
-					$ts_info .= "persons: <pre>".print_r($persons, true)."</pre>";
-					//$ts_info .= "Last SQL-Query (query): <pre>{$query->request}</pre>";
+					wxc_log("wp_args", $wp_args, $logCtx);
+					wxc_log("persons", $persons, $logCtx);
+					//wxc_log("Last SQL-Query (query)", $query->request, $logCtx);
 					
 					// WIP -- this needs work -- if there's only one person, append the group_title to the item_title? if multiple, then -- ???
 					//if ( $persons ) { $subgroup_info .= $group_title.": "; }
@@ -146,8 +134,7 @@ function display_group_personnel ( $args = array() ) {
 							$person_name = get_the_title($person_id);
 							$subgroup_info .= $person_name."<br />";
 						}
-					}
-					
+					}					
 				}
 			}
 			
@@ -155,12 +142,9 @@ function display_group_personnel ( $args = array() ) {
 				//$info .= $subgroup_name."<br />"; // TBD
 				$info .= $subgroup_info;
 			}
-		}
-    	
+		}    	
 	} else {
-	
-		$ts_info .= "No group_id set<br />";
-		
+	    wxc_log("No group_id set.", null, $logCtx);
 	}
 	
 	// Return info for display
@@ -170,13 +154,10 @@ function display_group_personnel ( $args = array() ) {
 
 
 add_shortcode('group_personnel', 'whx4_group_personnel');
-function whx4_group_personnel ( $atts = array() ) {
-
-	// TS/logging setup
-	$do_ts = devmode_active( array("whx4", "people") );
-	
+function whx4_group_personnel ( $atts = array() )
+{
+    $logCtx = ['whx4', 'people'];	
 	$info = "";
-	$ts_info = "";
 	
 	$args = shortcode_atts( array(
         'id' => null,
@@ -188,7 +169,6 @@ function whx4_group_personnel ( $atts = array() ) {
 	extract( $args );
     
 	// Turn the list of subgroup_ids (if any) into a proper array
-	//if ( $subgroup_ids ) { $subgroup_ids = birdhive_att_explode( $subgroup_ids ); }
 	if ( $subgroup_ids ) { $subgroup_ids = array_map( 'intval', birdhive_att_explode( $subgroup_ids ) ); }
     
     $info .= display_group_personnel( array('group_id' => $id, 'subgroup_ids' => $subgroup_ids, 'display_format' => $display_format ) );
