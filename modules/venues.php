@@ -116,7 +116,7 @@ function get_cpt_venue_content( $post_id = null )
     
     // TS editmode -- tft
     wxc_log("dev query_var: ".get_query_var('dev'), null, $logCtx);
-    wxc_log("devmode_active", devmode_active(),, $logCtx);
+    wxc_log("devmode_active", devmode_active(), $logCtx);
     wxc_log("devmode_active(array('edit'))", devmode_active(array("edit")), $logCtx);
     wxc_log("stc_editmode", stc_editmode(), $logCtx);
     wxc_log("wp_get_current_user->user_login", wp_get_current_user()->user_login, $logCtx);
