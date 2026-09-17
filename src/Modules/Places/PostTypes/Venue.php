@@ -42,13 +42,11 @@ class Venue extends PostTypeHandler
 		$info = "";
 		$before_pc = ""; // cpt content to show before/above main post content
 		$after_pc = ""; // cpt content to show after/below main post content
-		$ts_info = "";
 		if ( $post_id === null ) { $post_id = get_the_ID(); }
 		if ( $post_id === null ) { return false; }
 
 		$post_meta = get_post_meta( $post_id );
-		//$ts_info .= "<pre>post_meta: ".print_r($post_meta, true)."</pre>";
-
+		Logger::debug("post_meta", $post_meta, $logCtx);
 
 		// Organs
         // TODO: fix this to use PostQuery::find -- getRelatedPosts method no longer exists! (see WHx4 Person class)
@@ -105,17 +103,8 @@ class Venue extends PostTypeHandler
 			//$info .= '<strong>venue_filename</strong>: <div class="xxx wip">'.print_r($venue_filename, true)."</div>";
 		} ///Organs/Brx/html/RCOrphanAsylum.html
 
-		// TS editmode -- tft
-		$ts_info .= "dev query_var: ".get_query_var('dev')."<br />";
-		$ts_info .= "devmode_active: ".print_r(devmode_active(), true)."<br />";
-		$ts_info .= "devmode_active(array('edit')): ".print_r(devmode_active(array("edit")), true)."<br />";
-		$ts_info .= "sdg_editmode: ".print_r(sdg_editmode(), true)."<br />";
-		$ts_info .= "wp_get_current_user->user_login: ".print_r(wp_get_current_user()->user_login, true)."<br />";
-		$ts_info .= "wp_get_current_user->roles: ".print_r(wp_get_current_user()->roles, true)."<br />";
-		//$info .= $ts_info;
-
 		//
-		if ( function_exists('sdg_editmode') && sdg_editmode() === true ) {
+		if ( function_exists('stc_editmode') && stc_editmode() === true ) {
 
 			//$settings = array( 'fields' => array( 'venue_info_ip', 'venue_info_vp', 'venue_addresses', 'building_dates', 'venue_sources', 'venue_html_ip', 'organs_html_ip', 'organs_html_vp' ) ); //, 'venue_html_vp'
 			//$info .= acf_form( $settings );
@@ -147,7 +136,7 @@ class Venue extends PostTypeHandler
 
 				$info .= "<h3>Instruments</h3>";
 				$info .= "<p>".count($instruments)." instruments related to this venue in our database:</p>";
-				$ts_info .= "<pre>instruments: ".print_r($instruments, true)."</pre>";
+				Logger::debug("instruments", $instruments, $logCtx);
 
 				foreach ($instruments AS $instrument_id) {
 					$instrument_title = get_the_title($instrument_id);
@@ -157,7 +146,6 @@ class Venue extends PostTypeHandler
 				}
 
 				$info .= "<hr />";
-
 			}
 
 			//
@@ -196,12 +184,8 @@ class Venue extends PostTypeHandler
 			$info .= '<strong>organs_html_vp</strong>: <div class="organs_html_vp">'.$organs_html_vp."</div>";
 			$info .= '<hr />';
 			*/
-
 		}
 
-		if ( $ts_info != "" ) { $info .= '<div class="troubleshooting">'.$ts_info.'</div>'; }
-
 		return $info;
-
 	}
 }

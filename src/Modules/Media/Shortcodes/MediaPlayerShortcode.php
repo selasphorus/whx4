@@ -58,7 +58,6 @@ function display_media_player( $atts = array() )
 		$info .= "<!-- context: $context -->";
 		$info .= "<!-- player_status: $player_status -->";
 		$info .= '<!-- /Audio/Video -->';
-		//if ( $context == "EM-settings" ) { $info .= '<div class="troubleshooting sdgp">'.$mp_info['ts_info'].'</div>'; }
 	} else {
 		$info .= "<!-- ".print_r($mp_info,true)." -->";
 	}

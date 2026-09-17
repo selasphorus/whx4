@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace atc\WHx4\Modules\Media\Utils;
 
 use atc\WXC\Environment;
+use atc\WXC\Logger;
 
 /**
  * MediaDisplay
@@ -56,6 +57,9 @@ class MediaDisplay
 		array|string $sources = ['featured_image', 'gallery']
 	): array
 	{
+		$logCtx = ['whx4', 'media'];
+		//Logger::debug("Gallery image selected (ID: $imgID)", $null, $logCtx);
+		
 		if ($postID instanceof \WP_Post) {
 			$postID = $postID->ID;
 		}
@@ -66,11 +70,9 @@ class MediaDisplay
         //if ( !$postID ) { return null; }
         
         $postType = get_post_type($postID);
-        $fcnId    = '[MediaDisplay::findPostImage] ';
         $imgID    = null;
         $imgType  = 'post_image'; // other option: attachment_image
         $imgClass = '';
-        $tsInfo   = '';
 
         // Expand 'all' shorthand to a full source list
         if ($sources === 'all') {
@@ -83,7 +85,7 @@ class MediaDisplay
         if ($format !== 'singular' && in_array('custom_thumb', $sources, true)) {
             $customThumbId = get_post_meta($postID, 'custom_thumb', true);
             if ($customThumbId) {
-                $tsInfo .= $fcnId . "custom_thumb_id found: $customThumbId<br />";
+                Logger::debug('custom_thumb_id found: '.$customThumbId, $null, $logCtx);
                 $imgID = (int) $customThumbId;
             }
         }
@@ -102,9 +104,9 @@ class MediaDisplay
         if (!$imgID) {
             if (has_post_thumbnail($postID)) {
                 $imgID  = (int) get_post_thumbnail_id($postID);
-                $tsInfo .= $fcnId . "Featured image found (ID: $imgID).<br />";
+                Logger::debug("Featured image found (ID: $imgID)", $null, $logCtx);
             } else {
-                $tsInfo .= $fcnId . "No featured image for postID $postID.<br />";
+                Logger::debug("No featured image for postID $postID", $null, $logCtx);
 
                 // --- Gallery fallback ---
                 if (in_array('gallery', $sources, true)) {
@@ -116,7 +118,7 @@ class MediaDisplay
                         $randomIndex = array_rand($imageGallery, 1);
                         $imgID       = (int) $imageGallery[$randomIndex];
                         $imgType     = 'attachment_image';
-                        $tsInfo     .= $fcnId . "Gallery image selected (ID: $imgID).<br />";
+                        Logger::debug("Gallery image selected (ID: $imgID)", $null, $logCtx);
                     }
                 }
 
@@ -125,7 +127,7 @@ class MediaDisplay
                     $contentImg = get_first_image_from_post_content($postID);
                     if ($contentImg && !empty($contentImg['id'])) {
                         $imgID  = (int) $contentImg['id'];
-                        $tsInfo .= $fcnId . "Content image found (ID: $imgID).<br />";
+                        Logger::debug("Content image found (ID: $imgID)", $null, $logCtx);
                     }
                 }
 
@@ -138,7 +140,7 @@ class MediaDisplay
                     if ($images) {
                         // Use the last attached image (most recently uploaded)
                         $imgID  = (int) array_key_last($images);
-                        $tsInfo .= $fcnId . "Attached media image found (ID: $imgID).<br />";
+                        Logger::debug("Attached media image found (ID: $imgID)", $null, $logCtx);
                     }
                 }
     
@@ -152,7 +154,6 @@ class MediaDisplay
             'imgID'    => $imgID,
             'imgType'  => $imgType,
             'imgClass' => $imgClass,
-            'info'     => $tsInfo,
         ];
     }
 
@@ -178,7 +179,10 @@ class MediaDisplay
      */
     public static function renderPostImage(array $args = []): string|int|null
     {
-        $defaults = [
+		$logCtx = ['whx4', 'media'];
+		//Logger::debug("MSG (ID: $theID)", $null, $logCtx);
+		
+		$defaults = [
             'post_id'      => null,
             'format'       => 'singular',
             'img_size'     => 'thumbnail',
@@ -196,7 +200,6 @@ class MediaDisplay
         $echo    = (bool) $args['echo'];
         $returnValue = (string) $args['return_value'];
 
-        $tsInfo  = '';
         $imgHtml = '';
 
         // For singular posts, force full-size image
@@ -236,18 +239,16 @@ class MediaDisplay
         // --- Resolve image ID ---
         $img   = self::findPostImage($postId, $format, $sources);
         $imgID = $img['imgID'] ?? null;
-        $tsInfo .= $img['info'];
 
         // --- EM parent event fallback ---
         // If no image was found, check the parent recurring event for an image.
         // TODO: Extract this to a 'wxc_post_image_fallback' filter so the Events
         // module handles its own fallback and MediaDisplay has no EM dependency.
         if (!$imgID) {
-            $tsInfo .= 'No image found; checking parent event if applicable.<br />';
-            $parentPostId = self::resolveEmParentPostId($postId, $tsInfo);
+            Logger::debug("No image found; checking parent event if applicable.", $null, $logCtx);
+            $parentPostId = self::resolveEmParentPostId($postId);
             if ($parentPostId) {
                 $img   = self::findPostImage($parentPostId, $format, $sources);
-                $tsInfo .= $img['info'];
                 $imgID  = $img['imgID'] ?? null;
             }
         }
@@ -389,7 +390,6 @@ class MediaDisplay
         $url       = $args['url'];
 
         $info          = '';
-        $tsInfo        = '';
         $player        = '';
         $playerStatus  = 'unknown';
         $playerPosition = 'unknown';
@@ -410,9 +410,9 @@ class MediaDisplay
         } elseif (is_array($mediaFormat) && count($mediaFormat) === 1) {
             $mediaFormat = $mediaFormat[0];
         }
-
-        $tsInfo .= "featured_AV: " . print_r($featuredAV, true) . "<br />";
-        $tsInfo .= "media_format: " . print_r($mediaFormat, true) . "<br />";
+        
+        Logger::debug("featured_AV", $featuredAV, $logCtx);
+        Logger::debug("mediaFormat", $mediaFormat, $logCtx);
 
         // --- Determine media type and player position from featured AV ---
         if (is_array($featuredAV) && in_array('video', $featuredAV, true)) {
@@ -437,7 +437,6 @@ class MediaDisplay
                 'player'   => '',
                 'status'   => 'N/A for this position',
                 'position' => (string) $position,
-                //'ts_info'  => $tsInfo,
             ];
         }
 
@@ -478,7 +477,7 @@ class MediaDisplay
         if ($webcast) {
             $webcastStatus = self::getWebcastStatus($postId);
             $url           = self::getWebcastUrl($postId);
-            $tsInfo       .= "webcast_status: $webcastStatus; webcast_url: $url<br />";
+            Logger::debug("webcast_status: $webcastStatus; webcast_url: $url", null, $logCtx);
         }
     
 		/*
@@ -635,18 +634,13 @@ class MediaDisplay
         } elseif ($playerStatus !== 'ready') {
             $info .= '<!-- NO MEDIA_PLAYER AVAILABLE -->';
         }
-
-        $tsInfo .= "player_status: $playerStatus<br />";
         
-        /*if ( $statusOnly === true ) {
-			return $player_status;
-		}*/
-		
+        Logger::debug("player_status: $playerStatus", null, $logCtx);
+        
         return [
             'player'   => $info,
             'status'   => $playerStatus,
             'position' => (string) $position,
-            //'ts_info'  => $tsInfo,
         ];
     }
 
@@ -1111,10 +1105,9 @@ class MediaDisplay
      * dependency on Events Manager from this class.
      *
      * @param  int    $postId  Post ID to look up.
-     * @param  string &$tsInfo Debug string (passed by reference).
      * @return int|null        Parent post ID, or null if not applicable.
      */
-    private static function resolveEmParentPostId(int $postId, string &$tsInfo): ?int
+    private static function resolveEmParentPostId(int $postId): ?int
     {
         if (!function_exists('em_get_event')) {
             return null;
@@ -1134,8 +1127,8 @@ class MediaDisplay
         if (!$parentEvent) {
             return null;
         }
-
-        $tsInfo .= 'Resolved EM parent post ID: ' . $parentEvent->post_id . '<br />';
+        
+        Logger::debug("Resolved EM parent post ID: ".$parentEvent->post_id, $null, ['whx4', 'media']);
         return (int) $parentEvent->post_id;
     }
 
