@@ -205,16 +205,22 @@ add_filter('wxc_item_meta_event', 'whx4_event_item_meta', 10, 3);
 // Thin delegators providing theme/plugin access to WXC internals.
 // =============================================================================
 
-function whx4_get_display_name( string $cpt, string|array|null $args = null ): string|null {
+/**
+ * Get the display name for a post of the given CPT.
+ *
+ * @param string            $cpt  Post type slug (e.g. 'person').
+ * @param string|array|null $args Arguments passed to the CPT's display-name resolver.
+ * @return string|null Display name, or null if the CPT is unsupported or its module is inactive.
+ */
+function whx4_get_display_name( string $cpt, string|array|null $args = null ): ?string {
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
-    wxc_log("cpt", $cpt);
-    if ( $cpt == 'person' && in_array( 'people', $activeSlugs, true ) ) {
-        $displayName = atc\WHX4\Modules\People\PostTypes\Person::getPersonDisplayName( $args );
-        return $displayName;
-        //return atc\WHX4\Modules\People\PostTypes\Person::getPersonDisplayName( $args );
-    }
-}
 
+    if ( 'person' === $cpt && in_array( 'people', $activeSlugs, true ) ) {
+        return \atc\WHx4\Modules\People\PostTypes\Person::getPersonDisplayName( $args );
+    }
+
+    return null;
+}
 
 /**
  * Get post thumbnail with fallback handling
