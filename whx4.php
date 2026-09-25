@@ -4,7 +4,7 @@
  * Description:       A WordPress plugin for managing People, Places, and Events (Who/What/Where/When).
  * Dependencies:	  Requires WHx4-Core for core functionality
  * Requires Plugins:  whx4-core, advanced-custom-fields-pro
- * Version:           2.260923
+ * Version:           2.260925
  * Author:            atc
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -278,8 +278,10 @@ function whx4_find_post_image(
 ): ?array {
     $activeSlugs = App::ctx()->getSettingsManager()->getActiveModuleSlugs();
     if (!in_array('media', $activeSlugs, true)) {
+        wxc_log("media module not active => abort", null, ['media']);
         return null;
     }
-
+    
+    wxc_log("media module is active => MediaDisplay::findPostImage", null, ['media']);
     return atc\WHx4\Modules\Media\Utils\MediaDisplay::findPostImage($post, $format, $sources);
 }
