@@ -255,7 +255,7 @@ class MediaDisplay
         
         // Set up classes for styling
         $imgClass = trim('post-thumbnail sdg ' . ($img['imgClass'] ?? ''));
-        if (is_singular('event')) {
+        if (is_singular('event') || is_singular('whx4_event')) {
             $imgClass .= ' event-image';
         }
         if ($imgSize !== 'full' && (is_archive() || is_post_type_archive())) {
@@ -661,7 +661,7 @@ class MediaDisplay
             $postId = get_the_ID();
         }
 
-        return is_singular(['event', 'post', 'page', 'sermon'])
+        return is_singular(['event', 'whx4_event', 'post', 'page', 'sermon'])
             && (
                 has_term('webcasts', 'event-categories', $postId)
                 || in_category('webcasts', $postId)
@@ -795,7 +795,7 @@ class MediaDisplay
     public static function getLiveWebcastId(): ?int
     {
         $query = new \WP_Query([
-            'post_type'      => 'event',
+            'post_type'      => 'event', // whx4_event?
             'post_status'    => 'publish',
             'posts_per_page' => 1,
             'fields'         => 'ids',

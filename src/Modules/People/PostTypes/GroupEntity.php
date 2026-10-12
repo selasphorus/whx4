@@ -34,7 +34,6 @@ class GroupEntity extends PostTypeHandler
 	protected static function getQuerySpec(): array
     {
         return [
-            //'cpt' => $this->resolveSlug(),?
             'cpt' => 'group',
             /*'date_meta' => [
                 // TODO/WIP: rethink the default and field types

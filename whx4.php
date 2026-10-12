@@ -128,14 +128,6 @@ add_action('wxc_pre_boot', function() {
 
 // Init
 
-// Activate the following after EM events have been migrated and the EM plugin has been deactivated
-/*
-add_filter( 'whx4_events_post_type_slug', function() {
-    return 'event';
-});
-*/
-
-
 /**
  * Temporarily exposes EM's post type(s) to WXC until the WHx4 events module is fully up and running.
  *

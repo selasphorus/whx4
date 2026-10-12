@@ -20,10 +20,8 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
     
     protected static function defineConfig(): array
     {
-		//$slug = apply_filters( 'whx4_events_post_type_slug', 'whx4_event' );
-		$slug = static::resolveSlug();
         return [
-            'slug'             => $slug,
+            'slug'             => 'whx4_event',
 			'rewrite'          => ['slug' => 'whx4_calendar'], // TODO: make conditional upon $slug
 			'menu_icon'        => 'dashicons-calendar-alt',
 			'capability_type'  => ['event','events'],
@@ -68,24 +66,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 			return FieldDisplayHelpers::formatArrayForDisplay( $value );
 		}, 10 );
 	}
-    
-	/**
-	 * Decide the CPT slug at runtime, with legacy + new filters.
-	 * Default: 'event'; use 'whx4_event' if a known events plugin is active.
-	 */
-	protected static function resolveSlug(): string
-	{
-		$base = static::conflictingEventsPluginActive() ? 'whx4_event' : 'event';
-
-		// New, clearer filter (preferred going forward)
-		$slug = (string) apply_filters('whx4/events/event_slug', $base);
-
-		// Back-compat for existing code that already filters this
-		//$slug = (string) apply_filters('whx4_events_post_type_slug', $slug);
-
-		return $slug;
-		//return (string) apply_filters('whx4/events/event_slug', $base); // wip
-	}
 	
 	/**
 	 * Canonical allow-list of URL params that can shape Transaction queries.
@@ -120,7 +100,6 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	protected static function getQuerySpec(): array
     {
         return [
-            //'cpt' => 'whx4_event',
             'cpt'      => static::getSlug(),
             'date_meta' => [
                 // TODO/WIP: rethink the default and field types
@@ -327,7 +306,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 	public function generateRruleFromFields( $post_id ): void
 	{
-		if ( get_post_type( $post_id ) !== 'whx4_event' ) {
+		if ( get_post_type( $post_id ) !== static::getSlug() ) {
 			return;
 		}
 
@@ -401,8 +380,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	/****** WIP 04/01/26 ******/	
 	public function maybeHookExpansion(\WP_Query $query): void
 	{
-		$isEventQuery = in_array('event', (array) $query->get('post_type'), true)
-			|| $query->is_post_type_archive('event')
+		$slug = static::getSlug();
+		$isEventQuery = in_array($slug, (array) $query->get('post_type'), true)
+			|| $query->is_post_type_archive($slug)
 			|| $query->get('event_category'); // if you use a custom taxonomy
 	
 		if ($isEventQuery && !has_filter('the_posts', [$this, 'expandRecurringInstances'])) {
@@ -418,13 +398,15 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 		//Logger::debug( 'post_type: ' . print_r( $query->get('post_type'), true), 'events' );
 		//Logger::debug( 'getSlug: ' . static::getSlug(), 'events' );
 		
-		$hasEvents = array_filter($posts, fn($post) => $post->post_type === 'event');
+		$slug = static::getSlug();
+		
+		$hasEvents = array_filter($posts, fn($post) => $post->post_type === $slug);
 		if (empty($hasEvents)) {
 			return $posts;
 		}
 		
 		// Only process main query on frontend for our post type
-		if ( is_admin() || !$query->is_main_query() || $query->get('post_type') !== static::getSlug() ) {
+		if ( is_admin() || !$query->is_main_query() || $query->get('post_type') !== $slug ) {
 			//Logger::debug( 'Conditions failed, returning original posts', 'events' );
 			return $posts;
 		}
@@ -536,6 +518,9 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 
 	*/
 
+	/*
+	// Obsolete now that identifier has been set permanently to whx4_event
+	// Keeping this for the short term just in case...
 	private static function conflictingEventsPluginActive(): bool
 	{
 		if (class_exists('\EM_Event')) {
@@ -548,7 +533,7 @@ class Event extends PostTypeHandler implements QueryContributor //, ListDisplaya
 	
 		return is_plugin_active('events-manager/events-manager.php')
 			|| is_plugin_active('the-events-calendar/the-events-calendar.php');
-	}
+	}*/
 	
 	// WIP
 	

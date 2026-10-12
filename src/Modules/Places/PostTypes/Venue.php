@@ -17,7 +17,7 @@ class Venue extends PostTypeHandler
 			'taxonomies'       => ['venue_category'],
             'default_taxonomy' => 'venue_category',
             'labels'           => [
-				//'add_new_item' => 'Gather a new Group',
+				//'add_new_item' => 'Break ground on a new venue...',
             ],
 			//'hierarchical' => true,
         ];

@@ -20,7 +20,7 @@ class ProgramLabel extends TaxonomyHandler
         return [
             'slug'         => 'program_label',
             'plural_slug'  => 'program_labels',
-            'object_types' => ['event'],
+            'object_types' => ['event', 'whx4_event'],
             // TODO: consider '*' wildcard (per AdminTag pattern) if Program
             // is expected to attach to most/all future CPTs rather than a
             // fixed list.

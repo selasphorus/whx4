@@ -138,9 +138,9 @@ final class EventFields implements FieldGroupInterface
                     ],
                 ],
                 [
-                    'key'   => 'field_whx4_events_isallday', //'key' => 'field_65fa0220c5816',
+                    'key'   => 'field_whx4_events_is_all_day',
                     'label' => 'All Day Event',
-                    'name' => 'event_all_day', // isallday -- ??
+                    'name' => 'whx4_events_is_all_day',
                     'aria-label' => '',
                     'type' => 'true_false',
                     'instructions' => '',
@@ -374,10 +374,21 @@ final class EventFields implements FieldGroupInterface
                     ],
                 ],
                 // END recurrence rules WIP
+                
                 [
-                    'key'   => 'field_whx4_events_legacy_em_event_id',
-                    'label' => 'Legacy EM Event ID',
-                    'name'  => 'whx4_events_legacy_em_event_id',
+                    'key'   => 'field_whx4_events_legacy_em_post_id',
+                    'label' => 'Legacy EM Event Post ID',
+                    'name'  => 'whx4_events_legacy_em_post_id',//was whx4_events_legacy_em_event_id
+                    'type'  => 'number',
+                    'readonly' => 1,
+                    'wrapper' => [
+                        'width' => '20',
+                    ],
+                ],
+                [
+                    'key'   => 'field_whx4_events_legacy_em_row_id',
+                    'label' => 'Legacy `em_events` Row ID',
+                    'name'  => 'whx4_events_legacy_em_row_id',
                     'type'  => 'number',
                     'readonly' => 1,
                     'wrapper' => [
@@ -435,7 +446,7 @@ final class EventFields implements FieldGroupInterface
                 [
                     'key' => 'field_whx4_events_location_txt', //'key' => 'field_6620441923668',
                     'label' => 'Event Location TXT',
-                    'name' => 'location_txt',
+                    'name' => 'whx4_events_location_txt',
                     'aria-label' => '',
                     'type' => 'text',
                     'instructions' => '',
@@ -455,7 +466,7 @@ final class EventFields implements FieldGroupInterface
                 [
                     'key' => 'field_whx4_events_address_txt', //'key' => 'field_6620443023669',
                     'label' => 'Address TXT',
-                    'name' => 'address_txt',
+                    'name' => 'whx4_events_address_txt',
                     'aria-label' => '',
                     'type' => 'text',
                     'instructions' => '',
@@ -524,7 +535,7 @@ final class EventFields implements FieldGroupInterface
 					'bidirectional' => 0,
 					'bidirectional_target' => [],
 				],
-				[
+				/*[
 					'key'    =>    'field_whx4_627bf1670a5a7',
 					//'key'    =>    'field_whx4_event_series',
 					//'key' => 'field_627bf1670a5a7',
@@ -555,7 +566,7 @@ final class EventFields implements FieldGroupInterface
 					'elements' => '',
 					'bidirectional' => 0,
 					'bidirectional_target' => [],
-				],
+				],*/
 				// -----
 				// Other
 				// -----
@@ -670,7 +681,7 @@ final class EventFields implements FieldGroupInterface
         ]);
 
         // Copied from ATCHQ/Local
-        acf_add_local_field_group([
+        /*acf_add_local_field_group([
             'key' => 'group_65f9fc95e1756',
             'title' => 'Event Details WIP',
             'fields' => [
@@ -1036,13 +1047,6 @@ final class EventFields implements FieldGroupInterface
                         'value'    => 'whx4_event',
                     ],
                 ],
-				/*[
-					[
-						'param' => 'post_type',
-						'operator' => '==',
-						'value' => 'event-recurring',
-					],
-				], // deprecated (?) */
             ],
             'menu_order' => 0,
             'position' => 'normal',
@@ -1053,6 +1057,6 @@ final class EventFields implements FieldGroupInterface
             'active' => true,
             'description' => '',
             'show_in_rest' => 0,
-        ]);
+        ]);*/
     }
 }

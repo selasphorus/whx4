@@ -833,6 +833,13 @@ final class MediaFields implements FieldGroupInterface
 					array(
 						'param' => 'post_type',
 						'operator' => '==',
+						'value' => 'whx4_event',
+					),
+				),
+				array(
+					array(
+						'param' => 'post_type',
+						'operator' => '==',
 						'value' => 'event',
 					),
 				),

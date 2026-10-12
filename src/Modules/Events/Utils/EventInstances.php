@@ -8,6 +8,7 @@ use atc\WXC\Utils\DateHelper;
 //use atc\WXC\Utils\RepeaterChangeDetector;
 use atc\WXC\Utils\PluginPaths;
 use atc\WXC\Templates\ViewLoader;
+use atc\WHx4\Modules\Events\PostTypes\Event;
 
 class EventInstances
 {
@@ -39,7 +40,7 @@ class EventInstances
             'whx4_event_exclusions_box',
             'Recurring Event Instances',
             [self::class, 'renderMetaBox'],
-            'whx4_event', //'event',
+            Event::getSlug(),
             'side',
             'default'
         );
@@ -97,7 +98,7 @@ class EventInstances
 		ViewLoader::render(
 			'event-instances-columnar-list',
 			$data,
-			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
+			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => Event::getSlug() ]
 		);
 	}
 	
@@ -123,7 +124,7 @@ class EventInstances
 		return ViewLoader::renderToString(
 			'event-instances-list',
 			$data,
-			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ]
+			[ 'kind' => 'partial', 'module' => 'events', 'post_type' => Event::getSlug() ]
 		);
 	}
 	
@@ -149,7 +150,7 @@ class EventInstances
     public static function getOverrideDates( int $parent_id ): array
     {
         $args = [
-            'post_type'      => 'whx4_event',
+            'post_type'      => Event::getSlug(),
             'post_status'    => 'any',
             'posts_per_page' => -1,
             'meta_query'     => [
@@ -228,7 +229,7 @@ class EventInstances
         ViewLoader::render(
             'event-instance-div',
             $vars,
-            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => 'event' ] // specs
+            [ 'kind' => 'partial', 'module' => 'events', 'post_type' => Event::getSlug() ] // specs
         );
 
         return ob_get_clean();
@@ -246,19 +247,20 @@ class EventInstances
 
         $event_id = (int) $_GET['event_id'];
         $date = sanitize_text_field( $_GET['date'] );
+        $eventSlug = Event::getSlug();
 
         if ( self::replacementExists( $event_id, $date ) ) {
-            wp_safe_redirect( admin_url( 'edit.php?post_type=whx4_event' ) ); // eventually: post_type=event (after EM phase-out)
+            wp_safe_redirect( admin_url( 'edit.php?post_type='.$eventSlug ) );
             exit;
         }
 
         $original = get_post( $event_id );
-        if ( ! $original instanceof \WP_Post || $original->post_type !== 'whx4_event' ) { // 'event'
+        if ( ! $original instanceof \WP_Post || $original->post_type !== $eventSlug ) {
             return;
         }
 
         $clone_id = wp_insert_post([
-            'post_type' => 'whx4_event', //'event',
+            'post_type' => $eventSlug,
             'post_status' => 'draft',
             'post_title' => $original->post_title . ' (' . $date . ')',
             'post_content' => $original->post_content,
@@ -300,7 +302,7 @@ class EventInstances
     protected static function replacementExists( int $parent_id, string $dateStr ): bool
     {
         $query = new WP_Query([
-            'post_type' => 'whx4_event', //'event',
+            'post_type' => Event::getSlug(),
             'post_status' => [ 'publish', 'draft', 'pending' ],
             'meta_query' => [
                 [
@@ -323,7 +325,7 @@ class EventInstances
 
     public static function maybeAddDetachedNotice( \WP_Post $post ): void
     {
-        if ( $post->post_type !== 'whx4_event' ) {
+        if ( $post->post_type !== Event::getSlug() ) {
             return;
         }
 
@@ -345,7 +347,7 @@ class EventInstances
     // Revise or remove -- no longer using repeater rows for exclusions
     public static function handleExcludedDateRemovals( $postID ): void
     {
-        if ( get_post_type( $postID ) !== 'whx4_event' ) {
+        if ( get_post_type( $postID ) !== Event::getSlug() ) {
             return;
         }
 
@@ -374,7 +376,7 @@ class EventInstances
     {
         global $post;
 
-        if ( ! $post || get_post_type( $post ) !== 'whx4_event' ) {
+        if ( ! $post || get_post_type( $post ) !== Event::getSlug() ) {
             return;
         }
 
@@ -416,7 +418,7 @@ class EventInstances
         $date = sanitize_text_field( $_GET['date'] );
 
         $query = new \WP_Query([
-            'post_type' => 'event',
+            'post_type' => Event::getSlug(),
             'post_status' => [ 'publish', 'draft', 'pending' ],
             'meta_query' => [
                 [
@@ -446,7 +448,7 @@ class EventInstances
     {
         global $post;
 
-        if ( ! $post || get_post_type( $post ) !== 'whx4_event' ) {
+        if ( ! $post || get_post_type( $post ) !== Event::getSlug() ) {
             return;
         }
 
@@ -498,13 +500,13 @@ class EventInstances
         }
 
         $original = get_post( $parent_id );
-        if ( ! $original instanceof \WP_Post || $original->post_type !== 'whx4_event' ) {
+        if ( ! $original instanceof \WP_Post || $original->post_type !== Event::getSlug() ) {
             return false;
         }
 
         // Create the clone
         $clone_id = wp_insert_post([
-            'post_type'    => 'whx4_event',
+            'post_type'    => Event::getSlug(),
             'post_status'  => 'draft',
             'post_title'   => $original->post_title . ' (' . $dateKey . ')',
             'post_content' => $original->post_content,
@@ -583,7 +585,7 @@ class EventInstances
 		if ( ! is_admin() && $query->is_main_query() ) {
 			$instance_date = get_query_var( 'event_instance' );
 			
-			if ( $instance_date && $query->get( 'post_type' ) === 'whx4_event' ) {
+			if ( $instance_date && $query->get( 'post_type' ) === Event::getSlug() ) {
 				$query->set( 'posts_per_page', 1 );
 			}
 		}
