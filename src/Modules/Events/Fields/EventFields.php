@@ -157,6 +157,20 @@ final class EventFields implements FieldGroupInterface
                     'ui_on_text' => '',
                     'ui_off_text' => '',
                 ],
+                // WIP 261021
+                [
+                    'key'   => 'field_whx4_events_timezone',
+                    'label' => 'Special Hours',
+                    'name'  => 'whx4_events_timezone',
+                    'type'  => 'text',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => [
+                        'width' => '20',
+                        'class' => '',
+                        'id' => '',
+                    ],
+                ],
                 [
                     'key' => 'field_whx4_events_is_recurring',
                     'label' => 'Recurring Event?',

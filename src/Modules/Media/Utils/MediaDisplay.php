@@ -942,7 +942,7 @@ class MediaDisplay
             return '<p>No items found.</p>';
         }
 
-        $info    = '<div class="media_list">';
+        $info    = '<div class="whx4 media_list">';
         $items   = [];
         $months  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         $litdates = [
