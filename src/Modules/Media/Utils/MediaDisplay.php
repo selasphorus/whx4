@@ -179,7 +179,7 @@ class MediaDisplay
      */
     public static function renderPostImage(array $args = []): string|int|null
     {
-		$logCtx = ['whx4', 'media'];
+		$logCtx = ['whx4', 'images', 'media'];
 		//Logger::debug("MSG (ID: $theID)", null, $logCtx);
 		
 		$defaults = [
