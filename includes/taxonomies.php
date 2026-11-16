@@ -82,7 +82,7 @@ if ( in_array('events', $active_modules ) && !in_array('programs', $active_modul
             'query_var'         => true,
             'rewrite'           => [ 'slug' => 'program_label' ],
         );
-        if ( whx4_custom_caps() ) {
+        /*if ( whx4_custom_caps() ) {
             $cap = 'event_program';
             $args['capabilities'] = array(
                 'manage_terms'  =>   'manage_'.$cap.'_terms',
@@ -90,7 +90,7 @@ if ( in_array('events', $active_modules ) && !in_array('programs', $active_modul
                 'delete_terms'  =>   'delete_'.$cap.'_terms',
                 'assign_terms'  =>   'assign_'.$cap.'_terms',
             );
-        }
+        }*/
         register_taxonomy( 'program_label', [ 'event', 'event_program' ], $args );
     }
     add_action( 'init', 'register_taxonomy_program_label' );
