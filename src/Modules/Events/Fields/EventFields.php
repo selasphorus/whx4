@@ -83,7 +83,16 @@ final class EventFields implements FieldGroupInterface
                     'display_format' => 'H:i',
                     'return_format'  => 'H:i:s',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
@@ -98,7 +107,16 @@ final class EventFields implements FieldGroupInterface
                     'required' => 0,
                     'display_format' => 'Y-m-d',
                     'return_format'  => 'Y-m-d',
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
@@ -113,7 +131,16 @@ final class EventFields implements FieldGroupInterface
                     'required' => 0,
                     'display_format' => 'H:i',
                     'return_format'  => 'H:i:s',
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
@@ -126,7 +153,16 @@ final class EventFields implements FieldGroupInterface
                     'name'  => 'whx4_events_timezone',
                     'type'  => 'text',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
@@ -139,7 +175,16 @@ final class EventFields implements FieldGroupInterface
                     'name'  => 'whx4_events_timezone_txt',
                     'type'  => 'text',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
