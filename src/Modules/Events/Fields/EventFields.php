@@ -237,6 +237,16 @@ final class EventFields implements FieldGroupInterface
                     'name' => 'whx4_events_is_recurring',
                     'type' => 'true_false',
                     'ui' => 1,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                 ],
                 // START recurrence rules WIP
                 [
@@ -480,7 +490,16 @@ final class EventFields implements FieldGroupInterface
                     'type' => 'tab',
                     'instructions' => '',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '10',
                         'class' => '',
@@ -498,7 +517,16 @@ final class EventFields implements FieldGroupInterface
                     'type' => 'post_object',
                     'instructions' => '',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '33',
                         'class' => '',
@@ -525,7 +553,16 @@ final class EventFields implements FieldGroupInterface
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '33',
                         'class' => '',
@@ -545,7 +582,16 @@ final class EventFields implements FieldGroupInterface
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '33',
                         'class' => '',
