@@ -59,7 +59,16 @@ final class EventFields implements FieldGroupInterface
                     'display_format' => 'Y-m-d',
                     'return_format'  => 'Y-m-d',
                     'required' => 0, // TODO: set to 1 when migration from EM is complete
-                    'conditional_logic' => 0,
+                    //'conditional_logic' => 0,
+                    'conditional_logic' => [
+                        [
+                            [
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'whx4_event',
+                            ]
+                        ]
+                    ],
                     'wrapper' => [
                         'width' => '20',
                         'class' => '',
