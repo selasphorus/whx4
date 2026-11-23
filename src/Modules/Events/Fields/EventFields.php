@@ -58,7 +58,7 @@ final class EventFields implements FieldGroupInterface
                     'type'  => 'date_picker',
                     'display_format' => 'Y-m-d',
                     'return_format'  => 'Y-m-d',
-                    'required' => 1,
+                    'required' => 0, // TODO: set to 1 when migration from EM is complete
                     'conditional_logic' => 0,
                     'wrapper' => [
                         'width' => '20',
